@@ -15,8 +15,11 @@ An enhanced port of Rise of the Triad, based on SDL2.
 GNU GPL v3
 
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+
 Copyright (C) 2002-2015 Steven Fuller, Ryan C. Gordon, John Hall, Dan Olson
+
 Copyright (C) 2023 Fabian Greffrath
+
 Copyright (C) 2023 erysdren (it/she/they)
 
 This program is free software: you can redistribute it and/or modify
