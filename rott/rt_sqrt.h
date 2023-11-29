@@ -22,22 +22,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /*
 FUNCTION:
-    Fixed32 FixedSqrtHP(Fixed32 n);
+	Fixed32 FixedSqrtHP(Fixed32 n);
 DESCRIPTION:
-    This does a high-precision square root of a Fixed32.  It has
-    8.16 bit accuracy.  For more speed use FixedSqrtLP().
+	This does a high-precision square root of a Fixed32.  It has
+	8.16 bit accuracy.  For more speed use FixedSqrtLP().
 
 
 FUNCTION:
-    Fixed32 FixedSqrtLP(Fixed32 n);
+	Fixed32 FixedSqrtLP(Fixed32 n);
 DESCRIPTION:
-    This does a low-precision square root of a Fixed32.  It has
-    8.8 bit accuracy.  For more accuracy use FixedSqrtHP().
+	This does a low-precision square root of a Fixed32.  It has
+	8.8 bit accuracy.  For more accuracy use FixedSqrtHP().
 */
 
-
-
-long FixedSqrtLP(long n);  // Low  Precision (8.8)
-long FixedSqrtHP(long n);  // High Precision (8.16)
+long FixedSqrtLP(long n); // Low  Precision (8.8)
+long FixedSqrtHP(long n); // High Precision (8.16)
 
 #endif

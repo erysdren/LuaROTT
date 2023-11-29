@@ -26,35 +26,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* ----------------------------------------------------------------------- */
 
-//typedef long fixed;	/* 16.16 fixed pt number */
+// typedef long fixed;	/* 16.16 fixed pt number */
 
-#define INT_TO_FIXED(n)   ((fixed)((long)(n)<<16))
-#define FIXED_TO_INT(n)   ((long)((n)>>16))
+#define INT_TO_FIXED(n) ((fixed)((long)(n) << 16))
+#define FIXED_TO_INT(n) ((long)((n) >> 16))
 #define FLOAT_TO_FIXED(n) ((fixed)((n)*65536.0))
 
-#define FIXED_ADD(a, b)		((a)+(b))
-#define FIXED_SUB(a, b)		((a)-(b))
+#define FIXED_ADD(a, b) ((a) + (b))
+#define FIXED_SUB(a, b) ((a) - (b))
 
 /* ----------------------------------------------------------------------- */
 
-typedef struct {
-	short low; 			/* range of input values this warp covers */
+typedef struct
+{
+	short low; /* range of input values this warp covers */
 	short high;
-	fixed mult;		/* multiplier to be applied to this range */
+	fixed mult; /* multiplier to be applied to this range */
 } WarpRange;
 
-
-
-typedef struct {
-	char       name[MAX_STRING_LENGTH];
+typedef struct
+{
+	char name[MAX_STRING_LENGTH];
 	WarpRange *pWarp;
-	int        nWarp;
+	int nWarp;
 } WarpRecord;
 
 /* ----------------------------------------------------------------------- */
 
 /* Parse the config file */
-int   SbConfigParse(char *filename);
+int SbConfigParse(char *filename);
 
 /* Get the button config name for the button named <btnName> or return NULL
  * if none exists.  <btnName> can be either the left or the right side name.
@@ -71,7 +71,7 @@ int   SbConfigParse(char *filename);
  * Also, the comparison is CASE INSENSITIVE.
  */
 char *SbConfigGetButton(char *btnName);
-int   SbConfigGetButtonNumber(char *btnName);
+int SbConfigGetButtonNumber(char *btnName);
 
 /*
  * Get the warp ranges for the config range named <rngName> or return NULL
@@ -82,8 +82,8 @@ WarpRecord *SbConfigGetWarpRange(char *rngName);
 /*
  * Warp a value based on the given warp range
  */
-fixed SbFxConfigWarp(WarpRecord *warp, short value);  /* returns fixed pt */
-long    SbConfigWarp(WarpRecord *warp, short value);  /* returns integer */
+fixed SbFxConfigWarp(WarpRecord *warp, short value); /* returns fixed pt */
+long SbConfigWarp(WarpRecord *warp, short value);	 /* returns integer */
 
 /* ----------------------------------------------------------------------- */
 /* Lexical Definitions:
@@ -129,4 +129,3 @@ long    SbConfigWarp(WarpRecord *warp, short value);  /* returns integer */
 */
 /* ----------------------------------------------------------------------- */
 #endif
-

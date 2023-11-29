@@ -1,18 +1,18 @@
 /*
-    Copyright (C) 1994-1995 Apogee Software, Ltd.
-    Copyright (C) 2005-2014 Simon Howard
-    Copyright (C) 2023 Fabian Greffrath
+	Copyright (C) 1994-1995 Apogee Software, Ltd.
+	Copyright (C) 2005-2014 Simon Howard
+	Copyright (C) 2023 Fabian Greffrath
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License
-    as published by the Free Software Foundation; either version 2
-    of the License, or (at your option) any later version.
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU General Public License
+	as published by the Free Software Foundation; either version 2
+	of the License, or (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-    See the GNU General Public License for more details.
+	See the GNU General Public License for more details.
 */
 
 #include "SDL_filesystem.h"
@@ -20,64 +20,64 @@
 #include "m_misc2.h"
 #include "rt_util.h"
 
-static char *GetExeDir (void)
+static char *GetExeDir(void)
 {
-    static char *dir;
+	static char *dir;
 
-    if (dir == NULL)
-    {
-        char *result;
+	if (dir == NULL)
+	{
+		char *result;
 
-        result = SDL_GetBasePath();
-        if (result != NULL)
-        {
-            dir = M_StringDuplicate(result);
-            SDL_free(result);
-        }
-        else
-        {
-            result = M_DirName(_argv[0]);
-            dir = M_StringDuplicate(result);
-        }
-    }
+		result = SDL_GetBasePath();
+		if (result != NULL)
+		{
+			dir = M_StringDuplicate(result);
+			SDL_free(result);
+		}
+		else
+		{
+			result = M_DirName(_argv[0]);
+			dir = M_StringDuplicate(result);
+		}
+	}
 
-    return dir;
+	return dir;
 }
 
-char *GetPrefDir (void)
+char *GetPrefDir(void)
 {
-    static char *dir;
+	static char *dir;
 
-    if (dir == NULL)
-    {
-        char *result;
+	if (dir == NULL)
+	{
+		char *result;
 
 #ifndef _WIN32
-        result = SDL_GetPrefPath("", PACKAGE_TARNAME);
-        if (result != NULL)
-        {
-            dir = M_StringDuplicate(result);
-            SDL_free(result);
-        }
-        else
+		result = SDL_GetPrefPath("", PACKAGE_TARNAME);
+		if (result != NULL)
+		{
+			dir = M_StringDuplicate(result);
+			SDL_free(result);
+		}
+		else
 #endif
-        {
-            result = GetExeDir();
-            dir = M_StringDuplicate(result);
-        }
+		{
+			result = GetExeDir();
+			dir = M_StringDuplicate(result);
+		}
 
-        M_MakeDirectory(dir);
+		M_MakeDirectory(dir);
 
 #if !(SHAREWARE == 1)
-        result = dir;
-        dir = M_StringJoin(result, "darkwar", PATH_SEP_STR, NULL);
-        free(result);
+		result = dir;
+		dir = M_StringJoin(result, "darkwar", PATH_SEP_STR, NULL);
+		free(result);
 
-        M_MakeDirectory(dir);
+		M_MakeDirectory(dir);
 #endif
-    }
+	}
 
-    return dir;
+	return dir;
 }
 
 char *datadir = NULL;
@@ -88,129 +88,128 @@ static int num_datadirs = 0;
 
 static void AddDataDir(char *dir)
 {
-    if (num_datadirs < MAX_DATADIRS)
-    {
-        datadirs[num_datadirs++] = dir;
-    }
+	if (num_datadirs < MAX_DATADIRS)
+	{
+		datadirs[num_datadirs++] = dir;
+	}
 }
 
 #ifndef _WIN32
 static void AddDataPath(const char *path, const char *suffix)
 {
-    char *left, *p, *dup_path;
+	char *left, *p, *dup_path;
 
-    dup_path = M_StringDuplicate(path);
+	dup_path = M_StringDuplicate(path);
 
-    // Split into individual dirs within the list.
-    left = dup_path;
+	// Split into individual dirs within the list.
+	left = dup_path;
 
-    for (;;)
-    {
-        p = strchr(left, LIST_SEP_CHAR);
-        if (p != NULL)
-        {
-            *p = '\0';
+	for (;;)
+	{
+		p = strchr(left, LIST_SEP_CHAR);
+		if (p != NULL)
+		{
+			*p = '\0';
 
-            AddDataDir(M_StringJoin(left, suffix, NULL));
-            left = p + 1;
-        }
-        else
-        {
-            break;
-        }
-    }
+			AddDataDir(M_StringJoin(left, suffix, NULL));
+			left = p + 1;
+		}
+		else
+		{
+			break;
+		}
+	}
 
-    AddDataDir(M_StringJoin(left, suffix, NULL));
+	AddDataDir(M_StringJoin(left, suffix, NULL));
 
-    free(dup_path);
+	free(dup_path);
 }
 
 static void AddXdgDirs(void)
 {
-    char *env, *tmp_env;
+	char *env, *tmp_env;
 
-    env = getenv("XDG_DATA_HOME");
-    tmp_env = NULL;
+	env = getenv("XDG_DATA_HOME");
+	tmp_env = NULL;
 
-    if (env == NULL)
-    {
-        char *homedir = getenv("HOME");
-        if (homedir == NULL)
-        {
-            homedir = "/";
-        }
+	if (env == NULL)
+	{
+		char *homedir = getenv("HOME");
+		if (homedir == NULL)
+		{
+			homedir = "/";
+		}
 
-        tmp_env = M_StringJoin(homedir, "/.local/share", NULL);
-        env = tmp_env;
-    }
+		tmp_env = M_StringJoin(homedir, "/.local/share", NULL);
+		env = tmp_env;
+	}
 
-    AddDataDir(M_StringJoin(env, "/games/rott", NULL));
-    free(tmp_env);
+	AddDataDir(M_StringJoin(env, "/games/rott", NULL));
+	free(tmp_env);
 
-    env = getenv("XDG_DATA_DIRS");
-    if (env == NULL)
-    {
-        env = "/usr/local/share:/usr/share";
-    }
+	env = getenv("XDG_DATA_DIRS");
+	if (env == NULL)
+	{
+		env = "/usr/local/share:/usr/share";
+	}
 
-    AddDataPath(env, "/games/rott");
+	AddDataPath(env, "/games/rott");
 }
 #endif
 
 static void BuildDataDirList(void)
 {
-    if (datadirs[0])
-    {
-        return;
-    }
+	if (datadirs[0])
+	{
+		return;
+	}
 
-    // current directory
-    AddDataDir(".");
+	// current directory
+	AddDataDir(".");
 
-    // executable directory
-    AddDataDir(GetExeDir());
+	// executable directory
+	AddDataDir(GetExeDir());
 
 #ifdef DATADIR
-    // build-time data directory
-    AddDataDir(DATADIR);
+	// build-time data directory
+	AddDataDir(DATADIR);
 #endif
 
 #ifndef _WIN32
-    AddXdgDirs();
+	AddXdgDirs();
 #endif
 }
 
 char *FindFileByName(const char *name)
 {
-    char *path;
-    char *probe;
-    int i;
+	char *path;
+	char *probe;
+	int i;
 
-    // Absolute path?
+	// Absolute path?
 
-    probe = M_FileCaseExists(name);
-    if (probe != NULL)
-    {
-        return probe;
-    }
+	probe = M_FileCaseExists(name);
+	if (probe != NULL)
+	{
+		return probe;
+	}
 
-    BuildDataDirList();
+	BuildDataDirList();
 
-    for (i = 0; i < num_datadirs; i++)
-    {
-        path = M_StringJoin(datadirs[i], PATH_SEP_STR, name, NULL);
+	for (i = 0; i < num_datadirs; i++)
+	{
+		path = M_StringJoin(datadirs[i], PATH_SEP_STR, name, NULL);
 
-        probe = M_FileCaseExists(path);
-        if (probe != NULL)
-        {
-            return probe;
-        }
+		probe = M_FileCaseExists(path);
+		if (probe != NULL)
+		{
+			return probe;
+		}
 
-        free(path);
-    }
+		free(path);
+	}
 
-    // File not found
+	// File not found
 
-    return NULL;
+	return NULL;
 }
-
