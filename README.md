@@ -5,7 +5,7 @@ An enhanced port of Rise of the Triad, based on SDL2.
 
 ## Sources
 
-- [rottsource.zip](ftp://ftp.3drealms.com/source/rottsource.zip)
+- [rottsource.zip](./contrib/rottsource.zip)
 - [icculus.org/rott/](https://icculus.org/rott/)
 - [riseofthetriad.dk/](https://www.riseofthetriad.dk/)
 - [github.com/fabiangreffrath/rott/](https://github.com/fabiangreffrath/rott/)
