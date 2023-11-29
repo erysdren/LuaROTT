@@ -1,0 +1,15 @@
+---
+Language: Cpp
+BasedOnStyle: Microsoft
+IndentAccessModifiers: false
+IndentCaseLabels: true
+IndentCaseBlocks: false
+IndentGotoLabels: false
+IndentPPDirectives: None
+IndentExternBlock: NoIndent
+IndentRequires: false
+UseTab: Always
+IndentWidth: 4
+TabWidth: 4
+SortIncludes: false
+---
