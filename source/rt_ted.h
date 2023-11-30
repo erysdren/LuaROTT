@@ -85,6 +85,10 @@ typedef struct
 #define NUMPLANES 3
 #define NUMHEADEROFFSETS 100
 
+#define WALLPLANE 0
+#define SPRITEPLANE 1
+#define INFOPLANE 2
+
 #define MAP_SPECIAL_TOGGLE_PUSHWALLS 0x0001
 
 typedef struct
@@ -126,7 +130,7 @@ extern int LightsInArea[NUMAREAS + 1];
 extern int numclocks;
 extern word ELEVATORLOCATION;
 
-extern unsigned short int *mapplanes[3];
+extern unsigned short int *mapplanes[NUMPLANES];
 extern int gunsstart;
 extern int elevatorstart;
 extern int spritestop;

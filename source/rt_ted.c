@@ -84,7 +84,7 @@ int lightsource;
 int SNAKELEVEL;
 int whichpath;
 
-word *mapplanes[3];
+word *mapplanes[NUMPLANES];
 int mapwidth;
 int mapheight;
 int lastlevelloaded = -1;
@@ -1869,7 +1869,7 @@ void CountAreaTiles(void)
 	word *map, tile;
 
 	memset(numareatiles, 0, sizeof(numareatiles));
-	map = mapplanes[0];
+	map = mapplanes[WALLPLANE];
 
 	for (i = 0; i < MAPSIZE; i++)
 		for (j = 0; j < MAPSIZE; j++)
@@ -1910,7 +1910,7 @@ void SetupWalls(void)
 	for (i = 0; i < MAXWALLTILES; i++)
 		memset(&walls[i], 0, sizeof(wall_t));
 
-	map = mapplanes[0];
+	map = mapplanes[WALLPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -2141,7 +2141,7 @@ void SetupAnimatedWalls(void)
 	wall_t *tempwall;
 
 	InitAnimatedWallList();
-	map = mapplanes[0];
+	map = mapplanes[WALLPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -2222,7 +2222,7 @@ void SetupSwitches(void)
 	int i, j;
 	word *map, tile;
 
-	map = mapplanes[0];
+	map = mapplanes[WALLPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -2499,7 +2499,7 @@ void SetupPlayers(void)
 
 	// START in icon plane = 10
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	for (j = 0; j < mapheight; j++)
 		for (i = 0; i < mapwidth; i++)
 		{
@@ -2635,7 +2635,7 @@ void SetupMaskedWalls(void)
 	int i, j;
 	word *map, tile;
 
-	map = mapplanes[0];
+	map = mapplanes[WALLPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -2838,7 +2838,7 @@ void SetupPushWalls(void)
 	word *map, tile;
 	int temp;
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -2954,7 +2954,7 @@ void SetupPushWallLinks(void)
 	word *map, tile;
 	word touchx, touchy;
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -3081,7 +3081,7 @@ void SetupElevators(void)
 	elevator_t *elev;
 	doorobj_t *dptr;
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	map += 4;
 
 	for (j = 0; j < mapheight; j++)
@@ -3212,7 +3212,7 @@ void SetupDoors(void)
 	word tile;
 	byte locked;
 
-	map = mapplanes[0];
+	map = mapplanes[WALLPLANE];
 
 	for (j = 0; j < mapheight; j++)
 		for (i = 0; i < mapwidth; i++)
@@ -3305,7 +3305,7 @@ void SetupDoorLinks(void)
 	int doornumber;
 	word touchx, touchy;
 
-	map = mapplanes[0];
+	map = mapplanes[WALLPLANE];
 
 	for (j = 0; j < mapheight; j++)
 		for (i = 0; i < mapwidth; i++)
@@ -3413,7 +3413,7 @@ void SetupClocks(void)
 	word *map, tile, mapx, mapy;
 	int endtimex, endtimey;
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	map += 4;
 
 	for (j = 0; j < mapheight; j++)
@@ -3624,7 +3624,7 @@ void SetupInanimateActors(void)
 	word *map, tile;
 	void (*action)(intptr_t), (*swapaction)(intptr_t);
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 
 	// non-linked, harmless inanimate actors
 	for (j = 0; j < mapheight; j++)
@@ -3659,7 +3659,7 @@ void SetupInanimateActors(void)
 	}
 
 	// linked, harmless actors
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -3742,7 +3742,7 @@ void SetupInanimateActors(void)
 
 	if ((!BATTLEMODE) || (gamestate.BattleOptions.SpawnDangers))
 	{
-		map = mapplanes[1];
+		map = mapplanes[SPRITEPLANE];
 		for (j = 0; j < mapheight; j++)
 		{
 			for (i = 0; i < mapwidth; i++)
@@ -3897,7 +3897,7 @@ void FixTiles(void)
 	word *map, tile;
 	int i, j;
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -3951,7 +3951,7 @@ void SetupLights(void)
 
 	memset(LightsInArea, 0, sizeof(LightsInArea));
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	map += 5;
 
 	for (j = 0; j < mapheight; j++)
@@ -4225,7 +4225,7 @@ void PrintTileStats(void)
 	MapDebug("=======================\n");
 	MapDebug("= WEAPONS\n");
 	MapDebug("=======================\n");
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -4241,7 +4241,7 @@ void PrintTileStats(void)
 	MapDebug("=======================\n");
 	MapDebug("= WALLS\n");
 	MapDebug("=======================\n");
-	map = mapplanes[0];
+	map = mapplanes[WALLPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -4262,7 +4262,7 @@ void PrintTileStats(void)
 	MapDebug("=======================\n");
 	MapDebug("= DOORS\n");
 	MapDebug("=======================\n");
-	map = mapplanes[0];
+	map = mapplanes[WALLPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -4283,7 +4283,7 @@ void PrintTileStats(void)
 	MapDebug("=======================\n");
 	MapDebug("= MASKEDWALLS\n");
 	MapDebug("=======================\n");
-	map = mapplanes[0];
+	map = mapplanes[WALLPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -4304,7 +4304,7 @@ void PrintTileStats(void)
 	MapDebug("=======================\n");
 	MapDebug("= PLATFORMS\n");
 	MapDebug("=======================\n");
-	map = mapplanes[2];
+	map = mapplanes[INFOPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -4325,7 +4325,7 @@ void PrintTileStats(void)
 	MapDebug("=======================\n");
 	MapDebug("= ACTORS\n");
 	MapDebug("=======================\n");
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	for (j = 0; j < mapheight; j++)
 	{
 		for (i = 0; i < mapwidth; i++)
@@ -4679,7 +4679,7 @@ void DoSharewareConversionBackgroundPlane(void)
 	{
 		for (i = 0; i < mapwidth; i++)
 		{
-			map = &(mapplanes[0][MAPSIZE * (j) + (i)]);
+			map = &(mapplanes[WALLPLANE][MAPSIZE * (j) + (i)]);
 			switch (*map)
 			{
 
@@ -4713,19 +4713,19 @@ void DoSharewareConversionBackgroundPlane(void)
 				// locked doors
 				case 94:
 					*map = 101;
-					*(&(mapplanes[1][MAPSIZE * (j) + (i)])) = 29;
+					*(&(mapplanes[SPRITEPLANE][MAPSIZE * (j) + (i)])) = 29;
 					break;
 				case 95:
 					*map = 101;
-					*(&(mapplanes[1][MAPSIZE * (j) + (i)])) = 30;
+					*(&(mapplanes[SPRITEPLANE][MAPSIZE * (j) + (i)])) = 30;
 					break;
 				case 96:
 					*map = 101;
-					*(&(mapplanes[1][MAPSIZE * (j) + (i)])) = 31;
+					*(&(mapplanes[SPRITEPLANE][MAPSIZE * (j) + (i)])) = 31;
 					break;
 				case 97:
 					*map = 101;
-					*(&(mapplanes[1][MAPSIZE * (j) + (i)])) = 32;
+					*(&(mapplanes[SPRITEPLANE][MAPSIZE * (j) + (i)])) = 32;
 					break;
 				// Tall pillar
 				case 161:
@@ -4821,7 +4821,7 @@ void DoSharewareConversionForegroundPlane(void)
 	{
 		for (i = 0; i < mapwidth; i++)
 		{
-			map = &(mapplanes[1][MAPSIZE * (j) + (i)]);
+			map = &(mapplanes[SPRITEPLANE][MAPSIZE * (j) + (i)]);
 			switch (*map)
 			{
 				case 32:  // Crystal Key
@@ -4881,26 +4881,26 @@ void DoRegisterConversionBackgroundPlane(void)
 	{
 		for (i = 0; i < mapwidth; i++)
 		{
-			map = &(mapplanes[0][MAPSIZE * (j) + (i)]);
+			map = &(mapplanes[WALLPLANE][MAPSIZE * (j) + (i)]);
 			switch (*map)
 			{
 					// locked doors
 
 				case 94:
 					*map = 101;
-					*(&(mapplanes[1][MAPSIZE * (j) + (i)])) = 29;
+					*(&(mapplanes[SPRITEPLANE][MAPSIZE * (j) + (i)])) = 29;
 					break;
 				case 95:
 					*map = 101;
-					*(&(mapplanes[1][MAPSIZE * (j) + (i)])) = 30;
+					*(&(mapplanes[SPRITEPLANE][MAPSIZE * (j) + (i)])) = 30;
 					break;
 				case 96:
 					*map = 101;
-					*(&(mapplanes[1][MAPSIZE * (j) + (i)])) = 31;
+					*(&(mapplanes[SPRITEPLANE][MAPSIZE * (j) + (i)])) = 31;
 					break;
 				case 97:
 					*map = 101;
-					*(&(mapplanes[1][MAPSIZE * (j) + (i)])) = 32;
+					*(&(mapplanes[SPRITEPLANE][MAPSIZE * (j) + (i)])) = 32;
 					break;
 
 				case 232:
@@ -5195,7 +5195,7 @@ void SetupSnakePath(void)
 	int i, j;
 	word *map, tile;
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 
 	for (j = 0; j < mapheight; j++)
 		for (i = 0; i < mapwidth; i++)
@@ -5219,7 +5219,7 @@ void SetupRandomActors(void)
 	byte actorpresent[10] = { 0 }, index = 0, randomtype, used[100] = { 0 };
 	_2Dpoint randloc[100];
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	map += 5;
 	for (i = 0; i < 10; i++)
 	{
@@ -5278,7 +5278,7 @@ void SetupRandomActors(void)
 			ambush = (GameRandomNumber("rand actor", 0) < 128);
 			i = randloc[locindex].x;
 			j = randloc[locindex].y;
-			tile = mapplanes[1][j * mapwidth + i];
+			tile = mapplanes[SPRITEPLANE][j * mapwidth + i];
 			SpawnStand(randomtype, i, j, tile - 122, ambush);
 			used[locindex] = 1;
 			PreCacheActor(randomtype, 0);
@@ -5295,7 +5295,7 @@ void SetupActors(void)
 
 	// GetRainActors();
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	map += 5;
 
 	for (j = 0; j < mapheight; j++)
@@ -5752,7 +5752,7 @@ void SetupStatics(void)
 	word *map, tile;
 	int starti;
 
-	map = mapplanes[1];
+	map = mapplanes[SPRITEPLANE];
 	map += 5;
 
 	BATTLE_NumCollectorItems = 0;
