@@ -36,6 +36,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 /* cvar type enum */
 enum
 {
+	CVAR_TYPE_BOOL,
 	CVAR_TYPE_INT,
 	CVAR_TYPE_UINT,
 	CVAR_TYPE_FIXED,
@@ -54,6 +55,7 @@ typedef struct cvar_t
 
 	/* value union */
 	union {
+		boolean b;
 		int i;
 		unsigned int u;
 		fixed x;
@@ -72,6 +74,11 @@ typedef struct cvar_t
 //****************************************************************************
 
 /* cvar creation macros */
+#define CVAR_BOOL(n, v) \
+	(cvar_t) \
+	{ \
+		.name = n, .type = CVAR_TYPE_BOOL, .value.b = v, .next = NULL \
+	}
 #define CVAR_INT(n, v) \
 	(cvar_t) \
 	{ \
