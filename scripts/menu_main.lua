@@ -6,6 +6,7 @@ local menu_main = {}
 -- draw function
 function menu_main.draw()
 	io.print("menu_main: draw")
+	menu.setfont(1)
 	menu.drawstring(0, 0, "hello world!")
 end
 

@@ -277,7 +277,7 @@ static int cursorwidth;
 static int cursorheight;
 static int yinc;
 
-static char *FontNames[] = { "itnyfont", "ifnt", "sifont", "lifont" };
+char *FontNames[4] = { "itnyfont", "ifnt", "sifont", "lifont" };
 static int FontSize[] = { 6, 7, 9, 14 };
 static char *SmallCursor = "smallc01";
 static char *LargeCursor = "cursor01";

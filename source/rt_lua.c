@@ -29,6 +29,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "rt_util.h"
 #include "rt_build.h"
 #include "rt_menu.h"
+#include "w_wad.h"
+#include "z_zone.h"
 
 #include "rt_lua.h"
 
@@ -45,14 +47,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 int _lua_io_print(lua_State *L)
 {
 	const char *s = luaL_checkstring(L, 1);
-	if (s != NULL) printf("%s\n", s);
+	printf("%s\n", s);
 	return 0;
 }
 
 int _lua_io_error(lua_State *L)
 {
 	const char *s = luaL_checkstring(L, 1);
-	if (s != NULL) Error("%s", s);
+	Error("%s", s);
 	return 0;
 }
 
@@ -77,8 +79,17 @@ int _lua_menu_drawstring(lua_State *L)
 	return 0;
 }
 
+int _lua_io_setfont(lua_State *L)
+{
+	int f = luaL_checkinteger(L, 1);
+	if (f < mn_tinyfont || f > mn_largefont) return 0;
+	IFont = (cfont_t *)W_CacheLumpName(FontNames[f], PU_CACHE, Cvt_cfont_t, 1);
+	return 0;
+}
+
 static const struct luaL_Reg _lua_menu[] = {
 	{"drawstring", _lua_menu_drawstring},
+	{"setfont", _lua_io_setfont},
 	{NULL, NULL}
 };
 

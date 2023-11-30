@@ -95,6 +95,7 @@ enum
 
 extern char *colorname[];
 extern boolean NewGame;
+extern char *FontNames[4];
 
 extern CP_itemtype MainMenu[];
 extern boolean pickquick;
