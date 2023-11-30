@@ -8,7 +8,7 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 
 # sources
-file(GLOB ROTTEN_SOURCES ${PROJECT_SOURCE_DIR}/rott/*.c)
+file(GLOB ROTTEN_SOURCES ${PROJECT_SOURCE_DIR}/source/*.c)
 
 # executable
 add_executable(rotten ${ROTTEN_SOURCES})
