@@ -69,6 +69,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rottnet.h"
 #include "rt_scale.h"
 #include "rt_datadir.h"
+#include "rt_lua.h"
 
 #include "music.h"
 #include "fx_man.h"
@@ -154,6 +155,12 @@ int main(int argc, char *argv[])
 	signal(11, crash_print);
 
 	ApogeePath = GetPrefDir();
+
+	/* initialize lua */
+	if (lua_init() == false)
+		Error("Failed to initialize Lua library!");
+
+	lua_menu_add("menu_main");
 
 	// Set which release version we're on
 	gamestate.Version = ROTTVERSION;
@@ -370,6 +377,9 @@ int main(int argc, char *argv[])
 	GameLoop();
 
 	QuitGame();
+
+	/* quit lua */
+	lua_quit();
 
 	return 0;
 }
