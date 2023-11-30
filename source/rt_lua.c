@@ -36,34 +36,29 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 //****************************************************************************
 //
-// TYPEDEFS
+// IO LIBRARY
 //
 //****************************************************************************
 
-typedef struct lua_builtin_t {
-	int (*func)(lua_State *L);
-	const char *name;
-} lua_builtin_t;
-
-//****************************************************************************
-//
-// LUA BUILTINS
-//
-//****************************************************************************
-
-int _lua_print(lua_State *L)
+int _lua_io_print(lua_State *L)
 {
 	const char *s = luaL_checkstring(L, 1);
 	if (s != NULL) printf("%s\n", s);
 	return 0;
 }
 
-int _lua_error(lua_State *L)
+int _lua_io_error(lua_State *L)
 {
 	const char *s = luaL_checkstring(L, 1);
 	if (s != NULL) Error("%s", s);
 	return 0;
 }
+
+static const struct luaL_Reg _lua_io[] = {
+	{"print", _lua_io_print},
+	{"error", _lua_io_error},
+	{NULL, NULL}
+};
 
 //****************************************************************************
 //
@@ -73,12 +68,6 @@ int _lua_error(lua_State *L)
 
 /* lua state for menus */
 static lua_State *lua_menu_state = NULL;
-
-/* menu builtins array */
-lua_builtin_t lua_menu_builtins[] = {
-	{_lua_print, "print"},
-	{_lua_error, "error"},
-};
 
 //****************************************************************************
 //
@@ -93,12 +82,10 @@ boolean lua_init(void)
 	if (lua_menu_state == NULL)
 		return false;
 
-	/* setup builtins */
-	for (int i = 0; i < 2; i++)
-	{
-		lua_pushcfunction(lua_menu_state, lua_menu_builtins[i].func);
-		lua_setglobal(lua_menu_state, lua_menu_builtins[i].name);
-	}
+	/* link libraries */
+	luaL_newlib(lua_menu_state, _lua_io);
+	lua_setglobal(lua_menu_state, "io");
+	lua_settop(lua_menu_state, 0);
 
 	return true;
 }
@@ -121,7 +108,14 @@ void lua_menu_add(const char *name)
 		Error("Invalid menu \"%s\" specified!", name);
 
 	/* run file */
-	luaL_dofile(lua_menu_state, filename);
+	luaL_loadfile(lua_menu_state, filename);
+	if (lua_pcall(lua_menu_state, 0, LUA_MULTRET, 0))
+	{
+		Error("Lua Error: \"%s\"", lua_tostring(lua_menu_state, -1));
+		return;
+	}
+
+	/* make module global */
 	lua_setglobal(lua_menu_state, name);
 	lua_settop(lua_menu_state, 0);
 
