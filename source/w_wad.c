@@ -102,7 +102,8 @@ void W_AddFile(char *_filename)
 
 	startlump = numlumps;
 
-	if ((strcmpi(filename + strlen(filename) - 3, "wad")) && (strcmpi(filename + strlen(filename) - 3, "rts")))
+	if ((strcmpi(filename + strlen(filename) - 3, "wad")) &&
+		(strcmpi(filename + strlen(filename) - 3, "rts")))
 	{
 		// single lump file
 		if (!quiet)
@@ -196,7 +197,8 @@ void W_InitMultipleFiles(char **filenames)
 		W_AddFile(*filenames);
 
 	if (numlumps < 2)
-		Error("W_InitFiles: One or more of the required ROTT 1.3 data files could not be found.");
+		Error("W_InitFiles: One or more of the required ROTT 1.3 data files "
+			  "could not be found.");
 
 	//
 	// set up caching
@@ -415,7 +417,8 @@ void *W_CacheLumpNum(int lump, int tag, converter_t converter, int numrec)
 		// read the lump in
 		Z_Malloc(W_LumpLength(lump), tag, &lumpcache[lump]);
 		W_ReadLump(lump, lumpcache[lump]);
-		Debug("Invoking endian converter on %p, %i records\n", lumpcache[lump], numrec);
+		Debug("Invoking endian converter on %p, %i records\n", lumpcache[lump],
+			  numrec);
 		converter(lumpcache[lump], numrec);
 	}
 	else

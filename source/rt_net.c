@@ -238,7 +238,8 @@ void InitializeGameCommands(void)
 		memset(LocalCommand(j), COM_DELTANULL, size);
 	}
 
-	CommandState[0] = (CommandStatusType *)SafeLevelMalloc(sizeof(CommandStatusType));
+	CommandState[0] =
+		(CommandStatusType *)SafeLevelMalloc(sizeof(CommandStatusType));
 
 	if (modemgame == true)
 	{
@@ -259,18 +260,21 @@ void InitializeGameCommands(void)
 				for (j = 0; j < MAXCMDS; j++)
 				{
 					int size;
-					size = ((numplayers * GetTypeSize(COM_TEXT)) + GetTypeSize(COM_SOUNDANDDELTA) +
+					size = ((numplayers * GetTypeSize(COM_TEXT)) +
+							GetTypeSize(COM_SOUNDANDDELTA) +
 							sizeof(COM_ServerHeaderType) - sizeof(byte));
 					ServerCommand(j) = SafeMalloc(size);
 					memset(ServerCommand(j), COM_DELTANULL, size);
 				}
 				for (i = 1; i <= numplayers; i++)
 				{
-					CommandState[i] = (CommandStatusType *)SafeMalloc(sizeof(CommandStatusType));
+					CommandState[i] = (CommandStatusType *)SafeMalloc(
+						sizeof(CommandStatusType));
 				}
 				for (i = 0; i < numplayers; i++)
 				{
-					ClientCmds[i] = (CommandType *)SafeMalloc(sizeof(CommandType));
+					ClientCmds[i] =
+						(CommandType *)SafeMalloc(sizeof(CommandType));
 					for (j = 0; j < MAXCMDS; j++)
 					{
 						int size;
@@ -467,7 +471,8 @@ void StartupClientControls(void)
 	for (j = 0; j < numplayers; j++)
 	{
 		memset(PLAYERSTATE[j].buttonheld, 0, sizeof(PLAYERSTATE[j].buttonheld));
-		memset(PLAYERSTATE[j].buttonstate, 0, sizeof(PLAYERSTATE[j].buttonstate));
+		memset(PLAYERSTATE[j].buttonstate, 0,
+			   sizeof(PLAYERSTATE[j].buttonstate));
 	}
 
 	for (i = 0; i < MAXCMDS; i++)
@@ -481,7 +486,8 @@ void StartupClientControls(void)
 		int size;
 
 		UpdateServer = true;
-		size = ((numplayers * GetTypeSize(COM_TEXT)) + GetTypeSize(COM_SOUNDANDDELTA) + sizeof(COM_ServerHeaderType) -
+		size = ((numplayers * GetTypeSize(COM_TEXT)) +
+				GetTypeSize(COM_SOUNDANDDELTA) + sizeof(COM_ServerHeaderType) -
 				sizeof(byte));
 
 		for (j = 0; j < numplayers; j++)
@@ -556,7 +562,8 @@ void UpdateClientControls(void)
 
 		// if we are a fixing the current packet stop update of deltas
 		// in non-network games.
-		if ((networkgame == false) && (ServerCommandStatus(oldpolltime) == cs_fixing))
+		if ((networkgame == false) &&
+			(ServerCommandStatus(oldpolltime) == cs_fixing))
 		{
 			time = controlupdatetime - controldivisor;
 		}
@@ -577,7 +584,9 @@ void UpdateClientControls(void)
 			//            PollControls();
 			//            }
 
-			if ((memcmp(&controlbuf[0], &oldcontrolbuf[0], sizeof(controlbuf)) != 0) || (buttonbits != oldbuttonbits))
+			if ((memcmp(&controlbuf[0], &oldcontrolbuf[0],
+						sizeof(controlbuf)) != 0) ||
+				(buttonbits != oldbuttonbits))
 			{
 				controlschanged = true;
 				memcpy(&oldcontrolbuf[0], &controlbuf[0], sizeof(controlbuf));
@@ -612,13 +621,15 @@ void UpdateClientControls(void)
 					recordstate status;
 
 					if (remoteridicule == false)
-						Error("Attempt to record Remote Ridicule without adequate storage");
+						Error("Attempt to record Remote Ridicule without "
+							  "adequate storage");
 					sndpkt = (COM_SoundType *)Delta->Sounddata;
 
 					// Turn the packet into a COM_SOUNDANDDELTA packet
 
 					Delta->type = COM_SOUNDANDDELTA;
-					status = SD_GetSoundData(&(sndpkt->data[0]), COM_SOUND_BUFFERSIZE);
+					status = SD_GetSoundData(&(sndpkt->data[0]),
+											 COM_SOUND_BUFFERSIZE);
 					switch (status)
 					{
 						case rs_nodata:
@@ -643,7 +654,8 @@ void UpdateClientControls(void)
 			}
 			PrepareLocalPacket();
 
-			if ((controlupdatetime != -1) && (controlupdatetime > (lastpolltime + MAXPOLLTICS)) &&
+			if ((controlupdatetime != -1) &&
+				(controlupdatetime > (lastpolltime + MAXPOLLTICS)) &&
 				(demoplayback == false))
 			{
 				controlbuf[0] = controlbuf[1] = controlbuf[2] = 0;
@@ -712,7 +724,8 @@ void CheckForPacket(void)
 			ProcessPacket(&ROTTpacket[0], rottcom->remotenode);
 		}
 		else
-			RequestPacket(LastCommandTime[rottcom->remotenode] + controldivisor, rottcom->remotenode, controldivisor);
+			RequestPacket(LastCommandTime[rottcom->remotenode] + controldivisor,
+						  rottcom->remotenode, controldivisor);
 	}
 	waminot();
 }
@@ -748,7 +761,8 @@ void ProcessRemoteRidicule(void *pkt)
 	from = remrot->player;
 	who = remrot->towho;
 	if ((who == consoleplayer) || (who == MSG_DIRECTED_TO_ALL) ||
-		((who == MSG_DIRECTED_TO_TEAM) && (BATTLE_Team[from] == BATTLE_Team[consoleplayer])))
+		((who == MSG_DIRECTED_TO_TEAM) &&
+		 (BATTLE_Team[from] == BATTLE_Team[consoleplayer])))
 	{
 		strcpy(name, "(\x81 RR from ");
 		strcat(name, PLAYERSTATE[from].codename);
@@ -967,7 +981,8 @@ int GetPacketSize(void *pkt)
 			size = sizeof(MoveType) + sizeof(COM_SoundType);
 			break;
 		default:
-			Error("Unhandled packet type in GetPacketSize type=%d", ((MoveType *)pkt)->type);
+			Error("Unhandled packet type in GetPacketSize type=%d",
+				  ((MoveType *)pkt)->type);
 			break;
 	}
 
@@ -1025,10 +1040,12 @@ void SendPacket(void *pkt, int dest)
 {
 	if ((networkgame == false) && (PlayerStatus[dest] != player_ingame))
 		return;
-	if ((IsServer == true) && (dest == server) && (standalone == false)) // must be client on top of server
+	if ((IsServer == true) && (dest == server) &&
+		(standalone == false)) // must be client on top of server
 		ProcessPacket(pkt, dest);
 	else if ((IsServer == false) && (dest != server) &&
-			 (standalone == false)) // We shouldn't be sending as client to anyone else
+			 (standalone ==
+			  false)) // We shouldn't be sending as client to anyone else
 		ComError("SendPacket:Problems\n");
 	else
 		WritePacket(pkt, GetPacketSize(pkt), dest);
@@ -1086,8 +1103,9 @@ void ResendLocalPackets(int time, int dest, int numpackets)
 
 	if (pkt->time != time)
 	{
-		Error("CLIENT: Could not find packet to resend\ntime=%d packettime=%d controlupdatetime=%d\n", time, pkt->time,
-			  controlupdatetime);
+		Error("CLIENT: Could not find packet to resend\ntime=%d packettime=%d "
+			  "controlupdatetime=%d\n",
+			  time, pkt->time, controlupdatetime);
 	}
 	else
 	{
@@ -1159,8 +1177,9 @@ void ResendServerPackets(int time, int dest, int numpackets)
 
 	if (serverpkt->time != time)
 	{
-		Error("SERVER: Could not find packet to resend\ntime=%d packettime=%d serverupdatetime=%d\n", time,
-			  serverpkt->time, serverupdatetime);
+		Error("SERVER: Could not find packet to resend\ntime=%d packettime=%d "
+			  "serverupdatetime=%d\n",
+			  time, serverpkt->time, serverupdatetime);
 	}
 	else
 	{
@@ -1229,8 +1248,9 @@ void ResendPacket(void *pkt, int dest)
 	request = (COM_RequestType *)pkt;
 	time = request->time;
 
-	ComError("RESEND request received at %d\n packet time=%d dest=%d numpackets=%d\n", GetTicCount(), time, dest,
-			 request->numpackets);
+	ComError("RESEND request received at %d\n packet time=%d dest=%d "
+			 "numpackets=%d\n",
+			 GetTicCount(), time, dest, request->numpackets);
 
 	if (IsServer == true)
 	{
@@ -1263,7 +1283,8 @@ void FixupPacket(void *pkt, int src)
 
 	fix = (COM_FixupType *)pkt;
 
-	ComError("Fixup received at %d, time=%d numpackets=%d\n", GetTicCount(), fix->time, fix->numpackets);
+	ComError("Fixup received at %d, time=%d numpackets=%d\n", GetTicCount(),
+			 fix->time, fix->numpackets);
 	time = fix->time;
 	ptr = &(fix->data);
 
@@ -1276,7 +1297,9 @@ void FixupPacket(void *pkt, int src)
 		{
 			if (ClientCommandStatus(src, time) != cs_fixing)
 			{
-				ComError("Server Received fixup with no bad packet time=%d from %d\n", time, src);
+				ComError("Server Received fixup with no bad packet time=%d "
+						 "from %d\n",
+						 time, src);
 			}
 			else
 			{
@@ -1288,7 +1311,9 @@ void FixupPacket(void *pkt, int src)
 		{
 			if (ServerCommandStatus(time) != cs_fixing)
 			{
-				ComError("Client Received fixup with no bad packet time=%d from %d\n", time, src);
+				ComError("Client Received fixup with no bad packet time=%d "
+						 "from %d\n",
+						 time, src);
 			}
 			else
 			{
@@ -1377,14 +1402,16 @@ void SyncToServer(void)
 		return;
 	//   if (networkgame==true)
 	//      {
-	//      diff = (GetTicCount()-controldivisor-LastCommandTime[0])/controldivisor;
+	//      diff =
+	//      (GetTicCount()-controldivisor-LastCommandTime[0])/controldivisor;
 	//      SoftError("diff=%ld\n",diff);
 	//      if (abs(diff)>1)
 	//         ISR_SetTime(GetTicCount()-diff);
 	//      }
 	//   else
 	//      {
-	diff = (GetTicCount() - controldivisor - LastCommandTime[server]) / controldivisor;
+	diff = (GetTicCount() - controldivisor - LastCommandTime[server]) /
+		   controldivisor;
 	if (abs(diff) > 0)
 		ISR_SetTime(GetTicCount() - diff);
 	//      }
@@ -1448,7 +1475,8 @@ void ProcessPacket(void *pkt, int src)
 			break;
 
 		default:
-			Error("ProcessPacket: Unknown packet type=%d\n", ((MoveType *)pkt)->type);
+			Error("ProcessPacket: Unknown packet type=%d\n",
+				  ((MoveType *)pkt)->type);
 	}
 }
 
@@ -1529,8 +1557,9 @@ void AddServerPacket(void *pkt, int src)
 		{
 			RequestPacket(LastCommandTime[src], src, numpackets);
 
-			ComError("AddServerPacket: Request packet time=%d lct=%d numpackets=%d\n", serverpkt->time,
-					 LastCommandTime[src], numpackets);
+			ComError("AddServerPacket: Request packet time=%d lct=%d "
+					 "numpackets=%d\n",
+					 serverpkt->time, LastCommandTime[src], numpackets);
 		}
 
 		LastCommandTime[src] += numpackets;
@@ -1565,7 +1594,8 @@ void AddClientPacket(void *pkt, int src)
 		case COM_UNPAUSE:
 		case COM_ENDGAME:
 			size = GetPacketSize(packet);
-			memcpy(PlayerCommand(src, CommandAddress(packet->time)), packet, size);
+			memcpy(PlayerCommand(src, CommandAddress(packet->time)), packet,
+				   size);
 			break;
 		case COM_SOUNDANDDELTA:
 			ProcessSoundAndDeltaPacket(packet, src);
@@ -1625,13 +1655,16 @@ void AddPacket(void *pkt, int src)
 			int numpackets;
 
 			numpackets = packet->time - LastCommandTime[src];
-			if (((networkgame == false) && (ServerCommandStatus(LastCommandTime[src]) != cs_fixing)) ||
-				((networkgame == true) && (ClientCommandStatus(src, LastCommandTime[src]) != cs_fixing)))
+			if (((networkgame == false) &&
+				 (ServerCommandStatus(LastCommandTime[src]) != cs_fixing)) ||
+				((networkgame == true) &&
+				 (ClientCommandStatus(src, LastCommandTime[src]) != cs_fixing)))
 			{
 				RequestPacket(LastCommandTime[src], src, numpackets);
 
-				ComError("AddPacket: Request packet time=%d lct=%d numpackets=%d\n", packet->time, LastCommandTime[src],
-						 numpackets);
+				ComError(
+					"AddPacket: Request packet time=%d lct=%d numpackets=%d\n",
+					packet->time, LastCommandTime[src], numpackets);
 			}
 
 			LastCommandTime[src] += numpackets;
@@ -1701,7 +1734,8 @@ void RequestPacket(int time, int dest, int numpackets)
 boolean IsServerCommandReady(int time)
 {
 
-	if (((COM_ServerHeaderType *)ServerCommand(CommandAddress(time)))->time == time)
+	if (((COM_ServerHeaderType *)ServerCommand(CommandAddress(time)))->time ==
+		time)
 		return true;
 	else
 	{
@@ -1734,7 +1768,8 @@ boolean AreClientsReady(void)
 			//         RequestPacket ( serverupdatetime , i , controldivisor );
 			return false;
 		}
-		else if (((MoveType *)ClientCommand(i, timeindex))->time != serverupdatetime)
+		else if (((MoveType *)ClientCommand(i, timeindex))->time !=
+				 serverupdatetime)
 			return false;
 	}
 	return true;
@@ -1868,7 +1903,9 @@ void ProcessServer(void)
 
 			done = AreClientsReady();
 
-			if ((standalone == false) && (serverupdatetime >= (controlupdatetime - controldivisor)) && (done == false))
+			if ((standalone == false) &&
+				(serverupdatetime >= (controlupdatetime - controldivisor)) &&
+				(done == false))
 				break;
 
 			CheckForPacket();
@@ -1901,7 +1938,8 @@ void ProcessServer(void)
 		}
 		if (exit == true)
 			break;
-		if ((serverupdatetime >= (controlupdatetime - controldivisor)) && (standalone == false))
+		if ((serverupdatetime >= (controlupdatetime - controldivisor)) &&
+			(standalone == false))
 			break;
 		if (restartgame == true)
 			break;
@@ -1934,27 +1972,36 @@ int SetupCheckForPacket(void)
 					break;
 				case COM_GAMEDESC:
 					if (standalone == true)
-						printf("Received GameDescription from player#%ld\n", (long int)rottcom->remotenode);
-					WritePacket(&ROTTpacket[0], GetPacketSize(pkt), 0); // Send to player 0
+						printf("Received GameDescription from player#%ld\n",
+							   (long int)rottcom->remotenode);
+					WritePacket(&ROTTpacket[0], GetPacketSize(pkt),
+								0); // Send to player 0
 					break;
 				case COM_GAMEACK:
 					if (standalone == true)
-						printf("Received GameAcknowledgement from player#%ld\n", (long int)rottcom->remotenode);
-					WritePacket(&ROTTpacket[0], GetPacketSize(pkt), 0); // Send to player 0
+						printf("Received GameAcknowledgement from player#%ld\n",
+							   (long int)rottcom->remotenode);
+					WritePacket(&ROTTpacket[0], GetPacketSize(pkt),
+								0); // Send to player 0
 					break;
 				case COM_GAMEMASTER:
 					if (standalone == true)
-						printf("Received GameMasterPacket from player#%ld\n", (long int)rottcom->remotenode);
-					BroadcastServerPacket(&ROTTpacket[0], GetPacketSize(pkt)); // Send to all
+						printf("Received GameMasterPacket from player#%ld\n",
+							   (long int)rottcom->remotenode);
+					BroadcastServerPacket(&ROTTpacket[0],
+										  GetPacketSize(pkt)); // Send to all
 					break;
 				case COM_GAMEPLAY:
 					if (standalone == true)
-						printf("Received StartGamePacket from player#%ld\n", (long int)rottcom->remotenode);
-					BroadcastServerPacket(&ROTTpacket[0], GetPacketSize(pkt)); // Send to all
+						printf("Received StartGamePacket from player#%ld\n",
+							   (long int)rottcom->remotenode);
+					BroadcastServerPacket(&ROTTpacket[0],
+										  GetPacketSize(pkt)); // Send to all
 					retval = scfp_done;
 					break;
 				default:
-					ComError("Server received unknown packet in Game preamble\n");
+					ComError(
+						"Server received unknown packet in Game preamble\n");
 					break;
 			}
 		}
@@ -2072,7 +2119,8 @@ void ProcessPlayerCommand(int player)
 
 		who = ((COM_TextType *)cmd)->towho;
 		if ((who == consoleplayer) || (who == MSG_DIRECTED_TO_ALL) ||
-			((who == MSG_DIRECTED_TO_TEAM) && (BATTLE_Team[player] == BATTLE_Team[consoleplayer])))
+			((who == MSG_DIRECTED_TO_TEAM) &&
+			 (BATTLE_Team[player] == BATTLE_Team[consoleplayer])))
 		{
 			char string[50];
 
@@ -2156,7 +2204,8 @@ void ControlPlayerObj(objtype *ob)
 
 	num = ob->dirchoosetime;
 
-	memcpy(pstate->buttonheld, pstate->buttonstate, sizeof(pstate->buttonstate));
+	memcpy(pstate->buttonheld, pstate->buttonstate,
+		   sizeof(pstate->buttonstate));
 
 	if (oldpolltime == nextupdatetime)
 	{
@@ -2181,7 +2230,8 @@ void ControlPlayerObj(objtype *ob)
 				ProcessPlayerCommand(num);
 				if (demoplayback || demorecord)
 				{
-					SoftError("x=%4x y=%4x a=%4x time=%5d\n", player->x, player->y, player->angle, oldpolltime);
+					SoftError("x=%4x y=%4x a=%4x time=%5d\n", player->x,
+							  player->y, player->angle, oldpolltime);
 				}
 				break;
 			}
@@ -2285,8 +2335,8 @@ void UpdatePlayerObj(int player)
 
 	if (demoplayback || demorecord)
 	{
-		SoftError("  dmx=%4x dmy=%4x da=%4x time=%5d\n", pstate->dmomx, pstate->dmomy, pstate->angle >> 11,
-				  oldpolltime);
+		SoftError("  dmx=%4x dmy=%4x da=%4x time=%5d\n", pstate->dmomx,
+				  pstate->dmomy, pstate->angle >> 11, oldpolltime);
 	}
 }
 
@@ -2315,7 +2365,8 @@ void SendPlayerDescription(void)
 	desc->Product = gamestate.Product;
 	desc->playerdescription.character = locplayerstate->player;
 	desc->playerdescription.uniformcolor = locplayerstate->uniformcolor;
-	strcpy(&(desc->playerdescription.codename[0]), &locplayerstate->codename[0]);
+	strcpy(&(desc->playerdescription.codename[0]),
+		   &locplayerstate->codename[0]);
 
 	WritePacket(temp, length, server);
 
@@ -2430,11 +2481,14 @@ void SetPlayerDescription(void *pkt)
 
 	desc = (COM_GamePlayerType *)pkt;
 	PLAYERSTATE[desc->player].player = desc->playerdescription.character;
-	PLAYERSTATE[desc->player].uniformcolor = desc->playerdescription.uniformcolor;
-	strcpy(&(PLAYERSTATE[desc->player].codename[0]), &(desc->playerdescription.codename[0]));
+	PLAYERSTATE[desc->player].uniformcolor =
+		desc->playerdescription.uniformcolor;
+	strcpy(&(PLAYERSTATE[desc->player].codename[0]),
+		   &(desc->playerdescription.codename[0]));
 	if (gamestate.Version != desc->Version)
 	{
-		Error("Player %s is using a different version of ROTT\n", PLAYERSTATE[desc->player].codename);
+		Error("Player %s is using a different version of ROTT\n",
+			  PLAYERSTATE[desc->player].codename);
 		//      gamestate.Version = desc->Version;
 	}
 
@@ -2788,7 +2842,8 @@ void SetupDemo(void)
 	DemoHeader = (DemoHeaderType *)demoptr;
 	demoptr += sizeof(gamestate);
 	//   if (gamestate.violence!=DemoHeader->demostate.violence)
-	//      Error ("This demo has a different difficulty level than your current settings\n");
+	//      Error ("This demo has a different difficulty level than your current
+	//      settings\n");
 	memcpy(&gamestate, &(DemoHeader->demostate), sizeof(gamestate));
 	SoftError(">>>>>>>>>>>>Start demo playback\n");
 }

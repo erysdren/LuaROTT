@@ -604,17 +604,23 @@ boolean ParseBattleFile(void)
 		ReadInt("ShroomsModeTime", &BattleSpecialsTimes.ShroomsModeTime);
 		ReadInt("ElastoModeTime", &BattleSpecialsTimes.ElastoModeTime);
 		ReadInt("AsbestosVestTime", &BattleSpecialsTimes.AsbestosVestTime);
-		ReadInt("BulletProofVestTime", &BattleSpecialsTimes.BulletProofVestTime);
+		ReadInt("BulletProofVestTime",
+				&BattleSpecialsTimes.BulletProofVestTime);
 		ReadInt("GasMaskTime", &BattleSpecialsTimes.GasMaskTime);
 		ReadInt("MercuryModeTime", &BattleSpecialsTimes.MercuryModeTime);
 		ReadInt("GodModeRespawnTime", &BattleSpecialsTimes.GodModeRespawnTime);
 		ReadInt("DogModeRespawnTime", &BattleSpecialsTimes.DogModeRespawnTime);
-		ReadInt("ShroomsModeRespawnTime", &BattleSpecialsTimes.ShroomsModeRespawnTime);
-		ReadInt("ElastoModeRespawnTime", &BattleSpecialsTimes.ElastoModeRespawnTime);
-		ReadInt("AsbestosVestRespawnTime", &BattleSpecialsTimes.AsbestosVestRespawnTime);
-		ReadInt("BulletProofVestRespawnTime", &BattleSpecialsTimes.BulletProofVestRespawnTime);
+		ReadInt("ShroomsModeRespawnTime",
+				&BattleSpecialsTimes.ShroomsModeRespawnTime);
+		ReadInt("ElastoModeRespawnTime",
+				&BattleSpecialsTimes.ElastoModeRespawnTime);
+		ReadInt("AsbestosVestRespawnTime",
+				&BattleSpecialsTimes.AsbestosVestRespawnTime);
+		ReadInt("BulletProofVestRespawnTime",
+				&BattleSpecialsTimes.BulletProofVestRespawnTime);
 		ReadInt("GasMaskRespawnTime", &BattleSpecialsTimes.GasMaskRespawnTime);
-		ReadInt("MercuryModeRespawnTime", &BattleSpecialsTimes.MercuryModeRespawnTime);
+		ReadInt("MercuryModeRespawnTime",
+				&BattleSpecialsTimes.MercuryModeRespawnTime);
 
 		ReadBoolean("EKG", &battlegibs);
 
@@ -633,7 +639,8 @@ boolean ParseBattleFile(void)
 				BATTLE_Options[index].Speed = temp;
 			}
 
-			if ((index != battle_Collector) && (index != battle_Tag) && (index != battle_Eluder))
+			if ((index != battle_Collector) && (index != battle_Tag) &&
+				(index != battle_Eluder))
 			{
 				// Read Ammo
 				temp = bo_normal_shots;
@@ -671,7 +678,8 @@ boolean ParseBattleFile(void)
 				BATTLE_Options[index].SpawnMines = temp;
 			}
 
-			if ((index != battle_Collector) && (index != battle_Tag) && (index != battle_Eluder))
+			if ((index != battle_Collector) && (index != battle_Tag) &&
+				(index != battle_Eluder))
 			{
 				// Read Spawn Weapons
 				temp = 1;
@@ -689,8 +697,8 @@ boolean ParseBattleFile(void)
 				BATTLE_Options[index].WeaponPersistence = temp;
 			}
 
-			if ((index == battle_Normal) || (index == battle_ScoreMore) || (index == battle_Hunter) ||
-				(index == battle_Tag))
+			if ((index == battle_Normal) || (index == battle_ScoreMore) ||
+				(index == battle_Hunter) || (index == battle_Tag))
 			{
 				// Read Friendly Fire
 				temp = 1;
@@ -1046,7 +1054,8 @@ void WriteBattleConfig(void)
 
 	// Write Battle File
 	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, BattleName, NULL);
-	file = open(filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC, S_IREAD | S_IWRITE);
+	file =
+		open(filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC, S_IREAD | S_IWRITE);
 
 	if (file == -1)
 	{
@@ -1056,17 +1065,19 @@ void WriteBattleConfig(void)
 	free(filename);
 
 	// Write out BATTLECONFIG header
-	SafeWriteString(file, ";Rise of the Triad Battle Configuration File\n"
-						  ";                  (c) 1995\n"
-						  ";\n"
-						  ";You may change these options at you own risk.  Using any values\n"
-						  ";other than the ones documented may make the game unplayable.\n"
-						  ";If this happens, you may delete this file (BATTLE.ROT) and ROTT\n"
-						  ";will recreate it with the default values selected.\n"
-						  ";\n"
-						  ";With that in mind, have fun!\n"
-						  ";\n"
-						  "\n");
+	SafeWriteString(
+		file,
+		";Rise of the Triad Battle Configuration File\n"
+		";                  (c) 1995\n"
+		";\n"
+		";You may change these options at you own risk.  Using any values\n"
+		";other than the ones documented may make the game unplayable.\n"
+		";If this happens, you may delete this file (BATTLE.ROT) and ROTT\n"
+		";will recreate it with the default values selected.\n"
+		";\n"
+		";With that in mind, have fun!\n"
+		";\n"
+		"\n");
 
 	// Write out Version
 	WriteParameter(file, "Version                        ", ROTTVERSION);
@@ -1075,30 +1086,48 @@ void WriteBattleConfig(void)
 	SafeWriteString(file, "\n;\n");
 	WriteParameter(file, "; Yes                        - ", 1);
 	WriteParameter(file, "; No                         - ", 0);
-	WriteParameter(file, "ShowKillCount                  ", BATTLE_ShowKillCount);
+	WriteParameter(file, "ShowKillCount                  ",
+				   BATTLE_ShowKillCount);
 
 	// Write out specials' times
-	SafeWriteString(file, "\n;\n"
-						  "; These are the time in seconds of the various powerups.\n"
-						  "; You could modify these to give you infinite Mercury mode,\n"
-						  "; stronger vests, or to make them persistent.\n;\n");
+	SafeWriteString(
+		file, "\n;\n"
+			  "; These are the time in seconds of the various powerups.\n"
+			  "; You could modify these to give you infinite Mercury mode,\n"
+			  "; stronger vests, or to make them persistent.\n;\n");
 
-	WriteParameter(file, "GodModeTime                ", BattleSpecialsTimes.GodModeTime);
-	WriteParameter(file, "DogModeTime                ", BattleSpecialsTimes.DogModeTime);
-	WriteParameter(file, "ShroomsModeTime            ", BattleSpecialsTimes.ShroomsModeTime);
-	WriteParameter(file, "ElastoModeTime             ", BattleSpecialsTimes.ElastoModeTime);
-	WriteParameter(file, "AsbestosVestTime           ", BattleSpecialsTimes.AsbestosVestTime);
-	WriteParameter(file, "BulletProofVestTime        ", BattleSpecialsTimes.BulletProofVestTime);
-	WriteParameter(file, "GasMaskTime                ", BattleSpecialsTimes.GasMaskTime);
-	WriteParameter(file, "MercuryModeTime            ", BattleSpecialsTimes.MercuryModeTime);
-	WriteParameter(file, "GodModeRespawnTime         ", BattleSpecialsTimes.GodModeRespawnTime);
-	WriteParameter(file, "DogModeRespawnTime         ", BattleSpecialsTimes.DogModeRespawnTime);
-	WriteParameter(file, "ShroomsModeRespawnTime     ", BattleSpecialsTimes.ShroomsModeRespawnTime);
-	WriteParameter(file, "ElastoModeRespawnTime      ", BattleSpecialsTimes.ElastoModeRespawnTime);
-	WriteParameter(file, "AsbestosVestRespawnTime    ", BattleSpecialsTimes.AsbestosVestRespawnTime);
-	WriteParameter(file, "BulletProofVestRespawnTime ", BattleSpecialsTimes.BulletProofVestRespawnTime);
-	WriteParameter(file, "GasMaskRespawnTime         ", BattleSpecialsTimes.GasMaskRespawnTime);
-	WriteParameter(file, "MercuryModeRespawnTime     ", BattleSpecialsTimes.MercuryModeRespawnTime);
+	WriteParameter(file, "GodModeTime                ",
+				   BattleSpecialsTimes.GodModeTime);
+	WriteParameter(file, "DogModeTime                ",
+				   BattleSpecialsTimes.DogModeTime);
+	WriteParameter(file, "ShroomsModeTime            ",
+				   BattleSpecialsTimes.ShroomsModeTime);
+	WriteParameter(file, "ElastoModeTime             ",
+				   BattleSpecialsTimes.ElastoModeTime);
+	WriteParameter(file, "AsbestosVestTime           ",
+				   BattleSpecialsTimes.AsbestosVestTime);
+	WriteParameter(file, "BulletProofVestTime        ",
+				   BattleSpecialsTimes.BulletProofVestTime);
+	WriteParameter(file, "GasMaskTime                ",
+				   BattleSpecialsTimes.GasMaskTime);
+	WriteParameter(file, "MercuryModeTime            ",
+				   BattleSpecialsTimes.MercuryModeTime);
+	WriteParameter(file, "GodModeRespawnTime         ",
+				   BattleSpecialsTimes.GodModeRespawnTime);
+	WriteParameter(file, "DogModeRespawnTime         ",
+				   BattleSpecialsTimes.DogModeRespawnTime);
+	WriteParameter(file, "ShroomsModeRespawnTime     ",
+				   BattleSpecialsTimes.ShroomsModeRespawnTime);
+	WriteParameter(file, "ElastoModeRespawnTime      ",
+				   BattleSpecialsTimes.ElastoModeRespawnTime);
+	WriteParameter(file, "AsbestosVestRespawnTime    ",
+				   BattleSpecialsTimes.AsbestosVestRespawnTime);
+	WriteParameter(file, "BulletProofVestRespawnTime ",
+				   BattleSpecialsTimes.BulletProofVestRespawnTime);
+	WriteParameter(file, "GasMaskRespawnTime         ",
+				   BattleSpecialsTimes.GasMaskRespawnTime);
+	WriteParameter(file, "MercuryModeRespawnTime     ",
+				   BattleSpecialsTimes.MercuryModeRespawnTime);
 
 	// Write out battlegibs
 	SafeWriteString(file, "\n;\n");
@@ -1135,7 +1164,8 @@ void WriteBattleConfig(void)
 	// Write out Hit Points
 	SafeWriteString(file, ";\n"
 						  "; Hitpoint options:\n");
-	WriteParameter(file, ";    Character Hitpoints     - ", bo_character_hitpoints);
+	WriteParameter(file, ";    Character Hitpoints     - ",
+				   bo_character_hitpoints);
 	WriteParameter(file, ";       1 Hitpoint           - ", 1);
 	WriteParameter(file, ";      25 Hitpoints          - ", 25);
 	WriteParameter(file, ";     100 Hitpoints          - ", 100);
@@ -1239,7 +1269,8 @@ void WriteBattleConfig(void)
 	WriteParameter(file, ";     1 second               - ", 1);
 	WriteParameter(file, ";     1 minute               - ", 60);
 	WriteParameter(file, ";     2 minutes              - ", 120);
-	WriteParameter(file, ";       normal               - ", bo_normal_respawn_time);
+	WriteParameter(file, ";       normal               - ",
+				   bo_normal_respawn_time);
 
 	for (index = battle_Normal; index < battle_NumBattleModes; index++)
 	{
@@ -1279,85 +1310,104 @@ void WriteBattleConfig(void)
 				break;
 
 			case battle_CaptureTheTriad:
-				SafeWriteString(file, "; Capture the Triad battle options\n;\n");
+				SafeWriteString(file,
+								"; Capture the Triad battle options\n;\n");
 				break;
 		}
 
 		// Write out Gravity
-		WriteParameter(file, "Gravity          ", BATTLE_Options[index].Gravity);
+		WriteParameter(file, "Gravity          ",
+					   BATTLE_Options[index].Gravity);
 
 		// Write out Speed
 		WriteParameter(file, "Speed            ", BATTLE_Options[index].Speed);
 
-		if ((index != battle_Collector) && (index != battle_Tag) && (index != battle_Eluder))
+		if ((index != battle_Collector) && (index != battle_Tag) &&
+			(index != battle_Eluder))
 		{
 			// Write out Ammo
-			WriteParameter(file, "Ammo             ", BATTLE_Options[index].Ammo);
+			WriteParameter(file, "Ammo             ",
+						   BATTLE_Options[index].Ammo);
 		}
 
 		if (index != battle_Eluder)
 		{
 			// Write out Hit Points
-			WriteParameter(file, "Hitpoints        ", BATTLE_Options[index].HitPoints);
+			WriteParameter(file, "Hitpoints        ",
+						   BATTLE_Options[index].HitPoints);
 		}
 
 		// Write out Danger Spawning
-		WriteParameter(file, "SpawnDangers     ", BATTLE_Options[index].SpawnDangers);
+		WriteParameter(file, "SpawnDangers     ",
+					   BATTLE_Options[index].SpawnDangers);
 
 		if (index != battle_Eluder)
 		{
 			// Write out Health Spawning
-			WriteParameter(file, "SpawnHealth      ", BATTLE_Options[index].SpawnHealth);
+			WriteParameter(file, "SpawnHealth      ",
+						   BATTLE_Options[index].SpawnHealth);
 
 			// Write out Mine Spawning
-			WriteParameter(file, "SpawnMines       ", BATTLE_Options[index].SpawnMines);
+			WriteParameter(file, "SpawnMines       ",
+						   BATTLE_Options[index].SpawnMines);
 		}
 
-		if ((index != battle_Collector) && (index != battle_Tag) && (index != battle_Eluder))
+		if ((index != battle_Collector) && (index != battle_Tag) &&
+			(index != battle_Eluder))
 		{
 			// Write out Weapon Spawning
-			WriteParameter(file, "SpawnWeapons     ", BATTLE_Options[index].SpawnWeapons);
+			WriteParameter(file, "SpawnWeapons     ",
+						   BATTLE_Options[index].SpawnWeapons);
 
 			// Write out Random Weapons
-			WriteParameter(file, "RandomWeapons    ", BATTLE_Options[index].RandomWeapons);
+			WriteParameter(file, "RandomWeapons    ",
+						   BATTLE_Options[index].RandomWeapons);
 
 			// Write out Weapon Persistence
-			WriteParameter(file, "WeaponPersistence", BATTLE_Options[index].WeaponPersistence);
+			WriteParameter(file, "WeaponPersistence",
+						   BATTLE_Options[index].WeaponPersistence);
 		}
 
-		if ((index == battle_Normal) || (index == battle_ScoreMore) || (index == battle_Hunter) ||
-			(index == battle_Tag))
+		if ((index == battle_Normal) || (index == battle_ScoreMore) ||
+			(index == battle_Hunter) || (index == battle_Tag))
 		{
 			// Write out Friendly Fire
-			WriteParameter(file, "FriendlyFire     ", BATTLE_Options[index].FriendlyFire);
+			WriteParameter(file, "FriendlyFire     ",
+						   BATTLE_Options[index].FriendlyFire);
 		}
 
 		if (index != battle_Eluder)
 		{
 			// Write out Respawn Items
-			WriteParameter(file, "RespawnItems     ", BATTLE_Options[index].RespawnItems);
+			WriteParameter(file, "RespawnItems     ",
+						   BATTLE_Options[index].RespawnItems);
 		}
 
 		// Write out Light Level
-		WriteParameter(file, "LightLevel       ", BATTLE_Options[index].LightLevel);
+		WriteParameter(file, "LightLevel       ",
+					   BATTLE_Options[index].LightLevel);
 
 		if ((index != battle_Collector) && (index != battle_Scavenger))
 		{
 			// Write out Point Goal
-			WriteParameter(file, "PointGoal        ", BATTLE_Options[index].Kills);
+			WriteParameter(file, "PointGoal        ",
+						   BATTLE_Options[index].Kills);
 		}
 
 		if (index != battle_Eluder)
 		{
 			// Write out Danger Damage
-			WriteParameter(file, "DangerDamage     ", BATTLE_Options[index].DangerDamage);
+			WriteParameter(file, "DangerDamage     ",
+						   BATTLE_Options[index].DangerDamage);
 		}
 
 		// Write out TimeLimit
-		WriteParameter(file, "TimeLimit        ", BATTLE_Options[index].TimeLimit);
+		WriteParameter(file, "TimeLimit        ",
+					   BATTLE_Options[index].TimeLimit);
 
 		// Write out RespawnTime
-		WriteParameter(file, "RespawnTime      ", BATTLE_Options[index].RespawnTime);
+		WriteParameter(file, "RespawnTime      ",
+					   BATTLE_Options[index].RespawnTime);
 	}
 
 	close(file);
@@ -1381,7 +1431,8 @@ void WriteSoundConfig(void)
 	}
 
 	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, SoundName, NULL);
-	file = open(filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC, S_IREAD | S_IWRITE);
+	file =
+		open(filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC, S_IREAD | S_IWRITE);
 
 	if (file == -1)
 		Error("Error opening %s: %s", filename, strerror(errno));
@@ -1492,7 +1543,8 @@ void WriteConfig(void)
 	WriteBattleConfig();
 
 	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, ConfigName, NULL);
-	file = open(filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC, S_IREAD | S_IWRITE);
+	file =
+		open(filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC, S_IREAD | S_IWRITE);
 
 	if (file == -1)
 		Error("Error opening %s: %s", filename, strerror(errno));

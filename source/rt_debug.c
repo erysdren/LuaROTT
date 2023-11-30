@@ -163,111 +163,111 @@ enum
 };
 
 CodeStruct Codes[MAXCODES + 6] = {
-	{"KCITSPID", 8}, // enable cheats
-	{"CCE\\", 4},	 // enable cheats
-	{"REKCALS", 7},	 // three keys, more health
-	{"MUB\\", 4},	 // three keys, more health
-	{"NIJOHC", 6},	 // normal god mode
-	{"WWW\\", 4},	 // normal god mode
-	{"OTOG", 4},	 // warp
-	{"LTG\\", 4},	 // warp
-	{"SYOTXIS", 7},	 // all keys, armor, 100% health
-	{"IAG\\", 4},	 // all keys, armor, 100% health
-	{"DASOOT", 6},	 // god mode powerup
-	{"DOG\\", 4},	 // god mode powerup
+	{ "KCITSPID", 8 }, // enable cheats
+	{ "CCE\\", 4 },	   // enable cheats
+	{ "REKCALS", 7 },  // three keys, more health
+	{ "MUB\\", 4 },	   // three keys, more health
+	{ "NIJOHC", 6 },   // normal god mode
+	{ "WWW\\", 4 },	   // normal god mode
+	{ "OTOG", 4 },	   // warp
+	{ "LTG\\", 4 },	   // warp
+	{ "SYOTXIS", 7 },  // all keys, armor, 100% health
+	{ "IAG\\", 4 },	   // all keys, armor, 100% health
+	{ "DASOOT", 6 },   // god mode powerup
+	{ "DOG\\", 4 },	   // god mode powerup
 #if (SHAREWARE == 0)
-	{"FOOW", 4},  // dog mode powerup
-	{"GOD\\", 4}, // dog mode powerup
+	{ "FOOW", 4 },	// dog mode powerup
+	{ "GOD\\", 4 }, // dog mode powerup
 #endif
-	{"YOBYLF", 6},	 // mercury mode powerup
-	{"REM\\", 4},	 // mercury mode powerup
-	{"PIRTDAB", 7},	 // shrooms mode powerup
-	{"RHS\\", 4},	 // shrooms mode powerup
-	{"GNIOB", 5},	 // elasto mode powerup
-	{"ALE\\", 4},	 // elasto mode powerup
-	{"SREBOOG", 7},	 // warp to level 1, start with pistol
-	{"OOG\\", 4},	 // warp to level 1, start with pistol
-	{"KCAHW", 5},	 // hurt player 10%
-	{"FOO\\", 4},	 // hurt player 10%
-	{"DEEPS", 5},	 // run fast all the time
-	{"AFR\\", 4},	 // run fast all the time
-	{"CINAP", 5},	 // back to normal
-	{"NAP\\", 4},	 // back to normal
-	{"NOMID", 5},	 // light diminishing on
-	{"NOD\\", 4},	 // light diminishing on
-	{"FFOMID", 6},	 // light diminishing off
-	{"FOD\\", 4},	 // light diminishing off
-	{"NODNOL", 6},	 // fog on (0x00 - 0x80 minmax)
-	{"NOF\\", 4},	 // fog on (0x00 - 0x80 minmax)
-	{"LONDON", 6},	 // fog off (0x80 - 0xFF minmax)
-	{"FOF\\", 4},	 // fog off (0x80 - 0xFF minmax)
-	{"SETAGOG", 7},	 // blow out of game
-	{"R8L\\", 4},	 // blow out of game
-	{"HCRAOG", 6},	 // end the current level
-	{"LCE\\", 4},	 // end the current level
-	{"683ATOG", 7},	 // floor and ceiling off
-	{"NOC\\", 4},	 // floor and ceiling off
-	{"684ATOG", 7},	 // floor and ceiling on
-	{"FOC\\", 4},	 // floor and ceiling on
-	{"EMTOOHS", 7},	 // bullet proof armor
-	{"RAB\\", 4},	 // bullet proof armor
-	{"EMNRUB", 6},	 // fire proof armor
-	{"RAF\\", 4},	 // fire proof armor
-	{"GNUDGNUL", 8}, // gas mask
-	{"RAG\\", 4},	 // gas mask
-	{"KCAPTNUH", 8}, // all keys, armor, 100% health, MP40, heatseek
-	{"PFO\\", 4},	 // all keys, armor, 100% health, MP40, heatseek
-	{"EM68", 4},	 // kill player
-	{"EID\\", 4},	 // kill player
-	{"REEN", 4},	 // re-enter level
-	{"LER\\", 4},	 // re-enter level
-	{"OOWNHOJ", 7},	 // give double pistol
-	{"2WG\\", 4},	 // give double pistol
-	{"EMGULP", 6},	 // give mp40
-	{"3WG\\", 4},	 // give mp40
-	{"ALLINAV", 7},	 // give bazooka
-	{"4WG\\", 4},	 // give bazooka
-	{"SEMITTOH", 8}, // give heatseeker
-	{"5WG\\", 4},	 // give heatseeker
-	{"EZOOB", 5},	 // give drunk missile
-	{"6WG\\", 4},	 // give drunk missile
-	{"BMOBERIF", 8}, // give firebomb
-	{"7WG\\", 4},	 // give firebomb
-	{"SENOB", 5},	 // give firewall
-	{"8WG\\", 4},	 // give firewall
-	{"AYEES", 5},	 // give god hand
-	{"9WG\\", 4},	 // give god hand
-	{"MIA", 3},		 // give aim bna++
-	{"MIA\\", 4},	 // give aim bna++
+	{ "YOBYLF", 6 },   // mercury mode powerup
+	{ "REM\\", 4 },	   // mercury mode powerup
+	{ "PIRTDAB", 7 },  // shrooms mode powerup
+	{ "RHS\\", 4 },	   // shrooms mode powerup
+	{ "GNIOB", 5 },	   // elasto mode powerup
+	{ "ALE\\", 4 },	   // elasto mode powerup
+	{ "SREBOOG", 7 },  // warp to level 1, start with pistol
+	{ "OOG\\", 4 },	   // warp to level 1, start with pistol
+	{ "KCAHW", 5 },	   // hurt player 10%
+	{ "FOO\\", 4 },	   // hurt player 10%
+	{ "DEEPS", 5 },	   // run fast all the time
+	{ "AFR\\", 4 },	   // run fast all the time
+	{ "CINAP", 5 },	   // back to normal
+	{ "NAP\\", 4 },	   // back to normal
+	{ "NOMID", 5 },	   // light diminishing on
+	{ "NOD\\", 4 },	   // light diminishing on
+	{ "FFOMID", 6 },   // light diminishing off
+	{ "FOD\\", 4 },	   // light diminishing off
+	{ "NODNOL", 6 },   // fog on (0x00 - 0x80 minmax)
+	{ "NOF\\", 4 },	   // fog on (0x00 - 0x80 minmax)
+	{ "LONDON", 6 },   // fog off (0x80 - 0xFF minmax)
+	{ "FOF\\", 4 },	   // fog off (0x80 - 0xFF minmax)
+	{ "SETAGOG", 7 },  // blow out of game
+	{ "R8L\\", 4 },	   // blow out of game
+	{ "HCRAOG", 6 },   // end the current level
+	{ "LCE\\", 4 },	   // end the current level
+	{ "683ATOG", 7 },  // floor and ceiling off
+	{ "NOC\\", 4 },	   // floor and ceiling off
+	{ "684ATOG", 7 },  // floor and ceiling on
+	{ "FOC\\", 4 },	   // floor and ceiling on
+	{ "EMTOOHS", 7 },  // bullet proof armor
+	{ "RAB\\", 4 },	   // bullet proof armor
+	{ "EMNRUB", 6 },   // fire proof armor
+	{ "RAF\\", 4 },	   // fire proof armor
+	{ "GNUDGNUL", 8 }, // gas mask
+	{ "RAG\\", 4 },	   // gas mask
+	{ "KCAPTNUH", 8 }, // all keys, armor, 100% health, MP40, heatseek
+	{ "PFO\\", 4 },	   // all keys, armor, 100% health, MP40, heatseek
+	{ "EM68", 4 },	   // kill player
+	{ "EID\\", 4 },	   // kill player
+	{ "REEN", 4 },	   // re-enter level
+	{ "LER\\", 4 },	   // re-enter level
+	{ "OOWNHOJ", 7 },  // give double pistol
+	{ "2WG\\", 4 },	   // give double pistol
+	{ "EMGULP", 6 },   // give mp40
+	{ "3WG\\", 4 },	   // give mp40
+	{ "ALLINAV", 7 },  // give bazooka
+	{ "4WG\\", 4 },	   // give bazooka
+	{ "SEMITTOH", 8 }, // give heatseeker
+	{ "5WG\\", 4 },	   // give heatseeker
+	{ "EZOOB", 5 },	   // give drunk missile
+	{ "6WG\\", 4 },	   // give drunk missile
+	{ "BMOBERIF", 8 }, // give firebomb
+	{ "7WG\\", 4 },	   // give firebomb
+	{ "SENOB", 5 },	   // give firewall
+	{ "8WG\\", 4 },	   // give firewall
+	{ "AYEES", 5 },	   // give god hand
+	{ "9WG\\", 4 },	   // give god hand
+	{ "MIA", 3 },	   // give aim bna++
+	{ "MIA\\", 4 },	   // give aim bna++
 
 #if (SHAREWARE == 0)
 
-	{"TILPS", 5},		// give split missile
-	{"AWG\\", 4},		// give split missile
-	{"HTAEDFOSEK", 10}, // give kes
-	{"BWG\\", 4},		// give kes
-	{"NUREMOH", 8},		// give bat
-	{"CWG\\", 4},		// give bat
-	{"OJUC", 4},		// give dog weapon
-	{"DWG\\", 4},		// give dog weapon
+	{ "TILPS", 5 },		  // give split missile
+	{ "AWG\\", 4 },		  // give split missile
+	{ "HTAEDFOSEK", 10 }, // give kes
+	{ "BWG\\", 4 },		  // give kes
+	{ "NUREMOH", 8 },	  // give bat
+	{ "CWG\\", 4 },		  // give bat
+	{ "OJUC", 4 },		  // give dog weapon
+	{ "DWG\\", 4 },		  // give dog weapon
 #endif
-	{"EDIR", 4},	// give MISSILE CAM
-	{"MAC\\", 4},	// give Missile Cam
-	{"EREHW", 5},	// turn where am i on/off
-	{"DUH\\", 4},	// give hud
-	{"NUF\\", 4},	// Rotation fun
-	{"DROCER", 6},	// Demo RECORD
-	{"POTS", 4},	// Demo stop recording
-	{"YALP", 4},	// Demo Playback
-	{"GKE\\", 4},	// Engine Killing Gibs
-	{"ORTSEAM", 7}, // JukeBox
-	{"EEL\\", 4},	// JukeBox
-	{"REITRAC", 7}, // Map Cheat
-	{"PAM\\", 4},	// Map Cheat
-	{"UOY\\", 4},	// Secret Message
-	{"EVAH", 4},	// Secret Message
-	{"ON\\", 3},	// Secret Message
-	{"EFIL", 4},	// Secret Message
+	{ "EDIR", 4 },	  // give MISSILE CAM
+	{ "MAC\\", 4 },	  // give Missile Cam
+	{ "EREHW", 5 },	  // turn where am i on/off
+	{ "DUH\\", 4 },	  // give hud
+	{ "NUF\\", 4 },	  // Rotation fun
+	{ "DROCER", 6 },  // Demo RECORD
+	{ "POTS", 4 },	  // Demo stop recording
+	{ "YALP", 4 },	  // Demo Playback
+	{ "GKE\\", 4 },	  // Engine Killing Gibs
+	{ "ORTSEAM", 7 }, // JukeBox
+	{ "EEL\\", 4 },	  // JukeBox
+	{ "REITRAC", 7 }, // Map Cheat
+	{ "PAM\\", 4 },	  // Map Cheat
+	{ "UOY\\", 4 },	  // Secret Message
+	{ "EVAH", 4 },	  // Secret Message
+	{ "ON\\", 3 },	  // Secret Message
+	{ "EFIL", 4 },	  // Secret Message
 
 };
 
@@ -430,7 +430,8 @@ void DoWarp(void)
 	{
 		pic_t *shape;
 		shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1);
-		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape);
+		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32,
+						0, 16, shape);
 		DisableScreenStretch(); // dont strech when we go BACK TO GAME
 		DrawPlayScreen(true);	// repaint ammo and life stat
 		VW_UpdateScreen();		// update screen
@@ -499,7 +500,8 @@ void DoJukeBox(void)
 	{
 		pic_t *shape;
 		shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1);
-		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape);
+		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32,
+						0, 16, shape);
 		DisableScreenStretch(); // dont strech when we go BACK TO GAME
 		DrawPlayScreen(true);	// repaint ammo and life stat
 		VW_UpdateScreen();		// update screen
@@ -1153,7 +1155,8 @@ void CheckCode(int which)
 
 	start = pos;
 
-	while ((toupper(LetterQueue[pos]) == Codes[which].code[num]) && (num < Codes[which].length))
+	while ((toupper(LetterQueue[pos]) == Codes[which].code[num]) &&
+		   (num < Codes[which].length))
 	{
 		pos = (pos - 1) & (MAXLETTERS - 1);
 		num++;

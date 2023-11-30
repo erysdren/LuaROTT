@@ -100,7 +100,9 @@ void SetPlayerLightLevel(void)
 
 	if (lightsource)
 	{
-		lv = (((LightSourceAt(player->x >> 16, player->y >> 16) >> intercept) & 0xf) >> 1);
+		lv = (((LightSourceAt(player->x >> 16, player->y >> 16) >> intercept) &
+			   0xf) >>
+			  1);
 		i = maxshade - (height >> normalshade) - lv;
 		if (i < minshade)
 			i = minshade;
@@ -394,8 +396,9 @@ void ScaleShape(visobj_t *sprite)
 	//   sprite->viewheight<<=1;
 	dc_invscale = sprite->viewheight << ((10 - HEIGHTFRACTION) - size);
 	tx = -p->leftoffset;
-	sprite->viewx =
-		(sprite->viewx << SFRACBITS) - (sprite->viewheight << (SFRACBITS - HEIGHTFRACTION - 1)) + (SFRACUNIT >> 1);
+	sprite->viewx = (sprite->viewx << SFRACBITS) -
+					(sprite->viewheight << (SFRACBITS - HEIGHTFRACTION - 1)) +
+					(SFRACUNIT >> 1);
 	//
 	// calculate edges of the shape
 	//
@@ -413,7 +416,8 @@ void ScaleShape(visobj_t *sprite)
 
 	// dc_iscale=(1<<(16+6+HEIGHTFRACTION+size))/sprite->viewheight;
 	dc_iscale = 0xffffffffu / (unsigned)dc_invscale;
-	dc_texturemid = (((sprite->h1 << size) + p->topoffset) << SFRACBITS); //+(SFRACUNIT>>1);
+	dc_texturemid =
+		(((sprite->h1 << size) + p->topoffset) << SFRACBITS); //+(SFRACUNIT>>1);
 	sprtopoffset = centeryfrac - FixedMul(dc_texturemid, dc_invscale);
 	shadingtable = sprite->colormap;
 
@@ -442,7 +446,8 @@ void ScaleShape(visobj_t *sprite)
 			{
 				if (lastcolumn >= 0)
 				{
-					ScaleMaskedWidePost(((p->collumnofs[lastcolumn]) + shape), (byte *)bufferofs, startx, width);
+					ScaleMaskedWidePost(((p->collumnofs[lastcolumn]) + shape),
+										(byte *)bufferofs, startx, width);
 					width = 1;
 					lastcolumn = -1;
 				}
@@ -458,7 +463,8 @@ void ScaleShape(visobj_t *sprite)
 			{
 				if (lastcolumn >= 0)
 				{
-					ScaleMaskedWidePost(((p->collumnofs[lastcolumn]) + shape), (byte *)bufferofs, startx, width);
+					ScaleMaskedWidePost(((p->collumnofs[lastcolumn]) + shape),
+										(byte *)bufferofs, startx, width);
 					width = 1;
 					startx = x1;
 					lastcolumn = texturecolumn;
@@ -471,7 +477,8 @@ void ScaleShape(visobj_t *sprite)
 			}
 		}
 		if (lastcolumn != -1)
-			ScaleMaskedWidePost(((p->collumnofs[lastcolumn]) + shape), (byte *)bufferofs, startx, width);
+			ScaleMaskedWidePost(((p->collumnofs[lastcolumn]) + shape),
+								(byte *)bufferofs, startx, width);
 	}
 	else
 	{
@@ -487,12 +494,17 @@ void ScaleShape(visobj_t *sprite)
 				frac = startfrac;
 				for (x1 = startx; x1 <= x2; x1 += 2, frac += (dc_iscale << 1))
 				{
-					if ((posts[x1].wallheight > sprite->viewheight) && (posts[x1 + 1].wallheight > sprite->viewheight))
+					if ((posts[x1].wallheight > sprite->viewheight) &&
+						(posts[x1 + 1].wallheight > sprite->viewheight))
 						continue;
 					if (x1 == viewwidth - 1)
-						ScaleMaskedWidePost(((p->collumnofs[frac >> SFRACBITS]) + shape), (byte *)bufferofs, x1, 1);
+						ScaleMaskedWidePost(
+							((p->collumnofs[frac >> SFRACBITS]) + shape),
+							(byte *)bufferofs, x1, 1);
 					else
-						ScaleMaskedWidePost(((p->collumnofs[frac >> SFRACBITS]) + shape), (byte *)bufferofs, x1, 2);
+						ScaleMaskedWidePost(
+							((p->collumnofs[frac >> SFRACBITS]) + shape),
+							(byte *)bufferofs, x1, 2);
 				}
 			}
 		}
@@ -507,7 +519,8 @@ void ScaleShape(visobj_t *sprite)
 				{
 					if (posts[x1].wallheight > sprite->viewheight)
 						continue;
-					ScaleMaskedPost(((p->collumnofs[frac >> SFRACBITS]) + shape), b);
+					ScaleMaskedPost(
+						((p->collumnofs[frac >> SFRACBITS]) + shape), b);
 				}
 			}
 		}
@@ -540,7 +553,8 @@ void ScaleTransparentShape(visobj_t *sprite)
 	size = p->origsize >> 7;
 	dc_invscale = sprite->viewheight << ((10 - HEIGHTFRACTION) - size);
 	tx = -p->leftoffset;
-	sprite->viewx = (sprite->viewx << SFRACBITS) - (sprite->viewheight << (SFRACBITS - HEIGHTFRACTION - 1));
+	sprite->viewx = (sprite->viewx << SFRACBITS) -
+					(sprite->viewheight << (SFRACBITS - HEIGHTFRACTION - 1));
 	//
 	// calculate edges of the shape
 	//
@@ -558,7 +572,8 @@ void ScaleTransparentShape(visobj_t *sprite)
 
 	//   dc_iscale=(1<<(16+6+HEIGHTFRACTION+size))/sprite->viewheight;
 	dc_iscale = 0xffffffffu / (unsigned)dc_invscale;
-	dc_texturemid = (((sprite->h1 << size) + p->topoffset) << SFRACBITS); //+(SFRACUNIT>>1);
+	dc_texturemid =
+		(((sprite->h1 << size) + p->topoffset) << SFRACBITS); //+(SFRACUNIT>>1);
 	sprtopoffset = centeryfrac - FixedMul(dc_texturemid, dc_invscale);
 	shadingtable = sprite->colormap;
 
@@ -583,7 +598,8 @@ void ScaleTransparentShape(visobj_t *sprite)
 		{
 			if (posts[x1].wallheight > sprite->viewheight)
 				continue;
-			ScaleTransparentPost(((p->collumnofs[frac >> SFRACBITS]) + shape), b, sprite->h2);
+			ScaleTransparentPost(((p->collumnofs[frac >> SFRACBITS]) + shape),
+								 b, sprite->h2);
 		}
 	}
 }
@@ -614,8 +630,9 @@ void ScaleSolidShape(visobj_t *sprite)
 	size = p->origsize >> 7;
 	dc_invscale = sprite->viewheight << ((10 - HEIGHTFRACTION) - size);
 	tx = -p->leftoffset;
-	sprite->viewx =
-		(sprite->viewx << SFRACBITS) - (sprite->viewheight << (SFRACBITS - HEIGHTFRACTION - 1)) + (SFRACUNIT >> 1);
+	sprite->viewx = (sprite->viewx << SFRACBITS) -
+					(sprite->viewheight << (SFRACBITS - HEIGHTFRACTION - 1)) +
+					(SFRACUNIT >> 1);
 	//
 	// calculate edges of the shape
 	//
@@ -633,7 +650,8 @@ void ScaleSolidShape(visobj_t *sprite)
 
 	//   dc_iscale=(1<<(16+6+HEIGHTFRACTION+size))/sprite->viewheight;
 	dc_iscale = 0xffffffffu / (unsigned)dc_invscale;
-	dc_texturemid = (((sprite->h1 << size) + p->topoffset) << SFRACBITS); //+(SFRACUNIT>>1);
+	dc_texturemid =
+		(((sprite->h1 << size) + p->topoffset) << SFRACBITS); //+(SFRACUNIT>>1);
 	sprtopoffset = centeryfrac - FixedMul(dc_texturemid, dc_invscale);
 	shadingtable = sprite->colormap;
 
@@ -658,7 +676,8 @@ void ScaleSolidShape(visobj_t *sprite)
 		{
 			if (posts[x1].wallheight > sprite->viewheight)
 				continue;
-			ScaleSolidMaskedPost(sprite->h2, ((p->collumnofs[frac >> SFRACBITS]) + shape), b);
+			ScaleSolidMaskedPost(
+				sprite->h2, ((p->collumnofs[frac >> SFRACBITS]) + shape), b);
 		}
 	}
 }
@@ -707,8 +726,10 @@ void ScaleWeapon(int xoff, int y, int shapenum)
 		return; // off the left side
 
 	dc_iscale = 0xffffffffu / (unsigned)dc_invscale;
-	dc_texturemid = (((p->origsize >> 1) + p->topoffset) << SFRACBITS) + (SFRACUNIT >> 2);
-	sprtopoffset = (centeryclipped << 16) - FixedMul(dc_texturemid, dc_invscale);
+	dc_texturemid =
+		(((p->origsize >> 1) + p->topoffset) << SFRACBITS) + (SFRACUNIT >> 2);
+	sprtopoffset =
+		(centeryclipped << 16) - FixedMul(dc_texturemid, dc_invscale);
 
 	//
 	// store information in a vissprite
@@ -776,7 +797,8 @@ void DrawUnScaledSprite(int x, int y, int shapenum, int shade)
 		return; // off the left side
 
 	dc_iscale = 0x10000;
-	dc_texturemid = (((p->height >> 1) + p->topoffset) << SFRACBITS); //+(SFRACUNIT>>1);
+	dc_texturemid =
+		(((p->height >> 1) + p->topoffset) << SFRACBITS); //+(SFRACUNIT>>1);
 	sprtopoffset = (centeryclipped << 16) - dc_texturemid;
 
 	//
@@ -827,7 +849,8 @@ void DrawScreenSprite(int x, int y, int shapenum)
 =======================
 */
 
-void DrawPositionedScaledSprite(int x, int y, int shapenum, int height, int type)
+void DrawPositionedScaledSprite(int x, int y, int shapenum, int height,
+								int type)
 {
 	byte *shape;
 	int frac;
@@ -845,7 +868,8 @@ void DrawPositionedScaledSprite(int x, int y, int shapenum, int height, int type
 	shadingtable = colormap + (1 << 12);
 	centeryclipped = y;
 	xcent = x;
-	shape = W_CacheLumpNum(shapenum, PU_CACHE, Cvt_patch_t, 1); // was transpatch, fixed
+	shape = W_CacheLumpNum(shapenum, PU_CACHE, Cvt_patch_t,
+						   1); // was transpatch, fixed
 	p = (patch_t *)shape;
 	tp = (transpatch_t *)shape;
 
@@ -868,8 +892,10 @@ void DrawPositionedScaledSprite(int x, int y, int shapenum, int height, int type
 
 	dc_iscale = 0xffffffffu / (unsigned)dc_invscale;
 	//   dc_iscale=(1<<(16+6+size))/height;
-	dc_texturemid = (((32 << size) + p->topoffset) << SFRACBITS) + (SFRACUNIT >> 1);
-	sprtopoffset = (centeryclipped << 16) - FixedMul(dc_texturemid, dc_invscale);
+	dc_texturemid =
+		(((32 << size) + p->topoffset) << SFRACBITS) + (SFRACUNIT >> 1);
+	sprtopoffset =
+		(centeryclipped << 16) - FixedMul(dc_texturemid, dc_invscale);
 
 	//
 	// store information in a vissprite
@@ -894,9 +920,12 @@ void DrawPositionedScaledSprite(int x, int y, int shapenum, int height, int type
 
 		for (x1 = startx; x1 <= x2; x1++, frac += dc_iscale, b++)
 			if (type == 0)
-				ScaleClippedPost(((p->collumnofs[frac >> SFRACBITS]) + shape), b);
+				ScaleClippedPost(((p->collumnofs[frac >> SFRACBITS]) + shape),
+								 b);
 			else
-				ScaleTransparentClippedPost(((tp->collumnofs[frac >> SFRACBITS]) + shape), b, transparentlevel);
+				ScaleTransparentClippedPost(
+					((tp->collumnofs[frac >> SFRACBITS]) + shape), b,
+					transparentlevel);
 	}
 }
 
@@ -950,8 +979,10 @@ void DrawScreenSizedSprite(int lump)
 	}
 
 	dc_iscale = 0xffffffffu / (unsigned)dc_invscale;
-	dc_texturemid = (((p->origsize >> 1) + p->topoffset) << SFRACBITS) + (SFRACUNIT >> 1);
-	sprtopoffset = (centeryclipped << 16) - FixedMul(dc_texturemid, dc_invscale);
+	dc_texturemid =
+		(((p->origsize >> 1) + p->topoffset) << SFRACBITS) + (SFRACUNIT >> 1);
+	sprtopoffset =
+		(centeryclipped << 16) - FixedMul(dc_texturemid, dc_invscale);
 
 	x2 = (viewwidth - 1);
 
@@ -961,7 +992,8 @@ void DrawScreenSizedSprite(int lump)
 		frac = startfrac;
 		b = (byte *)bufferofs;
 
-		/////////////  BNA PATCH //////////////////////////////////////////////////////////
+		/////////////  BNA PATCH
+		/////////////////////////////////////////////////////////////
 		// gmasklump=W_GetNumForName("p_gmask"); //=783
 		// perhaps I should have painted the mask in a seperate buffer
 		// and streched it and copyet it back, but that would demand
@@ -975,20 +1007,25 @@ void DrawScreenSizedSprite(int lump)
 			length = *(src++);
 			topscreen = sprtopoffset + (dc_invscale * offset);
 			bottomscreen = topscreen + (dc_invscale * length);
-			dc_yl = (topscreen + SFRACUNIT - 1) >> SFRACBITS; //=41  viewheight=584
-			dc_yh = ((bottomscreen - 1) >> SFRACBITS);		  //=540      viewwidth =800
+			dc_yl =
+				(topscreen + SFRACUNIT - 1) >> SFRACBITS; //=41  viewheight=584
+			dc_yh =
+				((bottomscreen - 1) >> SFRACBITS); //=540      viewwidth =800
 			// paint upper black patch in gasmask
 			for (cnt = b; cnt < b + viewwidth; cnt++)
 			{
-				for (Ycnt = cnt; Ycnt < cnt + (dc_yl * iGLOBAL_SCREENWIDTH); Ycnt += iGLOBAL_SCREENWIDTH)
+				for (Ycnt = cnt; Ycnt < cnt + (dc_yl * iGLOBAL_SCREENWIDTH);
+					 Ycnt += iGLOBAL_SCREENWIDTH)
 				{
 					*Ycnt = 36;
 				}
 			}
 			// paint lower black patch in gasmask
-			for (cnt = b + (dc_yh * iGLOBAL_SCREENWIDTH); cnt < b + (dc_yh * iGLOBAL_SCREENWIDTH) + viewwidth; cnt++)
+			for (cnt = b + (dc_yh * iGLOBAL_SCREENWIDTH);
+				 cnt < b + (dc_yh * iGLOBAL_SCREENWIDTH) + viewwidth; cnt++)
 			{
-				for (Ycnt = cnt; Ycnt < b + (viewheight * iGLOBAL_SCREENWIDTH); Ycnt += iGLOBAL_SCREENWIDTH)
+				for (Ycnt = cnt; Ycnt < b + (viewheight * iGLOBAL_SCREENWIDTH);
+					 Ycnt += iGLOBAL_SCREENWIDTH)
 				{
 					*Ycnt = 36;
 				}
@@ -1059,10 +1096,14 @@ void DrawNormalSprite(int x, int y, int shapenum)
 	shape = W_CacheLumpNum(shapenum, PU_CACHE, Cvt_patch_t, 1);
 	p = (patch_t *)shape;
 
-	if (((x - p->leftoffset) < 0) || ((x - p->leftoffset + p->width) > iGLOBAL_SCREENWIDTH))
-		Error("DrawNormalSprite: x is out of range x=%d\n", x - p->leftoffset + p->width);
-	if (((y - p->topoffset) < 0) || ((y - p->topoffset + p->height) > iGLOBAL_SCREENHEIGHT))
-		Error("DrawNormalSprite: y is out of range y=%d\n", y - p->topoffset + p->height);
+	if (((x - p->leftoffset) < 0) ||
+		((x - p->leftoffset + p->width) > iGLOBAL_SCREENWIDTH))
+		Error("DrawNormalSprite: x is out of range x=%d\n",
+			  x - p->leftoffset + p->width);
+	if (((y - p->topoffset) < 0) ||
+		((y - p->topoffset + p->height) > iGLOBAL_SCREENHEIGHT))
+		Error("DrawNormalSprite: y is out of range y=%d\n",
+			  y - p->topoffset + p->height);
 
 	startx = x - p->leftoffset;
 	buffer = (byte *)bufferofs + ylookup[y - p->topoffset];

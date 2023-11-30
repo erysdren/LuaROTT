@@ -24,11 +24,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "cin_def.h"
 
 flicevent *SpawnCinematicFlic(char *name, boolean loop, boolean usefile);
-spriteevent *SpawnCinematicSprite(char *name, int duration, int numframes, int framedelay, int x, int y, int scale,
+spriteevent *SpawnCinematicSprite(char *name, int duration, int numframes,
+								  int framedelay, int x, int y, int scale,
 								  int endx, int endy, int endscale);
-backevent *SpawnCinematicBack(char *name, int duration, int width, int startx, int endx, int yoffset);
+backevent *SpawnCinematicBack(char *name, int duration, int width, int startx,
+							  int endx, int yoffset);
 
-backevent *SpawnCinematicMultiBack(char *name, char *name2, int duration, int startx, int endx, int yoffset);
+backevent *SpawnCinematicMultiBack(char *name, char *name2, int duration,
+								   int startx, int endx, int yoffset);
 paletteevent *SpawnCinematicPalette(char *name);
 void DrawFlic(flicevent *flic);
 void DrawCinematicBackdrop(backevent *back);

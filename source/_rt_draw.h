@@ -69,6 +69,7 @@ boolean TransformPlane(int x1, int y1, int x2, int y2, visobj_t *plane);
 int CalcRotate(objtype *ob);
 void DrawScaleds(void);
 void FixOfs(void);
-void SetSpriteLightLevel(int x, int y, visobj_t *sprite, int dir, int fullbright);
+void SetSpriteLightLevel(int x, int y, visobj_t *sprite, int dir,
+						 int fullbright);
 
 #endif

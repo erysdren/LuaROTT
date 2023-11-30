@@ -72,7 +72,8 @@ flicevent *SpawnCinematicFlic(char *name, boolean loop, boolean usefile)
 ===============
 */
 
-spriteevent *SpawnCinematicSprite(char *name, int duration, int numframes, int framedelay, int x, int y, int scale,
+spriteevent *SpawnCinematicSprite(char *name, int duration, int numframes,
+								  int framedelay, int x, int y, int scale,
 								  int endx, int endy, int endscale)
 {
 	spriteevent *sprite;
@@ -114,7 +115,8 @@ spriteevent *SpawnCinematicSprite(char *name, int duration, int numframes, int f
 ===============
 */
 
-backevent *SpawnCinematicBack(char *name, int duration, int width, int startx, int endx, int yoffset)
+backevent *SpawnCinematicBack(char *name, int duration, int width, int startx,
+							  int endx, int yoffset)
 {
 	backevent *back;
 
@@ -143,7 +145,8 @@ backevent *SpawnCinematicBack(char *name, int duration, int width, int startx, i
 ===============
 */
 
-backevent *SpawnCinematicMultiBack(char *name, char *name2, int duration, int startx, int endx, int yoffset)
+backevent *SpawnCinematicMultiBack(char *name, char *name2, int duration,
+								   int startx, int endx, int yoffset)
 {
 	backevent *back;
 	lpic_t *pic1;
@@ -174,7 +177,8 @@ backevent *SpawnCinematicMultiBack(char *name, char *name2, int duration, int st
 	back->height = pic1->height;
 	back->data = SafeMalloc(back->backdropwidth * back->height);
 	memcpy(back->data, &(pic1->data), pic1->width * pic1->height);
-	memcpy(back->data + (pic1->width * pic1->height), &(pic2->data), pic2->width * pic2->height);
+	memcpy(back->data + (pic1->width * pic1->height), &(pic2->data),
+		   pic2->width * pic2->height);
 	return back;
 }
 
@@ -330,9 +334,11 @@ void DrawCinematicBackground(backevent *back)
 		for (i = 0; i < iGLOBAL_SCREENWIDTH; i++, offset++, buf++)
 		{
 			if (offset >= back->backdropwidth)
-				src = &(pic->data) + ((offset - back->backdropwidth) * (pic->height));
+				src = &(pic->data) +
+					  ((offset - back->backdropwidth) * (pic->height));
 			else if (offset < 0)
-				src = &(pic->data) + ((offset + back->backdropwidth) * (pic->height));
+				src = &(pic->data) +
+					  ((offset + back->backdropwidth) * (pic->height));
 			else
 				src = &(pic->data) + (offset * (pic->height));
 			DrawFilmPost(buf, src, height);
@@ -370,9 +376,11 @@ void DrawCinematicMultiBackground(backevent *back)
 		for (i = 0; i < iGLOBAL_SCREENWIDTH; i++, offset++, buf++)
 		{
 			if (offset >= back->backdropwidth)
-				src = back->data + ((offset - back->backdropwidth) * (back->height));
+				src = back->data +
+					  ((offset - back->backdropwidth) * (back->height));
 			else if (offset < 0)
-				src = back->data + ((offset + back->backdropwidth) * (back->height));
+				src = back->data +
+					  ((offset + back->backdropwidth) * (back->height));
 			else
 				src = back->data + (offset * (back->height));
 			DrawFilmPost(buf, src, height);
@@ -422,7 +430,8 @@ void DrawCinematicBackdrop(backevent *back)
 			for (; postoffset != 255;)
 			{
 				postlength = *(src++);
-				DrawFilmPost(buf + ylookup[toppost + postoffset], src, postlength);
+				DrawFilmPost(buf + ylookup[toppost + postoffset], src,
+							 postlength);
 				src += postlength;
 				postoffset = *(src++);
 			}
@@ -465,14 +474,16 @@ void DrawCinematicSprite(spriteevent *sprite)
 	if (height < 2)
 		return;
 
-	shape = W_CacheLumpNum(W_GetNumForName(sprite->name) + sprite->frame, PU_CACHE, Cvt_patch_t, 1);
+	shape = W_CacheLumpNum(W_GetNumForName(sprite->name) + sprite->frame,
+						   PU_CACHE, Cvt_patch_t, 1);
 	p = (patch_t *)shape;
 
 	cin_ycenter = sprite->y >> FRACTIONBITS;
 	cin_invscale = (height << FRACTIONBITS) / p->origsize;
 	buf = (byte *)bufferofs;
 	tx = -p->leftoffset;
-	xcent = (sprite->x & 0xffff0000) - (height << (FRACTIONBITS - 1)) + (FRACTIONUNIT >> 1);
+	xcent = (sprite->x & 0xffff0000) - (height << (FRACTIONBITS - 1)) +
+			(FRACTIONUNIT >> 1);
 
 	//
 	// calculate edges of the shape
@@ -496,12 +507,15 @@ void DrawCinematicSprite(spriteevent *sprite)
 		frac = 0;
 	x2 = x2 >= iGLOBAL_SCREENWIDTH ? (iGLOBAL_SCREENWIDTH - 1) : x2;
 
-	cin_texturemid = (((p->origsize >> 1) + p->topoffset) << FRACTIONBITS) + (FRACTIONUNIT >> 1);
-	cin_sprtopoffset = (cin_ycenter << 16) - FixedMul(cin_texturemid, cin_invscale);
+	cin_texturemid = (((p->origsize >> 1) + p->topoffset) << FRACTIONBITS) +
+					 (FRACTIONUNIT >> 1);
+	cin_sprtopoffset =
+		(cin_ycenter << 16) - FixedMul(cin_texturemid, cin_invscale);
 
 	for (; x1 <= x2; x1++, frac += cin_iscale)
 	{
-		ScaleFilmPost(((p->collumnofs[frac >> FRACTIONBITS]) + shape), buf + x1);
+		ScaleFilmPost(((p->collumnofs[frac >> FRACTIONBITS]) + shape),
+					  buf + x1);
 	}
 }
 
@@ -518,7 +532,8 @@ void PrecacheCinematicSprite(spriteevent *sprite)
 
 	for (i = 0; i < sprite->numframes; i++)
 	{
-		W_CacheLumpNum(W_GetNumForName(sprite->name) + i, PU_CACHE, Cvt_patch_t, 1);
+		W_CacheLumpNum(W_GetNumForName(sprite->name) + i, PU_CACHE, Cvt_patch_t,
+					   1);
 	}
 }
 

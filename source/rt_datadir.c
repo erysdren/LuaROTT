@@ -83,7 +83,7 @@ char *GetPrefDir(void)
 char *datadir = NULL;
 
 #define MAX_DATADIRS 16
-static char *datadirs[MAX_DATADIRS] = {0};
+static char *datadirs[MAX_DATADIRS] = { 0 };
 static int num_datadirs = 0;
 
 static void AddDataDir(char *dir)

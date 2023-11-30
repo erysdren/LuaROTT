@@ -203,8 +203,9 @@ void CP_BattleModes(void);
 void CP_ModemGameMessage(int player);
 void ShowBattleOptions(boolean inmenu, int PosX, int PosY);
 void SetMenuHeader(char *header);
-int HandleMultiPageCustomMenu(char **names, int amount, int curpos, char *title, void (*routine)(int w),
-							  void (*redrawfunc)(void), boolean exitonselect);
+int HandleMultiPageCustomMenu(char **names, int amount, int curpos, char *title,
+							  void (*routine)(int w), void (*redrawfunc)(void),
+							  boolean exitonselect);
 int CP_LevelSelectionMenu(void);
 int CP_EnterCodeNameMenu(void);
 void QuickSaveGame(void);

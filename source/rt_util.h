@@ -94,7 +94,8 @@ void UL_DisplayMemoryError(int memneeded);
 
 int SideOfLine(int x1, int y1, int x2, int y2, int x3, int y3);
 
-void hsort(char *base, int nel, int width, int (*compare)(), void (*switcher)());
+void hsort(char *base, int nel, int width, int (*compare)(),
+		   void (*switcher)());
 
 char *UL_GetPath(char *path, char *dir);
 boolean UL_ChangeDirectory(char *path);
@@ -122,11 +123,11 @@ void SoftwareError(char *error, ...) __attribute__((format(printf, 1, 2)));
 void SoftwareError(char *error, ...) __attribute__((format(printf, 1, 2)));
 // #define SoftError  SoftwareError
 
-#define SoftError                                                                                                      \
-	if (1)                                                                                                             \
-	{                                                                                                                  \
-	}                                                                                                                  \
-	else                                                                                                               \
+#define SoftError \
+	if (1) \
+	{ \
+	} \
+	else \
 		SoftwareError
 
 // #define SoftError

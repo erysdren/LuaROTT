@@ -188,7 +188,8 @@ int main(int argc, char *argv[])
 
 		datadir = M_DirName(BATTMAPS);
 
-		filename = M_StringJoin(datadir, PATH_SEP_STR, STANDARDGAMELEVELS, NULL);
+		filename =
+			M_StringJoin(datadir, PATH_SEP_STR, STANDARDGAMELEVELS, NULL);
 		ROTTMAPS = M_FileCaseExists(filename);
 
 		if (!ROTTMAPS)
@@ -250,12 +251,16 @@ int main(int argc, char *argv[])
 		}
 		else if (IS8250)
 		{
-			printf("==============================================================================\n");
+			printf("==========================================================="
+				   "===================\n");
 			printf("WARNING: 8250 detected.\n");
-			printf("Music has been disabled.  This is necessary to maintain high interrupt\n");
-			printf("rates with the 8250 UART which will improve overall game performance.\n");
+			printf("Music has been disabled.  This is necessary to maintain "
+				   "high interrupt\n");
+			printf("rates with the 8250 UART which will improve overall game "
+				   "performance.\n");
 			printf("                      < Press any key to continue >\n");
-			printf("==============================================================================\n");
+			printf("==========================================================="
+				   "===================\n");
 			getch();
 		}
 
@@ -350,7 +355,8 @@ int main(int argc, char *argv[])
 			{
 				lbm_t *LBM;
 
-				LBM = (lbm_t *)W_CacheLumpName("svendor", PU_CACHE, Cvt_lbm_t, 1);
+				LBM =
+					(lbm_t *)W_CacheLumpName("svendor", PU_CACHE, Cvt_lbm_t, 1);
 				VL_DecompressLBM(LBM, true);
 				I_Delay(40);
 				MenuFadeOut();
@@ -433,10 +439,13 @@ void DrawRottTitle(void)
 
 void CheckCommandLineParameters(void)
 {
-	char *PStrings[] = {"TEDLEVEL",		"NOWAIT",	  "NOSOUND",  "NOW",	   "TRANSPORT", "DOPEFISH",
-						"SCREENSHOTS",	"MONO",		  "MAPSTATS", "TILESTATS", "VER",		"net",
-						"PAUSE",		"SOUNDSETUP", "WARP",	  "IS8250",	   "ENABLEVR",	"TIMELIMIT",
-						"MAXTIMELIMIT", "NOECHO",	  "DEMOEXIT", "QUIET",	   NULL};
+	char *PStrings[] = {
+		"TEDLEVEL", "NOWAIT",	   "NOSOUND",	"NOW",			"TRANSPORT",
+		"DOPEFISH", "SCREENSHOTS", "MONO",		"MAPSTATS",		"TILESTATS",
+		"VER",		"net",		   "PAUSE",		"SOUNDSETUP",	"WARP",
+		"IS8250",	"ENABLEVR",	   "TIMELIMIT", "MAXTIMELIMIT", "NOECHO",
+		"DEMOEXIT", "QUIET",	   NULL
+	};
 	int i, n;
 
 	infopause = false;
@@ -464,7 +473,8 @@ void CheckCommandLineParameters(void)
 	noecho = false;
 	quiet = false;
 
-	if ((CheckParm("?\0")) || (CheckParm("HELP")) || ((_argc > 1) && (_argv[1][0] == '?')))
+	if ((CheckParm("?\0")) || (CheckParm("HELP")) ||
+		((_argc > 1) && (_argv[1][0] == '?')))
 	{
 		SetTextMode();
 		printf("Rise of the Triad  (c) 1995 Apogee Software\n\n");
@@ -473,7 +483,8 @@ void CheckCommandLineParameters(void)
 		printf("   FULLSCREEN - Start in fullscreen mode\n");
 		printf("   WINDOW     - Start in windowed mode\n");
 		printf("   RESOLUTION - Specify the screen resolution to use\n");
-		printf("              - next param is <widthxheight>, valid resolutions are:\n");
+		printf("              - next param is <widthxheight>, valid "
+			   "resolutions are:\n");
 		printf("              - 320x200 and 640x480\n");
 #if (SHAREWARE == 0)
 		printf("   FILERTL    - used to load Userlevels (RTL files)\n");
@@ -695,7 +706,7 @@ void SetupWads(void)
 	char *newargs[99];
 	int i, arg, argnum = 0;
 	char *tempstr = NULL, *filename;
-	char *PStrings[] = {"AIM", "FULLSCREEN", "WINDOW", "RESOLUTION", NULL};
+	char *PStrings[] = { "AIM", "FULLSCREEN", "WINDOW", "RESOLUTION", NULL };
 
 	// These must be checked here so that they can override the cfg file
 	for (i = 1; i < _argc; i++)
@@ -718,7 +729,8 @@ void SetupWads(void)
 				{
 					int width, height;
 					if ((sscanf(_argv[i], "%dx%d", &width, &height) == 2) &&
-						(((width == 320) && (height == 200)) || ((width == 640) && (height == 480))))
+						(((width == 320) && (height == 200)) ||
+						 ((width == 640) && (height == 480))))
 					{
 						iGLOBAL_SCREENWIDTH = width;
 						iGLOBAL_SCREENHEIGHT = height;
@@ -758,7 +770,8 @@ void SetupWads(void)
 				}
 				if ((f = fopen(tempstr, "r")) == NULL)
 				{ // try opnong file
-					strcat(tempstr, " not could not be opened, skipping RTL file ");
+					strcat(tempstr,
+						   " not could not be opened, skipping RTL file ");
 					printf("%s", tempstr);
 					goto NoRTL;
 				}
@@ -810,7 +823,8 @@ NoRTL:;
 				}
 				if ((f = fopen(tempstr, "r")) == NULL)
 				{ // try opening file
-					strcat(tempstr, " not could not be opened, skipping RTC file ");
+					strcat(tempstr,
+						   " not could not be opened, skipping RTC file ");
 					printf("%s", tempstr);
 					goto NoRTC;
 				}
@@ -858,7 +872,8 @@ NoRTC:;
 	}
 
 #else
-	if ((CheckParm("file") > 0) || (CheckParm("file1") > 0) || (CheckParm("file2") > 0))
+	if ((CheckParm("file") > 0) || (CheckParm("file1") > 0) ||
+		(CheckParm("file2") > 0))
 		printf("External wads ignored.\n");
 
 #endif
@@ -881,7 +896,8 @@ NoRTC:;
 	{
 		char *src;
 
-		tempstr = safe_realloc(tempstr, strlen(RemoteSounds.path) + strlen(RemoteSounds.file) + 2);
+		tempstr = safe_realloc(tempstr, strlen(RemoteSounds.path) +
+											strlen(RemoteSounds.file) + 2);
 		strcpy(tempstr, RemoteSounds.path);
 		src = RemoteSounds.path + strlen(RemoteSounds.path) - 1;
 		if (*src != '\\')
@@ -948,15 +964,18 @@ void Init_Tables(void)
 		*(origpal + (unsigned int)i) = (*(origpal + (unsigned int)i)) >> 2;
 
 	// Cache in fonts
-	shape = W_CacheLumpNum(W_GetNumForName("smallfont"), PU_STATIC, Cvt_font_t, 1);
+	shape =
+		W_CacheLumpNum(W_GetNumForName("smallfont"), PU_STATIC, Cvt_font_t, 1);
 	smallfont = (font_t *)shape;
 	CurrentFont = smallfont;
 
 	// Cache in tiny font
-	shape = W_CacheLumpNum(W_GetNumForName("tinyfont"), PU_STATIC, Cvt_font_t, 1);
+	shape =
+		W_CacheLumpNum(W_GetNumForName("tinyfont"), PU_STATIC, Cvt_font_t, 1);
 	tinyfont = (font_t *)shape;
 
-	intensitytable = W_CacheLumpNum(W_GetNumForName("menucmap"), PU_STATIC, CvtNull, 1);
+	intensitytable =
+		W_CacheLumpNum(W_GetNumForName("menucmap"), PU_STATIC, CvtNull, 1);
 	fontcolor = egacolor[4];
 
 	if (!quiet)
@@ -1010,7 +1029,8 @@ void GameLoop(void)
 
 			SD_Play(SD_LEVELDONESND);
 
-			if ((player->flags & FL_DOGMODE) || (gamestate.battlemode == battle_Eluder))
+			if ((player->flags & FL_DOGMODE) ||
+				(gamestate.battlemode == battle_Eluder))
 				MU_StartSong(song_dogend);
 			else
 				MU_StartSong(song_endlevel);
@@ -1084,7 +1104,8 @@ void GameLoop(void)
 						SD_Play(SD_ACTORSQUISHSND);
 						tempbuf = bufferofs;
 						bufferofs = page1start; // fixed, was displayofs
-						DrawNormalSprite(320 - 94, 200 - 41, W_GetNumForName("rsac"));
+						DrawNormalSprite(320 - 94, 200 - 41,
+										 W_GetNumForName("rsac"));
 						VW_UpdateScreen(); // fixed, was missing
 						bufferofs = tempbuf;
 						I_Delay(30);
@@ -1103,7 +1124,8 @@ void GameLoop(void)
 							DoMicroStoryScreen();
 						}
 #endif
-						if ((!LastScan) && (!IN_GetMouseButtons()) && (GameLevels.avail == false))
+						if ((!LastScan) && (!IN_GetMouseButtons()) &&
+							(GameLevels.avail == false))
 						{
 							if (demonumber == -1)
 								demonumber = RandomNumber("GameLoop", 0);
@@ -1164,9 +1186,11 @@ void GameLoop(void)
 
 					if (gamestate.Version < ROTTVERSION)
 					{
-						Error("This version of Rise of the Triad (%d.%d) is incompatible with\n"
+						Error("This version of Rise of the Triad (%d.%d) is "
+							  "incompatible with\n"
 							  "version %d.%d.",
-							  ROTTMAJORVERSION, ROTTMINORVERSION, gamestate.Version / 10, gamestate.Version % 10);
+							  ROTTMAJORVERSION, ROTTMINORVERSION,
+							  gamestate.Version / 10, gamestate.Version % 10);
 					}
 					if (gamestate.teamplay)
 					{
@@ -1265,7 +1289,8 @@ void GameLoop(void)
 				{
 					ShutdownClientControls();
 
-					Z_FreeTags(PU_LEVELSTRUCT, PU_LEVELEND); // Free current level
+					Z_FreeTags(PU_LEVELSTRUCT,
+							   PU_LEVELEND); // Free current level
 
 					if (CheckForQuickLoad() == false)
 					{
@@ -1273,11 +1298,13 @@ void GameLoop(void)
 						{
 							if (timelimitenabled == false)
 							{
-								CheckHighScore(gamestate.score, gamestate.mapon + 1, false);
+								CheckHighScore(gamestate.score,
+											   gamestate.mapon + 1, false);
 								playstate = ex_titles;
 								AdjustMenuStruct();
 								ingame = false;
-								locplayerstate->health = MaxHitpointsForCharacter(locplayerstate);
+								locplayerstate->health =
+									MaxHitpointsForCharacter(locplayerstate);
 								gamestate.score = 0;
 								locplayerstate->lives = 3;
 								locplayerstate->weapon = wp_pistol;
@@ -1341,7 +1368,8 @@ void GameLoop(void)
 					char str[50];
 					int width, height;
 
-					LBM = (lbm_t *)W_CacheLumpName("deadboss", PU_CACHE, Cvt_lbm_t, 1);
+					LBM = (lbm_t *)W_CacheLumpName("deadboss", PU_CACHE,
+												   Cvt_lbm_t, 1);
 					VL_DecompressLBM(LBM, false);
 					MenuFadeOut();
 					switch (gamestate.mapon)
@@ -1359,12 +1387,14 @@ void GameLoop(void)
 							shape = W_GetNumForName("deadtom");
 							break;
 							//                  default:
-							//                     Error("Boss died on an illegal level\n");
-							//                     break;
+							//                     Error("Boss died on an
+							//                     illegal level\n"); break;
 					}
 					s = W_CacheLumpNum(shape, PU_CACHE, Cvt_patch_t, 1);
 					p = (patch_t *)s;
-					DrawNormalSprite((320 - p->origsize) >> 1, (230 - (p->height - p->topoffset)) >> 1, shape);
+					DrawNormalSprite((320 - p->origsize) >> 1,
+									 (230 - (p->height - p->topoffset)) >> 1,
+									 shape);
 					switch (gamestate.mapon)
 					{
 						case 6:
@@ -1380,8 +1410,8 @@ void GameLoop(void)
 							strcpy(&str[0], "El Oscuro");
 							break;
 							//                  default:
-							//                     Error("Boss died on an illegal level\n");
-							//                     break;
+							//                     Error("Boss died on an
+							//                     illegal level\n"); break;
 					}
 					CurrentFont = smallfont;
 					US_MeasureStr(&width, &height, "%s", str);
@@ -1629,8 +1659,8 @@ void UpdateGameObjects(void)
 		TriggerStuff();
 		CheckCriticalStatics();
 		for (j = 0; j < numclocks; j++)
-			if (Clocks[j].time1 &&
-				((gamestate.TimeCount == Clocks[j].time1) || (gamestate.TimeCount == Clocks[j].time2)))
+			if (Clocks[j].time1 && ((gamestate.TimeCount == Clocks[j].time1) ||
+									(gamestate.TimeCount == Clocks[j].time2)))
 				TRIGGER[Clocks[j].linkindex] = 1;
 		for (ob = firstactive; ob;)
 		{
@@ -1713,8 +1743,10 @@ void PauseLoop(void)
 			if ((playstate == ex_stillplaying) && (iGLOBAL_SCREENWIDTH > 320))
 			{
 				pic_t *shape;
-				shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1);
-				DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape);
+				shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE,
+												 Cvt_pic_t, 1);
+				DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH,
+								iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape);
 				DisableScreenStretch(); // dont strech when we go BACK TO GAME
 				DrawPlayScreen(true);	// repaint ammo and life stat
 				VW_UpdateScreen();		// update screen
@@ -1729,7 +1761,8 @@ void PauseLoop(void)
 	if (demoplayback == false)
 		PollControls();
 
-	if ((RefreshPause == true) && (GamePaused == true) && ((GetTicCount() - pausedstartedticcount) >= blanktime))
+	if ((RefreshPause == true) && (GamePaused == true) &&
+		((GetTicCount() - pausedstartedticcount) >= blanktime))
 	{
 		RefreshPause = false;
 		StartupScreenSaver();
@@ -1901,12 +1934,14 @@ fromloadedgame:
 				goto fromloadedgame;
 			}
 
-			if ((playstate == ex_stillplaying) && ((fizzlein == false) || (GamePaused)))
+			if ((playstate == ex_stillplaying) &&
+				((fizzlein == false) || (GamePaused)))
 			{
 				StartupClientControls();
 			}
 
-			if ((playstate == ex_stillplaying) && (GamePaused == false) && (escaped == true))
+			if ((playstate == ex_stillplaying) && (GamePaused == false) &&
+				(escaped == true))
 			{
 				MU_StartSong(song_level);
 				MU_RestoreSongPosition();
@@ -2363,7 +2398,7 @@ void PollKeyboard(void)
 void SaveScreen(boolean inhmenu)
 {
 	static int shot;
-	char filename[16] = {0};
+	char filename[16] = { 0 };
 	int tries = 10000;
 	char *screenshotname = NULL;
 	const boolean oldHUD = HUD;
@@ -2440,7 +2475,8 @@ void PlayCinematic(void)
 			DrawNormalSprite(0, 30, W_GetNumForName("nicolas"));
 			DrawNormalSprite(0, 168, W_GetNumForName("oneyear"));
 			FlipPage();
-			memcpy(&pal[0], W_CacheLumpName("nicpal", PU_CACHE, CvtNull, 1), 768);
+			memcpy(&pal[0], W_CacheLumpName("nicpal", PU_CACHE, CvtNull, 1),
+				   768);
 			VL_NormalizePalette(&pal[0]);
 			VL_FadeIn(0, 255, pal, 20);
 			I_Delay(60);
@@ -2473,7 +2509,8 @@ void PlayCinematic(void)
 				return;
 			}
 			SD_Play(SD_HIGHGUARD1SEESND);
-			DoInBetweenCinematic(20, W_GetNumForName("boatgard"), 80, "\"The intruders, on that hill!\"");
+			DoInBetweenCinematic(20, W_GetNumForName("boatgard"), 80,
+								 "\"The intruders, on that hill!\"");
 			IN_UpdateKeyboard();
 			if (LastScan != 0)
 			{

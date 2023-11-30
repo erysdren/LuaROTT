@@ -12,4 +12,7 @@ UseTab: Always
 IndentWidth: 4
 TabWidth: 4
 SortIncludes: false
+AlignEscapedNewlines: DontAlign
+ColumnLimit: 80
+Cpp11BracedListStyle: false
 ---

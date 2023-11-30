@@ -148,9 +148,9 @@ typedef struct
 	int height;
 } ROTTCHARS;
 
-#define M_LINKSTATE(x, y)                                                                                              \
-	{                                                                                                                  \
-		y = &PLAYERSTATE[x->dirchoosetime];                                                                            \
+#define M_LINKSTATE(x, y) \
+	{ \
+		y = &PLAYERSTATE[x->dirchoosetime]; \
 	}
 
 extern williamdidthis DOGSCRATCH;

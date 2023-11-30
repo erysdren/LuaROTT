@@ -281,7 +281,8 @@ void DrawCinematicActors(void)
 #if DUMP
 				printf("drawing type=%ld\n", actor->effecttype);
 #endif
-				if (DrawCinematicEffect(actor->effecttype, actor->effect) == false)
+				if (DrawCinematicEffect(actor->effecttype, actor->effect) ==
+					false)
 				{
 					DeleteCinematicActor(actor);
 				}

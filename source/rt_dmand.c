@@ -202,7 +202,8 @@ void SD_UpdateRecordingSound(char *ptr, int length)
 		ptr += amount;
 		amount = length - amount;
 		memcpy(&RecordingBuffer[RecordingPointer], ptr, amount);
-		RecordingPointer = (RecordingPointer + amount) & (RECORDINGBUFFERSIZE - 1);
+		RecordingPointer =
+			(RecordingPointer + amount) & (RECORDINGBUFFERSIZE - 1);
 	}
 	whereami = 72;
 	if (Feeder == false)

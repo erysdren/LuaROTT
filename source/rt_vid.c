@@ -125,7 +125,8 @@ void VL_MemStrechedToScreen(byte *source, int width, int height, int x, int y)
 	{
 		for (j = 0; j < height; j++)
 		{
-			destline = (byte *)(bufferofs + (iGLOBAL_SCREENWIDTH * j) + ylookup[y + j] + x);
+			destline = (byte *)(bufferofs + (iGLOBAL_SCREENWIDTH * j) +
+								ylookup[y + j] + x);
 			o = ptr;
 			for (i = 0; i < width; i += 1)
 			{
@@ -135,7 +136,8 @@ void VL_MemStrechedToScreen(byte *source, int width, int height, int x, int y)
 			}
 			ptr = o;
 
-			destline = (byte *)(bufferofs + iGLOBAL_SCREENWIDTH + (iGLOBAL_SCREENWIDTH * j) + ylookup[y + j] + x);
+			destline = (byte *)(bufferofs + iGLOBAL_SCREENWIDTH +
+								(iGLOBAL_SCREENWIDTH * j) + ylookup[y + j] + x);
 			for (i = 0; i < width; i += 1)
 			{
 				*(destline + i * 4 + plane) = *ptr;
@@ -153,7 +155,8 @@ void VL_MemStrechedToScreen(byte *source, int width, int height, int x, int y)
 // DrawTiledRegion () - Fills the specified region with a tiled image
 //
 //*************************************************************************
-void DrawTiledRegion(int x, int y, int width, int height, int offx, int offy, pic_t *tile)
+void DrawTiledRegion(int x, int y, int width, int height, int offx, int offy,
+					 pic_t *tile)
 
 {
 	byte *source;
@@ -240,7 +243,8 @@ void DrawTiledRegion(int x, int y, int width, int height, int offx, int offy, pi
 void VWB_DrawPic(int x, int y, pic_t *pic)
 {
 	if (((iGLOBAL_SCREENWIDTH > 320) && !StretchScreen) ||
-		VW_MarkUpdateBlock(x, y, x + (pic->width << 2) - 1, y + (pic->height) - 1))
+		VW_MarkUpdateBlock(x, y, x + (pic->width << 2) - 1,
+						   y + (pic->height) - 1))
 		VL_MemToScreen((byte *)&pic->data, pic->width, pic->height, x, y);
 }
 
@@ -270,7 +274,8 @@ void VL_Bar(int x, int y, int width, int height, int color)
 
 void VWB_Bar(int x, int y, int width, int height, int color)
 {
-	if (((iGLOBAL_SCREENWIDTH > 320) && !StretchScreen) || VW_MarkUpdateBlock(x, y, x + width, y + height - 1))
+	if (((iGLOBAL_SCREENWIDTH > 320) && !StretchScreen) ||
+		VW_MarkUpdateBlock(x, y, x + width, y + height - 1))
 		VL_Bar(x, y, width, height, color);
 }
 
@@ -806,7 +811,8 @@ void SetBorderColor(int color)
 	// paint top red line
 	for (cnt = b; cnt < b + viewwidth; cnt++)
 	{
-		for (Ycnt = cnt; Ycnt < cnt + (5 * iGLOBAL_SCREENWIDTH); Ycnt += iGLOBAL_SCREENWIDTH)
+		for (Ycnt = cnt; Ycnt < cnt + (5 * iGLOBAL_SCREENWIDTH);
+			 Ycnt += iGLOBAL_SCREENWIDTH)
 		{
 			*Ycnt = color;
 		}
@@ -814,7 +820,8 @@ void SetBorderColor(int color)
 	// paint left red line
 	for (cnt = b; cnt < b + 5; cnt++)
 	{
-		for (Ycnt = cnt; Ycnt < cnt + (viewheight * iGLOBAL_SCREENWIDTH); Ycnt += iGLOBAL_SCREENWIDTH)
+		for (Ycnt = cnt; Ycnt < cnt + (viewheight * iGLOBAL_SCREENWIDTH);
+			 Ycnt += iGLOBAL_SCREENWIDTH)
 		{
 			*Ycnt = color;
 		}
@@ -822,7 +829,8 @@ void SetBorderColor(int color)
 	// paint right red line
 	for (cnt = b + (viewwidth - 5); cnt < b + viewwidth; cnt++)
 	{
-		for (Ycnt = cnt; Ycnt < cnt + (viewheight * iGLOBAL_SCREENWIDTH); Ycnt += iGLOBAL_SCREENWIDTH)
+		for (Ycnt = cnt; Ycnt < cnt + (viewheight * iGLOBAL_SCREENWIDTH);
+			 Ycnt += iGLOBAL_SCREENWIDTH)
 		{
 			*Ycnt = color;
 		}
@@ -831,7 +839,8 @@ void SetBorderColor(int color)
 	for (cnt = b + ((viewheight - 5) * iGLOBAL_SCREENWIDTH);
 		 cnt < b + ((viewheight - 5) * iGLOBAL_SCREENWIDTH) + viewwidth; cnt++)
 	{
-		for (Ycnt = cnt; Ycnt < b + (viewheight * iGLOBAL_SCREENWIDTH); Ycnt += iGLOBAL_SCREENWIDTH)
+		for (Ycnt = cnt; Ycnt < b + (viewheight * iGLOBAL_SCREENWIDTH);
+			 Ycnt += iGLOBAL_SCREENWIDTH)
 		{
 			*Ycnt = color;
 		}

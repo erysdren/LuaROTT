@@ -61,18 +61,20 @@ static boolean MapDebugStarted = false;
 
 extern SDL_Surface *VL_GetVideoSurface(void);
 
-static unsigned char egargb[48] = {0x00, 0x00, 0x00, 0x00, 0x00, 0xab, 0x00, 0xab, 0x00, 0x00, 0xab, 0xab,
-								   0xab, 0x00, 0x00, 0xab, 0x00, 0xab, 0xab, 0x57, 0x00, 0xab, 0xab, 0xab,
-								   0x57, 0x57, 0x57, 0x57, 0x57, 0xff, 0x57, 0xff, 0x57, 0x57, 0xff, 0xff,
-								   0xff, 0x57, 0x57, 0xff, 0x57, 0xff, 0xff, 0xff, 0x57, 0xff, 0xff, 0xff};
+static unsigned char egargb[48] = {
+	0x00, 0x00, 0x00, 0x00, 0x00, 0xab, 0x00, 0xab, 0x00, 0x00, 0xab, 0xab,
+	0xab, 0x00, 0x00, 0xab, 0x00, 0xab, 0xab, 0x57, 0x00, 0xab, 0xab, 0xab,
+	0x57, 0x57, 0x57, 0x57, 0x57, 0xff, 0x57, 0xff, 0x57, 0x57, 0xff, 0xff,
+	0xff, 0x57, 0x57, 0xff, 0x57, 0xff, 0xff, 0xff, 0x57, 0xff, 0xff, 0xff
+};
 
 extern const byte *ROTT_ERR;
 
-#define SWAP(a, b)                                                                                                     \
-	{                                                                                                                  \
-		a = (a) ^ (b);                                                                                                 \
-		b = (a) ^ (b);                                                                                                 \
-		a = (a) ^ (b);                                                                                                 \
+#define SWAP(a, b) \
+	{ \
+		a = (a) ^ (b); \
+		b = (a) ^ (b); \
+		a = (a) ^ (b); \
 	}
 
 //******************************************************************************
@@ -225,7 +227,8 @@ void FindEGAColors(void)
 	int i;
 
 	for (i = 0; i < 16; i++)
-		egacolor[i] = BestColor((int)egargb[i * 3], (int)egargb[i * 3 + 1], (int)egargb[i * 3 + 2], origpal);
+		egacolor[i] = BestColor((int)egargb[i * 3], (int)egargb[i * 3 + 1],
+								(int)egargb[i * 3 + 2], origpal);
 }
 
 //===========================================================================
@@ -241,7 +244,9 @@ byte BestColor(int r, int g, int b, byte *palette)
 	//
 	// let any color go to 0 as a last resort
 	//
-	bestdistortion = ((long)WeightR * r * r + (long)WeightG * g * g + (long)WeightB * b * b) * 2;
+	bestdistortion = ((long)WeightR * r * r + (long)WeightG * g * g +
+					  (long)WeightB * b * b) *
+					 2;
 	bestcolor = 0;
 
 	pal = &palette[0];
@@ -357,7 +362,8 @@ void Error(char *error, ...)
 	ShutDown(); // DDOI - moved this so that it doesn't try to access player
 				// which is freed by this function.
 
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, PACKAGE_STRING, msgbuf, NULL);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, PACKAGE_STRING, msgbuf,
+							 NULL);
 	SDL_Quit();
 
 	exit(1);
@@ -540,7 +546,8 @@ int SafeOpenAppend(char *_filename)
 	strncpy(filename, _filename, sizeof(filename));
 	filename[sizeof(filename) - 1] = '\0';
 
-	handle = open(filename, O_RDWR | O_BINARY | O_CREAT | O_APPEND, S_IREAD | S_IWRITE);
+	handle = open(filename, O_RDWR | O_BINARY | O_CREAT | O_APPEND,
+				  S_IREAD | S_IWRITE);
 
 	if (handle == -1)
 		Error("Error opening for append %s: %s", filename, strerror(errno));
@@ -555,7 +562,8 @@ int SafeOpenWrite(char *_filename)
 	strncpy(filename, _filename, sizeof(filename));
 	filename[sizeof(filename) - 1] = '\0';
 
-	handle = open(filename, O_RDWR | O_BINARY | O_CREAT | O_TRUNC, S_IREAD | S_IWRITE);
+	handle = open(filename, O_RDWR | O_BINARY | O_CREAT | O_TRUNC,
+				  S_IREAD | S_IWRITE);
 
 	if (handle == -1)
 		Error("Error opening %s: %s", filename, strerror(errno));
@@ -1203,7 +1211,7 @@ void hsort(char *base, int nel, int width, int (*compare)(), void (*switcher)())
 			number if the left argument is greater than the right.  (That
 			is, it acts like a "subtract" operator.) If compare is 0 then
 			the default comparison routine, argvcmp (which sorts an
-			argv-like array of pointers to strings), is used.                                       */
+			argv-like array of pointers to strings), is used. */
 
 	Width = width;
 	Comp = compare;
@@ -1252,7 +1260,8 @@ char *UL_GetPath(char *path, char *dir)
 
 		cnt++;				// make sure the number of characters in the dir
 		if (cnt > MAXCHARS) // name doesn't exceed acceptable limits.
-			Error("ERROR : Directory name can only be %d characters long.\n", MAXCHARS);
+			Error("ERROR : Directory name can only be %d characters long.\n",
+				  MAXCHARS);
 
 		path++;
 		dr++;

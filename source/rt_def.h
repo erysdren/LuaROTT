@@ -128,8 +128,9 @@ char *ultoa(unsigned long, char *, int);
 char getch(void);
 long filelength(int handle);
 
-#define STUB_FUNCTION                                                                                                  \
-	fprintf(stderr, "STUB: %s at " __FILE__ ", line %d, thread %d\n", __FUNCTION__, __LINE__, getpid())
+#define STUB_FUNCTION \
+	fprintf(stderr, "STUB: %s at " __FILE__ ", line %d, thread %d\n", \
+			__FUNCTION__, __LINE__, getpid())
 
 #define far
 #define cdecl
@@ -141,9 +142,10 @@ long filelength(int handle);
 //***************************************************************************
 #define VIEWGLOBAL 0x10000 // globals visable flush to wall
 /*
-#define VIEWWIDTH               MAXSCREENWIDTH//320*2             // size of view window
-#define VIEWHEIGHT              MAXSCREENHEIGHT//200*2
-#define MAXSCANLINES            MAXSCREENHEIGHT//200*2             // size of ylookup table
+#define VIEWWIDTH               MAXSCREENWIDTH//320*2             // size of
+view window #define VIEWHEIGHT              MAXSCREENHEIGHT//200*2 #define
+MAXSCANLINES            MAXSCREENHEIGHT//200*2             // size of ylookup
+table
 */
 #define CHARWIDTH 2
 #define TILEWIDTH 4

@@ -28,7 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define LOWCOST 0
 
 #define BNACRASHPREVENT 1 // bna added
-// Flavor selection (shareware, registered, cd version, site license) has moved to the Makefile
+// Flavor selection (shareware, registered, cd version, site license) has moved
+// to the Makefile
 #ifndef SHAREWARE
 #define SHAREWARE 0
 #endif
@@ -44,9 +45,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #if (WHEREAMI == 1)
 
-#define wami(val)                                                                                                      \
-	{                                                                                                                  \
-		programlocation = val;                                                                                         \
+#define wami(val) \
+	{ \
+		programlocation = val; \
 	}
 
 #define waminot()

@@ -131,10 +131,12 @@ int quicksaveslot = -1;
 //
 //******************************************************************************
 
-char order[21] = {di_west,		di_east,	  di_north,		  di_south,		  bt_run,		 bt_use,
-				  bt_attack,	bt_strafe,	  bt_strafeleft,  bt_straferight, bt_lookup,	 bt_lookdown,
-				  bt_aimbutton, bt_horizonup, bt_horizondown, bt_swapweapon,  bt_dropweapon, bt_turnaround,
-				  bt_autorun,	bt_message,	  bt_directmsg};
+char order[21] = { di_west,		  di_east,		  di_north,		  di_south,
+				   bt_run,		  bt_use,		  bt_attack,	  bt_strafe,
+				   bt_strafeleft, bt_straferight, bt_lookup,	  bt_lookdown,
+				   bt_aimbutton,  bt_horizonup,	  bt_horizondown, bt_swapweapon,
+				   bt_dropweapon, bt_turnaround,  bt_autorun,	  bt_message,
+				   bt_directmsg };
 
 // bt_pistol, bt_dualpistol, bt_mp40, bt_missileweapon, bt_recordsound,
 
@@ -143,10 +145,13 @@ char order[21] = {di_west,		di_east,	  di_north,		  di_south,		  bt_run,		 bt_us
 static boolean loadsavesound = false;
 static int numdone;
 
-static char *endStrings[7] = {"Press Y to reformat \nand install Windows.\0\0", "Press Y to activate \nguillotine.\0\0",
-							  "Press Y to release \nthe cyanide gas.\0\0",		"Press Y to open \ntrap door.\0\0",
-							  "Press Y to drive your \ncar off the cliff.\0\0", "Press Y to pull \nyour plug.\0\0",
-							  "Press Y to activate \nelectric chair.\0\0"};
+static char *endStrings[7] = { "Press Y to reformat \nand install Windows.\0\0",
+							   "Press Y to activate \nguillotine.\0\0",
+							   "Press Y to release \nthe cyanide gas.\0\0",
+							   "Press Y to open \ntrap door.\0\0",
+							   "Press Y to drive your \ncar off the cliff.\0\0",
+							   "Press Y to pull \nyour plug.\0\0",
+							   "Press Y to activate \nelectric chair.\0\0" };
 
 static char *BattleModeDescriptions[battle_NumBattleModes - 1] = {
 	"Kill your enemies!  Don't get killed!  Kill some more!",
@@ -157,26 +162,35 @@ static char *BattleModeDescriptions[battle_NumBattleModes - 1] = {
 	"Tag your enemies.  Run away.  Lowest points wins.",
 	"Chase roving 'Eluders'--tag them for points.",
 	"Use weapons to destroy roving Eluder triads for points.",
-	"Capture the opposing team's triad while guarding your own."};
+	"Capture the opposing team's triad while guarding your own."
+};
 
-static char *BattleOptionDescriptions[9] = {"Adjust the Gravitational Constant of the game universe!",
-											"Adjust the top speed for all players in the game",
-											"Adjust the amount of ammo in all missile weapons",
-											"Adjust the hit points of all players in the game",
-											"Radically change the way the game plays",
-											"Adjust the light characteristics of the game",
-											"Adjust the point goal of the game",
-											"Adjust the damage done by environment dangers",
-											"Adjust the time limit for the game"};
+static char *BattleOptionDescriptions[9] = {
+	"Adjust the Gravitational Constant of the game universe!",
+	"Adjust the top speed for all players in the game",
+	"Adjust the amount of ammo in all missile weapons",
+	"Adjust the hit points of all players in the game",
+	"Radically change the way the game plays",
+	"Adjust the light characteristics of the game",
+	"Adjust the point goal of the game",
+	"Adjust the damage done by environment dangers",
+	"Adjust the time limit for the game"
+};
 
-static char *GravityOptionDescriptions[3] = {"Similar to gravity on the moon", "Normal Gravity (9.81 m/s^2 !)",
-											 "Similar to gravity on Jupiter"};
+static char *GravityOptionDescriptions[3] = { "Similar to gravity on the moon",
+											  "Normal Gravity (9.81 m/s^2 !)",
+											  "Similar to gravity on Jupiter" };
 
-static char *SpeedOptionDescriptions[2] = {"Player speeds are determined by character",
-										   "All players can move at the fastest possible speed"};
+static char *SpeedOptionDescriptions[2] = {
+	"Player speeds are determined by character",
+	"All players can move at the fastest possible speed"
+};
 
-static char *AmmoOptionDescriptions[3] = {"One piece of ammo per missile weapon", "Normal ammo for all missile weapons",
-										  "Infinite ammo for all missile weapons"};
+static char *AmmoOptionDescriptions[3] = {
+	"One piece of ammo per missile weapon",
+	"Normal ammo for all missile weapons",
+	"Infinite ammo for all missile weapons"
+};
 
 static char *HitPointsOptionDescriptions[7] = {
 	"One hit point for each player",
@@ -188,46 +202,64 @@ static char *HitPointsOptionDescriptions[7] = {
 	"4000 hit points for each player",
 };
 
-static char *RadicalOptionDescriptions[8] = {"Control spawning of environment dangers",
-											 "Control spawning of health items",
-											 "Control spawning of missile weapons",
-											 "Spawn mines instead of health items",
-											 "Objects reappear a short time after being picked up",
-											 "Missile weapons remain when picked up",
-											 "Weapons are chosen randomly at the start of the game",
-											 "Killing yourself or a team member counts as a suicide"};
+static char *RadicalOptionDescriptions[8] = {
+	"Control spawning of environment dangers",
+	"Control spawning of health items",
+	"Control spawning of missile weapons",
+	"Spawn mines instead of health items",
+	"Objects reappear a short time after being picked up",
+	"Missile weapons remain when picked up",
+	"Weapons are chosen randomly at the start of the game",
+	"Killing yourself or a team member counts as a suicide"
+};
 
 static char *LightLevelOptionDescriptions[6] = {
-	"Very dark, cave-like", "Lighting determined by level design", "Full brightness",
-	"Bright with fog",		"Periodic lighting (voobing)",		   "Dark with lightning"};
+	"Very dark, cave-like",
+	"Lighting determined by level design",
+	"Full brightness",
+	"Bright with fog",
+	"Periodic lighting (voobing)",
+	"Dark with lightning"
+};
 
 static char *PointGoalOptionDescriptions[9] = {
-	"One Point/Kill",		"5 Points/Kills",	"11 Points/Kills",	   "21 Points/Kills",
-	"50 Points/Kills",		"100 Points/Kills", "Random Points/Kills", "Random Points/Kills but goal is not revealed",
-	"Infinite Points/Kills"};
+	"One Point/Kill",		"5 Points/Kills",
+	"11 Points/Kills",		"21 Points/Kills",
+	"50 Points/Kills",		"100 Points/Kills",
+	"Random Points/Kills",	"Random Points/Kills but goal is not revealed",
+	"Infinite Points/Kills"
+};
 
-static char *DangerDamageOptionDescriptions[3] = {"Environmental dangers' damage is relatively low",
-												  "Environmental dangers' damage normal",
-												  "One touch and you are dead!"};
+static char *DangerDamageOptionDescriptions[3] = {
+	"Environmental dangers' damage is relatively low",
+	"Environmental dangers' damage normal", "One touch and you are dead!"
+};
 
-static char *TimeLimitOptionDescriptions[8] = {"One Minute", "2 Minutes",  "5 Minutes",	 "10 Minutes",
-											   "21 Minutes", "30 Minutes", "99 Minutes", "No Time Limit"};
+static char *TimeLimitOptionDescriptions[8] = { "One Minute", "2 Minutes",
+												"5 Minutes",  "10 Minutes",
+												"21 Minutes", "30 Minutes",
+												"99 Minutes", "No Time Limit" };
 
-static char *BattleModeNames[battle_NumBattleModes - 1] = {"NORMAL COMM-BAT", "SCORE MORE", "COLLECTOR",
-														   "SCAVENGER",		  "HUNTER",		"TAG",
-														   "ELUDER",		  "DELUDER",	"CAPTURE THE TRIAD"};
+static char *BattleModeNames[battle_NumBattleModes - 1] = {
+	"NORMAL COMM-BAT", "SCORE MORE", "COLLECTOR",
+	"SCAVENGER",	   "HUNTER",	 "TAG",
+	"ELUDER",		   "DELUDER",	 "CAPTURE THE TRIAD"
+};
 
-static int OptionNums[12] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+static int OptionNums[12] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 
-static int HitPointNums[7] = {1, 25, bo_character_hitpoints, 100, 250, 500, 4000};
+static int HitPointNums[7] = { 1,	25,	 bo_character_hitpoints, 100, 250,
+							   500, 4000 };
 
-static int KillNums[9] = {1, 5, 11, 21, 50, 100, bo_kills_random, bo_kills_blind, bo_kills_infinite};
+static int KillNums[9] = {
+	1, 5, 11, 21, 50, 100, bo_kills_random, bo_kills_blind, bo_kills_infinite
+};
 
-static int GravityNums[3] = {LOW_GRAVITY, NORMAL_GRAVITY, HIGH_GRAVITY};
+static int GravityNums[3] = { LOW_GRAVITY, NORMAL_GRAVITY, HIGH_GRAVITY };
 
-static int TimeLimitNums[8] = {1, 2, 5, 10, 21, 30, 99, bo_time_infinite};
+static int TimeLimitNums[8] = { 1, 2, 5, 10, 21, 30, 99, bo_time_infinite };
 
-static int DangerNums[3] = {bo_danger_low, bo_danger_normal, bo_danger_kill};
+static int DangerNums[3] = { bo_danger_low, bo_danger_normal, bo_danger_kill };
 
 static int MenuNum = 0;
 static int handlewhich;
@@ -244,13 +276,14 @@ static int cursorwidth;
 static int cursorheight;
 static int yinc;
 
-static char *FontNames[] = {"itnyfont", "ifnt", "sifont", "lifont"};
-static int FontSize[] = {6, 7, 9, 14};
+static char *FontNames[] = { "itnyfont", "ifnt", "sifont", "lifont" };
+static int FontSize[] = { 6, 7, 9, 14 };
 static char *SmallCursor = "smallc01";
 static char *LargeCursor = "cursor01";
 static char *CursorLump = "cursor01";
 static int CursorNum = 0;
-static int CursorFrame[MAXCURSORNUM] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1};
+static int CursorFrame[MAXCURSORNUM] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3,
+										 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1 };
 
 typedef enum
 {
@@ -263,358 +296,493 @@ typedef enum
 	CUSTOMIZE
 } controltypes;
 
-static char *playerwadname[] = {"cass1", "bars1", "wens1", "lnis1", "ipfs1"};
+static char *playerwadname[] = { "cass1", "bars1", "wens1", "lnis1", "ipfs1" };
 
-char *colorname[] = {"Gray", "Brown", "Black", "Tan", "Red", "Olive", "Blue", "White", "Green", "Purple", "Orange"};
+char *colorname[] = { "Gray", "Brown", "Black", "Tan",	  "Red",   "Olive",
+					  "Blue", "White", "Green", "Purple", "Orange" };
 
 //
 // MENU ITEMS
 //
-CP_MenuNames MainMenuNames[] = {"NEW GAME",		"COMM-BAT\x81 GAME", "RESTORE GAME",
-								"SAVE GAME",	"OPTIONS",			 "ORDERING INFO",
-								"VIEW SCORES",	//"END GAME"
-								"BACK TO DEMO", //"BACK TO GAME"
-								"QUIT"};
+CP_MenuNames MainMenuNames[] = { "NEW GAME",	 "COMM-BAT\x81 GAME",
+								 "RESTORE GAME", "SAVE GAME",
+								 "OPTIONS",		 "ORDERING INFO",
+								 "VIEW SCORES",	 //"END GAME"
+								 "BACK TO DEMO", //"BACK TO GAME"
+								 "QUIT" };
 
-CP_iteminfo MainItems = {MENU_X, MENU_Y + 1, 9, STARTITEM, 32, MainMenuNames, mn_largefont};
-CP_itemtype MainMenu[] = {{CP_CursorLocation, "mm_opt1\0", 'N', (menuptr)CP_NewGame},
-						  {CP_Active, "battle\0", 'C', (menuptr)CP_BattleModes},
-						  {CP_Active, "mm_opt2\0", 'R', (menuptr)CP_LoadGame},
-						  {CP_Inactive, "mm_opt3\0", 'S', (menuptr)CP_SaveGame},
-						  {CP_Active, "mm_opt5\0", 'O', (menuptr)CP_ControlMenu},
-						  {CP_Active, "ordrinfo\0", 'O', (menuptr)CP_OrderInfo},
-						  {CP_Active, "mm_opt7\0", 'V', (menuptr)CP_ViewScores},
-						  {CP_Active, "mm_opt8\0", 'B', (menuptr)NULL},
-						  {CP_Active, "mm_opt9\0", 'Q', (menuptr)CP_Quit}};
+CP_iteminfo MainItems = { MENU_X, MENU_Y + 1,	 9,			  STARTITEM,
+						  32,	  MainMenuNames, mn_largefont };
+CP_itemtype MainMenu[] = {
+	{ CP_CursorLocation, "mm_opt1\0", 'N', (menuptr)CP_NewGame },
+	{ CP_Active, "battle\0", 'C', (menuptr)CP_BattleModes },
+	{ CP_Active, "mm_opt2\0", 'R', (menuptr)CP_LoadGame },
+	{ CP_Inactive, "mm_opt3\0", 'S', (menuptr)CP_SaveGame },
+	{ CP_Active, "mm_opt5\0", 'O', (menuptr)CP_ControlMenu },
+	{ CP_Active, "ordrinfo\0", 'O', (menuptr)CP_OrderInfo },
+	{ CP_Active, "mm_opt7\0", 'V', (menuptr)CP_ViewScores },
+	{ CP_Active, "mm_opt8\0", 'B', (menuptr)NULL },
+	{ CP_Active, "mm_opt9\0", 'Q', (menuptr)CP_Quit }
+};
 
-CP_iteminfo LSItems = {LSM_X, LSM_Y, NUMSAVEGAMES, 0, 10, NULL, mn_largefont};
-CP_itemtype LSMenu[] = {{CP_Active, "", 'a', {NULL}}, {CP_Active, "", 'b', {NULL}}, {CP_Active, "", 'c', {NULL}},
-						{CP_Active, "", 'd', {NULL}}, {CP_Active, "", 'e', {NULL}}, {CP_Active, "", 'f', {NULL}},
-						{CP_Active, "", 'g', {NULL}}, {CP_Active, "", 'h', {NULL}}, {CP_Active, "", 'i', {NULL}},
-						{CP_Active, "", 'j', {NULL}}, {CP_Active, "", 'k', {NULL}}, {CP_Active, "", 'l', {NULL}},
-						{CP_Active, "", 'm', {NULL}}, {CP_Active, "", 'n', {NULL}}, {CP_Active, "", 'o', {NULL}}};
+CP_iteminfo LSItems = { LSM_X, LSM_Y, NUMSAVEGAMES, 0, 10, NULL, mn_largefont };
+CP_itemtype LSMenu[] = {
+	{ CP_Active, "", 'a', { NULL } }, { CP_Active, "", 'b', { NULL } },
+	{ CP_Active, "", 'c', { NULL } }, { CP_Active, "", 'd', { NULL } },
+	{ CP_Active, "", 'e', { NULL } }, { CP_Active, "", 'f', { NULL } },
+	{ CP_Active, "", 'g', { NULL } }, { CP_Active, "", 'h', { NULL } },
+	{ CP_Active, "", 'i', { NULL } }, { CP_Active, "", 'j', { NULL } },
+	{ CP_Active, "", 'k', { NULL } }, { CP_Active, "", 'l', { NULL } },
+	{ CP_Active, "", 'm', { NULL } }, { CP_Active, "", 'n', { NULL } },
+	{ CP_Active, "", 'o', { NULL } }
+};
 
-CP_MenuNames CtlMenuNames[] = {"MOUSE ENABLED",	   "JOYSTICK ENABLED",	"USE JOYSTICK PORT 2", "GAMEPAD ENABLED",
-							   "ADJUST THRESHOLD", "MOUSE SENSITIVITY", "CUSTOMIZE CONTROLS"};
+CP_MenuNames CtlMenuNames[] = { "MOUSE ENABLED",	   "JOYSTICK ENABLED",
+								"USE JOYSTICK PORT 2", "GAMEPAD ENABLED",
+								"ADJUST THRESHOLD",	   "MOUSE SENSITIVITY",
+								"CUSTOMIZE CONTROLS" };
 
-CP_iteminfo CtlItems = {CTL_X, MENU_Y, 7, -1, 36, CtlMenuNames, mn_largefont};
-CP_itemtype CtlMenu[] = {{CP_Inactive, "ctl_mic\0", 'M', {NULL}},
-						 {CP_Inactive, "ctl_jen\0", 'J', {NULL}},
-						 {CP_Inactive, "ctl_jp2\0", 'U', {NULL}},
-						 {CP_Inactive, "ctl_gpd\0", 'G', {NULL}},
-						 {CP_Inactive, "ctl_thr\0", 'A', (menuptr)DoThreshold},
-						 {CP_Inactive, "ctl_mse\0", 'M', (menuptr)MouseSensitivity},
-						 {CP_Active, "ctl_cus\0", 'C', (menuptr)CP_Custom}};
+CP_iteminfo CtlItems = { CTL_X, MENU_Y, 7, -1, 36, CtlMenuNames, mn_largefont };
+CP_itemtype CtlMenu[] = {
+	{ CP_Inactive, "ctl_mic\0", 'M', { NULL } },
+	{ CP_Inactive, "ctl_jen\0", 'J', { NULL } },
+	{ CP_Inactive, "ctl_jp2\0", 'U', { NULL } },
+	{ CP_Inactive, "ctl_gpd\0", 'G', { NULL } },
+	{ CP_Inactive, "ctl_thr\0", 'A', (menuptr)DoThreshold },
+	{ CP_Inactive, "ctl_mse\0", 'M', (menuptr)MouseSensitivity },
+	{ CP_Active, "ctl_cus\0", 'C', (menuptr)CP_Custom }
+};
 
-CP_iteminfo CusItems = {32, CST_Y + 13 * 2, 9, -1, 0, NULL, mn_largefont};
-CP_itemtype CusMenu[] = {{CP_Active, "ctl_mic\0", 'a', {NULL}},	  {CP_Inactive, "ctl_mic\0", 'a', {NULL}},
-						 {CP_Inactive, "ctl_mic\0", 'a', {NULL}}, {CP_Active, "ctl_mic\0", 'a', {NULL}},
-						 {CP_Inactive, "ctl_mic\0", 'a', {NULL}}, {CP_Inactive, "ctl_mic\0", 'a', {NULL}},
-						 {CP_Active, "ctl_mic\0", 'a', {NULL}},	  {CP_Inactive, "ctl_mic\0", 'a', {NULL}},
-						 {CP_Active, "ctl_mic\0", 'a', {NULL}}};
+CP_iteminfo CusItems = { 32, CST_Y + 13 * 2, 9, -1, 0, NULL, mn_largefont };
+CP_itemtype CusMenu[] = { { CP_Active, "ctl_mic\0", 'a', { NULL } },
+						  { CP_Inactive, "ctl_mic\0", 'a', { NULL } },
+						  { CP_Inactive, "ctl_mic\0", 'a', { NULL } },
+						  { CP_Active, "ctl_mic\0", 'a', { NULL } },
+						  { CP_Inactive, "ctl_mic\0", 'a', { NULL } },
+						  { CP_Inactive, "ctl_mic\0", 'a', { NULL } },
+						  { CP_Active, "ctl_mic\0", 'a', { NULL } },
+						  { CP_Inactive, "ctl_mic\0", 'a', { NULL } },
+						  { CP_Active, "ctl_mic\0", 'a', { NULL } } };
 
-CP_iteminfo TufItems = {TUF_X, TUF_Y, 7, 0, 80, NULL, mn_largefont};
-CP_itemtype TufMenu[4][7] = {{
-								 {2, "new11\0", 'a', {NULL}},
-								 {3, "new11\0", 'a', {NULL}},
-								 {1, "new12\0", 'a', {NULL}},
-								 {3, "new12\0", 'a', {NULL}},
-								 {1, "new13\0", 'a', {NULL}},
-								 {3, "new13\0", 'a', {NULL}},
-								 {1, "new14\0", 'a', {NULL}},
-							 },
+CP_iteminfo TufItems = { TUF_X, TUF_Y, 7, 0, 80, NULL, mn_largefont };
+CP_itemtype TufMenu[4][7] = { {
+								  { 2, "new11\0", 'a', { NULL } },
+								  { 3, "new11\0", 'a', { NULL } },
+								  { 1, "new12\0", 'a', { NULL } },
+								  { 3, "new12\0", 'a', { NULL } },
+								  { 1, "new13\0", 'a', { NULL } },
+								  { 3, "new13\0", 'a', { NULL } },
+								  { 1, "new14\0", 'a', { NULL } },
+							  },
 
-							 {
-								 {2, "new21\0", 'a', {NULL}},
-								 {3, "new21\0", 'a', {NULL}},
-								 {1, "new22\0", 'a', {NULL}},
-								 {3, "new22\0", 'a', {NULL}},
-								 {1, "new23\0", 'a', {NULL}},
-								 {3, "new23\0", 'a', {NULL}},
-								 {1, "new24\0", 'a', {NULL}},
-							 },
+							  {
+								  { 2, "new21\0", 'a', { NULL } },
+								  { 3, "new21\0", 'a', { NULL } },
+								  { 1, "new22\0", 'a', { NULL } },
+								  { 3, "new22\0", 'a', { NULL } },
+								  { 1, "new23\0", 'a', { NULL } },
+								  { 3, "new23\0", 'a', { NULL } },
+								  { 1, "new24\0", 'a', { NULL } },
+							  },
 
-							 {
-								 {2, "new31\0", 'a', {NULL}},
-								 {3, "new31\0", 'a', {NULL}},
-								 {1, "new32\0", 'a', {NULL}},
-								 {3, "new32\0", 'a', {NULL}},
-								 {1, "new33\0", 'a', {NULL}},
-								 {3, "new33\0", 'a', {NULL}},
-								 {1, "new34\0", 'a', {NULL}},
-							 },
+							  {
+								  { 2, "new31\0", 'a', { NULL } },
+								  { 3, "new31\0", 'a', { NULL } },
+								  { 1, "new32\0", 'a', { NULL } },
+								  { 3, "new32\0", 'a', { NULL } },
+								  { 1, "new33\0", 'a', { NULL } },
+								  { 3, "new33\0", 'a', { NULL } },
+								  { 1, "new34\0", 'a', { NULL } },
+							  },
 
-							 {
-								 {2, "stk_1\0", 'a', {NULL}},
-								 {3, "stk_1\0", 'a', {NULL}},
-								 {1, "stk_2\0", 'a', {NULL}},
-								 {3, "stk_2\0", 'a', {NULL}},
-								 {1, "stk_3\0", 'a', {NULL}},
-								 {3, "stk_3\0", 'a', {NULL}},
-								 {1, "stk_4\0", 'a', {NULL}},
-							 }};
+							  {
+								  { 2, "stk_1\0", 'a', { NULL } },
+								  { 3, "stk_1\0", 'a', { NULL } },
+								  { 1, "stk_2\0", 'a', { NULL } },
+								  { 3, "stk_2\0", 'a', { NULL } },
+								  { 1, "stk_3\0", 'a', { NULL } },
+								  { 3, "stk_3\0", 'a', { NULL } },
+								  { 1, "stk_4\0", 'a', { NULL } },
+							  } };
 
-CP_MenuNames CustomMenuNames[] = {"CUSTOMIZE KEYBOARD", "CUSTOMIZE MOUSE", "CUSTOMIZE JOYSTICK"};
+CP_MenuNames CustomMenuNames[] = { "CUSTOMIZE KEYBOARD", "CUSTOMIZE MOUSE",
+								   "CUSTOMIZE JOYSTICK" };
 
-CP_iteminfo CustomItems = {32, 64, 3, 0, 24, CustomMenuNames, mn_largefont};
+CP_iteminfo CustomItems = { 32, 64, 3, 0, 24, CustomMenuNames, mn_largefont };
 
-CP_itemtype CustomMenu[] = {{2, "custom1\0", 'C', (menuptr)CP_Keyboard},
-							{1, "custom2\0", 'C', (menuptr)CP_Mouse},
-							{1, "custom3\0", 'C', (menuptr)CP_Joystick}};
+CP_itemtype CustomMenu[] = { { 2, "custom1\0", 'C', (menuptr)CP_Keyboard },
+							 { 1, "custom2\0", 'C', (menuptr)CP_Mouse },
+							 { 1, "custom3\0", 'C', (menuptr)CP_Joystick } };
 
 #define KEYNAMEINDEX 21
 
 CP_MenuNames NormalKeyNames[] = {
-	"LEFT               \x9      ", "RIGHT              \x9      ", "FORWARD            \x9      ",
-	"BACKWARD           \x9      ", "RUN                \x9      ", "OPEN               \x9      ",
-	"FIRE               \x9      ", "STRAFE             \x9      ", "STRAFE LEFT        \x9      ",
-	"STRAFE RIGHT       \x9      ", "LOOK/FLY UP        \x9      ", "LOOK/FLY DOWN      \x9      ",
-	"AIM                \x9      ", "AIM UP             \x9      ", "AIM DOWN           \x9      ",
-	"TOGGLE WEAPON      \x9      ", "DROP WEAPON        \x9      ", "VOLTE-FACE         \x9      ",
-	"AUTORUN            \x9      ", "SEND MESSAGE       \x9      ", "DIRECT MESSAGE     \x9      "};
+	"LEFT               \x9      ", "RIGHT              \x9      ",
+	"FORWARD            \x9      ", "BACKWARD           \x9      ",
+	"RUN                \x9      ", "OPEN               \x9      ",
+	"FIRE               \x9      ", "STRAFE             \x9      ",
+	"STRAFE LEFT        \x9      ", "STRAFE RIGHT       \x9      ",
+	"LOOK/FLY UP        \x9      ", "LOOK/FLY DOWN      \x9      ",
+	"AIM                \x9      ", "AIM UP             \x9      ",
+	"AIM DOWN           \x9      ", "TOGGLE WEAPON      \x9      ",
+	"DROP WEAPON        \x9      ", "VOLTE-FACE         \x9      ",
+	"AUTORUN            \x9      ", "SEND MESSAGE       \x9      ",
+	"DIRECT MESSAGE     \x9      "
+};
 
 #define NORMALKEY_X 74
 #define NORMALKEY_Y 16
-CP_iteminfo NormalKeyItems = {NORMALKEY_X, 17, 21, 0, 16, NormalKeyNames, mn_tinyfont};
+CP_iteminfo NormalKeyItems = { NORMALKEY_X,	   17,		   21, 0, 16,
+							   NormalKeyNames, mn_tinyfont };
 
 CP_itemtype NormalKeyMenu[] = {
-	{2, "\0", 'L', (menuptr)DefineKey}, {1, "\0", 'R', (menuptr)DefineKey}, {1, "\0", 'F', (menuptr)DefineKey},
-	{1, "\0", 'B', (menuptr)DefineKey}, {1, "\0", 'R', (menuptr)DefineKey}, {1, "\0", 'O', (menuptr)DefineKey},
-	{1, "\0", 'F', (menuptr)DefineKey}, {1, "\0", 'S', (menuptr)DefineKey}, {1, "\0", 'S', (menuptr)DefineKey},
-	{1, "\0", 'S', (menuptr)DefineKey}, {1, "\0", 'L', (menuptr)DefineKey}, {1, "\0", 'L', (menuptr)DefineKey},
-	{1, "\0", 'A', (menuptr)DefineKey}, {1, "\0", 'A', (menuptr)DefineKey}, {1, "\0", 'T', (menuptr)DefineKey},
-	{1, "\0", 'D', (menuptr)DefineKey}, {1, "\0", 'V', (menuptr)DefineKey}, {1, "\0", 'A', (menuptr)DefineKey},
-	{1, "\0", 'A', (menuptr)DefineKey}, {1, "\0", 'S', (menuptr)DefineKey}, {1, "\0", 'D', (menuptr)DefineKey}};
+	{ 2, "\0", 'L', (menuptr)DefineKey }, { 1, "\0", 'R', (menuptr)DefineKey },
+	{ 1, "\0", 'F', (menuptr)DefineKey }, { 1, "\0", 'B', (menuptr)DefineKey },
+	{ 1, "\0", 'R', (menuptr)DefineKey }, { 1, "\0", 'O', (menuptr)DefineKey },
+	{ 1, "\0", 'F', (menuptr)DefineKey }, { 1, "\0", 'S', (menuptr)DefineKey },
+	{ 1, "\0", 'S', (menuptr)DefineKey }, { 1, "\0", 'S', (menuptr)DefineKey },
+	{ 1, "\0", 'L', (menuptr)DefineKey }, { 1, "\0", 'L', (menuptr)DefineKey },
+	{ 1, "\0", 'A', (menuptr)DefineKey }, { 1, "\0", 'A', (menuptr)DefineKey },
+	{ 1, "\0", 'T', (menuptr)DefineKey }, { 1, "\0", 'D', (menuptr)DefineKey },
+	{ 1, "\0", 'V', (menuptr)DefineKey }, { 1, "\0", 'A', (menuptr)DefineKey },
+	{ 1, "\0", 'A', (menuptr)DefineKey }, { 1, "\0", 'S', (menuptr)DefineKey },
+	{ 1, "\0", 'D', (menuptr)DefineKey }
+};
 
 #define NUMCONTROLNAMES 21
 
-CP_MenuNames ControlNames[] = {"NONE",			"LEFT",	   "RIGHT",	 "FORWARD",		"BACKWARD",		 "RUN",
-							   "OPEN",			"FIRE",	   "STRAFE", "STRAFE LEFT", "STRAFE RIGHT",	 "LOOK/FLY UP",
-							   "LOOK/FLY DOWN", "AIM",	   "AIM UP", "AIM DOWN",	"TOGGLE WEAPON", "DROP WEAPON",
-							   "VOLTE-FACE",	"AUTORUN", "MAP"};
+CP_MenuNames ControlNames[] = { "NONE",			 "LEFT",		  "RIGHT",
+								"FORWARD",		 "BACKWARD",	  "RUN",
+								"OPEN",			 "FIRE",		  "STRAFE",
+								"STRAFE LEFT",	 "STRAFE RIGHT",  "LOOK/FLY UP",
+								"LOOK/FLY DOWN", "AIM",			  "AIM UP",
+								"AIM DOWN",		 "TOGGLE WEAPON", "DROP WEAPON",
+								"VOLTE-FACE",	 "AUTORUN",		  "MAP" };
 
 int controlorder[NUMCONTROLNAMES] = {
-	bt_nobutton,  di_west,		  di_east,		 di_north,		 di_south,		bt_run,		 bt_use,
-	bt_attack,	  bt_strafe,	  bt_strafeleft, bt_straferight, bt_lookup,		bt_lookdown, bt_aimbutton,
-	bt_horizonup, bt_horizondown, bt_swapweapon, bt_dropweapon,	 bt_turnaround, bt_autorun,	 bt_map};
+	bt_nobutton,	di_west,	   di_east,		  di_north,		 di_south,
+	bt_run,			bt_use,		   bt_attack,	  bt_strafe,	 bt_strafeleft,
+	bt_straferight, bt_lookup,	   bt_lookdown,	  bt_aimbutton,	 bt_horizonup,
+	bt_horizondown, bt_swapweapon, bt_dropweapon, bt_turnaround, bt_autorun,
+	bt_map
+};
 
 #define CONTROLSELECT_X 106
-CP_iteminfo ControlSelectItems = {CONTROLSELECT_X, 17, NUMCONTROLNAMES, 0, 16, ControlNames, mn_tinyfont};
+CP_iteminfo ControlSelectItems = {
+	CONTROLSELECT_X, 17, NUMCONTROLNAMES, 0, 16, ControlNames, mn_tinyfont
+};
 
-CP_itemtype ControlSelectMenu[] = {{2, "\0", 'N', {NULL}}, {1, "\0", 'L', {NULL}}, {1, "\0", 'R', {NULL}},
-								   {1, "\0", 'F', {NULL}}, {1, "\0", 'B', {NULL}}, {1, "\0", 'R', {NULL}},
-								   {1, "\0", 'O', {NULL}}, {1, "\0", 'F', {NULL}}, {1, "\0", 'S', {NULL}},
-								   {1, "\0", 'S', {NULL}}, {1, "\0", 'S', {NULL}}, {1, "\0", 'L', {NULL}},
-								   {1, "\0", 'L', {NULL}}, {1, "\0", 'A', {NULL}}, {1, "\0", 'A', {NULL}},
-								   {1, "\0", 'A', {NULL}}, {1, "\0", 'T', {NULL}}, {1, "\0", 'D', {NULL}},
-								   {1, "\0", 'V', {NULL}}, {1, "\0", 'A', {NULL}}, {1, "\0", 'M', {NULL}}};
+CP_itemtype ControlSelectMenu[] = {
+	{ 2, "\0", 'N', { NULL } }, { 1, "\0", 'L', { NULL } },
+	{ 1, "\0", 'R', { NULL } }, { 1, "\0", 'F', { NULL } },
+	{ 1, "\0", 'B', { NULL } }, { 1, "\0", 'R', { NULL } },
+	{ 1, "\0", 'O', { NULL } }, { 1, "\0", 'F', { NULL } },
+	{ 1, "\0", 'S', { NULL } }, { 1, "\0", 'S', { NULL } },
+	{ 1, "\0", 'S', { NULL } }, { 1, "\0", 'L', { NULL } },
+	{ 1, "\0", 'L', { NULL } }, { 1, "\0", 'A', { NULL } },
+	{ 1, "\0", 'A', { NULL } }, { 1, "\0", 'A', { NULL } },
+	{ 1, "\0", 'T', { NULL } }, { 1, "\0", 'D', { NULL } },
+	{ 1, "\0", 'V', { NULL } }, { 1, "\0", 'A', { NULL } },
+	{ 1, "\0", 'M', { NULL } }
+};
 
 #define MOUSEBTNINDEX 17
 
-CP_MenuNames MouseBtnNames[] = {"             B0  \x9             ", "             B1  \x9             ",
-								"             B2  \x9             ", "DOUBLE-CLICK B0  \x9             ",
-								"DOUBLE-CLICK B1  \x9             ", "DOUBLE-CLICK B2  \x9             "};
+CP_MenuNames MouseBtnNames[] = {
+	"             B0  \x9             ", "             B1  \x9             ",
+	"             B2  \x9             ", "DOUBLE-CLICK B0  \x9             ",
+	"DOUBLE-CLICK B1  \x9             ", "DOUBLE-CLICK B2  \x9             "
+};
 
-CP_iteminfo MouseBtnItems = {19, 52, 6, 0, 11, MouseBtnNames, mn_8x8font};
+CP_iteminfo MouseBtnItems = { 19, 52, 6, 0, 11, MouseBtnNames, mn_8x8font };
 
-CP_itemtype MouseBtnMenu[] = {{2, "\0", 'B', (menuptr)DefineMouseBtn}, {1, "\0", 'B', (menuptr)DefineMouseBtn},
-							  {1, "\0", 'B', (menuptr)DefineMouseBtn}, {1, "\0", 'D', (menuptr)DefineMouseBtn},
-							  {1, "\0", 'D', (menuptr)DefineMouseBtn}, {1, "\0", 'D', (menuptr)DefineMouseBtn}};
+CP_itemtype MouseBtnMenu[] = { { 2, "\0", 'B', (menuptr)DefineMouseBtn },
+							   { 1, "\0", 'B', (menuptr)DefineMouseBtn },
+							   { 1, "\0", 'B', (menuptr)DefineMouseBtn },
+							   { 1, "\0", 'D', (menuptr)DefineMouseBtn },
+							   { 1, "\0", 'D', (menuptr)DefineMouseBtn },
+							   { 1, "\0", 'D', (menuptr)DefineMouseBtn } };
 
 #define JOYBTNINDEX 17
 
-CP_MenuNames JoyBtnNames[] = {"             B0  \x9             ", "             B1  \x9             ",
-							  "             B2  \x9             ", "             B3  \x9             ",
-							  "DOUBLE-CLICK B0  \x9             ", "DOUBLE-CLICK B1  \x9             ",
-							  "DOUBLE-CLICK B2  \x9             ", "DOUBLE-CLICK B3  \x9             "};
+CP_MenuNames JoyBtnNames[] = {
+	"             B0  \x9             ", "             B1  \x9             ",
+	"             B2  \x9             ", "             B3  \x9             ",
+	"DOUBLE-CLICK B0  \x9             ", "DOUBLE-CLICK B1  \x9             ",
+	"DOUBLE-CLICK B2  \x9             ", "DOUBLE-CLICK B3  \x9             "
+};
 
-CP_iteminfo JoyBtnItems = {19, 48, 8, 0, 11, JoyBtnNames, mn_8x8font};
+CP_iteminfo JoyBtnItems = { 19, 48, 8, 0, 11, JoyBtnNames, mn_8x8font };
 
-CP_itemtype JoyBtnMenu[] = {{2, "\0", 'B', (menuptr)DefineJoyBtn}, {1, "\0", 'B', (menuptr)DefineJoyBtn},
-							{1, "\0", 'B', (menuptr)DefineJoyBtn}, {1, "\0", 'B', (menuptr)DefineJoyBtn},
-							{1, "\0", 'D', (menuptr)DefineJoyBtn}, {1, "\0", 'D', (menuptr)DefineJoyBtn},
-							{1, "\0", 'D', (menuptr)DefineJoyBtn}, {1, "\0", 'D', (menuptr)DefineJoyBtn}};
+CP_itemtype JoyBtnMenu[] = { { 2, "\0", 'B', (menuptr)DefineJoyBtn },
+							 { 1, "\0", 'B', (menuptr)DefineJoyBtn },
+							 { 1, "\0", 'B', (menuptr)DefineJoyBtn },
+							 { 1, "\0", 'B', (menuptr)DefineJoyBtn },
+							 { 1, "\0", 'D', (menuptr)DefineJoyBtn },
+							 { 1, "\0", 'D', (menuptr)DefineJoyBtn },
+							 { 1, "\0", 'D', (menuptr)DefineJoyBtn },
+							 { 1, "\0", 'D', (menuptr)DefineJoyBtn } };
 
-CP_MenuNames PlayerMenuNames[] = {"TARADINO CASSATT", "THI BARRETT", "DOUG WENDT", "LORELEI NI", "IAN PAUL FREELEY"};
+CP_MenuNames PlayerMenuNames[] = { "TARADINO CASSATT", "THI BARRETT",
+								   "DOUG WENDT", "LORELEI NI",
+								   "IAN PAUL FREELEY" };
 
-CP_iteminfo PlayerItems = {TUF_X, 48, 5, 0, 80, PlayerMenuNames, mn_largefont};
+CP_iteminfo PlayerItems = {
+	TUF_X, 48, 5, 0, 80, PlayerMenuNames, mn_largefont
+};
 
 CP_itemtype PlayerMenu[] = {
-	{2, "name1\0", 'T', {NULL}}, {1, "name2\0", 'T', {NULL}}, {1, "name3\0", 'D', {NULL}},
-	{1, "name4\0", 'L', {NULL}}, {1, "name5\0", 'I', {NULL}},
+	{ 2, "name1\0", 'T', { NULL } }, { 1, "name2\0", 'T', { NULL } },
+	{ 1, "name3\0", 'D', { NULL } }, { 1, "name4\0", 'L', { NULL } },
+	{ 1, "name5\0", 'I', { NULL } },
 };
 
-CP_MenuNames ControlMMenuNames[] = {"CONTROLS", "USER OPTIONS",
-									"EXT USER OPTIONS", // bna added
-									"MUSIC VOLUME", "SOUND FX VOLUME"
+CP_MenuNames ControlMMenuNames[] = { "CONTROLS", "USER OPTIONS",
+									 "EXT USER OPTIONS", // bna added
+									 "MUSIC VOLUME", "SOUND FX VOLUME"
 
 };
-CP_iteminfo ControlMItems = {32, 48 - 8, 5, 0, 32, ControlMMenuNames, mn_largefont}; // bna added
-// CP_iteminfo ControlMItems = {32, 48, 4, 0, 32, ControlMMenuNames, mn_largefont };
+CP_iteminfo ControlMItems = { 32,		   48 - 8, 5, 0, 32, ControlMMenuNames,
+							  mn_largefont }; // bna added
+// CP_iteminfo ControlMItems = {32, 48, 4, 0, 32, ControlMMenuNames,
+// mn_largefont };
 
-CP_itemtype ControlMMenu[] = {{2, "cntl\0", 'C', (menuptr)CP_Control},
-							  {1, "uopt\0", 'U', (menuptr)CP_OptionsMenu},
-							  {1, "euopt\0", 'E', (menuptr)CP_ExtOptionsMenu}, // bna added
-							  {1, "muvolumn\0", 'M', (menuptr)MusicVolume},
-							  {1, "fxvolumn\0", 'S', (menuptr)FXVolume}
+CP_itemtype ControlMMenu[] = {
+	{ 2, "cntl\0", 'C', (menuptr)CP_Control },
+	{ 1, "uopt\0", 'U', (menuptr)CP_OptionsMenu },
+	{ 1, "euopt\0", 'E', (menuptr)CP_ExtOptionsMenu }, // bna added
+	{ 1, "muvolumn\0", 'M', (menuptr)MusicVolume },
+	{ 1, "fxvolumn\0", 'S', (menuptr)FXVolume }
 
 };
 
-CP_MenuNames OptionsNames[] = {"AUTO DETAIL ADJUST", "LIGHT DIMINISHING",  "BOBBIN'",
-							   "FLOOR AND CEILING",	 "DOUBLE-CLICK SPEED", "MENU FLIP SPEED",
-							   "DETAIL LEVELS",		 "VIOLENCE LEVEL",	   "SCREEN SIZE"};
+CP_MenuNames OptionsNames[] = {
+	"AUTO DETAIL ADJUST", "LIGHT DIMINISHING",	"BOBBIN'",
+	"FLOOR AND CEILING",  "DOUBLE-CLICK SPEED", "MENU FLIP SPEED",
+	"DETAIL LEVELS",	  "VIOLENCE LEVEL",		"SCREEN SIZE"
+};
 // bna added
-CP_MenuNames ExtOptionsNames[] = {"MOUSELOOK", "INVERSE MOUSE", "CROSS HAIR", "FULLSCREEN"};
-CP_iteminfo ExtOptionsItems = {20, MENU_Y, 4, 0, 43, ExtOptionsNames, mn_largefont};
+CP_MenuNames ExtOptionsNames[] = { "MOUSELOOK", "INVERSE MOUSE", "CROSS HAIR",
+								   "FULLSCREEN" };
+CP_iteminfo ExtOptionsItems = { 20, MENU_Y,			 4,			  0,
+								43, ExtOptionsNames, mn_largefont };
 
-CP_itemtype ExtOptionsMenu[] = {
-	{1, "", 'M', {NULL}}, {1, "", 'I', {NULL}}, {1, "", 'C', {NULL}}, {1, "", 'J', {NULL}}, {1, "", 'F', {NULL}}};
+CP_itemtype ExtOptionsMenu[] = { { 1, "", 'M', { NULL } },
+								 { 1, "", 'I', { NULL } },
+								 { 1, "", 'C', { NULL } },
+								 { 1, "", 'J', { NULL } },
+								 { 1, "", 'F', { NULL } } };
 
 // bna added end
 
-CP_iteminfo OptionsItems = {20, MENU_Y, 9, 0, 43, OptionsNames, mn_largefont};
+CP_iteminfo OptionsItems = { 20, MENU_Y, 9, 0, 43, OptionsNames, mn_largefont };
 
-CP_itemtype OptionsMenu[] = {{2, "autoadj\0", 'A', {NULL}},
-							 {1, "lightdim\0", 'L', {NULL}},
-							 {1, "bobbin\0", 'B', {NULL}},
-							 {1, "fandc\0", 'F', {NULL}},
-							 {1, "double\0", 'D', (menuptr)CP_DoubleClickSpeed},
-							 {1, "menuspd\0", 'M', (menuptr)MenuFlipSpeed},
-							 {1, "detail\0", 'D', (menuptr)CP_DetailMenu},
-							 {1, "vlevel\0", 'V', (menuptr)CP_ViolenceMenu},
-							 {1, "\0", 'S', (menuptr)CP_ScreenSize}};
+CP_itemtype OptionsMenu[] = { { 2, "autoadj\0", 'A', { NULL } },
+							  { 1, "lightdim\0", 'L', { NULL } },
+							  { 1, "bobbin\0", 'B', { NULL } },
+							  { 1, "fandc\0", 'F', { NULL } },
+							  { 1, "double\0", 'D',
+								(menuptr)CP_DoubleClickSpeed },
+							  { 1, "menuspd\0", 'M', (menuptr)MenuFlipSpeed },
+							  { 1, "detail\0", 'D', (menuptr)CP_DetailMenu },
+							  { 1, "vlevel\0", 'V', (menuptr)CP_ViolenceMenu },
+							  { 1, "\0", 'S', (menuptr)CP_ScreenSize } };
 
-CP_MenuNames DetailMenuNames[] = {"LOW DETAIL", "MEDIUM DETAIL", "HIGH DETAIL"};
+CP_MenuNames DetailMenuNames[] = { "LOW DETAIL", "MEDIUM DETAIL",
+								   "HIGH DETAIL" };
 
-CP_iteminfo DetailItems = {32, 64, 3, 0, 43, DetailMenuNames, mn_largefont};
+CP_iteminfo DetailItems = { 32, 64, 3, 0, 43, DetailMenuNames, mn_largefont };
 
-CP_itemtype DetailMenu[] = {{2, "lowdtl\0", 'L', {NULL}}, {1, "meddtl\0", 'M', {NULL}}, {1, "hidtl\0", 'H', {NULL}}};
+CP_itemtype DetailMenu[] = { { 2, "lowdtl\0", 'L', { NULL } },
+							 { 1, "meddtl\0", 'M', { NULL } },
+							 { 1, "hidtl\0", 'H', { NULL } } };
 
-CP_MenuNames BattleMenuNames[] = {"PLAY GAME", "PLAY TEAM GAME", "COMM-BAT OPTIONS"};
+CP_MenuNames BattleMenuNames[] = { "PLAY GAME", "PLAY TEAM GAME",
+								   "COMM-BAT OPTIONS" };
 
-CP_iteminfo BattleItems = {32, 19, 3, 0, 24, BattleMenuNames, mn_largefont};
+CP_iteminfo BattleItems = { 32, 19, 3, 0, 24, BattleMenuNames, mn_largefont };
 
-CP_itemtype BattleMenu[] = {{2, "bplay\0", 'P', (menuptr)BattleNoTeams},
-							{1, "playteam\0", 'P', (menuptr)BattleTeams},
-							{1, "comopt\0", 'C', (menuptr)CP_BattleOptions}};
+CP_itemtype BattleMenu[] = { { 2, "bplay\0", 'P', (menuptr)BattleNoTeams },
+							 { 1, "playteam\0", 'P', (menuptr)BattleTeams },
+							 { 1, "comopt\0", 'C',
+							   (menuptr)CP_BattleOptions } };
 
-CP_MenuNames ViolenceMenuNames[] = {"NONE", "SOME", "A LOT", "EXCESSIVE"};
+CP_MenuNames ViolenceMenuNames[] = { "NONE", "SOME", "A LOT", "EXCESSIVE" };
 
-CP_iteminfo ViolenceItems = {32, 64, 4, 0, 45, ViolenceMenuNames, mn_largefont};
+CP_iteminfo ViolenceItems = {
+	32, 64, 4, 0, 45, ViolenceMenuNames, mn_largefont
+};
 
-CP_itemtype ViolenceMenu[] = {{2, "vnone\0", 'N', {NULL}},
-							  {1, "vsome\0", 'S', {NULL}},
-							  {1, "valot\0", 'A', {NULL}},
-							  {1, "vexcess\0", 'E', {NULL}}};
+CP_itemtype ViolenceMenu[] = { { 2, "vnone\0", 'N', { NULL } },
+							   { 1, "vsome\0", 'S', { NULL } },
+							   { 1, "valot\0", 'A', { NULL } },
+							   { 1, "vexcess\0", 'E', { NULL } } };
 
 CP_MenuNames VMenuNames[] = {
 	"SET VIOLENCE LEVEL",
 	"" // "ENTER PASSWORD" // "CHANGE PASSWORD"
 };
 
-CP_iteminfo VItems = {32, MP_Y, 2, 0, 24, VMenuNames, mn_largefont};
+CP_iteminfo VItems = { 32, MP_Y, 2, 0, 24, VMenuNames, mn_largefont };
 
-CP_itemtype VMenu[] = {{2, "msetv\0", 'S', (menuptr)CP_ViolenceLevel}, {1, "mepass\0", 'E', (menuptr)CP_PWMenu}};
+CP_itemtype VMenu[] = { { 2, "msetv\0", 'S', (menuptr)CP_ViolenceLevel },
+						{ 1, "mepass\0", 'E', (menuptr)CP_PWMenu } };
 
-CP_MenuNames ModeMenuNames[] = {"NORMAL", "SCORE MORE", "COLLECTOR", "SCAVENGER",		 "HUNTER",
-								"TAG",	  "ELUDER",		"DELUDER",	 "CAPTURE THE TRIAD"};
+CP_MenuNames ModeMenuNames[] = {
+	"NORMAL", "SCORE MORE", "COLLECTOR", "SCAVENGER",		 "HUNTER",
+	"TAG",	  "ELUDER",		"DELUDER",	 "CAPTURE THE TRIAD"
+};
 
-CP_iteminfo ModeItems = {MENU_X, MENU_Y + 1, 9, 0, 24, ModeMenuNames, mn_largefont};
+CP_iteminfo ModeItems = { MENU_X, MENU_Y + 1,	 9,			  0,
+						  24,	  ModeMenuNames, mn_largefont };
 
 CP_itemtype ModeMenu[] = {
-	{CP_CursorLocation, "normal\0", 'N', (menuptr)CP_BattleMenu}, {CP_Active, "scorem\0", 'S', (menuptr)CP_BattleMenu},
-	{CP_Active, "collect\0", 'C', (menuptr)CP_BattleMenu},		  {CP_Active, "scaven\0", 'S', (menuptr)CP_BattleMenu},
-	{CP_Active, "hunter\0", 'H', (menuptr)CP_BattleMenu},		  {CP_Active, "tag\0", 'T', (menuptr)CP_BattleMenu},
-	{CP_Active, "eluder\0", 'E', (menuptr)CP_BattleMenu},		  {CP_Active, "deluder\0", 'D', (menuptr)CP_BattleMenu},
-	{CP_Active, "captriad\0", 'C', (menuptr)CP_BattleMenu}};
+	{ CP_CursorLocation, "normal\0", 'N', (menuptr)CP_BattleMenu },
+	{ CP_Active, "scorem\0", 'S', (menuptr)CP_BattleMenu },
+	{ CP_Active, "collect\0", 'C', (menuptr)CP_BattleMenu },
+	{ CP_Active, "scaven\0", 'S', (menuptr)CP_BattleMenu },
+	{ CP_Active, "hunter\0", 'H', (menuptr)CP_BattleMenu },
+	{ CP_Active, "tag\0", 'T', (menuptr)CP_BattleMenu },
+	{ CP_Active, "eluder\0", 'E', (menuptr)CP_BattleMenu },
+	{ CP_Active, "deluder\0", 'D', (menuptr)CP_BattleMenu },
+	{ CP_Active, "captriad\0", 'C', (menuptr)CP_BattleMenu }
+};
 
-CP_MenuNames BOptNames[] = {"GRAVITY",		"SPEED",	  "AMMO PER WEAPON", "HIT POINTS", "RADICAL OPTIONS",
-							"LIGHT LEVELS", "POINT GOAL", "DANGER DAMAGE",	 "TIME LIMIT"};
+CP_MenuNames BOptNames[] = { "GRAVITY",	   "SPEED",			  "AMMO PER WEAPON",
+							 "HIT POINTS", "RADICAL OPTIONS", "LIGHT LEVELS",
+							 "POINT GOAL", "DANGER DAMAGE",	  "TIME LIMIT" };
 
-CP_iteminfo BOptItems = {MENU_X, MENU_Y + 1, 9, 0, 24, BOptNames, mn_largefont};
+CP_iteminfo BOptItems = {
+	MENU_X, MENU_Y + 1, 9, 0, 24, BOptNames, mn_largefont
+};
 
 CP_itemtype BOptMenu[] = {
-	{2, "gravity\0", 'G', (menuptr)CP_GravityOptions},		 {1, "speed\0", 'S', (menuptr)CP_SpeedOptions},
-	{1, "ammoper\0", 'A', (menuptr)CP_AmmoPerWeaponOptions}, {1, "hitp\0", 'H', (menuptr)CP_HitPointsOptions},
-	{1, "radical\0", 'R', (menuptr)CP_SpawnControlOptions},	 {1, "lightl\0", 'L', (menuptr)CP_LightLevelOptions},
-	{1, "pntgoal\0", 'P', (menuptr)CP_PointGoalOptions},	 {1, "danger\0", 'D', (menuptr)CP_DangerOptions},
-	{1, "timel\0", 'T', (menuptr)CP_TimeLimitOptions}};
+	{ 2, "gravity\0", 'G', (menuptr)CP_GravityOptions },
+	{ 1, "speed\0", 'S', (menuptr)CP_SpeedOptions },
+	{ 1, "ammoper\0", 'A', (menuptr)CP_AmmoPerWeaponOptions },
+	{ 1, "hitp\0", 'H', (menuptr)CP_HitPointsOptions },
+	{ 1, "radical\0", 'R', (menuptr)CP_SpawnControlOptions },
+	{ 1, "lightl\0", 'L', (menuptr)CP_LightLevelOptions },
+	{ 1, "pntgoal\0", 'P', (menuptr)CP_PointGoalOptions },
+	{ 1, "danger\0", 'D', (menuptr)CP_DangerOptions },
+	{ 1, "timel\0", 'T', (menuptr)CP_TimeLimitOptions }
+};
 
-CP_MenuNames GravityMenuNames[] = {"LOW", "NORMAL", "HIGH"};
+CP_MenuNames GravityMenuNames[] = { "LOW", "NORMAL", "HIGH" };
 
-CP_iteminfo GravityItems = {32, 26, 3, 0, 45, GravityMenuNames, mn_largefont};
+CP_iteminfo GravityItems = { 32, 26, 3, 0, 45, GravityMenuNames, mn_largefont };
 
-CP_itemtype GravityMenu[] = {{2, "b_low\0", 'L', {NULL}}, {1, "b_normal\0", 'N', {NULL}}, {1, "b_high\0", 'H', {NULL}}};
+CP_itemtype GravityMenu[] = { { 2, "b_low\0", 'L', { NULL } },
+							  { 1, "b_normal\0", 'N', { NULL } },
+							  { 1, "b_high\0", 'H', { NULL } } };
 
-CP_MenuNames SpeedMenuNames[] = {"NORMAL", "FAST"};
+CP_MenuNames SpeedMenuNames[] = { "NORMAL", "FAST" };
 
-CP_iteminfo SpeedItems = {32, MP_Y, 2, 0, 45, SpeedMenuNames, mn_largefont};
+CP_iteminfo SpeedItems = { 32, MP_Y, 2, 0, 45, SpeedMenuNames, mn_largefont };
 
-CP_itemtype SpeedMenu[] = {{2, "b_normal\0", 'N', {NULL}}, {1, "b_fast\0", 'F', {NULL}}};
+CP_itemtype SpeedMenu[] = { { 2, "b_normal\0", 'N', { NULL } },
+							{ 1, "b_fast\0", 'F', { NULL } } };
 
-CP_MenuNames AmmoPerWeaponMenuNames[] = {"ONE", "NORMAL", "GUNFINITY"};
+CP_MenuNames AmmoPerWeaponMenuNames[] = { "ONE", "NORMAL", "GUNFINITY" };
 
-CP_iteminfo AmmoPerWeaponItems = {32, 26, 3, 0, 45, AmmoPerWeaponMenuNames, mn_largefont};
+CP_iteminfo AmmoPerWeaponItems = { 32,			26, 3,
+								   0,			45, AmmoPerWeaponMenuNames,
+								   mn_largefont };
 
-CP_itemtype AmmoPerWeaponMenu[] = {
-	{2, "b_one\0", 'O', {NULL}}, {1, "b_normal\0", 'N', {NULL}}, {1, "b_gunf\0", 'G', {NULL}}};
+CP_itemtype AmmoPerWeaponMenu[] = { { 2, "b_one\0", 'O', { NULL } },
+									{ 1, "b_normal\0", 'N', { NULL } },
+									{ 1, "b_gunf\0", 'G', { NULL } } };
 
-CP_MenuNames HitPointMenuNames[] = {"ONE", "25", "BY CHARACTER", "100", "250", "500", "4000"};
+CP_MenuNames HitPointMenuNames[] = { "ONE", "25",  "BY CHARACTER", "100",
+									 "250", "500", "4000" };
 
-CP_iteminfo HitPointItems = {32, 32, 7, 0, 45, HitPointMenuNames, mn_largefont};
+CP_iteminfo HitPointItems = {
+	32, 32, 7, 0, 45, HitPointMenuNames, mn_largefont
+};
 
-CP_itemtype HitPointMenu[] = {{2, "b_one\0", 'O', {NULL}}, {1, "b_25\0", 'a', {NULL}},	{1, "b_char\0", 'C', {NULL}},
-							  {1, "b_100\0", 'a', {NULL}}, {1, "b_250\0", 'a', {NULL}}, {1, "b_500\0", 'a', {NULL}},
-							  {1, "b_4000\0", 'a', {NULL}}};
+CP_itemtype HitPointMenu[] = {
+	{ 2, "b_one\0", 'O', { NULL } },  { 1, "b_25\0", 'a', { NULL } },
+	{ 1, "b_char\0", 'C', { NULL } }, { 1, "b_100\0", 'a', { NULL } },
+	{ 1, "b_250\0", 'a', { NULL } },  { 1, "b_500\0", 'a', { NULL } },
+	{ 1, "b_4000\0", 'a', { NULL } }
+};
 
-CP_MenuNames SpawnMenuNames[] = {"SPAWN DANGERS", "SPAWN HEALTH",		"SPAWN WEAPONS",  "SPAWN MINES",
-								 "RESPAWN ITEMS", "WEAPON PERSISTENCE", "RANDOM WEAPONS", "FRIENDLY FIRE"};
+CP_MenuNames SpawnMenuNames[] = { "SPAWN DANGERS",	"SPAWN HEALTH",
+								  "SPAWN WEAPONS",	"SPAWN MINES",
+								  "RESPAWN ITEMS",	"WEAPON PERSISTENCE",
+								  "RANDOM WEAPONS", "FRIENDLY FIRE" };
 
-CP_iteminfo SpawnItems = {20, 24, 8, 0, 35, SpawnMenuNames, mn_largefont};
+CP_iteminfo SpawnItems = { 20, 24, 8, 0, 35, SpawnMenuNames, mn_largefont };
 
-CP_itemtype SpawnMenu[] = {{2, "b_danger\0", 'S', {NULL}}, {1, "b_health\0", 'S', {NULL}},
-						   {1, "b_weap\0", 'S', {NULL}},   {1, "b_mines\0", 'S', {NULL}},
-						   {1, "b_rpawn\0", 'R', {NULL}},  {1, "b_persis\0", 'W', {NULL}},
-						   {1, "b_rndwpn\0", 'R', {NULL}}, {1, "b_friend\0", 'F', {NULL}}};
+CP_itemtype SpawnMenu[] = {
+	{ 2, "b_danger\0", 'S', { NULL } }, { 1, "b_health\0", 'S', { NULL } },
+	{ 1, "b_weap\0", 'S', { NULL } },	{ 1, "b_mines\0", 'S', { NULL } },
+	{ 1, "b_rpawn\0", 'R', { NULL } },	{ 1, "b_persis\0", 'W', { NULL } },
+	{ 1, "b_rndwpn\0", 'R', { NULL } }, { 1, "b_friend\0", 'F', { NULL } }
+};
 
-CP_MenuNames LightLevelMenuNames[] = {"DARK", "NORMAL", "BRIGHT", "FOG", "PERIODIC", "LIGHTNING"};
+CP_MenuNames LightLevelMenuNames[] = { "DARK", "NORMAL",   "BRIGHT",
+									   "FOG",  "PERIODIC", "LIGHTNING" };
 
-CP_iteminfo LightLevelItems = {32, 40, 6, 0, 45, LightLevelMenuNames, mn_largefont};
+CP_iteminfo LightLevelItems = { 32,			 40, 6, 0, 45, LightLevelMenuNames,
+								mn_largefont };
 
-CP_itemtype LightLevelMenu[] = {{2, "b_dark\0", 'D', {NULL}},	{1, "b_normal\0", 'N', {NULL}},
-								{1, "b_bright\0", 'B', {NULL}}, {1, "b_fog\0", 'F', {NULL}},
-								{1, "b_period\0", 'P', {NULL}}, {1, "b_light\0", 'L', {NULL}}};
+CP_itemtype LightLevelMenu[] = {
+	{ 2, "b_dark\0", 'D', { NULL } },	{ 1, "b_normal\0", 'N', { NULL } },
+	{ 1, "b_bright\0", 'B', { NULL } }, { 1, "b_fog\0", 'F', { NULL } },
+	{ 1, "b_period\0", 'P', { NULL } }, { 1, "b_light\0", 'L', { NULL } }
+};
 
-CP_MenuNames PointGoalMenuNames[] = {"1", "5", "11", "21", "50", "100", "RANDOM", "RANDOM BLIND", "INFINITE"};
+CP_MenuNames PointGoalMenuNames[] = {
+	"1", "5", "11", "21", "50", "100", "RANDOM", "RANDOM BLIND", "INFINITE"
+};
 
-CP_iteminfo PointGoalItems = {32, 16, 9, 0, 45, PointGoalMenuNames, mn_largefont};
+CP_iteminfo PointGoalItems = { 32,			16, 9, 0, 45, PointGoalMenuNames,
+							   mn_largefont };
 
 CP_itemtype PointGoalMenu[] = {
-	{2, "b_1\0", 'a', {NULL}},		{1, "b_5\0", 'a', {NULL}},	   {1, "b_11\0", 'a', {NULL}},
-	{1, "b_21\0", 'a', {NULL}},		{1, "b_50\0", 'a', {NULL}},	   {1, "b_100\0", 'a', {NULL}},
-	{1, "b_random\0", 'R', {NULL}}, {1, "b_randb\0", 'R', {NULL}}, {1, "b_inf\0", 'I', {NULL}}};
+	{ 2, "b_1\0", 'a', { NULL } },		{ 1, "b_5\0", 'a', { NULL } },
+	{ 1, "b_11\0", 'a', { NULL } },		{ 1, "b_21\0", 'a', { NULL } },
+	{ 1, "b_50\0", 'a', { NULL } },		{ 1, "b_100\0", 'a', { NULL } },
+	{ 1, "b_random\0", 'R', { NULL } }, { 1, "b_randb\0", 'R', { NULL } },
+	{ 1, "b_inf\0", 'I', { NULL } }
+};
 
-CP_MenuNames DangerMenuNames[] = {"LOW", "NORMAL", "KILL"};
+CP_MenuNames DangerMenuNames[] = { "LOW", "NORMAL", "KILL" };
 
-CP_iteminfo DangerItems = {32, 56, 3, 0, 45, DangerMenuNames, mn_largefont};
+CP_iteminfo DangerItems = { 32, 56, 3, 0, 45, DangerMenuNames, mn_largefont };
 
-CP_itemtype DangerMenu[] = {{2, "b_low\0", 'L', {NULL}}, {1, "b_normal\0", 'N', {NULL}}, {1, "b_kill\0", 'K', {NULL}}};
+CP_itemtype DangerMenu[] = { { 2, "b_low\0", 'L', { NULL } },
+							 { 1, "b_normal\0", 'N', { NULL } },
+							 { 1, "b_kill\0", 'K', { NULL } } };
 
-CP_MenuNames TimeLimitMenuNames[] = {"1", "2", "5", "10", "21", "30", "99", "NONE"};
+CP_MenuNames TimeLimitMenuNames[] = { "1",	"2",  "5",	"10",
+									  "21", "30", "99", "NONE" };
 
-CP_iteminfo TimeLimitItems = {32, 24, 8, 0, 45, TimeLimitMenuNames, mn_largefont};
+CP_iteminfo TimeLimitItems = { 32,			24, 8, 0, 45, TimeLimitMenuNames,
+							   mn_largefont };
 
-CP_itemtype TimeLimitMenu[] = {{2, "b_1\0", 'a', {NULL}},  {1, "b_2\0", 'a', {NULL}},  {1, "b_5\0", 'a', {NULL}},
-							   {1, "b_10\0", 'a', {NULL}}, {1, "b_21\0", 'a', {NULL}}, {1, "b_30\0", 'a', {NULL}},
-							   {1, "b_99\0", 'a', {NULL}}, {1, "vnone\0", 'N', {NULL}}};
+CP_itemtype TimeLimitMenu[] = {
+	{ 2, "b_1\0", 'a', { NULL } },	{ 1, "b_2\0", 'a', { NULL } },
+	{ 1, "b_5\0", 'a', { NULL } },	{ 1, "b_10\0", 'a', { NULL } },
+	{ 1, "b_21\0", 'a', { NULL } }, { 1, "b_30\0", 'a', { NULL } },
+	{ 1, "b_99\0", 'a', { NULL } }, { 1, "vnone\0", 'N', { NULL } }
+};
 
-CP_MenuNames MultiPageCustomNames[MAXCUSTOM + 2] = {"NEXT PAGE", "PREVIOUS PAGE"};
+CP_MenuNames MultiPageCustomNames[MAXCUSTOM + 2] = { "NEXT PAGE",
+													 "PREVIOUS PAGE" };
 
-CP_iteminfo MultiPageCustomItems = {18, 17, 0, 0, 12, MultiPageCustomNames, mn_smallfont};
+CP_iteminfo MultiPageCustomItems = { 18,		  17, 0,
+									 0,			  12, MultiPageCustomNames,
+									 mn_smallfont };
 CP_itemtype MultiPageCustomMenu[] = {
-	{1, "", 'N', {NULL}}, {1, "", 'P', {NULL}}, {1, "", 'a', {NULL}}, {1, "", 'a', {NULL}}, {1, "", 'a', {NULL}},
-	{1, "", 'a', {NULL}}, {1, "", 'a', {NULL}}, {1, "", 'a', {NULL}}, {1, "", 'a', {NULL}}, {1, "", 'a', {NULL}},
-	{1, "", 'a', {NULL}}, {1, "", 'a', {NULL}}, {1, "", 'a', {NULL}}, {1, "", 'a', {NULL}},
+	{ 1, "", 'N', { NULL } }, { 1, "", 'P', { NULL } },
+	{ 1, "", 'a', { NULL } }, { 1, "", 'a', { NULL } },
+	{ 1, "", 'a', { NULL } }, { 1, "", 'a', { NULL } },
+	{ 1, "", 'a', { NULL } }, { 1, "", 'a', { NULL } },
+	{ 1, "", 'a', { NULL } }, { 1, "", 'a', { NULL } },
+	{ 1, "", 'a', { NULL } }, { 1, "", 'a', { NULL } },
+	{ 1, "", 'a', { NULL } }, { 1, "", 'a', { NULL } },
 };
 
 #define COLORX 113
@@ -623,7 +791,7 @@ CP_itemtype MultiPageCustomMenu[] = {
 #define COLORH 96
 
 // Custom menu stuff
-static int CUSTOM_y[7] = {31, 0, 63, 0, 94, 0, 126};
+static int CUSTOM_y[7] = { 31, 0, 63, 0, 94, 0, 126 };
 
 //
 // Save globals
@@ -636,8 +804,10 @@ static char SaveGameNames[NUMSAVEGAMES][32];
 static byte *savedscreen;
 static mapfileinfo_t *mapinfo;
 
-static void HideCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int y, int which);
-static void ShowCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int *y, int which, int basey);
+static void HideCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int y,
+					   int which);
+static void ShowCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int *y,
+					   int which, int basey);
 void CP_DrawSelectedGame(int w);
 int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w));
 void DrawStoredGame(byte *pic, int episode, int area);
@@ -653,7 +823,8 @@ int ColorMenu(void);
 //
 //******************************************************************************
 
-void MN_DrawButtons(CP_iteminfo *item_i, CP_itemtype *items, int check, int *nums)
+void MN_DrawButtons(CP_iteminfo *item_i, CP_itemtype *items, int check,
+					int *nums)
 
 {
 	int i;
@@ -669,11 +840,15 @@ void MN_DrawButtons(CP_iteminfo *item_i, CP_itemtype *items, int check, int *num
 		{
 			if (nums[i] == check)
 			{
-				DrawMenuBufItem(item_i->x + 27, item_i->y + i * FontSize[item_i->fontsize] - 1, button_on);
+				DrawMenuBufItem(item_i->x + 27,
+								item_i->y + i * FontSize[item_i->fontsize] - 1,
+								button_on);
 			}
 			else
 			{
-				DrawMenuBufItem(item_i->x + 27, item_i->y + i * FontSize[item_i->fontsize] - 1, button_off);
+				DrawMenuBufItem(item_i->x + 27,
+								item_i->y + i * FontSize[item_i->fontsize] - 1,
+								button_off);
 			}
 		}
 	}
@@ -817,11 +992,13 @@ void DrawMenu(CP_iteminfo *item_i, CP_itemtype *items)
 		{
 			if (item_i->names == NULL)
 			{
-				DrawIMenuBufItem(posx, posy, W_GetNumForName(items[i].texture), color);
+				DrawIMenuBufItem(posx, posy, W_GetNumForName(items[i].texture),
+								 color);
 			}
 			else
 			{
-				IFont = (cfont_t *)W_CacheLumpName(FontNames[item_i->fontsize], PU_CACHE, Cvt_cfont_t, 1);
+				IFont = (cfont_t *)W_CacheLumpName(FontNames[item_i->fontsize],
+												   PU_CACHE, Cvt_cfont_t, 1);
 				if (item_i->fontsize == mn_tinyfont)
 				{
 					DrawMenuBufIString(posx + 1, posy, item_i->names[i], 0);
@@ -972,7 +1149,8 @@ void SetUpControlPanel(void)
 		for (i = 0; i < Xres; i += 4)
 		{
 			b = (byte *)bufferofs + i; // schrink screen to 1/2 size
-			for (j = 0; j < (Yres / 4); j++, s++, b += (iGLOBAL_SCREENWIDTH << 1) * 2)
+			for (j = 0; j < (Yres / 4);
+				 j++, s++, b += (iGLOBAL_SCREENWIDTH << 1) * 2)
 				*s = *b;
 		}
 	}
@@ -1369,7 +1547,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 		y = CUSTOM_y[handlewhich];
 
 	if (MenuNum != 5)
-		DrawMenuBufItem(x, y, W_GetNumForName(CursorLump) + CursorFrame[CursorNum]);
+		DrawMenuBufItem(x, y,
+						W_GetNumForName(CursorLump) + CursorFrame[CursorNum]);
 
 	if (routine)
 		routine(handlewhich);
@@ -1395,7 +1574,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 				CursorNum = 0;
 
 			EraseMenuBufRegion(x, y, cursorwidth, cursorheight);
-			DrawMenuBufItem(x, y, W_GetNumForName(CursorLump) + CursorFrame[CursorNum]);
+			DrawMenuBufItem(
+				x, y, W_GetNumForName(CursorLump) + CursorFrame[CursorNum]);
 		}
 
 		// Initial char - pass 1
@@ -1456,8 +1636,10 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 						CursorNum = 0;
 
 					// Do a half step if possible
-					if ((handlewhich) && (((items + handlewhich - 1)->active == CP_CursorLocation) ||
-										  ((items + handlewhich - 1)->active == CP_Active)))
+					if ((handlewhich) &&
+						(((items + handlewhich - 1)->active ==
+						  CP_CursorLocation) ||
+						 ((items + handlewhich - 1)->active == CP_Active)))
 					{
 						y -= 6;
 						DrawHalfStep(x, y);
@@ -1503,7 +1685,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 
 					// Do a half step if possible
 					if ((handlewhich != item_i->amount - 1) &&
-						(((items + handlewhich + 1)->active == CP_CursorLocation) ||
+						(((items + handlewhich + 1)->active ==
+						  CP_CursorLocation) ||
 						 ((items + handlewhich + 1)->active == CP_Active)))
 					{
 						y += 6;
@@ -1561,7 +1744,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 		if ((Keyboard[sc_Home]) && (numactive > 1))
 		{
 			newpos = 0;
-			while ((items[newpos].active == CP_Inactive) || (items[newpos].active == CP_Active3))
+			while ((items[newpos].active == CP_Inactive) ||
+				   (items[newpos].active == CP_Active3))
 			{
 				newpos++;
 			}
@@ -1595,7 +1779,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 		else if ((Keyboard[sc_End]) && (numactive > 1))
 		{
 			newpos = item_i->amount - 1;
-			while ((items[newpos].active == CP_Inactive) || (items[newpos].active == CP_Active3))
+			while ((items[newpos].active == CP_Inactive) ||
+				   (items[newpos].active == CP_Active3))
 			{
 				newpos--;
 			}
@@ -1637,7 +1822,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 				exit = 3;
 				MN_PlayMenuSnd(SD_SELECTSND);
 			}
-			else if ((Keyboard[sc_PgDn]) && ((items + 0)->active != CP_Inactive))
+			else if ((Keyboard[sc_PgDn]) &&
+					 ((items + 0)->active != CP_Inactive))
 			{
 				item_i->curpos = handlewhich;
 				handlewhich = PAGEDOWN;
@@ -1651,7 +1837,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 		{
 			if (Keyboard[sc_Delete] && SaveGamesAvail[handlewhich])
 			{
-				if (CP_DisplayMsg("Delete saved game?\nAre you sure?", 12) == true)
+				if (CP_DisplayMsg("Delete saved game?\nAre you sure?", 12) ==
+					true)
 				{
 					char loadname[] = "rottgam0.rot";
 					char *filename;
@@ -1660,7 +1847,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 					itoa(handlewhich, &loadname[7], 16);
 					loadname[8] = '.';
 
-					filename = M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
+					filename =
+						M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
 
 					// Delete the file
 
@@ -1736,7 +1924,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 // HideCursor
 //
 //******************************************************************************
-void HideCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int y, int which)
+void HideCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int y,
+				int which)
 
 {
 	int time = GetTicCount();
@@ -1780,11 +1969,13 @@ void HideCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int y, int which
 		{
 			if (item_i->names == NULL)
 			{
-				DrawIMenuBufItem(posx, posy, W_GetNumForName(items[which].texture), color);
+				DrawIMenuBufItem(posx, posy,
+								 W_GetNumForName(items[which].texture), color);
 			}
 			else
 			{
-				IFont = (cfont_t *)W_CacheLumpName(FontNames[item_i->fontsize], PU_CACHE, Cvt_cfont_t, 1);
+				IFont = (cfont_t *)W_CacheLumpName(FontNames[item_i->fontsize],
+												   PU_CACHE, Cvt_cfont_t, 1);
 				if (item_i->fontsize == mn_tinyfont)
 				{
 					DrawMenuBufIString(posx + 1, posy, item_i->names[which], 0);
@@ -1794,7 +1985,8 @@ void HideCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int y, int which
 		}
 	}
 
-	if ((items[which].active != CP_Inactive) && (items[which].active != CP_SemiActive))
+	if ((items[which].active != CP_Inactive) &&
+		(items[which].active != CP_SemiActive))
 	{
 		items[which].active = CP_Active;
 	}
@@ -1847,7 +2039,8 @@ int GetNumActive(CP_iteminfo *item_i, CP_itemtype *items)
 //    Draw triad at new position.
 //
 //******************************************************************************
-void ShowCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int *y, int which, int basey)
+void ShowCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int *y,
+				int which, int basey)
 
 {
 	int time = GetTicCount();
@@ -1867,7 +2060,8 @@ void ShowCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int *y, int whic
 
 	if (MenuNum != 5)
 	{
-		DrawMenuBufItem(x, *y, W_GetNumForName(CursorLump) + CursorFrame[CursorNum]);
+		DrawMenuBufItem(x, *y,
+						W_GetNumForName(CursorLump) + CursorFrame[CursorNum]);
 	}
 
 	if (items[which].active != CP_SemiActive)
@@ -1879,16 +2073,20 @@ void ShowCursor(CP_iteminfo *item_i, CP_itemtype *items, int x, int *y, int whic
 
 			if (item_i->names == NULL)
 			{
-				DrawIMenuBufItem(posx, posy, W_GetNumForName(items[which].texture), ACTIVECOLOR);
+				DrawIMenuBufItem(posx, posy,
+								 W_GetNumForName(items[which].texture),
+								 ACTIVECOLOR);
 			}
 			else
 			{
-				IFont = (cfont_t *)W_CacheLumpName(FontNames[item_i->fontsize], PU_CACHE, Cvt_cfont_t, 1);
+				IFont = (cfont_t *)W_CacheLumpName(FontNames[item_i->fontsize],
+												   PU_CACHE, Cvt_cfont_t, 1);
 				if (item_i->fontsize == mn_tinyfont)
 				{
 					DrawMenuBufIString(posx + 1, posy, item_i->names[which], 0);
 				}
-				DrawMenuBufIString(posx, posy - 1, item_i->names[which], ACTIVECOLOR);
+				DrawMenuBufIString(posx, posy - 1, item_i->names[which],
+								   ACTIVECOLOR);
 			}
 		}
 
@@ -1921,7 +2119,9 @@ void DrawOrderInfo(int which)
 	// Screen shots are grabbed as pics
 	if (lumpname[0] == 'S')
 	{
-		VWB_DrawPic(0, 0, (pic_t *)W_CacheLumpNum(start + which, PU_CACHE, Cvt_pic_t, 1));
+		VWB_DrawPic(
+			0, 0,
+			(pic_t *)W_CacheLumpNum(start + which, PU_CACHE, Cvt_pic_t, 1));
 	}
 	else
 	{
@@ -1955,7 +2155,8 @@ void CP_OrderInfo(void)
 	{
 		EnableScreenStretch(); // bna++
 		DrawOrderInfo(page);
-		DisableScreenStretch(); // bna++ turn off or screen will be strected every time it passes VW_UpdateScreen
+		DisableScreenStretch(); // bna++ turn off or screen will be strected
+								// every time it passes VW_UpdateScreen
 		if (newpage)
 		{
 			while (Keyboard[key])
@@ -2069,7 +2270,8 @@ void CP_Quit(int which)
 	{
 		ClearMenuBuf();
 		DrawMainMenu();
-		DrawMenuBufItem(MainItems.x, ((MainItems.curpos * 14) + (MainItems.y - 2)),
+		DrawMenuBufItem(MainItems.x,
+						((MainItems.curpos * 14) + (MainItems.y - 2)),
 						W_GetNumForName(LargeCursor) + CursorFrame[CursorNum]);
 		RefreshMenuBuf(0);
 	}
@@ -2185,7 +2387,8 @@ boolean CP_DisplayMsg(char *s, int number)
 
 	redraw = true;
 
-	IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_smallfont], PU_CACHE, Cvt_cfont_t, 1);
+	IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_smallfont], PU_CACHE,
+									   Cvt_cfont_t, 1);
 	/*
 	   DrawSTMenuBuf( WindowX, L_Y, W_W, W_H, false );
 	   MenuBufCPrint( s );
@@ -2264,11 +2467,14 @@ boolean CP_DisplayMsg(char *s, int number)
 
 				DrawSTMenuBuf(activex, Q_bY, Q_bW, Q_bH, false);
 				DrawMenuBufIString(activex + 3, Q_Y + 46, active, ACTIVECOLOR);
-				//         DrawIMenuBufItem (PrintX, PrintY, W_GetNumForName (YES), NORMALCOLOR);
+				//         DrawIMenuBufItem (PrintX, PrintY, W_GetNumForName
+				//         (YES), NORMALCOLOR);
 
 				DrawSTMenuBuf(inactivex, Q_bY, Q_bW, Q_bH, true);
-				DrawMenuBufIString(inactivex + 2, Q_Y + 45, inactive, NORMALCOLOR);
-				//         DrawIMenuBufItem (PrintX, PrintY, W_GetNumForName (NO), ACTIVECOLOR);
+				DrawMenuBufIString(inactivex + 2, Q_Y + 45, inactive,
+								   NORMALCOLOR);
+				//         DrawIMenuBufItem (PrintX, PrintY, W_GetNumForName
+				//         (NO), ACTIVECOLOR);
 
 				for (t = 0; t < 5; t++)
 				{
@@ -2276,7 +2482,8 @@ boolean CP_DisplayMsg(char *s, int number)
 				}
 			}
 
-			if ((Keyboard[sc_Space] || Keyboard[sc_Enter] || ci.button0) && YESON)
+			if ((Keyboard[sc_Space] || Keyboard[sc_Enter] || ci.button0) &&
+				YESON)
 			{
 				done = true;
 				retval = true;
@@ -2290,7 +2497,8 @@ boolean CP_DisplayMsg(char *s, int number)
 				CP_Acknowledge = CP_ESC;
 				MN_PlayMenuSnd(SD_ESCPRESSEDSND);
 			}
-			else if ((Keyboard[sc_Space] || Keyboard[sc_Enter] || ci.button0) && !YESON)
+			else if ((Keyboard[sc_Space] || Keyboard[sc_Enter] || ci.button0) &&
+					 !YESON)
 			{
 				done = true;
 				retval = false;
@@ -2307,7 +2515,9 @@ boolean CP_DisplayMsg(char *s, int number)
 			}
 		}
 
-		while ((Keyboard[sc_Enter] || Keyboard[sc_Space] || Keyboard[sc_Escape]) && !blowout)
+		while (
+			(Keyboard[sc_Enter] || Keyboard[sc_Space] || Keyboard[sc_Escape]) &&
+			!blowout)
 		{
 			IN_UpdateKeyboard();
 			RefreshMenuBuf(0);
@@ -2361,9 +2571,9 @@ void EndGameStuff(void)
 //
 //******************************************************************************
 
-#define CURGAME                                                                                                        \
-	"You are currently in\n"                                                                                           \
-	"a game. Continuing will\n"                                                                                        \
+#define CURGAME \
+	"You are currently in\n" \
+	"a game. Continuing will\n" \
 	"erase old game. Ok?\0"
 
 int ToughMenuNum;
@@ -2491,9 +2701,9 @@ void CP_NewGame(void)
 //
 //******************************************************************************
 
-#define ENDGAMESTR                                                                                                     \
-	"Are you sure you want\n"                                                                                          \
-	"to end the game you\n"                                                                                            \
+#define ENDGAMESTR \
+	"Are you sure you want\n" \
+	"to end the game you\n" \
 	"are playing? (Y or N):"
 
 void CP_EndGame(void)
@@ -2612,7 +2822,8 @@ int DoLoad(int which)
 		}
 		else
 		{
-			if (CP_DisplayMsg("Saved Game is\n old or incompatible\nDelete it?", 12) == true)
+			if (CP_DisplayMsg("Saved Game is\n old or incompatible\nDelete it?",
+							  12) == true)
 			{
 				char loadname[] = "rottgam0.rot";
 				char *filename;
@@ -2621,7 +2832,8 @@ int DoLoad(int which)
 				itoa(which, &loadname[7], 16);
 				loadname[8] = '.';
 
-				filename = M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
+				filename =
+					M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
 
 				// Delete the file
 
@@ -2675,7 +2887,8 @@ int CP_LoadGame(int quick, int dieload)
 			else
 			{
 				DrawLoadSaveScreen(0);
-				if (CP_DisplayMsg("Quick load saved game?\nAre you sure?", 12) == true)
+				if (CP_DisplayMsg("Quick load saved game?\nAre you sure?",
+								  12) == true)
 				{
 					DrawLoadSaveScreen(0);
 					CP_DrawSelectedGame(which);
@@ -2704,7 +2917,8 @@ int CP_LoadGame(int quick, int dieload)
 
 	handlewhich = OUTOFRANGE;
 
-	if (MainMenu[loadgame].active == CP_Inactive) // If all the saved games have been
+	if (MainMenu[loadgame].active ==
+		CP_Inactive) // If all the saved games have been
 	{
 		MainItems.curpos = 0; //  deleted dehighlight LOADGAME
 		MainMenu[newgame].active = CP_CursorLocation;
@@ -2802,7 +3016,8 @@ void UndoQuickSaveGame(void)
 
 		itoa(quicksaveslot, &loadname[7], 16);
 		loadname[8] = '.';
-		filename = M_StringJoin(ApogeePath, PATH_SEP_STR, QUICKSAVEBACKUP, NULL);
+		filename =
+			M_StringJoin(ApogeePath, PATH_SEP_STR, QUICKSAVEBACKUP, NULL);
 		length = LoadFile(filename, (void **)&buf);
 		free(filename);
 		filename = M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
@@ -2851,7 +3066,8 @@ int CP_SaveGame(void)
 				else
 				{
 					DrawLoadSaveScreenAlt(1);
-					EraseMenuBufRegion(LSM_X + LSItems.indent, LSM_Y + 1 + which * 9, 80, 8);
+					EraseMenuBufRegion(LSM_X + LSItems.indent,
+									   LSM_Y + 1 + which * 9, 80, 8);
 					PrintLSEntry(which);
 				}
 			}
@@ -2862,9 +3078,11 @@ int CP_SaveGame(void)
 			strcpy(input, &SaveGameNames[which][0]);
 
 			if (!SaveGamesAvail[which])
-				EraseMenuBufRegion(LSM_X + LSItems.indent + 1, LSM_Y + which * 9 + 2, 77, 6);
+				EraseMenuBufRegion(LSM_X + LSItems.indent + 1,
+								   LSM_Y + which * 9 + 2, 77, 6);
 
-			if (US_LineInput(LSM_X + LSItems.indent + 2, LSM_Y + which * 9 + 2, input, input, true, 22, 75, 0))
+			if (US_LineInput(LSM_X + LSItems.indent + 2, LSM_Y + which * 9 + 2,
+							 input, input, true, 22, 75, 0))
 			{
 				SaveGamesAvail[which] = 1;
 				memcpy(&game.picture[0], savedscreen, 16000);
@@ -2885,7 +3103,8 @@ int CP_SaveGame(void)
 			}
 			else
 			{
-				EraseMenuBufRegion(LSM_X + LSItems.indent + 1, LSM_Y + which * 9 + 2, 77, 6);
+				EraseMenuBufRegion(LSM_X + LSItems.indent + 1,
+								   LSM_Y + which * 9 + 2, 77, 6);
 
 				PrintX = LSM_X + LSItems.indent + 2;
 				PrintY = LSM_Y + which * 9 + 2;
@@ -3142,7 +3361,8 @@ void DefineKey(void)
 
 			buttonscan[(unsigned int)order[handlewhich]] = key;
 
-			strcpy(&NormalKeyNames[handlewhich][KEYNAMEINDEX], IN_GetScanName(key));
+			strcpy(&NormalKeyNames[handlewhich][KEYNAMEINDEX],
+				   IN_GetScanName(key));
 
 			picked = true;
 
@@ -3197,7 +3417,8 @@ void DefineMouseBtn(void)
 
 	button = handlewhich;
 
-	MN_GetActive(&ControlSelectItems, &ControlSelectMenu[0], buttonmouse[button], controlorder);
+	MN_GetActive(&ControlSelectItems, &ControlSelectMenu[0],
+				 buttonmouse[button], controlorder);
 
 	DrawControlSelect();
 
@@ -3292,7 +3513,8 @@ void DefineJoyBtn(void)
 
 	button = handlewhich;
 
-	MN_GetActive(&ControlSelectItems, &ControlSelectMenu[0], buttonjoy[button], controlorder);
+	MN_GetActive(&ControlSelectItems, &ControlSelectMenu[0], buttonjoy[button],
+				 controlorder);
 
 	DrawControlSelect();
 
@@ -3468,8 +3690,8 @@ void DrawNewGame(void)
 //
 //******************************************************************************
 
-int newgameY[7] = {19, 0, 42, 0, 74, 0, 93};
-char *DifficultyStrings[4] = {"Easy", "Medium", "Hard", "Crezzy Man"};
+int newgameY[7] = { 19, 0, 42, 0, 74, 0, 93 };
+char *DifficultyStrings[4] = { "Easy", "Medium", "Hard", "Crezzy Man" };
 
 void DrawNewGameDiff(int w)
 
@@ -3496,7 +3718,8 @@ void DrawNewGameDiff(int w)
 	}
 
 	EraseMenuBufRegion(25, 18, 52, 125);
-	DrawMenuBufPic(25, newgameY[w], W_GetNumForName("NEWG1") + (ToughMenuNum * 4) + x);
+	DrawMenuBufPic(25, newgameY[w],
+				   W_GetNumForName("NEWG1") + (ToughMenuNum * 4) + x);
 	EraseMenuBufRegion(25, 149, 64, 8);
 	//   DrawMenuBufPic (25, 149, W_GetNumForName( "O_EASY" ) + x );
 
@@ -3651,7 +3874,8 @@ int CalibrateJoystick(void)
 		PrintX = WindowX = 0;
 		PrintY = WindowY = 50;
 
-		newfont1 = (font_t *)W_CacheLumpName("newfnt1", PU_CACHE, Cvt_font_t, 1);
+		newfont1 =
+			(font_t *)W_CacheLumpName("newfnt1", PU_CACHE, Cvt_font_t, 1);
 		CurrentFont = newfont1;
 		MenuBufCPrint("MOVE JOYSTICK TO\nUPPER LEFT AND\nPRESS A BUTTON.");
 
@@ -3690,7 +3914,8 @@ int CalibrateJoystick(void)
 		PrintX = WindowX = 0;
 		PrintY = WindowY = 50;
 
-		newfont1 = (font_t *)W_CacheLumpName("newfnt1", PU_CACHE, Cvt_font_t, 1);
+		newfont1 =
+			(font_t *)W_CacheLumpName("newfnt1", PU_CACHE, Cvt_font_t, 1);
 		CurrentFont = newfont1;
 		MenuBufCPrint("MOVE JOYSTICK TO\nLOWER RIGHT AND\nPRESS A BUTTON.");
 
@@ -3756,7 +3981,8 @@ int CalibrateJoystick(void)
 void MouseSensitivity(void)
 
 {
-	SliderMenu(&mouseadjustment, 11, 0, 21, 81, 240, 1, "block1", NULL, "Mouse Sensitivity", "Slow", "Fast");
+	SliderMenu(&mouseadjustment, 11, 0, 21, 81, 240, 1, "block1", NULL,
+			   "Mouse Sensitivity", "Slow", "Fast");
 }
 
 //******************************************************************************
@@ -3768,7 +3994,8 @@ void MouseSensitivity(void)
 void DoThreshold(void)
 
 {
-	SliderMenu(&threshold, 15, 1, 44, 81, 194, 1, "block2", NULL, "Adjust Threshold", "Small", "Large");
+	SliderMenu(&threshold, 15, 1, 44, 81, 194, 1, "block2", NULL,
+			   "Adjust Threshold", "Small", "Large");
 }
 
 //******************************************************************************
@@ -3920,8 +4147,8 @@ void WaitKeyUp(void)
 	IN_IgnoreMouseButtons();
 	ReadAnyControl(&ci);
 
-	while (ci.button0 || ci.button1 || ci.button2 || ci.button3 || Keyboard[sc_Space] || Keyboard[sc_Enter] ||
-		   Keyboard[sc_Escape])
+	while (ci.button0 || ci.button1 || ci.button2 || ci.button3 ||
+		   Keyboard[sc_Space] || Keyboard[sc_Enter] || Keyboard[sc_Escape])
 	{
 		ReadAnyControl(&ci);
 		RefreshMenuBuf(0);
@@ -4112,7 +4339,8 @@ void DrawCustomMenu(void)
 	SetMenuTitle("Customize Menu");
 	MN_GetCursorLocation(&CustomItems, &CustomMenu[0]);
 	DrawMenu(&CustomItems, &CustomMenu[0]);
-	DrawMenuBufItem(CustomItems.x, ((CustomItems.curpos * 14) + (CustomItems.y - 2)),
+	DrawMenuBufItem(CustomItems.x,
+					((CustomItems.curpos * 14) + (CustomItems.y - 2)),
 					W_GetNumForName(LargeCursor) + CursorFrame[CursorNum]);
 	DisplayInfo(0);
 	FlipMenuBuf();
@@ -4133,7 +4361,8 @@ void DrawCustomKeyboard(void)
 
 	for (i = 0; i < NormalKeyItems.amount; i++)
 	{
-		strcpy(&NormalKeyNames[i][KEYNAMEINDEX], IN_GetScanName(buttonscan[(unsigned int)order[i]]));
+		strcpy(&NormalKeyNames[i][KEYNAMEINDEX],
+			   IN_GetScanName(buttonscan[(unsigned int)order[i]]));
 	}
 
 	MN_GetCursorLocation(&NormalKeyItems, &NormalKeyMenu[0]);
@@ -4152,7 +4381,8 @@ void DrawCustomKeyboard(void)
 void MusicVolume(void)
 
 {
-	SliderMenu(&MUvolume, 254, 0, 33, 81, 225, 8, "block3", MUSIC_SetVolume, "Music Volume", "Low", "High");
+	SliderMenu(&MUvolume, 254, 0, 33, 81, 225, 8, "block3", MUSIC_SetVolume,
+			   "Music Volume", "Low", "High");
 
 	DrawControlMenu();
 }
@@ -4166,7 +4396,8 @@ void MusicVolume(void)
 void FXVolume(void)
 
 {
-	SliderMenu(&FXvolume, 254, 0, 33, 81, 225, 8, "block3", FX_SetVolume, "Sound Volume", "Low", "High");
+	SliderMenu(&FXvolume, 254, 0, 33, 81, 225, 8, "block3", FX_SetVolume,
+			   "Sound Volume", "Low", "High");
 
 	DrawControlMenu();
 }
@@ -4217,7 +4448,7 @@ void DrawPlayerMenu(void)
 //
 //******************************************************************************
 
-int newplayerY[5] = {28, 42, 56, 70, 84};
+int newplayerY[5] = { 28, 42, 56, 70, 84 };
 
 void DrawNewPlayerDiff(int w)
 {
@@ -4437,9 +4668,11 @@ void DrawExtOptionsButtons(void)
 			}
 
 			if (on)
-				DrawMenuBufItem(20 + 22, ExtOptionsItems.y + i * 14 - 1, button_on);
+				DrawMenuBufItem(20 + 22, ExtOptionsItems.y + i * 14 - 1,
+								button_on);
 			else
-				DrawMenuBufItem(20 + 22, ExtOptionsItems.y + i * 14 - 1, button_off);
+				DrawMenuBufItem(20 + 22, ExtOptionsItems.y + i * 14 - 1,
+								button_off);
 		}
 }
 
@@ -4529,9 +4762,11 @@ void DrawOptionsButtons(void)
 			}
 
 			if (on)
-				DrawMenuBufItem(20 + 22, OptionsItems.y + i * 14 - 1, button_on);
+				DrawMenuBufItem(20 + 22, OptionsItems.y + i * 14 - 1,
+								button_on);
 			else
-				DrawMenuBufItem(20 + 22, OptionsItems.y + i * 14 - 1, button_off);
+				DrawMenuBufItem(20 + 22, OptionsItems.y + i * 14 - 1,
+								button_off);
 		}
 }
 
@@ -4547,7 +4782,8 @@ void CP_DoubleClickSpeed(void)
 	int temp;
 
 	temp = 50 - (DoubleClickSpeed - 5);
-	SliderMenu(&temp, 50, 5, 31, 81, 225, 3, "block1", NULL, "Double-Click Speed", "Slow", "Fast");
+	SliderMenu(&temp, 50, 5, 31, 81, 225, 3, "block1", NULL,
+			   "Double-Click Speed", "Slow", "Fast");
 	DoubleClickSpeed = 50 - (temp - 5);
 
 	handlewhich = 100;
@@ -4567,7 +4803,8 @@ void MenuFlipSpeed(void)
 
 	temp = 50 - (Menuflipspeed - 5);
 
-	SliderMenu(&temp, 50, 5, 31, 81, 225, 3, "block1", NULL, "Menu Flip Speed", "Slow", "Fast");
+	SliderMenu(&temp, 50, 5, 31, 81, 225, 3, "block1", NULL, "Menu Flip Speed",
+			   "Slow", "Fast");
 
 	Menuflipspeed = 50 - (temp - 5);
 
@@ -4616,17 +4853,20 @@ void CP_DetailMenu(void)
 		{
 			case 0:
 				DetailLevel = 0;
-				MN_DrawButtons(&DetailItems, &DetailMenu[0], DetailLevel, OptionNums);
+				MN_DrawButtons(&DetailItems, &DetailMenu[0], DetailLevel,
+							   OptionNums);
 				break;
 
 			case 1:
 				DetailLevel = 1;
-				MN_DrawButtons(&DetailItems, &DetailMenu[0], DetailLevel, OptionNums);
+				MN_DrawButtons(&DetailItems, &DetailMenu[0], DetailLevel,
+							   OptionNums);
 				break;
 
 			case 2:
 				DetailLevel = 2;
-				MN_DrawButtons(&DetailItems, &DetailMenu[0], DetailLevel, OptionNums);
+				MN_DrawButtons(&DetailItems, &DetailMenu[0], DetailLevel,
+							   OptionNums);
 				break;
 		}
 
@@ -4868,8 +5108,9 @@ void MN_PlayMenuSnd(int which)
 //
 //******************************************************************************
 
-boolean SliderMenu(int *number, int upperbound, int lowerbound, int erasex, int erasey, int erasew, int numadjust,
-				   char *blockname, void (*routine)(int w), char *title, char *left, char *right)
+boolean SliderMenu(int *number, int upperbound, int lowerbound, int erasex,
+				   int erasey, int erasew, int numadjust, char *blockname,
+				   void (*routine)(int w), char *title, char *left, char *right)
 
 {
 	ControlInfo ci;
@@ -4909,7 +5150,8 @@ boolean SliderMenu(int *number, int upperbound, int lowerbound, int erasex, int 
 
 	DrawSTMenuBuf(erasex - 1, erasey - 1, erasew + 1, eraseh + 1, false);
 
-	DrawMenuBufItem(blkx + ((((*number - lowerbound) * scale) / range) >> 16), erasey, block);
+	DrawMenuBufItem(blkx + ((((*number - lowerbound) * scale) / range) >> 16),
+					erasey, block);
 
 	DisplayInfo(1);
 	FlipMenuBuf();
@@ -4971,7 +5213,9 @@ boolean SliderMenu(int *number, int upperbound, int lowerbound, int erasex, int 
 
 			EraseMenuBufRegion(erasex, erasey, erasew, eraseh);
 
-			DrawMenuBufItem(blkx + ((((*number - lowerbound) * scale) / range) >> 16), erasey, block);
+			DrawMenuBufItem(
+				blkx + ((((*number - lowerbound) * scale) / range) >> 16),
+				erasey, block);
 
 			if (routine)
 			{
@@ -5062,7 +5306,8 @@ void CP_F1Help(void)
 void CP_ScreenSize(void)
 
 {
-	SliderMenu(&viewsize, MAXVIEWSIZES - 1, 0, 33, 81, 225, 1, "block1", NULL, "Screen Size", "Small", "Large");
+	SliderMenu(&viewsize, MAXVIEWSIZES - 1, 0, 33, 81, 225, 1, "block1", NULL,
+			   "Screen Size", "Small", "Large");
 
 	handlewhich = 100;
 	DrawOptionsMenu();
@@ -5140,11 +5385,14 @@ void DrawViolenceLevel(void)
 	ClearMenuBuf();
 	SetMenuTitle("Change Violence Level");
 
-	MN_DrawButtons(&ViolenceItems, &ViolenceMenu[0], gamestate.violence, OptionNums);
-	MN_GetActive(&ViolenceItems, &ViolenceMenu[0], gamestate.violence, OptionNums);
+	MN_DrawButtons(&ViolenceItems, &ViolenceMenu[0], gamestate.violence,
+				   OptionNums);
+	MN_GetActive(&ViolenceItems, &ViolenceMenu[0], gamestate.violence,
+				 OptionNums);
 
 	//   DrawMenuBufItem (58, 24, W_GetNumForName ("blood"));
-	IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_largefont], PU_CACHE, Cvt_cfont_t, 1);
+	IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_largefont], PU_CACHE,
+									   Cvt_cfont_t, 1);
 	DrawMenuBufIString(58, 24, "HOW MUCH ", NORMALCOLOR);
 	DrawMenuBufIString(PrintX, PrintY, "BLOOD", 51);
 	DrawMenuBufIString(71, 37, "DO YOU WANT?", NORMALCOLOR);
@@ -5168,8 +5416,10 @@ void CP_ViolenceLevel(void)
 
 	if (ingame)
 	{
-		CP_ErrorMsg("Change Violence Level", "The current game must be ended to change the Violence Level.",
-					mn_largefont);
+		CP_ErrorMsg(
+			"Change Violence Level",
+			"The current game must be ended to change the Violence Level.",
+			mn_largefont);
 	}
 	else if (POK)
 	{
@@ -5185,7 +5435,8 @@ void CP_ViolenceLevel(void)
 				passok = true;
 			else
 			{
-				CP_ErrorMsg("Violence Password", "Incorrect Password.", mn_largefont);
+				CP_ErrorMsg("Violence Password", "Incorrect Password.",
+							mn_largefont);
 			}
 		}
 	}
@@ -5201,7 +5452,8 @@ void CP_ViolenceLevel(void)
 			if (which >= 0)
 				gamestate.violence = which;
 
-			MN_DrawButtons(&ViolenceItems, &ViolenceMenu[0], gamestate.violence, OptionNums);
+			MN_DrawButtons(&ViolenceItems, &ViolenceMenu[0], gamestate.violence,
+						   OptionNums);
 
 		} while (which >= 0);
 
@@ -5230,7 +5482,8 @@ void DrawViolenceLevelPWord(void)
 	//   CurrentFont = newfont1;
 	//   DrawMenuBufPropString( PWORDX, PWORDY, "ENTER PASSWORD" );
 
-	IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_largefont], PU_CACHE, Cvt_cfont_t, 1);
+	IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_largefont], PU_CACHE,
+									   Cvt_cfont_t, 1);
 	DrawMenuBufIString(PWORDX, PWORDY, "ENTER PASSWORD", NORMALCOLOR);
 
 	DrawSTMenuBuf(PBOXX, PBOXY, PBOXW, PBOXH, false);
@@ -5253,12 +5506,15 @@ void DrawPWMenu(void)
 	SetMenuTitle("Violence Password");
 
 	//   CurrentFont = newfont1;
-	IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_largefont], PU_CACHE, Cvt_cfont_t, 1);
+	IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_largefont], PU_CACHE,
+									   Cvt_cfont_t, 1);
 
 	if (POK)
 	{
-		//      DrawMenuBufPropString( PWORDX - 24, PWORDY, "ENTER OLD PASSWORD" );
-		DrawMenuBufIString(PWORDX - 24, PWORDY, "ENTER OLD PASSWORD", NORMALCOLOR);
+		//      DrawMenuBufPropString( PWORDX - 24, PWORDY, "ENTER OLD PASSWORD"
+		//      );
+		DrawMenuBufIString(PWORDX - 24, PWORDY, "ENTER OLD PASSWORD",
+						   NORMALCOLOR);
 	}
 	else
 	{
@@ -5309,7 +5565,8 @@ void CP_PWMenu(void)
 			}
 			else
 			{
-				CP_ErrorMsg("Violence Password", "Incorrect Password.", mn_largefont);
+				CP_ErrorMsg("Violence Password", "Incorrect Password.",
+							mn_largefont);
 			}
 		}
 	}
@@ -5330,12 +5587,15 @@ void CP_PWMenu(void)
 			ClearMenuBuf();
 			SetMenuTitle("Violence Password");
 
-			IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_largefont], PU_CACHE, Cvt_cfont_t, 1);
-			DrawMenuBufIString(PWORDX - 24, PWORDY, "ENTER NEW PASSWORD", NORMALCOLOR);
+			IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_largefont],
+											   PU_CACHE, Cvt_cfont_t, 1);
+			DrawMenuBufIString(PWORDX - 24, PWORDY, "ENTER NEW PASSWORD",
+							   NORMALCOLOR);
 
 			//         CurrentFont = newfont1;
-			//         DrawMenuBufPropString( PWORDX - 24, PWORDY, "ENTER NEW PASSWORD" );
-			//         DrawMenuBufItem (PWORDX-24, PWORDY, W_GetNumForName ("mnewpass"));
+			//         DrawMenuBufPropString( PWORDX - 24, PWORDY, "ENTER NEW
+			//         PASSWORD" ); DrawMenuBufItem (PWORDX-24, PWORDY,
+			//         W_GetNumForName ("mnewpass"));
 
 			DrawSTMenuBuf(PBOXX, PBOXY, PBOXW, PBOXH, false);
 			FlipMenuBuf();
@@ -5343,7 +5603,8 @@ void CP_PWMenu(void)
 			memset(p1, 0, 13);
 
 			AskForNew = false;
-			if (US_lineinput(PBOXX + 2, PBOXY + 1, p1, NULL, true, 12, PSTRW, 0))
+			if (US_lineinput(PBOXX + 2, PBOXY + 1, p1, NULL, true, 12, PSTRW,
+							 0))
 			{
 				// Check for blank password
 				if (p1[0] == 0)
@@ -5374,9 +5635,11 @@ void CP_PWMenu(void)
 			SetMenuTitle("Violence Password");
 
 			//         CurrentFont = newfont1;
-			//         DrawMenuBufPropString( PWORDX, PWORDY, "RETYPE PASSWORD" );
+			//         DrawMenuBufPropString( PWORDX, PWORDY, "RETYPE PASSWORD"
+			//         );
 
-			IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_largefont], PU_CACHE, Cvt_cfont_t, 1);
+			IFont = (cfont_t *)W_CacheLumpName(FontNames[mn_largefont],
+											   PU_CACHE, Cvt_cfont_t, 1);
 			DrawMenuBufIString(PWORDX, PWORDY, "RETYPE PASSWORD", NORMALCOLOR);
 
 			DrawSTMenuBuf(PBOXX, PBOXY, PBOXW, PBOXH, false);
@@ -5385,7 +5648,8 @@ void CP_PWMenu(void)
 
 			// reenter password
 			//
-			if (US_lineinput(PBOXX + 2, PBOXY + 1, p2, NULL, true, 12, PSTRW, 0))
+			if (US_lineinput(PBOXX + 2, PBOXY + 1, p2, NULL, true, 12, PSTRW,
+							 0))
 			{
 				// compare password and retyped password
 				//
@@ -5405,7 +5669,8 @@ void CP_PWMenu(void)
 				}
 				else
 				{
-					CP_ErrorMsg("Violence Password", "Passwords did not match.", mn_largefont);
+					CP_ErrorMsg("Violence Password", "Passwords did not match.",
+								mn_largefont);
 				}
 			}
 		}
@@ -5542,8 +5807,8 @@ void DrawTimeLimitOptionDescription(int w)
 	DrawOptionDescription(TimeLimitOptionDescriptions, w);
 }
 
-#define TURN_OFF_BATTLE_MODE(x)                                                                                        \
-	ModeMenu[(x)-1].active = CP_SemiActive;                                                                            \
+#define TURN_OFF_BATTLE_MODE(x) \
+	ModeMenu[(x)-1].active = CP_SemiActive; \
 	ModeMenu[(x)-1].routine = (menuptr)NULL;
 
 //****************************************************************************
@@ -5562,7 +5827,8 @@ void DrawBattleModes(void)
 	ClearMenuBuf();
 	SetMenuTitle("Battle Modes");
 
-	MN_GetActive(&ModeItems, &ModeMenu[0], gamestate.battlemode - battle_Normal, OptionNums);
+	MN_GetActive(&ModeItems, &ModeMenu[0], gamestate.battlemode - battle_Normal,
+				 OptionNums);
 
 #if (SHAREWARE == 1)
 	TURN_OFF_BATTLE_MODE(battle_ScoreMore);
@@ -5814,7 +6080,8 @@ void CP_BattleOptions(void)
 
 	do
 	{
-		which = HandleMenu(&BOptItems, &BOptMenu[0], DrawBattleOptionDescription);
+		which =
+			HandleMenu(&BOptItems, &BOptMenu[0], DrawBattleOptionDescription);
 
 	} while (which >= 0);
 
@@ -5849,8 +6116,10 @@ void DrawColorMenu(void)
 	DisplayInfo(8);
 	EraseMenuBufRegion(COLORX, COLORY, COLORW, COLORH);
 	DrawTMenuBufBox(COLORX, COLORY, COLORW, COLORH);
-	DrawColoredMenuBufItem(COLORX - 36, COLORY - 33, W_GetNumForName(playerwadname[locplayerstate->player]),
-						   locplayerstate->uniformcolor);
+	DrawColoredMenuBufItem(
+		COLORX - 36, COLORY - 33,
+		W_GetNumForName(playerwadname[locplayerstate->player]),
+		locplayerstate->uniformcolor);
 
 	if ((gamestate.battlemode != battle_StandAloneGame) && (consoleplayer == 0))
 	{
@@ -5939,7 +6208,8 @@ int ColorMenu(void)
 			VW_MeasurePropString(text, &width, &height);
 			DrawMenuBufPropString((320 - width) / 2 - 16, MENU_Y + 5, text);
 			DrawTMenuBufBox(COLORX, COLORY, COLORW, COLORH);
-			DrawColoredMenuBufItem(COLORX - 36, COLORY - 33, baseshape, locplayerstate->uniformcolor);
+			DrawColoredMenuBufItem(COLORX - 36, COLORY - 33, baseshape,
+								   locplayerstate->uniformcolor);
 		}
 
 		if (ci.button0 || Keyboard[sc_Space] || Keyboard[sc_Enter])
@@ -6078,10 +6348,14 @@ void CP_TeamPlayErrorMessage(void)
 
 #define SITELINES 8
 
-char *sitemessage[] = {"HEY! ARE YOU PLAYING ON AN ILLEGAL COPY?",	  "Network players: it's easy to play legally!",
-					   "Just get a site license.  For a little over", "the price of two games, you get 10 more battle",
-					   "levels, 11 command cards, and a signed Site", "License.  We don't charge you for 11 copies--",
-					   "just for two!  Call 1-800-APOGEE1 to order.", "For more on site licenses, see ORDERING INFO."};
+char *sitemessage[] = { "HEY! ARE YOU PLAYING ON AN ILLEGAL COPY?",
+						"Network players: it's easy to play legally!",
+						"Just get a site license.  For a little over",
+						"the price of two games, you get 10 more battle",
+						"levels, 11 command cards, and a signed Site",
+						"License.  We don't charge you for 11 copies--",
+						"just for two!  Call 1-800-APOGEE1 to order.",
+						"For more on site licenses, see ORDERING INFO." };
 
 void CP_ModemGameMessage(int player)
 
@@ -6118,11 +6392,13 @@ void CP_ModemGameMessage(int player)
 
 		if (player == 0)
 		{
-			MenuBufCPrint("Please wait for\nplayers to choose\ntheir characters.");
+			MenuBufCPrint(
+				"Please wait for\nplayers to choose\ntheir characters.");
 		}
 		else
 		{
-			MenuBufCPrint("Please wait while\nMaster selects\nCOMM-BAT options.");
+			MenuBufCPrint(
+				"Please wait while\nMaster selects\nCOMM-BAT options.");
 		}
 
 		if (gamestate.Product != ROTT_SITELICENSE)
@@ -6162,17 +6438,28 @@ void DrawGravityMenu(void)
 		DrawBattleModeName(gamestate.battlemode);
 	}
 
-	MN_DrawButtons(&GravityItems, &GravityMenu[0], BATTLE_Options[gamestate.battlemode].Gravity, GravityNums);
-	MN_GetActive(&GravityItems, &GravityMenu[0], BATTLE_Options[gamestate.battlemode].Gravity, GravityNums);
+	MN_DrawButtons(&GravityItems, &GravityMenu[0],
+				   BATTLE_Options[gamestate.battlemode].Gravity, GravityNums);
+	MN_GetActive(&GravityItems, &GravityMenu[0],
+				 BATTLE_Options[gamestate.battlemode].Gravity, GravityNums);
 
 	DrawMenu(&GravityItems, &GravityMenu[0]);
 	DrawGravityOptionDescription(GravityItems.curpos);
-	PrintBattleOption(true, 32, 79, "WARNING: High gravity has an unfortunate side effect in");
-	PrintBattleOption(true, 32, 87, "some levels.  It is possible to jump into an area that is");
-	PrintBattleOption(true, 32, 95, "impossible, or at least extremely difficult to get out");
-	PrintBattleOption(true, 32, 103, "of.  In these situations, the only thing you can do is");
-	PrintBattleOption(true, 32, 111, "kill your character, or find some kindly soul to do it");
-	PrintBattleOption(true, 32, 119, "for you.  If this fails, you'll just have to end your game.");
+	PrintBattleOption(
+		true, 32, 79,
+		"WARNING: High gravity has an unfortunate side effect in");
+	PrintBattleOption(
+		true, 32, 87,
+		"some levels.  It is possible to jump into an area that is");
+	PrintBattleOption(true, 32, 95,
+					  "impossible, or at least extremely difficult to get out");
+	PrintBattleOption(true, 32, 103,
+					  "of.  In these situations, the only thing you can do is");
+	PrintBattleOption(true, 32, 111,
+					  "kill your character, or find some kindly soul to do it");
+	PrintBattleOption(
+		true, 32, 119,
+		"for you.  If this fails, you'll just have to end your game.");
 
 	DisplayInfo(0);
 
@@ -6193,12 +6480,15 @@ void CP_GravityOptions(void)
 
 	do
 	{
-		which = HandleMenu(&GravityItems, &GravityMenu[0], DrawGravityOptionDescription);
+		which = HandleMenu(&GravityItems, &GravityMenu[0],
+						   DrawGravityOptionDescription);
 
 		if (which >= 0)
 			BATTLE_Options[gamestate.battlemode].Gravity = GravityNums[which];
 
-		MN_DrawButtons(&GravityItems, &GravityMenu[0], BATTLE_Options[gamestate.battlemode].Gravity, GravityNums);
+		MN_DrawButtons(&GravityItems, &GravityMenu[0],
+					   BATTLE_Options[gamestate.battlemode].Gravity,
+					   GravityNums);
 
 	} while (which >= 0);
 
@@ -6225,8 +6515,10 @@ void DrawSpeedMenu(void)
 		DrawBattleModeName(gamestate.battlemode);
 	}
 
-	MN_DrawButtons(&SpeedItems, &SpeedMenu[0], BATTLE_Options[gamestate.battlemode].Speed, OptionNums);
-	MN_GetActive(&SpeedItems, &SpeedMenu[0], BATTLE_Options[gamestate.battlemode].Speed, OptionNums);
+	MN_DrawButtons(&SpeedItems, &SpeedMenu[0],
+				   BATTLE_Options[gamestate.battlemode].Speed, OptionNums);
+	MN_GetActive(&SpeedItems, &SpeedMenu[0],
+				 BATTLE_Options[gamestate.battlemode].Speed, OptionNums);
 
 	DrawMenu(&SpeedItems, &SpeedMenu[0]);
 	DrawSpeedOptionDescription(SpeedItems.curpos);
@@ -6248,12 +6540,14 @@ void CP_SpeedOptions(void)
 
 	do
 	{
-		which = HandleMenu(&SpeedItems, &SpeedMenu[0], DrawSpeedOptionDescription);
+		which =
+			HandleMenu(&SpeedItems, &SpeedMenu[0], DrawSpeedOptionDescription);
 
 		if (which >= 0)
 			BATTLE_Options[gamestate.battlemode].Speed = which;
 
-		MN_DrawButtons(&SpeedItems, &SpeedMenu[0], BATTLE_Options[gamestate.battlemode].Speed, OptionNums);
+		MN_DrawButtons(&SpeedItems, &SpeedMenu[0],
+					   BATTLE_Options[gamestate.battlemode].Speed, OptionNums);
 	} while (which >= 0);
 
 	handlewhich = 100;
@@ -6279,18 +6573,32 @@ void DrawAmmoPerWeaponMenu(void)
 		DrawBattleModeName(gamestate.battlemode);
 	}
 
-	MN_DrawButtons(&AmmoPerWeaponItems, &AmmoPerWeaponMenu[0], BATTLE_Options[gamestate.battlemode].Ammo, OptionNums);
+	MN_DrawButtons(&AmmoPerWeaponItems, &AmmoPerWeaponMenu[0],
+				   BATTLE_Options[gamestate.battlemode].Ammo, OptionNums);
 
-	MN_GetActive(&AmmoPerWeaponItems, &AmmoPerWeaponMenu[0], BATTLE_Options[gamestate.battlemode].Ammo, OptionNums);
+	MN_GetActive(&AmmoPerWeaponItems, &AmmoPerWeaponMenu[0],
+				 BATTLE_Options[gamestate.battlemode].Ammo, OptionNums);
 
 	DrawMenu(&AmmoPerWeaponItems, &AmmoPerWeaponMenu[0]);
 
-	PrintBattleOption(true, 32, 79, "WARNING: Infinite ammo can seriously alter the balance of");
-	PrintBattleOption(true, 32, 87, "the game.  We recommend that you only use it occasionally.");
-	PrintBattleOption(true, 32, 95, "It tends to only work well on small levels with lots of");
-	PrintBattleOption(true, 32, 103, "weapons, where the action is far more intense.  On large");
-	PrintBattleOption(true, 32, 111, "levels, you may find it causes people to wait in easily");
-	PrintBattleOption(true, 32, 119, "guardable areas and pick off anyone that comes in the room");
+	PrintBattleOption(
+		true, 32, 79,
+		"WARNING: Infinite ammo can seriously alter the balance of");
+	PrintBattleOption(
+		true, 32, 87,
+		"the game.  We recommend that you only use it occasionally.");
+	PrintBattleOption(
+		true, 32, 95,
+		"It tends to only work well on small levels with lots of");
+	PrintBattleOption(
+		true, 32, 103,
+		"weapons, where the action is far more intense.  On large");
+	PrintBattleOption(
+		true, 32, 111,
+		"levels, you may find it causes people to wait in easily");
+	PrintBattleOption(
+		true, 32, 119,
+		"guardable areas and pick off anyone that comes in the room");
 	PrintBattleOption(true, 32, 127, "(creating an unfair advantage).");
 
 	if (AmmoPerWeaponItems.curpos == 2)
@@ -6317,7 +6625,8 @@ void CP_AmmoPerWeaponOptions(void)
 
 	do
 	{
-		which = HandleMenu(&AmmoPerWeaponItems, &AmmoPerWeaponMenu[0], DrawAmmoOptionDescription);
+		which = HandleMenu(&AmmoPerWeaponItems, &AmmoPerWeaponMenu[0],
+						   DrawAmmoOptionDescription);
 
 		if (which >= 0)
 		{
@@ -6337,8 +6646,8 @@ void CP_AmmoPerWeaponOptions(void)
 			BATTLE_Options[gamestate.battlemode].Ammo = which;
 		}
 
-		MN_DrawButtons(&AmmoPerWeaponItems, &AmmoPerWeaponMenu[0], BATTLE_Options[gamestate.battlemode].Ammo,
-					   OptionNums);
+		MN_DrawButtons(&AmmoPerWeaponItems, &AmmoPerWeaponMenu[0],
+					   BATTLE_Options[gamestate.battlemode].Ammo, OptionNums);
 	} while (which >= 0);
 
 	handlewhich = 100;
@@ -6364,9 +6673,12 @@ void DrawHitPointsMenu(void)
 		DrawBattleModeName(gamestate.battlemode);
 	}
 
-	MN_DrawButtons(&HitPointItems, &HitPointMenu[0], BATTLE_Options[gamestate.battlemode].HitPoints, HitPointNums);
+	MN_DrawButtons(&HitPointItems, &HitPointMenu[0],
+				   BATTLE_Options[gamestate.battlemode].HitPoints,
+				   HitPointNums);
 
-	MN_GetActive(&HitPointItems, &HitPointMenu[0], BATTLE_Options[gamestate.battlemode].HitPoints, HitPointNums);
+	MN_GetActive(&HitPointItems, &HitPointMenu[0],
+				 BATTLE_Options[gamestate.battlemode].HitPoints, HitPointNums);
 
 	DrawMenu(&HitPointItems, &HitPointMenu[0]);
 	DrawHitPointsOptionDescription(HitPointItems.curpos);
@@ -6388,12 +6700,16 @@ void CP_HitPointsOptions(void)
 
 	do
 	{
-		which = HandleMenu(&HitPointItems, &HitPointMenu[0], DrawHitPointsOptionDescription);
+		which = HandleMenu(&HitPointItems, &HitPointMenu[0],
+						   DrawHitPointsOptionDescription);
 
 		if (which >= 0)
-			BATTLE_Options[gamestate.battlemode].HitPoints = HitPointNums[which];
+			BATTLE_Options[gamestate.battlemode].HitPoints =
+				HitPointNums[which];
 
-		MN_DrawButtons(&HitPointItems, &HitPointMenu[0], BATTLE_Options[gamestate.battlemode].HitPoints, HitPointNums);
+		MN_DrawButtons(&HitPointItems, &HitPointMenu[0],
+					   BATTLE_Options[gamestate.battlemode].HitPoints,
+					   HitPointNums);
 
 	} while (which >= 0);
 
@@ -6620,27 +6936,33 @@ void CP_SpawnControlOptions(void)
 
 	do
 	{
-		which = HandleMenu(&SpawnItems, &SpawnMenu[0], DrawRadicalOptionDescription);
+		which = HandleMenu(&SpawnItems, &SpawnMenu[0],
+						   DrawRadicalOptionDescription);
 		switch (which)
 		{
 			case 0:
-				BATTLE_Options[gamestate.battlemode].SpawnDangers = !BATTLE_Options[gamestate.battlemode].SpawnDangers;
+				BATTLE_Options[gamestate.battlemode].SpawnDangers =
+					!BATTLE_Options[gamestate.battlemode].SpawnDangers;
 				break;
 
 			case 1:
-				BATTLE_Options[gamestate.battlemode].SpawnHealth = !BATTLE_Options[gamestate.battlemode].SpawnHealth;
+				BATTLE_Options[gamestate.battlemode].SpawnHealth =
+					!BATTLE_Options[gamestate.battlemode].SpawnHealth;
 				break;
 
 			case 2:
-				BATTLE_Options[gamestate.battlemode].SpawnWeapons = !BATTLE_Options[gamestate.battlemode].SpawnWeapons;
+				BATTLE_Options[gamestate.battlemode].SpawnWeapons =
+					!BATTLE_Options[gamestate.battlemode].SpawnWeapons;
 				break;
 
 			case 3:
-				BATTLE_Options[gamestate.battlemode].SpawnMines = !BATTLE_Options[gamestate.battlemode].SpawnMines;
+				BATTLE_Options[gamestate.battlemode].SpawnMines =
+					!BATTLE_Options[gamestate.battlemode].SpawnMines;
 				break;
 
 			case 4:
-				BATTLE_Options[gamestate.battlemode].RespawnItems = !BATTLE_Options[gamestate.battlemode].RespawnItems;
+				BATTLE_Options[gamestate.battlemode].RespawnItems =
+					!BATTLE_Options[gamestate.battlemode].RespawnItems;
 				break;
 
 			case 5:
@@ -6654,7 +6976,8 @@ void CP_SpawnControlOptions(void)
 				break;
 
 			case 7:
-				BATTLE_Options[gamestate.battlemode].FriendlyFire = !BATTLE_Options[gamestate.battlemode].FriendlyFire;
+				BATTLE_Options[gamestate.battlemode].FriendlyFire =
+					!BATTLE_Options[gamestate.battlemode].FriendlyFire;
 				break;
 		}
 
@@ -6684,8 +7007,10 @@ void DrawLightLevelMenu(void)
 		DrawBattleModeName(gamestate.battlemode);
 	}
 
-	MN_DrawButtons(&LightLevelItems, &LightLevelMenu[0], BATTLE_Options[gamestate.battlemode].LightLevel, OptionNums);
-	MN_GetActive(&LightLevelItems, &LightLevelMenu[0], BATTLE_Options[gamestate.battlemode].LightLevel, OptionNums);
+	MN_DrawButtons(&LightLevelItems, &LightLevelMenu[0],
+				   BATTLE_Options[gamestate.battlemode].LightLevel, OptionNums);
+	MN_GetActive(&LightLevelItems, &LightLevelMenu[0],
+				 BATTLE_Options[gamestate.battlemode].LightLevel, OptionNums);
 
 	DrawMenu(&LightLevelItems, &LightLevelMenu[0]);
 	DrawLightLevelOptionDescription(LightLevelItems.curpos);
@@ -6707,12 +7032,14 @@ void CP_LightLevelOptions(void)
 
 	do
 	{
-		which = HandleMenu(&LightLevelItems, &LightLevelMenu[0], DrawLightLevelOptionDescription);
+		which = HandleMenu(&LightLevelItems, &LightLevelMenu[0],
+						   DrawLightLevelOptionDescription);
 
 		if (which >= 0)
 			BATTLE_Options[gamestate.battlemode].LightLevel = which;
 
-		MN_DrawButtons(&LightLevelItems, &LightLevelMenu[0], BATTLE_Options[gamestate.battlemode].LightLevel,
+		MN_DrawButtons(&LightLevelItems, &LightLevelMenu[0],
+					   BATTLE_Options[gamestate.battlemode].LightLevel,
 					   OptionNums);
 
 	} while (which >= 0);
@@ -6741,9 +7068,11 @@ void DrawPointGoalMenu(void)
 		DrawBattleModeName(gamestate.battlemode);
 	}
 
-	MN_DrawButtons(&PointGoalItems, &PointGoalMenu[0], BATTLE_Options[gamestate.battlemode].Kills, KillNums);
+	MN_DrawButtons(&PointGoalItems, &PointGoalMenu[0],
+				   BATTLE_Options[gamestate.battlemode].Kills, KillNums);
 
-	MN_GetActive(&PointGoalItems, &PointGoalMenu[0], BATTLE_Options[gamestate.battlemode].Kills, KillNums);
+	MN_GetActive(&PointGoalItems, &PointGoalMenu[0],
+				 BATTLE_Options[gamestate.battlemode].Kills, KillNums);
 
 	DrawMenu(&PointGoalItems, &PointGoalMenu[0]);
 	DrawPointGoalOptionDescription(PointGoalItems.curpos);
@@ -6766,13 +7095,16 @@ void CP_PointGoalOptions(void)
 
 	do
 	{
-		which = HandleMenu(&PointGoalItems, &PointGoalMenu[0], DrawPointGoalOptionDescription);
+		which = HandleMenu(&PointGoalItems, &PointGoalMenu[0],
+						   DrawPointGoalOptionDescription);
 
 		if (which >= 0)
 		{
 			BATTLE_Options[gamestate.battlemode].Kills = KillNums[which];
 
-			MN_DrawButtons(&PointGoalItems, &PointGoalMenu[0], BATTLE_Options[gamestate.battlemode].Kills, KillNums);
+			MN_DrawButtons(&PointGoalItems, &PointGoalMenu[0],
+						   BATTLE_Options[gamestate.battlemode].Kills,
+						   KillNums);
 		}
 	} while (which >= 0);
 
@@ -6798,8 +7130,11 @@ void DrawDangerMenu(void)
 	{
 		DrawBattleModeName(gamestate.battlemode);
 	}
-	MN_DrawButtons(&DangerItems, &DangerMenu[0], BATTLE_Options[gamestate.battlemode].DangerDamage, DangerNums);
-	MN_GetActive(&DangerItems, &DangerMenu[0], BATTLE_Options[gamestate.battlemode].DangerDamage, DangerNums);
+	MN_DrawButtons(&DangerItems, &DangerMenu[0],
+				   BATTLE_Options[gamestate.battlemode].DangerDamage,
+				   DangerNums);
+	MN_GetActive(&DangerItems, &DangerMenu[0],
+				 BATTLE_Options[gamestate.battlemode].DangerDamage, DangerNums);
 
 	DrawMenu(&DangerItems, &DangerMenu[0]);
 	DrawDangerDamageOptionDescription(DangerItems.curpos);
@@ -6821,12 +7156,16 @@ void CP_DangerOptions(void)
 
 	do
 	{
-		which = HandleMenu(&DangerItems, &DangerMenu[0], DrawDangerDamageOptionDescription);
+		which = HandleMenu(&DangerItems, &DangerMenu[0],
+						   DrawDangerDamageOptionDescription);
 
 		if (which >= 0)
-			BATTLE_Options[gamestate.battlemode].DangerDamage = DangerNums[which];
+			BATTLE_Options[gamestate.battlemode].DangerDamage =
+				DangerNums[which];
 
-		MN_DrawButtons(&DangerItems, &DangerMenu[0], BATTLE_Options[gamestate.battlemode].DangerDamage, DangerNums);
+		MN_DrawButtons(&DangerItems, &DangerMenu[0],
+					   BATTLE_Options[gamestate.battlemode].DangerDamage,
+					   DangerNums);
 
 	} while (which >= 0);
 
@@ -6852,8 +7191,11 @@ void DrawTimeLimitMenu(void)
 	{
 		DrawBattleModeName(gamestate.battlemode);
 	}
-	MN_DrawButtons(&TimeLimitItems, &TimeLimitMenu[0], BATTLE_Options[gamestate.battlemode].TimeLimit, TimeLimitNums);
-	MN_GetActive(&TimeLimitItems, &TimeLimitMenu[0], BATTLE_Options[gamestate.battlemode].TimeLimit, TimeLimitNums);
+	MN_DrawButtons(&TimeLimitItems, &TimeLimitMenu[0],
+				   BATTLE_Options[gamestate.battlemode].TimeLimit,
+				   TimeLimitNums);
+	MN_GetActive(&TimeLimitItems, &TimeLimitMenu[0],
+				 BATTLE_Options[gamestate.battlemode].TimeLimit, TimeLimitNums);
 
 	if (gamestate.battlemode == battle_Hunter)
 	{
@@ -6885,12 +7227,15 @@ void CP_TimeLimitOptions(void)
 
 	do
 	{
-		which = HandleMenu(&TimeLimitItems, &TimeLimitMenu[0], DrawTimeLimitOptionDescription);
+		which = HandleMenu(&TimeLimitItems, &TimeLimitMenu[0],
+						   DrawTimeLimitOptionDescription);
 
 		if (which >= 0)
-			BATTLE_Options[gamestate.battlemode].TimeLimit = TimeLimitNums[which];
+			BATTLE_Options[gamestate.battlemode].TimeLimit =
+				TimeLimitNums[which];
 
-		MN_DrawButtons(&TimeLimitItems, &TimeLimitMenu[0], BATTLE_Options[gamestate.battlemode].TimeLimit,
+		MN_DrawButtons(&TimeLimitItems, &TimeLimitMenu[0],
+					   BATTLE_Options[gamestate.battlemode].TimeLimit,
 					   TimeLimitNums);
 
 	} while (which >= 0);
@@ -6904,7 +7249,8 @@ void PrintBattleOption(boolean inmenu, int x, int y, char *text)
 {
 	if (inmenu)
 	{
-		IFont = (cfont_t *)W_CacheLumpName("itnyfont", PU_CACHE, Cvt_cfont_t, 1);
+		IFont =
+			(cfont_t *)W_CacheLumpName("itnyfont", PU_CACHE, Cvt_cfont_t, 1);
 		DrawMenuBufIString(x + 1, y + 1, text, 0);
 		DrawMenuBufIString(x, y, text, ACTIVECOLOR);
 	}
@@ -6916,7 +7262,8 @@ void PrintBattleOption(boolean inmenu, int x, int y, char *text)
 	}
 }
 
-void ShowBattleOption(boolean inmenu, int PosX, int PosY, int column, int Line, char *text1, char *text2)
+void ShowBattleOption(boolean inmenu, int PosX, int PosY, int column, int Line,
+					  char *text1, char *text2)
 
 {
 	char text[80];
@@ -6965,21 +7312,29 @@ void ShowBattleOptions(boolean inmenu, int PosX, int PosY)
 	BATTLE_GetOptions(&BatOps);
 	options = &BatOps;
 
-	ShowBattleOption(inmenu, PosX, PosY, 0, 1, "Friendly Fire", (options->FriendlyFire) ? "On" : "Off");
+	ShowBattleOption(inmenu, PosX, PosY, 0, 1, "Friendly Fire",
+					 (options->FriendlyFire) ? "On" : "Off");
 
-	ShowBattleOption(inmenu, PosX, PosY, 0, 2, "Weapon Persist", (options->WeaponPersistence) ? "On" : "Off");
+	ShowBattleOption(inmenu, PosX, PosY, 0, 2, "Weapon Persist",
+					 (options->WeaponPersistence) ? "On" : "Off");
 
-	ShowBattleOption(inmenu, PosX, PosY, 0, 3, "Random Weapons", (options->RandomWeapons) ? "On" : "Off");
+	ShowBattleOption(inmenu, PosX, PosY, 0, 3, "Random Weapons",
+					 (options->RandomWeapons) ? "On" : "Off");
 
-	ShowBattleOption(inmenu, PosX, PosY, 0, 4, "Respawn Items", (options->RespawnItems) ? "On" : "Off");
+	ShowBattleOption(inmenu, PosX, PosY, 0, 4, "Respawn Items",
+					 (options->RespawnItems) ? "On" : "Off");
 
-	ShowBattleOption(inmenu, PosX, PosY, 0, 5, "Spawn Health", (options->SpawnHealth) ? "On" : "Off");
+	ShowBattleOption(inmenu, PosX, PosY, 0, 5, "Spawn Health",
+					 (options->SpawnHealth) ? "On" : "Off");
 
-	ShowBattleOption(inmenu, PosX, PosY, 0, 6, "Spawn Weapons", (options->SpawnWeapons) ? "On" : "Off");
+	ShowBattleOption(inmenu, PosX, PosY, 0, 6, "Spawn Weapons",
+					 (options->SpawnWeapons) ? "On" : "Off");
 
-	ShowBattleOption(inmenu, PosX, PosY, 0, 7, "Spawn Mines", (options->SpawnMines) ? "On" : "Off");
+	ShowBattleOption(inmenu, PosX, PosY, 0, 7, "Spawn Mines",
+					 (options->SpawnMines) ? "On" : "Off");
 
-	ShowBattleOption(inmenu, PosX, PosY, 0, 8, "Spawn Dangers", (options->SpawnDangers) ? "On" : "Off");
+	ShowBattleOption(inmenu, PosX, PosY, 0, 8, "Spawn Dangers",
+					 (options->SpawnDangers) ? "On" : "Off");
 
 	switch (options->DangerDamage)
 	{
@@ -7018,7 +7373,8 @@ void ShowBattleOptions(boolean inmenu, int PosX, int PosY)
 	}
 	ShowBattleOption(inmenu, PosX, PosY, 1, 2, "Time Limit", string);
 
-	if ((gamestate.battlemode == battle_Collector) || (gamestate.battlemode == battle_Scavenger))
+	if ((gamestate.battlemode == battle_Collector) ||
+		(gamestate.battlemode == battle_Scavenger))
 	{
 		string = "?";
 	}
@@ -7198,8 +7554,9 @@ void DrawMultiPageCustomMenu(char *title, void (*redrawfunc)(void))
 //
 //****************************************************************************
 
-int HandleMultiPageCustomMenu(char **names, int amount, int curpos, char *title, void (*routine)(int w),
-							  void (*redrawfunc)(void), boolean exitonselect)
+int HandleMultiPageCustomMenu(char **names, int amount, int curpos, char *title,
+							  void (*routine)(int w), void (*redrawfunc)(void),
+							  boolean exitonselect)
 
 {
 	boolean redraw;
@@ -7285,7 +7642,8 @@ int HandleMultiPageCustomMenu(char **names, int amount, int curpos, char *title,
 			DrawMultiPageCustomMenu(title, redrawfunc);
 		}
 
-		which = HandleMenu(&MultiPageCustomItems, &MultiPageCustomMenu[0], NULL);
+		which =
+			HandleMenu(&MultiPageCustomItems, &MultiPageCustomMenu[0], NULL);
 
 		switch (which)
 		{
@@ -7348,7 +7706,7 @@ void CP_LevelSelectionRedraw(void)
 int CP_LevelSelectionMenu(void)
 
 {
-	static char levelcursorpos[2] = {0};
+	static char levelcursorpos[2] = { 0 };
 
 	char *LevelNames[100];
 	int whichlevels;
@@ -7376,8 +7734,9 @@ int CP_LevelSelectionMenu(void)
 		LevelNames[i] = mapinfo->maps[i].mapname;
 	}
 
-	level = HandleMultiPageCustomMenu(LevelNames, numlevels, levelcursorpos[whichlevels], "Level Selection", NULL,
-									  CP_LevelSelectionRedraw, true);
+	level = HandleMultiPageCustomMenu(
+		LevelNames, numlevels, levelcursorpos[whichlevels], "Level Selection",
+		NULL, CP_LevelSelectionRedraw, true);
 
 	SafeFree(mapinfo);
 
@@ -7503,7 +7862,8 @@ void CP_ErrorMsg(char *title, char *error, int font)
 	int w;
 	int h;
 	int y;
-	extern void VWL_MeasureIntensityString(char *s, int *width, int *height, cfont_t *font);
+	extern void VWL_MeasureIntensityString(char *s, int *width, int *height,
+										   cfont_t *font);
 
 	SetAlternateMenuBuf();
 	ClearMenuBuf();
@@ -7514,7 +7874,8 @@ void CP_ErrorMsg(char *title, char *error, int font)
 	WindowX = 0;
 	WindowY = 40;
 
-	IFont = (cfont_t *)W_CacheLumpName(FontNames[font], PU_CACHE, Cvt_cfont_t, 1);
+	IFont =
+		(cfont_t *)W_CacheLumpName(FontNames[font], PU_CACHE, Cvt_cfont_t, 1);
 
 	pos = 0;
 	line = 0;

@@ -141,9 +141,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define HIGHLIGHTCOLOR 1
 
 #define MouseInt 0x33
-#define GAMESVD                                                                                                        \
-	"There's already a game\n"                                                                                         \
-	"saved at this position.\n"                                                                                        \
+#define GAMESVD \
+	"There's already a game\n" \
+	"saved at this position.\n" \
 	"Overwrite?"
 #define COLOR 235
 
@@ -190,22 +190,29 @@ enum
 //******************************************************************************
 
 static char *ScanNames[] = // Scan code names with single chars
-	{"?", "?",	  "1",	"2", "3",	 "4", "5", "6", "7", "8", "9", "0", "-", "+", "?", "?",	  "Q", "W", "E",
-	 "R", "T",	  "Y",	"U", "I",	 "O", "P", "[", "]", "|", "?", "A", "S", "D", "F", "G",	  "H", "J", "K",
-	 "L", ";",	  "\"", "?", "?",	 "?", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/",	  "?", "?", "?",
-	 "?", "?",	  "?",	"?", "?",	 "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "\xf", "?", "-", "\x15",
-	 "5", "\x11", "+",	"?", "\x13", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?",	  "?", "?", "?",
-	 "?", "?",	  "?",	"?", "?",	 "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?",	  "?", "?", "?",
-	 "?", "?",	  "?",	"?", "?",	 "?", "?", "?", "?", "?", "?", "?", "?", "?"};
+	{ "?",	 "?", "1", "2",	   "3",	 "4",	 "5", "6", "7",	   "8", "9", "0",
+	  "-",	 "+", "?", "?",	   "Q",	 "W",	 "E", "R", "T",	   "Y", "U", "I",
+	  "O",	 "P", "[", "]",	   "|",	 "?",	 "A", "S", "D",	   "F", "G", "H",
+	  "J",	 "K", "L", ";",	   "\"", "?",	 "?", "?", "Z",	   "X", "C", "V",
+	  "B",	 "N", "M", ",",	   ".",	 "/",	 "?", "?", "?",	   "?", "?", "?",
+	  "?",	 "?", "?", "?",	   "?",	 "?",	 "?", "?", "?",	   "?", "?", "?",
+	  "\xf", "?", "-", "\x15", "5",	 "\x11", "+", "?", "\x13", "?", "?", "?",
+	  "?",	 "?", "?", "?",	   "?",	 "?",	 "?", "?", "?",	   "?", "?", "?",
+	  "?",	 "?", "?", "?",	   "?",	 "?",	 "?", "?", "?",	   "?", "?", "?",
+	  "?",	 "?", "?", "?",	   "?",	 "?",	 "?", "?", "?",	   "?", "?", "?",
+	  "?",	 "?", "?", "?",	   "?",	 "?",	 "?", "?" };
 
 static byte ExtScanCodes[] = // Scan codes with >1 char names
-	{1,	   0xe,	 0xf,  0x1d, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x40, 0x41, 0x42, 0x43, 0x44, 0x57, 0x58,
-	 0x46, 0x1c, 0x36, 0x37, 0x38, 0x47, 0x49, 0x4f, 0x51, 0x52, 0x53, 0x45, 0x48, 0x50, 0x4b, 0x4d, 0x00};
+	{ 1,	0xe,  0xf,	0x1d, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x40,
+	  0x41, 0x42, 0x43, 0x44, 0x57, 0x58, 0x46, 0x1c, 0x36, 0x37, 0x38, 0x47,
+	  0x49, 0x4f, 0x51, 0x52, 0x53, 0x45, 0x48, 0x50, 0x4b, 0x4d, 0x00 };
 
 static char *ExtScanNames[] = // Names corresponding to ExtScanCodes
-	{"Esc",	 "BkSp", "Tab",	 "Ctrl", "Space", "CapLk", "F1",	"F2",	 "F3",	  "F4",	   "F5",  "F6",
-	 "F7",	 "F8",	 "F9",	 "F10",	 "F11",	  "F12",   "SclLk", "Enter", "Shift", "PrtSc", "Alt", "Home",
-	 "PgUp", "End",	 "PgDn", "Ins",	 "Del",	  "NumLk", "Up",	"Down",	 "Left",  "Right", ""};
+	{ "Esc",   "BkSp",	"Tab",	"Ctrl", "Space", "CapLk", "F1",
+	  "F2",	   "F3",	"F4",	"F5",	"F6",	 "F7",	  "F8",
+	  "F9",	   "F10",	"F11",	"F12",	"SclLk", "Enter", "Shift",
+	  "PrtSc", "Alt",	"Home", "PgUp", "End",	 "PgDn",  "Ins",
+	  "Del",   "NumLk", "Up",	"Down", "Left",	 "Right", "" };
 
 //******************************************************************************
 //
@@ -300,8 +307,10 @@ void MCERROR(void);
 
 void DrawKeyboardMenu(void);
 void CP_KeyboardMenu(void);
-boolean SliderMenu(int *number, int upperbound, int lowerbound, int erasex, int erasey, int erasew, int numadjust,
-				   char *blockname, void (*routine)(int w), char *title, char *left, char *right);
+boolean SliderMenu(int *number, int upperbound, int lowerbound, int erasex,
+				   int erasey, int erasew, int numadjust, char *blockname,
+				   void (*routine)(int w), char *title, char *left,
+				   char *right);
 
 void DrawF1Help(void);
 void CP_F1Help(void);

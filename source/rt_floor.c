@@ -96,7 +96,8 @@ void DrawSky(void)
 	else
 		shadingtable = colormap + (1 << 12);
 
-	ofs = (((maxheight) - (player->z)) >> 3) + (centery * 200 / iGLOBAL_SCREENHEIGHT - ((height2) >> 1));
+	ofs = (((maxheight) - (player->z)) >> 3) +
+		  (centery * 200 / iGLOBAL_SCREENHEIGHT - ((height2) >> 1));
 
 	if (ofs > centerskypost)
 	{
@@ -357,7 +358,8 @@ void SetPlaneViewSize(void)
 		else if ((crud >= 450) && (crud <= 457))
 			horizonheight = crud - 450 + 9;
 		else
-			Error("You must specify a valid horizon height sprite icon over the sky at (2,0) on map %d\n",
+			Error("You must specify a valid horizon height sprite icon over "
+				  "the sky at (2,0) on map %d\n",
 				  gamestate.mapon);
 
 		// Check for lightnign icon
@@ -511,9 +513,11 @@ void DrawHLine(int xleft, int xright, int yp)
 	mr_xstep = ((viewsin << 8) / (height));
 	mr_ystep = ((viewcos << 8) / (height));
 
-	startxfrac = ((viewx >> 1) + FixedMulShift(mr_ystep, scale, 2)) - FixedMulShift(mr_xstep, (centerx - xleft), 2);
+	startxfrac = ((viewx >> 1) + FixedMulShift(mr_ystep, scale, 2)) -
+				 FixedMulShift(mr_xstep, (centerx - xleft), 2);
 
-	startyfrac = ((viewy >> 1) - FixedMulShift(mr_xstep, scale, 2)) - FixedMulShift(mr_ystep, (centerx - xleft), 2);
+	startyfrac = ((viewy >> 1) - FixedMulShift(mr_xstep, scale, 2)) -
+				 FixedMulShift(mr_ystep, (centerx - xleft), 2);
 
 	dest = (byte *)bufferofs + ylookup[yp];
 

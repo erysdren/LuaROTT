@@ -61,7 +61,8 @@ extern boolean screenfaded;
 //***************************************************************************
 void VL_MemStrechedToScreen(byte *source, int width, int height, int x, int y);
 void VL_MemToScreen(byte *source, int width, int height, int x, int y);
-void DrawTiledRegion(int x, int y, int width, int height, int offx, int offy, pic_t *tile);
+void DrawTiledRegion(int x, int y, int width, int height, int offx, int offy,
+					 pic_t *tile);
 void VWB_DrawPic(int x, int y, pic_t *pic);
 void VL_Bar(int x, int y, int width, int height, int color);
 void VWB_Bar(int x, int y, int width, int height, int color);

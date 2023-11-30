@@ -35,8 +35,8 @@ int W_CheckNumForName(char *name); // Check to see if the named lump exists
 int W_GetNumForName(char *name);   // Get the number for the named lump
 char *W_GetNameForNum(int i);	   // Get the name for a number
 
-int W_NumLumps(void);				   // Get the current number of lumps managed
-int W_LumpLength(int lump);			   // Get the length of the numbered lump
+int W_NumLumps(void);		// Get the current number of lumps managed
+int W_LumpLength(int lump); // Get the length of the numbered lump
 void W_ReadLump(int lump, void *dest); // Read the numbered lump into a buffer
 void W_WriteLump(int lump, void *src);
 

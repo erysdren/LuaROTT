@@ -108,7 +108,8 @@ typedef enum
 	SPR_LOWGRD_USE25,SPR_LOWGRD_USE26,SPR_LOWGRD_USE27,SPR_LOWGRD_USE28,
 	*/
 
-	/*****************  Highguard 1 (Steve B.)  ***************************************/
+	/*****************  Highguard 1 (Steve B.)
+	 * ***************************************/
 
 	SPR_HIGHGRD_SHOOT1,
 	SPR_HIGHGRD_SHOOT2,
@@ -1829,7 +1830,8 @@ typedef enum
 	SERIALDOG_ATTACK7,
 	SERIALDOG_ATTACK8,
 
-	/***************   Lowguard 2 (Marianna)  *************************************/
+	/***************   Lowguard 2 (Marianna)
+	 * *************************************/
 
 	/*
 	SPR_MARIANNA_SHOOT1,SPR_MARIANNA_SHOOT2,SPR_MARIANNA_SHOOT3,SPR_MARIANNA_SHOOT4,
@@ -1850,17 +1852,19 @@ typedef enum
 	SPR_MARIANNA_W45,SPR_MARIANNA_W46,SPR_MARIANNA_W47,SPR_MARIANNA_W48,
 
 
-	SPR_MARIANNA_PAIN1, SPR_MARIANNA_PAIN2, SPR_MARIANNA_DIE1, SPR_MARIANNA_DIE2,
-	SPR_MARIANNA_DIE3, SPR_MARIANNA_DIE4, SPR_MARIANNA_DEAD,
+	SPR_MARIANNA_PAIN1, SPR_MARIANNA_PAIN2, SPR_MARIANNA_DIE1,
+	SPR_MARIANNA_DIE2, SPR_MARIANNA_DIE3, SPR_MARIANNA_DIE4, SPR_MARIANNA_DEAD,
 
-	SPR_MARIANNA_WPAIN1, SPR_MARIANNA_WPAIN2, SPR_MARIANNA_WDIE1, SPR_MARIANNA_WDIE2,
-	SPR_MARIANNA_WDIE3, SPR_MARIANNA_WDIE4, SPR_MARIANNA_WDEAD,
+	SPR_MARIANNA_WPAIN1, SPR_MARIANNA_WPAIN2, SPR_MARIANNA_WDIE1,
+	SPR_MARIANNA_WDIE2, SPR_MARIANNA_WDIE3, SPR_MARIANNA_WDIE4,
+	SPR_MARIANNA_WDEAD,
 
 
 	SPR_SNMAR_DEAD, SPR_MARISE1, SPR_MARISE2, SPR_MARISE3, SPR_MARISE4,
 	*/
 
-	/****************** OBERPATROLLE (Nolan) ***********************************/
+	/****************** OBERPATROLLE (Nolan)
+	 * ***********************************/
 
 	SPR_OP_SHOOT1,
 	SPR_OP_SHOOT2,
@@ -3011,7 +3015,8 @@ typedef enum
 	// CRUSHUP9,CRUSHUP10,CRUSHUP11,CRUSHUP12,
 	// CRUSHUP13,CRUSHUP14,CRUSHUP15,CRUSHUP16,
 
-	/*****************  Highguard 2 (Steve H.)  ***************************************/
+	/*****************  Highguard 2 (Steve H.)
+	 * ***************************************/
 
 	SPR_HIGHGRD2_SHOOT1,
 	SPR_HIGHGRD2_SHOOT2,
@@ -3089,7 +3094,8 @@ typedef enum
 	SPR_HIGHGRD2_USE25,SPR_HIGHGRD2_USE26,SPR_HIGHGRD2_USE27,SPR_HIGHGRD2_USE28,
 	*/
 
-	/****************** Alt. Overpatrol (Pat) ***********************************/
+	/****************** Alt. Overpatrol (Pat)
+	 * ***********************************/
 
 	SPR_PAT_SHOOT1,
 	SPR_PAT_SHOOT2,
@@ -3173,7 +3179,8 @@ typedef enum
 	SPR_PAT_DIE6,
 	SPR_PAT_DEAD,
 
-	/******************** Alt. Lightning Guard (Ann) **********************************/
+	/******************** Alt. Lightning Guard (Ann)
+	 * **********************************/
 
 	SPR_ANN_SHOOT1,
 	SPR_ANN_SHOOT2,
@@ -3262,7 +3269,8 @@ typedef enum
 	SPR_ANN_LROLL5,
 	SPR_ANN_LROLL6,
 
-	/********************** Alt. Blitzguard (William) **********************************/
+	/********************** Alt. Blitzguard (William)
+	 * **********************************/
 
 	SPR_WILLIAM_SHOOT1,
 	SPR_WILLIAM_SHOOT2,

@@ -43,7 +43,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAXPOP 32
 #define MAXDELETE 512
 
-#define InMapBounds(x, y) (((x) >= 0) && ((x) < MAPSIZE) && ((y) >= 0) && ((y) < MAPSIZE))
+#define InMapBounds(x, y) \
+	(((x) >= 0) && ((x) < MAPSIZE) && ((y) >= 0) && ((y) < MAPSIZE))
 
 #define ACTIVE(ob) ((ob == firstactive) || (ob->prevactive) || (ob->nextactive))
 
@@ -89,32 +90,32 @@ typedef enum
 
 #define M_ABS abs
 
-#define M_CheckPlayerKilled(ob)                                                                                        \
-	{                                                                                                                  \
-		if ((ob->obclass == playerobj) && (ob->flags & FL_DYING))                                                      \
-			BATTLE_CheckGameStatus(battle_player_killed, ob->dirchoosetime);                                           \
+#define M_CheckPlayerKilled(ob) \
+	{ \
+		if ((ob->obclass == playerobj) && (ob->flags & FL_DYING)) \
+			BATTLE_CheckGameStatus(battle_player_killed, ob->dirchoosetime); \
 	}
 
-#define SetTilePosition(ob, newtilex, newtiley)                                                                        \
-	{                                                                                                                  \
-		ob->tilex = newtilex;                                                                                          \
-		ob->tiley = newtiley;                                                                                          \
-		ob->x = (ob->tilex << TILESHIFT) + TILEGLOBAL / 2;                                                             \
-		ob->y = (ob->tiley << TILESHIFT) + TILEGLOBAL / 2;                                                             \
+#define SetTilePosition(ob, newtilex, newtiley) \
+	{ \
+		ob->tilex = newtilex; \
+		ob->tiley = newtiley; \
+		ob->x = (ob->tilex << TILESHIFT) + TILEGLOBAL / 2; \
+		ob->y = (ob->tiley << TILESHIFT) + TILEGLOBAL / 2; \
 	}
 
-#define SetFinePosition(ob, newx, newy)                                                                                \
-	{                                                                                                                  \
-		ob->x = newx;                                                                                                  \
-		ob->y = newy;                                                                                                  \
-		ob->tilex = (ob->x >> TILESHIFT);                                                                              \
-		ob->tiley = (ob->y >> TILESHIFT);                                                                              \
+#define SetFinePosition(ob, newx, newy) \
+	{ \
+		ob->x = newx; \
+		ob->y = newy; \
+		ob->tilex = (ob->x >> TILESHIFT); \
+		ob->tiley = (ob->y >> TILESHIFT); \
 	}
 
-#define SetVisiblePosition(ob, x, y)                                                                                   \
-	{                                                                                                                  \
-		ob->drawx = x;                                                                                                 \
-		ob->drawy = y;                                                                                                 \
+#define SetVisiblePosition(ob, x, y) \
+	{ \
+		ob->drawx = x; \
+		ob->drawy = y; \
 	}
 
 //***************************************************************************
@@ -335,7 +336,8 @@ void EnableObject(intptr_t object);
 void DisableObject(intptr_t object);
 
 void T_Collide(objtype *);
-void Collision(objtype *ob, objtype *attacker, int hitmomentumx, int hitmomentumy);
+void Collision(objtype *ob, objtype *attacker, int hitmomentumx,
+			   int hitmomentumy);
 void ActorMovement(objtype *);
 void MoveActor(objtype *);
 

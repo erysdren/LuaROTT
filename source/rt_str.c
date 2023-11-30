@@ -278,7 +278,8 @@ void VWB_DrawIPropString(const char *string)
 //
 //******************************************************************************
 
-void VWL_MeasureString(const char *s, int *width, int *height, const font_t *font)
+void VWL_MeasureString(const char *s, int *width, int *height,
+					   const font_t *font)
 {
 	*height = font->height;
 
@@ -292,7 +293,8 @@ void VWL_MeasureString(const char *s, int *width, int *height, const font_t *fon
 //
 //******************************************************************************
 
-void VWL_MeasureIntensityString(const char *s, int *width, int *height, const cfont_t *font)
+void VWL_MeasureIntensityString(const char *s, int *width, int *height,
+								const cfont_t *font)
 {
 	*height = font->height;
 
@@ -376,7 +378,8 @@ void US_MeasureStr(int *width, int *height, const char *s, ...)
 //
 //******************************************************************************
 
-void US_SetPrintRoutines(void (*measure)(const char *, int *, int *, font_t *), void (*print)(const char *))
+void US_SetPrintRoutines(void (*measure)(const char *, int *, int *, font_t *),
+						 void (*print)(const char *))
 {
 	USL_MeasureString = measure;
 	USL_DrawString = print;
@@ -646,7 +649,8 @@ static void USL_XORICursor(int x, int y, const char *s, int cursor, int color)
 
 extern char *IN_GetScanName(ScanCode scan);
 
-boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok, int maxchars, int maxwidth, int color)
+boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok,
+					 int maxchars, int maxwidth, int color)
 {
 	boolean redraw, cursorvis, cursormoved, done, result = false;
 	char s[MaxString], olds[MaxString];
@@ -812,7 +816,8 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok, in
 			len = strlen(s);
 			USL_MeasureString(s, &w, &h, CurrentFont);
 
-			if (isprint(lastkey) && (len < MaxString - 1) && ((!maxchars) || (len < maxchars)) &&
+			if (isprint(lastkey) && (len < MaxString - 1) &&
+				((!maxchars) || (len < maxchars)) &&
 				((!maxwidth) || ((w + 2) < (maxwidth - cursorwidth - 2))))
 			{
 				int ls;
@@ -825,7 +830,8 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok, in
 
 				ls = Keyboard[sc_LShift];
 				rs = Keyboard[sc_RShift];
-				memset((void *)Keyboard, 0, 127 * sizeof(int)); // Clear printable keys
+				memset((void *)Keyboard, 0,
+					   127 * sizeof(int)); // Clear printable keys
 				Keyboard[sc_LShift] = ls;
 				Keyboard[sc_RShift] = rs;
 
@@ -918,7 +924,8 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok, in
 //
 ///******************************************************************************
 
-boolean US_lineinput(int x, int y, char *buf, const char *def, boolean escok, int maxchars, int maxwidth, int color)
+boolean US_lineinput(int x, int y, char *buf, const char *def, boolean escok,
+					 int maxchars, int maxwidth, int color)
 {
 	boolean redraw, cursorvis, cursormoved, done, result = false;
 	char s[MaxString], xx[MaxString], olds[MaxString];
@@ -1087,7 +1094,8 @@ boolean US_lineinput(int x, int y, char *buf, const char *def, boolean escok, in
 			len = strlen(s);
 			USL_MeasureString(xx, &w, &h, CurrentFont);
 
-			if (isprint(lastkey) && (len < MaxString - 1) && ((!maxchars) || (len < maxchars)) &&
+			if (isprint(lastkey) && (len < MaxString - 1) &&
+				((!maxchars) || (len < maxchars)) &&
 				((!maxwidth) || ((w + 2) < (maxwidth - cursorwidth - 2))))
 			{
 				int ls;
@@ -1101,7 +1109,8 @@ boolean US_lineinput(int x, int y, char *buf, const char *def, boolean escok, in
 
 				ls = Keyboard[sc_LShift];
 				rs = Keyboard[sc_RShift];
-				memset((void *)Keyboard, 0, 127 * sizeof(int)); // Clear printable keys
+				memset((void *)Keyboard, 0,
+					   127 * sizeof(int)); // Clear printable keys
 				Keyboard[sc_LShift] = ls;
 				Keyboard[sc_RShift] = rs;
 				MN_PlayMenuSnd(SD_MOVECURSORSND);
@@ -1284,7 +1293,8 @@ void US_DrawWindow(int x, int y, int w, int h)
 void US_CenterWindow(int w, int h)
 {
 	// HDG US_DrawWindow (((MaxX / 8) - w) / 2,  ((MaxY / 8) - h) / 2, w, h);
-	US_DrawWindow(((iGLOBAL_SCREENWIDTH / 8) - w) / 2, ((iGLOBAL_SCREENHEIGHT / 8) - h) / 2, w, h);
+	US_DrawWindow(((iGLOBAL_SCREENWIDTH / 8) - w) / 2,
+				  ((iGLOBAL_SCREENHEIGHT / 8) - h) / 2, w, h);
 }
 
 //==============================================================================
@@ -1420,7 +1430,8 @@ int GetColor(int num)
 static int oldfontcolor = 0;
 static boolean highlight = false;
 
-void DrawIString(unsigned short int x, unsigned short int y, const char *string, int flags)
+void DrawIString(unsigned short int x, unsigned short int y, const char *string,
+				 int flags)
 {
 	char ch;
 	char temp;
@@ -1493,9 +1504,9 @@ void DrawIString(unsigned short int x, unsigned short int y, const char *string,
 					//
 					if (ch == '`')
 					{
-						oldfontcolor = fontcolor;		// save off old font color
-						highlight = true;				// set highlight
-						if (fontcolor < 8)				// only highlight the
+						oldfontcolor = fontcolor; // save off old font color
+						highlight = true;		  // set highlight
+						if (fontcolor < 8)		  // only highlight the
 							fontcolor = fontcolor - 10; //  lower colors
 					}
 					else
@@ -1518,7 +1529,8 @@ void DrawIString(unsigned short int x, unsigned short int y, const char *string,
 //
 //******************************************************************************
 
-void DrawIntensityString(unsigned short int x, unsigned short int y, const char *string, int color)
+void DrawIntensityString(unsigned short int x, unsigned short int y,
+						 const char *string, int color)
 {
 	char ch;
 

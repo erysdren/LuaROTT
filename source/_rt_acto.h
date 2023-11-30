@@ -103,112 +103,115 @@ enum
 
 //=========================== macros =============================
 
-#define M_ISWALL(x) ((x->which == WALL) || (x->which == PWALL) || (x->which == MWALL))
+#define M_ISWALL(x) \
+	((x->which == WALL) || (x->which == PWALL) || (x->which == MWALL))
 #define M_DISTOK(p1, p2, d) (abs((p1) - (p2)) <= d)
 #define M_NONS(x) ((x->obclass == wallfireobj) || (x->obclass == pillarobj))
 #define M_CHOOSETIME(x) ((int)(TILEGLOBAL / ((x->speed))))
-#define M_DIST(x1, x2, y1, y2) (((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)))
+#define M_DIST(x1, x2, y1, y2) \
+	(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)))
 #define M_S(x) (UPDATE_STATES[x][ob->obclass - lowguardobj])
 #define Fix(a) (a &= (FINEANGLES - 1))
 
-#define STOPACTOR(ob)                                                                                                  \
-	{                                                                                                                  \
-		ob->momentumx = ob->momentumy = 0;                                                                             \
-		ob->dirchoosetime = 0;                                                                                         \
+#define STOPACTOR(ob) \
+	{ \
+		ob->momentumx = ob->momentumy = 0; \
+		ob->dirchoosetime = 0; \
 	}
 
-#define M_CHECKDIR(ob, tdir)                                                                                           \
-	{                                                                                                                  \
-		ob->dir = tdir;                                                                                                \
-		ParseMomentum(ob, dirangle8[tdir]);                                                                            \
-		ActorMovement(ob);                                                                                             \
-		if (ob->momentumx || ob->momentumy)                                                                            \
-			return;                                                                                                    \
+#define M_CHECKDIR(ob, tdir) \
+	{ \
+		ob->dir = tdir; \
+		ParseMomentum(ob, dirangle8[tdir]); \
+		ActorMovement(ob); \
+		if (ob->momentumx || ob->momentumy) \
+			return; \
 	}
 
-#define M_CHECKTURN(x, ndir)                                                                                           \
-	{                                                                                                                  \
-		if (ndir == olddir)                                                                                            \
-			ZEROMOM;                                                                                                   \
-		ParseMomentum(x, dirangle8[ndir]);                                                                             \
-		ActorMovement(x);                                                                                              \
-		if (!NOMOM)                                                                                                    \
-		{                                                                                                              \
-			if (ndir != olddir)                                                                                        \
-			{                                                                                                          \
-				next = dirorder[olddir][NEXT];                                                                         \
-				prev = dirorder[olddir][PREV];                                                                         \
-				x->temp1 = ndir;                                                                                       \
-				if (dirdiff[ndir][next] < dirdiff[ndir][prev])                                                         \
-					NewState(x, &s_kristleft);                                                                         \
-				else                                                                                                   \
-					NewState(x, &s_kristright);                                                                        \
-			}                                                                                                          \
-			return;                                                                                                    \
-		}                                                                                                              \
+#define M_CHECKTURN(x, ndir) \
+	{ \
+		if (ndir == olddir) \
+			ZEROMOM; \
+		ParseMomentum(x, dirangle8[ndir]); \
+		ActorMovement(x); \
+		if (!NOMOM) \
+		{ \
+			if (ndir != olddir) \
+			{ \
+				next = dirorder[olddir][NEXT]; \
+				prev = dirorder[olddir][PREV]; \
+				x->temp1 = ndir; \
+				if (dirdiff[ndir][next] < dirdiff[ndir][prev]) \
+					NewState(x, &s_kristleft); \
+				else \
+					NewState(x, &s_kristright); \
+			} \
+			return; \
+		} \
 	}
 
-#define M_CheckDoor(ob)                                                                                                \
-	{                                                                                                                  \
-		door = ob->door_to_open;                                                                                       \
-		if (door != -1)                                                                                                \
-		{                                                                                                              \
-			if ((ob->obclass > shurikenobj) && (ob->obclass != collectorobj))                                          \
-				Error("you got it !!!");                                                                               \
-			LinkedOpenDoor(door);                                                                                      \
-			if (doorobjlist[door]->action != dr_open)                                                                  \
-				return;                                                                                                \
-			ob->door_to_open = -1;                                                                                     \
-		}                                                                                                              \
+#define M_CheckDoor(ob) \
+	{ \
+		door = ob->door_to_open; \
+		if (door != -1) \
+		{ \
+			if ((ob->obclass > shurikenobj) && (ob->obclass != collectorobj)) \
+				Error("you got it !!!"); \
+			LinkedOpenDoor(door); \
+			if (doorobjlist[door]->action != dr_open) \
+				return; \
+			ob->door_to_open = -1; \
+		} \
 	}
 
-#define M_CheckBossSounds(ob)                                                                                          \
-	{                                                                                                                  \
-		if ((ob->obclass >= b_darianobj) && (ob->obclass <= b_darksnakeobj) && (ob->flags & FL_ATTACKMODE) &&          \
-			(ob->obclass != b_robobossobj) && (!(ob->flags & FL_DYING)))                                               \
-		{                                                                                                              \
-			if (MISCVARS->SOUNDTIME)                                                                                   \
-				MISCVARS->SOUNDTIME--;                                                                                 \
-			else                                                                                                       \
-			{                                                                                                          \
-				MISCVARS->SOUNDTIME = 5 * VBLCOUNTER;                                                                  \
-				if (GameRandomNumber("boss sound check", 0) < 160)                                                     \
-				{                                                                                                      \
-					int rand, sound;                                                                                   \
-                                                                                                                       \
-					rand = GameRandomNumber("boss sounds", 0);                                                         \
-					sound = BAS[ob->obclass].operate;                                                                  \
-					if (rand < 160)                                                                                    \
-						sound++;                                                                                       \
-					if (rand < 80)                                                                                     \
-						sound++;                                                                                       \
-                                                                                                                       \
-					SD_PlaySoundRTP(sound, ob->x, ob->y);                                                              \
-				}                                                                                                      \
-			}                                                                                                          \
-			if (MISCVARS->REDTIME)                                                                                     \
-			{                                                                                                          \
-				MISCVARS->REDTIME--;                                                                                   \
-				MISCVARS->redindex = ((MISCVARS->REDTIME >> 1) & 15);                                                  \
-			}                                                                                                          \
-		}                                                                                                              \
+#define M_CheckBossSounds(ob) \
+	{ \
+		if ((ob->obclass >= b_darianobj) && (ob->obclass <= b_darksnakeobj) && \
+			(ob->flags & FL_ATTACKMODE) && (ob->obclass != b_robobossobj) && \
+			(!(ob->flags & FL_DYING))) \
+		{ \
+			if (MISCVARS->SOUNDTIME) \
+				MISCVARS->SOUNDTIME--; \
+			else \
+			{ \
+				MISCVARS->SOUNDTIME = 5 * VBLCOUNTER; \
+				if (GameRandomNumber("boss sound check", 0) < 160) \
+				{ \
+					int rand, sound; \
+\
+					rand = GameRandomNumber("boss sounds", 0); \
+					sound = BAS[ob->obclass].operate; \
+					if (rand < 160) \
+						sound++; \
+					if (rand < 80) \
+						sound++; \
+\
+					SD_PlaySoundRTP(sound, ob->x, ob->y); \
+				} \
+			} \
+			if (MISCVARS->REDTIME) \
+			{ \
+				MISCVARS->REDTIME--; \
+				MISCVARS->redindex = ((MISCVARS->REDTIME >> 1) & 15); \
+			} \
+		} \
 	}
 
-#define SET_DEATH_SHAPEOFFSET(ob)                                                                                      \
-	{                                                                                                                  \
-		ob->flags |= FL_ALTERNATE;                                                                                     \
-		ob->shapeoffset += deathshapeoffset[ob->obclass];                                                              \
+#define SET_DEATH_SHAPEOFFSET(ob) \
+	{ \
+		ob->flags |= FL_ALTERNATE; \
+		ob->shapeoffset += deathshapeoffset[ob->obclass]; \
 	}
 
-#define RESET_DEATH_SHAPEOFFSET(ob)                                                                                    \
-	{                                                                                                                  \
-		ob->flags &= ~FL_ALTERNATE;                                                                                    \
-		ob->shapeoffset -= deathshapeoffset[ob->obclass];                                                              \
+#define RESET_DEATH_SHAPEOFFSET(ob) \
+	{ \
+		ob->flags &= ~FL_ALTERNATE; \
+		ob->shapeoffset -= deathshapeoffset[ob->obclass]; \
 	}
 
-#define LOW_VIOLENCE_DEATH_SHOULD_BE_SET(ob)                                                                           \
-	((gamestate.violence < vl_high) && (ob->obclass >= lowguardobj) && (ob->obclass <= triadenforcerobj) &&            \
-	 (!(ob->flags & FL_ALTERNATE)))
+#define LOW_VIOLENCE_DEATH_SHOULD_BE_SET(ob) \
+	((gamestate.violence < vl_high) && (ob->obclass >= lowguardobj) && \
+	 (ob->obclass <= triadenforcerobj) && (!(ob->flags & FL_ALTERNATE)))
 
 #define LOW_VIOLENCE_DEATH_IS_SET(ob) (ob->flags & FL_ALTERNATE)
 

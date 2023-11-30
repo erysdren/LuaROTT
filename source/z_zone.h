@@ -63,13 +63,16 @@ typedef enum
 
 extern int zonememorystarted;
 
-void Z_Init(int size, int min); // Starts up Memory manager (size is in bytes), (min is minimum requirement)
+void Z_Init(int size, int min); // Starts up Memory manager (size is in bytes),
+								// (min is minimum requirement)
 void Z_Free(void *ptr);			// Free a pointer in Z_Zone's domain
-void *Z_Malloc(size_t size, pu_tag tag, void **user); // Malloc You can pass a NULL user if the tag is < PU_PURGELEVEL
-void Z_FreeTags(pu_tag lowtag, pu_tag hightag);		  // Free a series of memory tags
-void Z_ChangeTag(void *ptr, pu_tag tag);			  // Change the tag of a memory item
-size_t Z_HeapSize(void);							  // Return the total heap size
-size_t Z_UsedHeap(void);							  // Return used portion of heap size
+void *Z_Malloc(size_t size, pu_tag tag,
+			   void **user); // Malloc You can pass a NULL user if the tag is <
+							 // PU_PURGELEVEL
+void Z_FreeTags(pu_tag lowtag, pu_tag hightag); // Free a series of memory tags
+void Z_ChangeTag(void *ptr, pu_tag tag); // Change the tag of a memory item
+size_t Z_HeapSize(void);				 // Return the total heap size
+size_t Z_UsedHeap(void);				 // Return used portion of heap size
 void Z_ShutDown(void);
 
 #define Z_LevelMalloc(a, b, c) Z_Malloc(a, b, c)

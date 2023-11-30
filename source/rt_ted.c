@@ -106,41 +106,43 @@ static boolean CachingStarted = false;
 char *ROTTMAPS;
 char *BATTMAPS;
 
-static char NormalWeaponTiles[10] = {46, 48, 49, 50, 51, 52, 53, 54, 55, 56};
-static char SharewareWeaponTiles[7] = {48, 49, 50, 51, 52, 53, 54};
+static char NormalWeaponTiles[10] = { 46, 48, 49, 50, 51, 52, 53, 54, 55, 56 };
+static char SharewareWeaponTiles[7] = { 48, 49, 50, 51, 52, 53, 54 };
 
-static char CacheStrings[MAXSILLYSTRINGS][80] = {{"Ready yourself\nfor destruction!\0\0"},
-												 {"Here comes the enemy!\0\0"},
-												 {"Hope you wrote\nyour will!\0\0"},
-												 {"Did you bring your\nextra bullets?\0\0"},
-												 {"Try not to bleed\non the rug.\0\0"},
-												 {"Let's see...bandages,\ntape, splints,...\0\0"},
-												 {"Couldn't we just\ntalk this over?\0\0"},
-												 {"Cache as cache can...\0\0"},
-												 {"You are smart.\nMake us strong.\0\0"},
-												 {"Bleh!\0\0"},
-												 {"I am as far\nabove you...\0\0"},
-												 {"Just keep thinkin':\nBut it's loadin' COOL\nstuff...\0\0"},
-												 {"Guess which line\nwill win!\0\0"},
-												 {"Oh, no. Not again.\0\0"},
-												 {"Wait! I'm not ready!\nToo late.\0\0"},
-												 {"Hope this doesn't\ncrash.\0\0"},
-												 {"Have a sandwich.\0\0"},
-												 {"Smoke 'em if\nya got 'em...and\nif ya like cancer.\0\0"},
-												 {"Ummmmm...\0\0"},
-												 {"Bang! Bang! Bang!\nFreeze!\0\0"},
-												 {"You have the right\nto...DIE.\0\0"},
-												 {"Insert funny phrase\nhere.\0\0"},
-												 {"Blood, bullets,\nnicely decorated\nhallways.\0\0"},
-												 {"You are to be killed,\nnot hurt.\0\0"},
-												 {"It's time for you to\ngo down the stairs!\0\0"},
-												 {"This game, like,\nrules and stuff.\0\0"},
-												 {"We get money for this!\nHa ha ha ha!\0\0"},
-												 {"Let's not start any\nreligious wars...\0\0"},
-												 {"I don't wanna start\nno ting...\0\0"},
-												 {"Ah, another sacrifice!\0\0"},
-												 {"If you were dead,\nyou'd be the\nsame thing.\0\0"},
-												 {"This Game isn't\nhuman; it can't\nbe reasoned with!\0\0"}};
+static char CacheStrings[MAXSILLYSTRINGS][80] = {
+	{ "Ready yourself\nfor destruction!\0\0" },
+	{ "Here comes the enemy!\0\0" },
+	{ "Hope you wrote\nyour will!\0\0" },
+	{ "Did you bring your\nextra bullets?\0\0" },
+	{ "Try not to bleed\non the rug.\0\0" },
+	{ "Let's see...bandages,\ntape, splints,...\0\0" },
+	{ "Couldn't we just\ntalk this over?\0\0" },
+	{ "Cache as cache can...\0\0" },
+	{ "You are smart.\nMake us strong.\0\0" },
+	{ "Bleh!\0\0" },
+	{ "I am as far\nabove you...\0\0" },
+	{ "Just keep thinkin':\nBut it's loadin' COOL\nstuff...\0\0" },
+	{ "Guess which line\nwill win!\0\0" },
+	{ "Oh, no. Not again.\0\0" },
+	{ "Wait! I'm not ready!\nToo late.\0\0" },
+	{ "Hope this doesn't\ncrash.\0\0" },
+	{ "Have a sandwich.\0\0" },
+	{ "Smoke 'em if\nya got 'em...and\nif ya like cancer.\0\0" },
+	{ "Ummmmm...\0\0" },
+	{ "Bang! Bang! Bang!\nFreeze!\0\0" },
+	{ "You have the right\nto...DIE.\0\0" },
+	{ "Insert funny phrase\nhere.\0\0" },
+	{ "Blood, bullets,\nnicely decorated\nhallways.\0\0" },
+	{ "You are to be killed,\nnot hurt.\0\0" },
+	{ "It's time for you to\ngo down the stairs!\0\0" },
+	{ "This game, like,\nrules and stuff.\0\0" },
+	{ "We get money for this!\nHa ha ha ha!\0\0" },
+	{ "Let's not start any\nreligious wars...\0\0" },
+	{ "I don't wanna start\nno ting...\0\0" },
+	{ "Ah, another sacrifice!\0\0" },
+	{ "If you were dead,\nyou'd be the\nsame thing.\0\0" },
+	{ "This Game isn't\nhuman; it can't\nbe reasoned with!\0\0" }
+};
 
 void SetupGameLevel(void);
 void ScanInfoPlane(void);
@@ -184,7 +186,8 @@ void SwitchCacheEntries(s1p, s2p) cachetype *s1p, *s2p;
 
 void SortPreCache(void)
 {
-	hsort((char *)cachelist, cacheindex, sizeof(cachetype), &CompareTags, &SwitchCacheEntries);
+	hsort((char *)cachelist, cacheindex, sizeof(cachetype), &CompareTags,
+		  &SwitchCacheEntries);
 }
 
 //========================================
@@ -312,7 +315,8 @@ void PreCachePlayers(void)
 		if (i != consoleplayer) // don't cache consoleplayer
 		{
 			pstate = &PLAYERSTATE[i];
-			start = W_GetNumForName("CASSHO11") + (pstate->player * REMOTEOFFSET);
+			start =
+				W_GetNumForName("CASSHO11") + (pstate->player * REMOTEOFFSET);
 			end = W_GetNumForName("CASWDEAD") + (pstate->player * REMOTEOFFSET);
 			PreCacheGroup(start, end, cache_patch_t);
 		}
@@ -345,7 +349,8 @@ void PreCachePlayerSound(void)
 	}
 }
 
-#define IS_ALTERNATE_ACTOR(ob) ((ob->shapeoffset - deathshapeoffset[ob->obclass]) > 0)
+#define IS_ALTERNATE_ACTOR(ob) \
+	((ob->shapeoffset - deathshapeoffset[ob->obclass]) > 0)
 
 /*
 ======================
@@ -946,7 +951,8 @@ void DrawPreCache(void)
 			CheckHolidays();
 		}
 
-		DrawNormalSprite(PRECACHEBARX, PRECACHEBARY, W_GetNumForName("cachebar"));
+		DrawNormalSprite(PRECACHEBARX, PRECACHEBARY,
+						 W_GetNumForName("cachebar"));
 
 		CurrentFont = smallfont;
 
@@ -1069,7 +1075,8 @@ void PreCache(void)
 		ticdelay = CACHETICDELAY;
 		for (size_t i = 1; i < cacheindex; i++)
 		{
-			W_CacheLumpNum(cachelist[i].lump, cachelist[i].cachelevel, CvtForType(cachelist[i].type), 1);
+			W_CacheLumpNum(cachelist[i].lump, cachelist[i].cachelevel,
+						   CvtForType(cachelist[i].type), 1);
 			total += W_LumpLength(cachelist[i].lump);
 			newheap = Z_UsedHeap();
 			currentmem = (newheap * MAXLEDS) / maxheapsize;
@@ -1079,16 +1086,25 @@ void PreCache(void)
 			{ // SetTextMode (  );
 				if (iGLOBAL_SCREENWIDTH == 320)
 				{
-					DrawNormalSprite(PRECACHEBARX + PRECACHELED1X + (lastmem << 2), PRECACHEBARY + PRECACHELED1Y,
-									 W_GetNumForName("led1")); // led1 progressbar
+					DrawNormalSprite(
+						PRECACHEBARX + PRECACHELED1X + (lastmem << 2),
+						PRECACHEBARY + PRECACHELED1Y,
+						W_GetNumForName("led1")); // led1 progressbar
 				}
 				else if (iGLOBAL_SCREENWIDTH == 640)
 				{
-					DrawNormalSprite(72 + (Gs * (lastmem << 2)), 446, W_GetNumForName("led1"));		// led1 progressbar
-					DrawNormalSprite(72 + (Gs * (lastmem << 2)), 446 + 3, W_GetNumForName("led1")); // led1 progressbar
-					DrawNormalSprite(72 + 3 + (Gs * (lastmem << 2)), 446, W_GetNumForName("led1")); // led1 progressbar
-					DrawNormalSprite(72 + 3 + (Gs * (lastmem << 2)), 446 + 3,
-									 W_GetNumForName("led1")); // led1 progressbar
+					DrawNormalSprite(
+						72 + (Gs * (lastmem << 2)), 446,
+						W_GetNumForName("led1")); // led1 progressbar
+					DrawNormalSprite(
+						72 + (Gs * (lastmem << 2)), 446 + 3,
+						W_GetNumForName("led1")); // led1 progressbar
+					DrawNormalSprite(
+						72 + 3 + (Gs * (lastmem << 2)), 446,
+						W_GetNumForName("led1")); // led1 progressbar
+					DrawNormalSprite(
+						72 + 3 + (Gs * (lastmem << 2)), 446 + 3,
+						W_GetNumForName("led1")); // led1 progressbar
 				}
 
 				lastmem++;
@@ -1100,18 +1116,25 @@ void PreCache(void)
 
 				if (iGLOBAL_SCREENWIDTH == 320)
 				{
-					DrawNormalSprite(PRECACHEBARX + PRECACHELED2X + (lastcache << 2), PRECACHEBARY + PRECACHELED2Y,
-									 W_GetNumForName("led2")); // led2 progressbar
+					DrawNormalSprite(
+						PRECACHEBARX + PRECACHELED2X + (lastcache << 2),
+						PRECACHEBARY + PRECACHELED2Y,
+						W_GetNumForName("led2")); // led2 progressbar
 				}
 				else if (iGLOBAL_SCREENWIDTH == 640)
 				{
-					DrawNormalSprite(72 + (Gs * (lastcache << 2)), 458, W_GetNumForName("led2")); // led2 progressbar
-					DrawNormalSprite(72 + (Gs * (lastcache << 2)), 458 + 3, W_GetNumForName("led2")); // led2
-																									  // progressbar
-					DrawNormalSprite(72 + 3 + (Gs * (lastcache << 2)), 458, W_GetNumForName("led2")); // led2
-																									  // progressbar
-					DrawNormalSprite(72 + 3 + (Gs * (lastcache << 2)), 458 + 3,
-									 W_GetNumForName("led2")); // led2 progressbar
+					DrawNormalSprite(
+						72 + (Gs * (lastcache << 2)), 458,
+						W_GetNumForName("led2")); // led2 progressbar
+					DrawNormalSprite(72 + (Gs * (lastcache << 2)), 458 + 3,
+									 W_GetNumForName("led2")); // led2
+															   // progressbar
+					DrawNormalSprite(72 + 3 + (Gs * (lastcache << 2)), 458,
+									 W_GetNumForName("led2")); // led2
+															   // progressbar
+					DrawNormalSprite(
+						72 + 3 + (Gs * (lastcache << 2)), 458 + 3,
+						W_GetNumForName("led2")); // led2 progressbar
 				}
 				DisableScreenStretch(); // bna++
 				VW_UpdateScreen();		// bna++
@@ -1140,15 +1163,15 @@ void PreCache(void)
 		{
 			int width = 0;
 			int height = 0;
-			char buf[30] = {0}; // byte * shape;
+			char buf[30] = { 0 }; // byte * shape;
 			double WHratio = (16200.0 / 200.0) / 100.0;
 			///	iGLOBAL_SCREENWIDTH = 640;
 			//	iGLOBAL_SCREENHEIGHT = 480;
 			DisableScreenStretch();
 
 			// Cache in fonts
-			//	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_STATIC, Cvt_font_t, 1);
-			//	bigfont = (font_t *)shape;
+			//	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_STATIC,
+			// Cvt_font_t, 1); 	bigfont = (font_t *)shape;
 			CurrentFont = newfont1; // smallfont;
 
 			strcpy(buf, "Press Any Key");
@@ -1170,7 +1193,8 @@ void PreCache(void)
 	{
 		for (size_t i = 1; i < cacheindex; i++)
 		{
-			W_CacheLumpNum(cachelist[i].lump, cachelist[i].cachelevel, CvtForType(cachelist[i].type), 1);
+			W_CacheLumpNum(cachelist[i].lump, cachelist[i].cachelevel,
+						   CvtForType(cachelist[i].type), 1);
 			DoLoadGameAction();
 		}
 		ShutdownPreCache();
@@ -1247,7 +1271,8 @@ void CheckRTLVersion(char *filename)
 	SafeRead(filehandle, RTLSignature, sizeof(RTLSignature));
 
 	// check if it's from RottEX
-	if (strcmp(RTLSignature, EXTENDED_SIGNATURE) == 0 || strcmp(RTLSignature, EXTENDED_COMMBAT_SIGNATURE) == 0)
+	if (strcmp(RTLSignature, EXTENDED_SIGNATURE) == 0 ||
+		strcmp(RTLSignature, EXTENDED_COMMBAT_SIGNATURE) == 0)
 	{
 		// check version number
 		SafeRead(filehandle, &RTLVersion, sizeof(RTLVersion));
@@ -1257,14 +1282,16 @@ void CheckRTLVersion(char *filename)
 		{
 			Error("The file '%s' is a version %d.%d %s file.\n"
 				  "The highest this version of ROTT can load is %d.%d.",
-				  filename, RTLVersion >> 8, RTLVersion & 0xff, RTLSignature, RXL_VERSION >> 8, RXL_VERSION & 0xff);
+				  filename, RTLVersion >> 8, RTLVersion & 0xff, RTLSignature,
+				  RXL_VERSION >> 8, RXL_VERSION & 0xff);
 		}
 
 		close(filehandle);
 		return;
 	}
 
-	if ((strcmp(RTLSignature, COMMBAT_SIGNATURE) != 0) && (strcmp(RTLSignature, NORMAL_SIGNATURE) != 0))
+	if ((strcmp(RTLSignature, COMMBAT_SIGNATURE) != 0) &&
+		(strcmp(RTLSignature, NORMAL_SIGNATURE) != 0))
 	{
 		Error("The file '%s' is not a valid level file.", filename);
 	}
@@ -1278,7 +1305,8 @@ void CheckRTLVersion(char *filename)
 	{
 		Error("The file '%s' is a version %d.%d %s file.\n"
 			  "The highest this version of ROTT can load is %d.%d.",
-			  filename, RTLVersion >> 8, RTLVersion & 0xff, RTLSignature, RTL_VERSION >> 8, RTL_VERSION & 0xff);
+			  filename, RTLVersion >> 8, RTLVersion & 0xff, RTLSignature,
+			  RTL_VERSION >> 8, RTL_VERSION & 0xff);
 	}
 
 	close(filehandle);
@@ -1308,7 +1336,8 @@ size_t GetMapArrayOffset(int filehandle)
 	SafeRead(filehandle, RTLSignature, sizeof(RTLSignature));
 
 	// check if it's from RottEX
-	if (strcmp(RTLSignature, EXTENDED_SIGNATURE) == 0 || strcmp(RTLSignature, EXTENDED_COMMBAT_SIGNATURE) == 0)
+	if (strcmp(RTLSignature, EXTENDED_SIGNATURE) == 0 ||
+		strcmp(RTLSignature, EXTENDED_COMMBAT_SIGNATURE) == 0)
 	{
 		// check version (it matters)
 		SafeRead(filehandle, &RTLVersion, sizeof(RTLVersion));
@@ -1333,8 +1362,10 @@ size_t GetMapArrayOffset(int filehandle)
 
 			// MAPS info header contains reliable offset to data
 			// RXL 1.1 has "MAPSET", RXL 2.0 has "MAPS"
-			if ((RTLVersion == RXL_VERSION && strcmp(info_header_magic, "MAPS") == 0) ||
-				(RTLVersion == RTL_VERSION && strcmp(info_header_magic, "MAPSET") == 0))
+			if ((RTLVersion == RXL_VERSION &&
+				 strcmp(info_header_magic, "MAPS") == 0) ||
+				(RTLVersion == RTL_VERSION &&
+				 strcmp(info_header_magic, "MAPSET") == 0))
 			{
 				return info_header_ofs;
 			}
@@ -1424,15 +1455,18 @@ void ReadROTTMap(char *filename, int mapnum)
 		lseek(filehandle, pos, SEEK_SET);
 		SafeRead(filehandle, buffer, compressed);
 
-		mapplanes[plane] = Z_Malloc(expanded, PU_LEVEL, (void **)&mapplanes[plane]);
+		mapplanes[plane] =
+			Z_Malloc(expanded, PU_LEVEL, (void **)&mapplanes[plane]);
 
 //
 // unRLEW, skipping expanded length
 //
 #if (SHAREWARE == 1)
-		CA_RLEWexpand((word *)buffer, (word *)mapplanes[plane], expanded >> 1, SHAREWARE_TAG);
+		CA_RLEWexpand((word *)buffer, (word *)mapplanes[plane], expanded >> 1,
+					  SHAREWARE_TAG);
 #else
-		CA_RLEWexpand((word *)buffer, (word *)mapplanes[plane], expanded >> 1, RTLMap.RLEWtag);
+		CA_RLEWexpand((word *)buffer, (word *)mapplanes[plane], expanded >> 1,
+					  RTLMap.RLEWtag);
 #endif
 
 		SafeFree(buffer);
@@ -1473,7 +1507,8 @@ int GetNextMap(int tilex, int tiley)
 				icon = MAPSPOT(i, j, 1);
 				next = MAPSPOT(i, j, 2);
 				if (((icon == EXITTILE) || (icon == SECRETEXITTILE)) &&
-					(((next & 0xff00) == 0xe200) || ((next & 0xff00) == 0xe400)))
+					(((next & 0xff00) == 0xe200) ||
+					 ((next & 0xff00) == 0xe400)))
 				{
 					done = true;
 					break;
@@ -1755,12 +1790,14 @@ void LoadTedMap(const char *extension, int mapnum)
 		buffer = SafeMalloc(compressed);
 		SafeRead(maphandle, buffer, compressed);
 
-		mapplanes[plane] = Z_Malloc(expanded, PU_LEVEL, (void **)&mapplanes[plane]);
+		mapplanes[plane] =
+			Z_Malloc(expanded, PU_LEVEL, (void **)&mapplanes[plane]);
 
 		//
 		// unRLEW, skipping expanded length
 		//
-		CA_RLEWexpand((word *)(buffer + 2), (word *)mapplanes[plane], expanded >> 1, 0xabcd);
+		CA_RLEWexpand((word *)(buffer + 2), (word *)mapplanes[plane],
+					  expanded >> 1, 0xabcd);
 
 		SafeFree(buffer);
 	}
@@ -1845,15 +1882,16 @@ void CountAreaTiles(void)
 		}
 }
 
-#define InitWall(lump, index, newx, newy)                                                                              \
-	{                                                                                                                  \
-		PreCacheLump(lump, PU_CACHEWALLS, cache_pic_t);                                                                \
-		if (W_LumpLength(lump) == 0)                                                                                   \
-			Error("%s being used in shareware at %d %d", W_GetNameForNum(lump), newx, newy);                           \
-		actorat[newx][newy] = &walls[index];                                                                           \
-		tempwall = (wall_t *)actorat[newx][newy];                                                                      \
-		tempwall->which = WALL;                                                                                        \
-		tempwall->tile = index;                                                                                        \
+#define InitWall(lump, index, newx, newy) \
+	{ \
+		PreCacheLump(lump, PU_CACHEWALLS, cache_pic_t); \
+		if (W_LumpLength(lump) == 0) \
+			Error("%s being used in shareware at %d %d", \
+				  W_GetNameForNum(lump), newx, newy); \
+		actorat[newx][newy] = &walls[index]; \
+		tempwall = (wall_t *)actorat[newx][newy]; \
+		tempwall->which = WALL; \
+		tempwall->tile = index; \
 	}
 
 /*
@@ -1894,7 +1932,8 @@ void SetupWalls(void)
 			}
 			tile = *map++;
 
-			if ((tile > 89) || ((tile > 32) && (tile < 36)) || (tile == 44) || (tile == 45) || (tile == 0))
+			if ((tile > 89) || ((tile > 32) && (tile < 36)) || (tile == 44) ||
+				(tile == 45) || (tile == 0))
 			{
 				tilemap[i][j] = 0;
 				continue;
@@ -1973,7 +2012,8 @@ word GetNearestAreaNumber(int tilex, int tiley)
 	else if (dn)
 		return (MAPSPOT(tilex, tiley + 1, 0) + AREATILE);
 	//	else
-	//		Error("GetNearestAreaNumber: Couldn't fix up area at x=%ld y=%ld\n",tilex,tiley);
+	//		Error("GetNearestAreaNumber: Couldn't fix up area at x=%ld
+	// y=%ld\n",tilex,tiley);
 	return (NUMAREAS + AREATILE - 1);
 }
 
@@ -2227,7 +2267,8 @@ void RespawnPlayerobj(objtype *ob)
 		{
 			if (!actorat[SPAWNLOC[rand].x][SPAWNLOC[rand].y])
 			{
-				RevivePlayerobj(SPAWNLOC[rand].x, SPAWNLOC[rand].y, SPAWNLOC[rand].dir, ob);
+				RevivePlayerobj(SPAWNLOC[rand].x, SPAWNLOC[rand].y,
+								SPAWNLOC[rand].dir, ob);
 				return;
 			}
 			numchecked++;
@@ -2251,31 +2292,31 @@ void RespawnPlayerobj(objtype *ob)
 	RevivePlayerobj(nx, ny, ndir, ob);
 }
 
-#define SetupSpecificFlagTeamAt(whichteam, spawnlocindex)                                                              \
-	{                                                                                                                  \
-		int newx, newy;                                                                                                \
-                                                                                                                       \
-		newx = SPAWNLOC[spawnlocindex].x;                                                                              \
-		newy = SPAWNLOC[spawnlocindex].y;                                                                              \
-		TEAM[whichteam].tilex = newx;                                                                                  \
-		TEAM[whichteam].tiley = newy;                                                                                  \
-		TEAM[whichteam].dir = SPAWNLOC[spawnlocindex].x;                                                               \
-		SpawnStatic(newx, newy, stat_collector, 9);                                                                    \
-		SpawnNewObj(newx, newy, &s_basemarker1, inertobj);                                                             \
-		LASTACTOR->z = LASTSTAT->z;                                                                                    \
-		LASTSTAT->flags |= FL_COLORED;                                                                                 \
-		LASTSTAT->hitpoints = whichteam;                                                                               \
-		locspawned[spawnlocindex] = 1;                                                                                 \
-		for (j = 0; j < numplayers; j++)                                                                               \
-		{                                                                                                              \
-			if (PLAYERSTATE[j].uniformcolor != TEAM[whichteam].uniformcolor)                                           \
-				continue;                                                                                              \
-                                                                                                                       \
-			ntilex = newx;                                                                                             \
-			ntiley = newy;                                                                                             \
-			FindEmptyTile(&ntilex, &ntiley);                                                                           \
-			SpawnPlayerobj(ntilex, ntiley, dir, j);                                                                    \
-		}                                                                                                              \
+#define SetupSpecificFlagTeamAt(whichteam, spawnlocindex) \
+	{ \
+		int newx, newy; \
+\
+		newx = SPAWNLOC[spawnlocindex].x; \
+		newy = SPAWNLOC[spawnlocindex].y; \
+		TEAM[whichteam].tilex = newx; \
+		TEAM[whichteam].tiley = newy; \
+		TEAM[whichteam].dir = SPAWNLOC[spawnlocindex].x; \
+		SpawnStatic(newx, newy, stat_collector, 9); \
+		SpawnNewObj(newx, newy, &s_basemarker1, inertobj); \
+		LASTACTOR->z = LASTSTAT->z; \
+		LASTSTAT->flags |= FL_COLORED; \
+		LASTSTAT->hitpoints = whichteam; \
+		locspawned[spawnlocindex] = 1; \
+		for (j = 0; j < numplayers; j++) \
+		{ \
+			if (PLAYERSTATE[j].uniformcolor != TEAM[whichteam].uniformcolor) \
+				continue; \
+\
+			ntilex = newx; \
+			ntiley = newy; \
+			FindEmptyTile(&ntilex, &ntiley); \
+			SpawnPlayerobj(ntilex, ntiley, dir, j); \
+		} \
 	}
 
 /*
@@ -2308,8 +2349,11 @@ void AssignTeams(void)
 			TEAM[numteams].nummembers++;
 			teamforcolor[color] = numteams;
 			numteams++;
-			if ((gamestate.battlemode == battle_CaptureTheTriad) && (numteams > 2))
-				Error("players selected more colors(%d) than Capture the Triad allows", numteams);
+			if ((gamestate.battlemode == battle_CaptureTheTriad) &&
+				(numteams > 2))
+				Error("players selected more colors(%d) than Capture the Triad "
+					  "allows",
+					  numteams);
 		}
 		else
 			TEAM[teamforcolor[color]].nummembers++;
@@ -2329,8 +2373,9 @@ void AssignTeams(void)
 void SetupTeams(void)
 {
 
-	int i, j, rand, sx, sy, ntilex, ntiley, dir, maxdist, currdist, spawnindex, cnt;
-	int locspawned[MAXSPAWNLOCATIONS] = {0};
+	int i, j, rand, sx, sy, ntilex, ntiley, dir, maxdist, currdist, spawnindex,
+		cnt;
+	int locspawned[MAXSPAWNLOCATIONS] = { 0 };
 
 	if (gamestate.battlemode == battle_CaptureTheTriad)
 	{
@@ -2343,7 +2388,8 @@ void SetupTeams(void)
 			dir = SPAWNLOC[rand].dir;
 
 			if (CheckTile(sx, sy) && (!IsPlatform(sx, sy)) &&
-				(Number_of_Empty_Tiles_In_Area_Around(sx, sy) > TEAM[0].nummembers))
+				(Number_of_Empty_Tiles_In_Area_Around(sx, sy) >
+				 TEAM[0].nummembers))
 			{
 				SetupSpecificFlagTeamAt(0, rand);
 				break;
@@ -2365,7 +2411,8 @@ void SetupTeams(void)
 			sy = SPAWNLOC[i].y;
 			dir = SPAWNLOC[i].dir;
 
-			if ((Number_of_Empty_Tiles_In_Area_Around(sx, sy) < TEAM[1].nummembers) ||
+			if ((Number_of_Empty_Tiles_In_Area_Around(sx, sy) <
+				 TEAM[1].nummembers) ||
 				(!CheckTile(sx, sy) || IsPlatform(sx, sy)))
 				continue;
 
@@ -2398,11 +2445,13 @@ void SetupTeams(void)
 			sy = SPAWNLOC[rand].y;
 			dir = SPAWNLOC[rand].dir;
 
-			if (Number_of_Empty_Tiles_In_Area_Around(sx, sy) < TEAM[cnt].nummembers)
+			if (Number_of_Empty_Tiles_In_Area_Around(sx, sy) <
+				TEAM[cnt].nummembers)
 			{
 				badcount++;
 				if (badcount == (NUMSPAWNLOCATIONS - cnt))
-					Error("\n%s team cannot spawn in this level", colorname[TEAM[cnt].uniformcolor]);
+					Error("\n%s team cannot spawn in this level",
+						  colorname[TEAM[cnt].uniformcolor]);
 				continue;
 			}
 
@@ -2514,13 +2563,14 @@ void SetupPlayers(void)
 
 	else
 	{
-		int rand, cnt, locspawned[MAXSPAWNLOCATIONS] = {0};
+		int rand, cnt, locspawned[MAXSPAWNLOCATIONS] = { 0 };
 		int locsleft;
 
 		locsleft = NUMSPAWNLOCATIONS;
 		for (cnt = 0; cnt < numplayers;)
 		{
-			rand = (GameRandomNumber("net player spawn", 0) % NUMSPAWNLOCATIONS);
+			rand =
+				(GameRandomNumber("net player spawn", 0) % NUMSPAWNLOCATIONS);
 			if (locsleft == 0)
 			{
 				int x, y;
@@ -2533,7 +2583,8 @@ void SetupPlayers(void)
 			}
 			else if (!locspawned[rand])
 			{
-				SpawnPlayerobj(SPAWNLOC[rand].x, SPAWNLOC[rand].y, SPAWNLOC[rand].dir, cnt);
+				SpawnPlayerobj(SPAWNLOC[rand].x, SPAWNLOC[rand].y,
+							   SPAWNLOC[rand].dir, cnt);
 				locspawned[rand] = 1;
 				locsleft--;
 				cnt++;
@@ -2555,14 +2606,15 @@ void SetupPlayers(void)
 
 			if (i == BATTLE_It)
 			{
-				pstate->missileweapon = pstate->oldweapon = pstate->new_weapon = pstate->oldmissileweapon =
-					pstate->weapon = wp_godhand;
+				pstate->missileweapon = pstate->oldweapon = pstate->new_weapon =
+					pstate->oldmissileweapon = pstate->weapon = wp_godhand;
 				pstate->bulletweapon = -1;
 			}
 			else
 			{
-				pstate->missileweapon = pstate->oldweapon = pstate->new_weapon = pstate->oldmissileweapon =
-					pstate->bulletweapon = pstate->weapon = -1;
+				pstate->missileweapon = pstate->oldweapon = pstate->new_weapon =
+					pstate->oldmissileweapon = pstate->bulletweapon =
+						pstate->weapon = -1;
 			}
 		}
 	}
@@ -2592,45 +2644,55 @@ void SetupMaskedWalls(void)
 			if ((tile >= 158) && (tile <= 160)) // Multi glassed walls
 			{
 				SpawnMaskedWall(i, j, mw_multi1 + (tile - 158),
-								MW_MULTI | MW_BLOCKING | MW_BLOCKINGCHANGES | MW_SHOOTABLE);
+								MW_MULTI | MW_BLOCKING | MW_BLOCKINGCHANGES |
+									MW_SHOOTABLE);
 			}
-			else if ((tile >= 176) && (tile <= 178)) // Multi shot out glassed walls
+			else if ((tile >= 176) &&
+					 (tile <= 178)) // Multi shot out glassed walls
 			{
-				SpawnMaskedWall(i, j, mw_multi1 + (tile - 176), MW_BOTTOMPASSABLE);
+				SpawnMaskedWall(i, j, mw_multi1 + (tile - 176),
+								MW_BOTTOMPASSABLE);
 			}
 			else if ((tile >= 162) && (tile <= 171))
 			{
 				switch (tile)
 				{
 					case 162:
-						SpawnMaskedWall(i, j, mw_normal1, MW_SHOOTABLE | MW_BLOCKING);
+						SpawnMaskedWall(i, j, mw_normal1,
+										MW_SHOOTABLE | MW_BLOCKING);
 						break;
 					case 163:
 						SpawnMaskedWall(i, j, mw_normal1, MW_BLOCKING);
 						break;
 					case 164:
-						SpawnMaskedWall(i, j, mw_normal2, MW_SHOOTABLE | MW_BLOCKING);
+						SpawnMaskedWall(i, j, mw_normal2,
+										MW_SHOOTABLE | MW_BLOCKING);
 						break;
 					case 165:
 						SpawnMaskedWall(i, j, mw_normal2, MW_BLOCKING);
 						break;
 					case 166:
-						SpawnMaskedWall(i, j, mw_normal3, MW_SHOOTABLE | MW_BLOCKING);
+						SpawnMaskedWall(i, j, mw_normal3,
+										MW_SHOOTABLE | MW_BLOCKING);
 						break;
 					case 167:
 						SpawnMaskedWall(i, j, mw_normal3, MW_BLOCKING);
 						break;
 					case 168:
-						SpawnMaskedWall(i, j, mw_singlepane, MW_SHOOTABLE | MW_BLOCKINGCHANGES | MW_BLOCKING);
+						SpawnMaskedWall(i, j, mw_singlepane,
+										MW_SHOOTABLE | MW_BLOCKINGCHANGES |
+											MW_BLOCKING);
 						break;
 					case 169:
 						SpawnMaskedWall(i, j, mw_singlepane, MW_BOTTOMPASSABLE);
 						break;
 					case 170:
-						SpawnMaskedWall(i, j, mw_dogwall, MW_NONDOGBLOCKING | MW_WEAPONBLOCKING);
+						SpawnMaskedWall(i, j, mw_dogwall,
+										MW_NONDOGBLOCKING | MW_WEAPONBLOCKING);
 						break;
 					case 171:
-						SpawnMaskedWall(i, j, mw_peephole, MW_WEAPONBLOCKING | MW_BLOCKING);
+						SpawnMaskedWall(i, j, mw_peephole,
+										MW_WEAPONBLOCKING | MW_BLOCKING);
 						break;
 				}
 			}
@@ -2645,7 +2707,8 @@ void SetupMaskedWalls(void)
 			else if (tile == 175) // hi switch on
 				SpawnMaskedWall(i, j, mw_hiswitchon, MW_BLOCKING | MW_SWITCHON);
 			else if (tile == 179) // railing;
-				SpawnMaskedWall(i, j, mw_railing, MW_ABOVEPASSABLE | MW_MIDDLEPASSABLE);
+				SpawnMaskedWall(i, j, mw_railing,
+								MW_ABOVEPASSABLE | MW_MIDDLEPASSABLE);
 			//         else if (tile == 161) // pillar
 			//            SpawnMaskedWall(i,j,mw_pillar,MW_BLOCKING);
 		}
@@ -2655,7 +2718,8 @@ void SetupMaskedWalls(void)
 		{
 			if (IsPlatform(i, j)) // tall platform in icon plane
 			{
-				if ((MAPSPOT(i, j, 0) - AREATILE >= 0) || (MAPSPOT(i, j, 0) == 21))
+				if ((MAPSPOT(i, j, 0) - AREATILE >= 0) ||
+					(MAPSPOT(i, j, 0) == 21))
 				// check to see we are not on a wall
 				{
 					int which;
@@ -2664,33 +2728,47 @@ void SetupMaskedWalls(void)
 					switch (which)
 					{
 						case 0:
-							SpawnMaskedWall(i, j, mw_platform1, MW_BOTTOMPASSABLE | MW_MIDDLEPASSABLE);
+							SpawnMaskedWall(i, j, mw_platform1,
+											MW_BOTTOMPASSABLE |
+												MW_MIDDLEPASSABLE);
 							break;
 						case 1:
-							SpawnMaskedWall(i, j, mw_platform2, MW_ABOVEPASSABLE | MW_MIDDLEPASSABLE);
+							SpawnMaskedWall(i, j, mw_platform2,
+											MW_ABOVEPASSABLE |
+												MW_MIDDLEPASSABLE);
 							break;
 						case 2:
-							SpawnMaskedWall(i, j, mw_platform3, MW_MIDDLEPASSABLE);
+							SpawnMaskedWall(i, j, mw_platform3,
+											MW_MIDDLEPASSABLE);
 							break;
 						case 3:
-							SpawnMaskedWall(i, j, mw_platform4, MW_BOTTOMPASSABLE);
+							SpawnMaskedWall(i, j, mw_platform4,
+											MW_BOTTOMPASSABLE);
 							break;
 						case 4:
-							SpawnMaskedWall(i, j, mw_platform5, MW_BOTTOMPASSABLE | MW_ABOVEPASSABLE);
+							SpawnMaskedWall(i, j, mw_platform5,
+											MW_BOTTOMPASSABLE |
+												MW_ABOVEPASSABLE);
 							break;
 						case 5:
-							SpawnMaskedWall(i, j, mw_platform6, MW_ABOVEPASSABLE);
+							SpawnMaskedWall(i, j, mw_platform6,
+											MW_ABOVEPASSABLE);
 							break;
 						case -3:
-							SpawnMaskedWall(i, j, mw_platform7, MW_ABOVEPASSABLE);
+							SpawnMaskedWall(i, j, mw_platform7,
+											MW_ABOVEPASSABLE);
 							break;
 						default:
-							Error("Illegal Maskedwall platform value at x=%d y=%d\n", i, j);
+							Error("Illegal Maskedwall platform value at x=%d "
+								  "y=%d\n",
+								  i, j);
 							break;
 					}
 				}
 				else
-					Error("You have what appears to be a platform ontop\n a wall at x=%d y=%d\n", i, j);
+					Error("You have what appears to be a platform ontop\n a "
+						  "wall at x=%d y=%d\n",
+						  i, j);
 			}
 		}
 }
@@ -2794,7 +2872,8 @@ void SetupPushWalls(void)
 						tilemap[i][j] = pwallnum;
 						if (MAPSPOT(i, j, 2))
 							Error(
-								"You cannot link a pushwall which has no direction associated\n with it at x=%d y=%d\n",
+								"You cannot link a pushwall which has no "
+								"direction associated\n with it at x=%d y=%d\n",
 								i, j);
 						else
 							SpawnPushWall(i, j, 0, temp, nodir, 0);
@@ -2815,7 +2894,9 @@ void SetupPushWalls(void)
 							SpawnPushWall(i, j, 0, temp, (tile - 256) << 1, 4);
 					}
 					else
-						Error("You have to place a turbomovewall icon on a wall at x=%d y=%d", i, j);
+						Error("You have to place a turbomovewall icon on a "
+							  "wall at x=%d y=%d",
+							  i, j);
 					break;
 
 				case 300:
@@ -2832,7 +2913,9 @@ void SetupPushWalls(void)
 							SpawnPushWall(i, j, 0, temp, (tile - 300) / 9, 3);
 					}
 					else
-						Error("You have to place a movewall icon on a wall at x=%d y=%d", i, j);
+						Error("You have to place a movewall icon on a wall at "
+							  "x=%d y=%d",
+							  i, j);
 					break;
 			}
 		}
@@ -2899,10 +2982,14 @@ void SetupPushWallLinks(void)
 								{
 									// TODO: This code does nothing.
 								}
-								Link_To_Touchplate(touchx, touchy, ActivatePushWall, NULL, GetPushWallNumber(i, j), 0);
+								Link_To_Touchplate(touchx, touchy,
+												   ActivatePushWall, NULL,
+												   GetPushWallNumber(i, j), 0);
 							}
 							else
-								Error("tried to link a pushwall at x=%d y=%d to a non-existent touchplate\n", i, j);
+								Error("tried to link a pushwall at x=%d y=%d "
+									  "to a non-existent touchplate\n",
+									  i, j);
 						}
 					}
 					break;
@@ -2912,7 +2999,9 @@ void SetupPushWallLinks(void)
 					{
 						if (MAPSPOT(i, j, 2))
 						{
-							Error("You shouldn't be linking a nondirectional-push wall at x=%d y=%d\n", i, j);
+							Error("You shouldn't be linking a "
+								  "nondirectional-push wall at x=%d y=%d\n",
+								  i, j);
 						}
 					}
 					break;
@@ -2932,11 +3021,14 @@ void SetupPushWallLinks(void)
 								{
 									// TODO: This code does nothing.
 								}
-								Link_To_Touchplate(touchx, touchy, ActivateMoveWall, NULL, GetPushWallNumber(i, j), 0);
+								Link_To_Touchplate(touchx, touchy,
+												   ActivateMoveWall, NULL,
+												   GetPushWallNumber(i, j), 0);
 							}
 							else
-								Error("tried to link a turbomovewall at x=%d y=%d to a non-existent touchplate\n", i,
-									  j);
+								Error("tried to link a turbomovewall at x=%d "
+									  "y=%d to a non-existent touchplate\n",
+									  i, j);
 						}
 					}
 					break;
@@ -2957,10 +3049,14 @@ void SetupPushWallLinks(void)
 								{
 									// TODO: This code does nothing.
 								}
-								Link_To_Touchplate(touchx, touchy, ActivateMoveWall, NULL, GetPushWallNumber(i, j), 0);
+								Link_To_Touchplate(touchx, touchy,
+												   ActivateMoveWall, NULL,
+												   GetPushWallNumber(i, j), 0);
 							}
 							else
-								Error("tried to link a movewall at x=%d y=%d to a non-existent touchplate\n", i, j);
+								Error("tried to link a movewall at x=%d y=%d "
+									  "to a non-existent touchplate\n",
+									  i, j);
 						}
 					}
 					break;
@@ -3031,8 +3127,10 @@ void SetupElevators(void)
 		for (j = 0; j < doornum; j++)
 		{
 			dptr = doorobjlist[j];
-			if (((dptr->tilex == (x + 1)) && (dptr->tiley == y)) || ((dptr->tilex == (x - 1)) && (dptr->tiley == y)) ||
-				((dptr->tilex == x) && (dptr->tiley == (y + 1))) || ((dptr->tilex == x) && (dptr->tiley == (y - 1))))
+			if (((dptr->tilex == (x + 1)) && (dptr->tiley == y)) ||
+				((dptr->tilex == (x - 1)) && (dptr->tiley == y)) ||
+				((dptr->tilex == x) && (dptr->tiley == (y + 1))) ||
+				((dptr->tilex == x) && (dptr->tiley == (y - 1))))
 			{
 				elev->door1 = j;
 				dptr->eindex = i;
@@ -3065,8 +3163,10 @@ void SetupElevators(void)
 		for (j = 0; j < doornum; j++)
 		{
 			dptr = doorobjlist[j];
-			if (((dptr->tilex == (x + 1)) && (dptr->tiley == y)) || ((dptr->tilex == (x - 1)) && (dptr->tiley == y)) ||
-				((dptr->tilex == x) && (dptr->tiley == (y + 1))) || ((dptr->tilex == x) && (dptr->tiley == (y - 1))))
+			if (((dptr->tilex == (x + 1)) && (dptr->tiley == y)) ||
+				((dptr->tilex == (x - 1)) && (dptr->tiley == y)) ||
+				((dptr->tilex == x) && (dptr->tiley == (y + 1))) ||
+				((dptr->tilex == x) && (dptr->tiley == (y - 1))))
 			{
 				elev->door2 = j;
 				dptr->eindex = i;
@@ -3228,7 +3328,8 @@ void SetupDoorLinks(void)
 						if ((clockx == i) && (clocky == j))
 						{
 							clocklinked = 1;
-							ClockLink(LinkedOpenDoor, LinkedCloseDoor, doornumber, k);
+							ClockLink(LinkedOpenDoor, LinkedCloseDoor,
+									  doornumber, k);
 							doorobjlist[doornumber]->lock = 5;
 							doorobjlist[doornumber]->flags |= DF_TIMED;
 						}
@@ -3242,12 +3343,18 @@ void SetupDoorLinks(void)
 						if (touchindices[touchx][touchy])
 						{
 							if (MAPSPOT(i, j, 1) == 192)
-								Link_To_Touchplate(touchx, touchy, LinkedCloseDoor, LinkedCloseDoor, doornumber, 0);
+								Link_To_Touchplate(
+									touchx, touchy, LinkedCloseDoor,
+									LinkedCloseDoor, doornumber, 0);
 							else
-								Link_To_Touchplate(touchx, touchy, LinkedOpenDoor, LinkedOpenDoor, doornumber, 0);
+								Link_To_Touchplate(
+									touchx, touchy, LinkedOpenDoor,
+									LinkedOpenDoor, doornumber, 0);
 						}
 						else
-							Error("tried to link a door at x=%d y=%d to a non-existent touchplate", i, j);
+							Error("tried to link a door at x=%d y=%d to a "
+								  "non-existent touchplate",
+								  i, j);
 					}
 				}
 			}
@@ -3288,7 +3395,8 @@ void FindTimeTile(int *x, int *y)
 		*y = yy - 1;
 		return;
 	}
-	Error("Could not find an end time for a clock linked item\nat x=%d y=%d\n", *x, *y);
+	Error("Could not find an end time for a clock linked item\nat x=%d y=%d\n",
+		  *x, *y);
 }
 
 /*
@@ -3328,7 +3436,8 @@ void SetupClocks(void)
 				seconds = (int)((MAPSPOT(mapx, mapy, 2) >> 0) & 0xff);
 
 				if (seconds > 0x59)
-					Error("seconds of clock time must be below 0x5a (60 secs) ");
+					Error(
+						"seconds of clock time must be below 0x5a (60 secs) ");
 
 				seconds = 10 * (seconds / 16) + (seconds % 16);
 				minutes = 60 * (10 * (minutes / 16) + (minutes % 16));
@@ -3376,12 +3485,13 @@ void SetupClocks(void)
 void LinkElevatorDiskGroups(void)
 {
 	objtype *diskfinder1, *temp, *master;
-	int maxplatformheight[30] = {-1};
+	int maxplatformheight[30] = { -1 };
 	int num_distinct_max_heights = 0;
 	int i;
 	boolean newdiskheight;
 
-#define M_ISELEVDISK(actor) ((actor->obclass == diskobj) && (actor->state == &s_elevdisk))
+#define M_ISELEVDISK(actor) \
+	((actor->obclass == diskobj) && (actor->state == &s_elevdisk))
 
 	for (diskfinder1 = FIRSTACTOR; diskfinder1; diskfinder1 = diskfinder1->next)
 	{
@@ -3437,7 +3547,8 @@ void LinkElevatorDiskGroups(void)
 =================
 */
 
-void LinkActor(objtype *ob, int tilex, int tiley, void (*action)(intptr_t), void (*swapaction)(intptr_t))
+void LinkActor(objtype *ob, int tilex, int tiley, void (*action)(intptr_t),
+			   void (*swapaction)(intptr_t))
 {
 	word touchx, touchy;
 	int clockx, clocky;
@@ -3478,9 +3589,11 @@ void LinkActor(objtype *ob, int tilex, int tiley, void (*action)(intptr_t), void
 			}
 
 			if (tswitch && (tswitch->flags & FL_ON))
-				Link_To_Touchplate(touchx, touchy, swapaction, action, (intptr_t)ob, 0);
+				Link_To_Touchplate(touchx, touchy, swapaction, action,
+								   (intptr_t)ob, 0);
 			else
-				Link_To_Touchplate(touchx, touchy, action, swapaction, (intptr_t)ob, 0);
+				Link_To_Touchplate(touchx, touchy, action, swapaction,
+								   (intptr_t)ob, 0);
 			if (ob->obclass == gasgrateobj)
 			{
 				ob->temp1 = touchx;
@@ -3488,8 +3601,9 @@ void LinkActor(objtype *ob, int tilex, int tiley, void (*action)(intptr_t), void
 			}
 		}
 		else
-			Error("tried to link an object at x=%d y=%d to a non-existent touchplate supposedly at x=%d y=%d", tilex,
-				  tiley, touchx, touchy);
+			Error("tried to link an object at x=%d y=%d to a non-existent "
+				  "touchplate supposedly at x=%d y=%d",
+				  tilex, tiley, touchx, touchy);
 	}
 
 	if (tilemap[tilex][tiley])
@@ -3882,23 +3996,33 @@ void SetupLights(void)
 								sprites[i][j]->shapenum--;
 								if (touchindices[touchx][touchy])
 								{
-									Link_To_Touchplate(touchx, touchy, ActivateLight, DeactivateLight,
-													   (intptr_t)(sprites[i][j]), 0);
-									sprites[i][j]->linked_to = touchindices[touchx][touchy] - 1;
+									Link_To_Touchplate(
+										touchx, touchy, ActivateLight,
+										DeactivateLight,
+										(intptr_t)(sprites[i][j]), 0);
+									sprites[i][j]->linked_to =
+										touchindices[touchx][touchy] - 1;
 								}
 								else
-									Error("tried to link a light at x=%d y=%d to a non-existent touchplate", i, j);
+									Error("tried to link a light at x=%d y=%d "
+										  "to a non-existent touchplate",
+										  i, j);
 							}
 							else
 							{
 								if (touchindices[touchx][touchy])
 								{
-									Link_To_Touchplate(touchx, touchy, DeactivateLight, ActivateLight,
-													   (intptr_t)(sprites[i][j]), 0);
-									sprites[i][j]->linked_to = touchindices[touchx][touchy] - 1;
+									Link_To_Touchplate(
+										touchx, touchy, DeactivateLight,
+										ActivateLight,
+										(intptr_t)(sprites[i][j]), 0);
+									sprites[i][j]->linked_to =
+										touchindices[touchx][touchy] - 1;
 								}
 								else
-									Error("tried to link a light at x=%d y=%d to a non-existent touchplate", i, j);
+									Error("tried to link a light at x=%d y=%d "
+										  "to a non-existent touchplate",
+										  i, j);
 								sprites[i][j]->flags |= FL_LIGHTON;
 							}
 						}
@@ -3906,12 +4030,17 @@ void SetupLights(void)
 						{
 							if (touchindices[touchx][touchy])
 							{
-								Link_To_Touchplate(touchx, touchy, DeactivateLight, ActivateLight,
-												   (intptr_t)(sprites[i][j]), 0);
-								sprites[i][j]->linked_to = touchindices[touchx][touchy] - 1;
+								Link_To_Touchplate(
+									touchx, touchy, DeactivateLight,
+									ActivateLight, (intptr_t)(sprites[i][j]),
+									0);
+								sprites[i][j]->linked_to =
+									touchindices[touchx][touchy] - 1;
 							}
 							else
-								Error("tried to link a light at x=%d y=%d to a non-existent touchplate", i, j);
+								Error("tried to link a light at x=%d y=%d to a "
+									  "non-existent touchplate",
+									  i, j);
 							sprites[i][j]->flags |= FL_LIGHTON;
 						}
 					}
@@ -4529,8 +4658,8 @@ int GetSongForLevel(void)
 		if ((num >> 8) == 0xba)
 			return (num & 0xff);
 	}
-	//   Error("GetSongForLevel: could not find song in level %ld\n",gamestate.mapon);
-	//   return -1;
+	//   Error("GetSongForLevel: could not find song in level
+	//   %ld\n",gamestate.mapon); return -1;
 	return 0;
 }
 
@@ -4939,7 +5068,9 @@ void SetupGameLevel(void)
 		nominalheight = maxheight - 32;
 	}
 	else
-		Error("You must specify a valid height sprite icon at (2,0) on map %d\n", gamestate.mapon);
+		Error(
+			"You must specify a valid height sprite icon at (2,0) on map %d\n",
+			gamestate.mapon);
 
 	/*
 	   if ( ( BATTLEMODE ) && ( !gamestate.BattleOptions.SpawnDangers ) )
@@ -5085,7 +5216,7 @@ void SetupRandomActors(void)
 	int i, j;
 	word *map, tile;
 	int starti, totalrandom = 0, count = 0, ambush, locindex, orig;
-	byte actorpresent[10] = {0}, index = 0, randomtype, used[100] = {0};
+	byte actorpresent[10] = { 0 }, index = 0, randomtype, used[100] = { 0 };
 	_2Dpoint randloc[100];
 
 	map = mapplanes[1];
@@ -5142,7 +5273,8 @@ void SetupRandomActors(void)
 
 		if (!used[locindex])
 		{
-			randomtype = actorpresent[GameRandomNumber("SetupRandomActors", 0) % index];
+			randomtype =
+				actorpresent[GameRandomNumber("SetupRandomActors", 0) % index];
 			ambush = (GameRandomNumber("rand actor", 0) < 128);
 			i = randloc[locindex].x;
 			j = randloc[locindex].y;
@@ -5731,20 +5863,25 @@ void SetupStatics(void)
 
 				case 46:
 #if (SHAREWARE == 1)
-					Error("\n tried to spawn excalibat at %d,%d in shareware !", i, j);
+					Error("\n tried to spawn excalibat at %d,%d in shareware !",
+						  i, j);
 #endif
 
-					SD_PreCacheSoundGroup(SD_EXCALIBOUNCESND, SD_EXCALIBLASTSND);
+					SD_PreCacheSoundGroup(SD_EXCALIBOUNCESND,
+										  SD_EXCALIBLASTSND);
 
-					PreCacheGroup(W_GetNumForName("EXBAT1"), W_GetNumForName("EXBAT7"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("EXBAT1"),
+								  W_GetNumForName("EXBAT7"), cache_patch_t);
 
 					SpawnStatic(i, j, tile - 23, spawnz);
 					if (loadedgame == false)
 						gamestate.missiletotal++;
 					break;
 				case 47:
-					PreCacheGroup(W_GetNumForName("KNIFE1"), W_GetNumForName("KNIFE10"), cache_patch_t);
-					PreCacheGroup(W_GetNumForName("ESTATUE1"), W_GetNumForName("ESTATUE8"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("KNIFE1"),
+								  W_GetNumForName("KNIFE10"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("ESTATUE1"),
+								  W_GetNumForName("ESTATUE8"), cache_patch_t);
 
 					SpawnStatic(i, j, tile - 23, spawnz);
 					break;
@@ -5752,14 +5889,21 @@ void SetupStatics(void)
 				case 48:
 					SD_PreCacheSound(SD_ATKTWOPISTOLSND);
 
-					if ((locplayerstate->player == 1) || (locplayerstate->player == 3))
-						PreCacheGroup(W_GetNumForName("RFPIST1"), W_GetNumForName("LFPIST3"), cache_patch_t);
+					if ((locplayerstate->player == 1) ||
+						(locplayerstate->player == 3))
+						PreCacheGroup(W_GetNumForName("RFPIST1"),
+									  W_GetNumForName("LFPIST3"),
+									  cache_patch_t);
 
 					else if (locplayerstate->player == 2)
-						PreCacheGroup(W_GetNumForName("RBMPIST1"), W_GetNumForName("LBMPIST3"), cache_patch_t);
+						PreCacheGroup(W_GetNumForName("RBMPIST1"),
+									  W_GetNumForName("LBMPIST3"),
+									  cache_patch_t);
 
 					else
-						PreCacheGroup(W_GetNumForName("RMPIST1"), W_GetNumForName("LMPIST3"), cache_patch_t);
+						PreCacheGroup(W_GetNumForName("RMPIST1"),
+									  W_GetNumForName("LMPIST3"),
+									  cache_patch_t);
 
 					SpawnStatic(i, j, tile - 23, spawnz);
 
@@ -5767,7 +5911,8 @@ void SetupStatics(void)
 				case 49:
 
 					SD_PreCacheSound(SD_ATKMP40SND);
-					PreCacheGroup(W_GetNumForName("MP401"), W_GetNumForName("MP403"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("MP401"),
+								  W_GetNumForName("MP403"), cache_patch_t);
 					SpawnStatic(i, j, tile - 23, spawnz);
 					break;
 
@@ -5775,7 +5920,8 @@ void SetupStatics(void)
 					SD_PreCacheSound(SD_MISSILEHITSND);
 					SD_PreCacheSound(SD_MISSILEFLYSND);
 					SD_PreCacheSound(SD_BAZOOKAFIRESND);
-					PreCacheGroup(W_GetNumForName("BAZOOKA1"), W_GetNumForName("BAZOOKA4"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("BAZOOKA1"),
+								  W_GetNumForName("BAZOOKA4"), cache_patch_t);
 					SpawnStatic(i, j, tile - 23, spawnz);
 					if (loadedgame == false)
 						gamestate.missiletotal++;
@@ -5785,7 +5931,8 @@ void SetupStatics(void)
 					SD_PreCacheSound(SD_MISSILEHITSND);
 					SD_PreCacheSound(SD_MISSILEFLYSND);
 					SD_PreCacheSound(SD_FIREBOMBFIRESND);
-					PreCacheGroup(W_GetNumForName("FBOMB1"), W_GetNumForName("FBOMB4"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("FBOMB1"),
+								  W_GetNumForName("FBOMB4"), cache_patch_t);
 					SpawnStatic(i, j, tile - 23, spawnz);
 					if (loadedgame == false)
 						gamestate.missiletotal++;
@@ -5794,7 +5941,8 @@ void SetupStatics(void)
 					SD_PreCacheSound(SD_MISSILEHITSND);
 					SD_PreCacheSound(SD_MISSILEFLYSND);
 					SD_PreCacheSound(SD_HEATSEEKFIRESND);
-					PreCacheGroup(W_GetNumForName("HSEEK1"), W_GetNumForName("HSEEK4"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("HSEEK1"),
+								  W_GetNumForName("HSEEK4"), cache_patch_t);
 					SpawnStatic(i, j, tile - 23, spawnz);
 					if (loadedgame == false)
 						gamestate.missiletotal++;
@@ -5803,7 +5951,8 @@ void SetupStatics(void)
 					SD_PreCacheSound(SD_MISSILEHITSND);
 					SD_PreCacheSound(SD_MISSILEFLYSND);
 					SD_PreCacheSound(SD_DRUNKFIRESND);
-					PreCacheGroup(W_GetNumForName("DRUNK1"), W_GetNumForName("DRUNK4"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("DRUNK1"),
+								  W_GetNumForName("DRUNK4"), cache_patch_t);
 					SpawnStatic(i, j, tile - 23, spawnz);
 					if (loadedgame == false)
 						gamestate.missiletotal++;
@@ -5813,29 +5962,36 @@ void SetupStatics(void)
 					SD_PreCacheSound(SD_MISSILEFLYSND);
 					SD_PreCacheSound(SD_FLAMEWALLFIRESND);
 					SD_PreCacheSound(SD_FLAMEWALLSND);
-					PreCacheGroup(W_GetNumForName("FIREW1"), W_GetNumForName("FIREW3"), cache_patch_t);
-					PreCacheGroup(W_GetNumForName("FWALL1"), W_GetNumForName("FWALL15"), cache_patch_t);
-					PreCacheGroup(W_GetNumForName("SKEL1"), W_GetNumForName("SKEL48"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("FIREW1"),
+								  W_GetNumForName("FIREW3"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("FWALL1"),
+								  W_GetNumForName("FWALL15"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("SKEL1"),
+								  W_GetNumForName("SKEL48"), cache_patch_t);
 					SpawnStatic(i, j, tile - 23, spawnz);
 					if (loadedgame == false)
 						gamestate.missiletotal++;
 					break;
 				case 55:
 #if (SHAREWARE == 1)
-					Error("\n tried to spawn split missile at %d,%d in shareware !", i, j);
+					Error("\n tried to spawn split missile at %d,%d in "
+						  "shareware !",
+						  i, j);
 #endif
 					SD_PreCacheSound(SD_MISSILEHITSND);
 					SD_PreCacheSound(SD_MISSILEFLYSND);
 					SD_PreCacheSound(SD_SPLITFIRESND);
 					SD_PreCacheSound(SD_SPLITSND);
-					PreCacheGroup(W_GetNumForName("SPLIT1"), W_GetNumForName("SPLIT4"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("SPLIT1"),
+								  W_GetNumForName("SPLIT4"), cache_patch_t);
 					SpawnStatic(i, j, tile - 23, spawnz);
 					if (loadedgame == false)
 						gamestate.missiletotal++;
 					break;
 				case 56:
 #if (SHAREWARE == 1)
-					Error("\n tried to spawn kes at %d,%d in shareware !", i, j);
+					Error("\n tried to spawn kes at %d,%d in shareware !", i,
+						  j);
 #endif
 
 					SD_PreCacheSound(SD_GRAVSND);
@@ -5843,8 +5999,10 @@ void SetupStatics(void)
 					SD_PreCacheSound(SD_GRAVFIRESND);
 					SD_PreCacheSound(SD_GRAVBUILDSND);
 
-					PreCacheGroup(W_GetNumForName("KES1"), W_GetNumForName("KES6"), cache_patch_t);
-					PreCacheGroup(W_GetNumForName("KSPHERE1"), W_GetNumForName("KSPHERE4"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("KES1"),
+								  W_GetNumForName("KES6"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("KSPHERE1"),
+								  W_GetNumForName("KSPHERE4"), cache_patch_t);
 					SpawnStatic(i, j, tile - 23, spawnz);
 					if (loadedgame == false)
 						gamestate.missiletotal++;
@@ -5934,16 +6092,20 @@ void SetupStatics(void)
 					SD_PreCacheSound(SD_GRAVSND);
 					SD_PreCacheSound(SD_GRAVHITSND);
 					SD_PreCacheSoundGroup(SD_GODMODEFIRESND, SD_LOSEMODESND);
-					if ((locplayerstate->player == 1) || (locplayerstate->player == 3))
+					if ((locplayerstate->player == 1) ||
+						(locplayerstate->player == 3))
 						SD_PreCacheSound(SD_GODWOMANSND);
 					else
 						SD_PreCacheSound(SD_GODMANSND);
 
-					PreCacheGroup(W_GetNumForName("GODHAND1"), W_GetNumForName("GODHAND8"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("GODHAND1"),
+								  W_GetNumForName("GODHAND8"), cache_patch_t);
 
-					PreCacheGroup(W_GetNumForName("VAPO1"), W_GetNumForName("LITSOUL"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("VAPO1"),
+								  W_GetNumForName("LITSOUL"), cache_patch_t);
 
-					PreCacheGroup(W_GetNumForName("GODFIRE1"), W_GetNumForName("GODFIRE4"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("GODFIRE1"),
+								  W_GetNumForName("GODFIRE4"), cache_patch_t);
 
 					SpawnStatic(i, j, stat_godmode, spawnz);
 					if (loadedgame == false)
@@ -5957,12 +6119,14 @@ void SetupStatics(void)
 #endif
 
 					SD_PreCacheSoundGroup(SD_DOGMODEPANTSND, SD_DOGMODELICKSND);
-					if ((locplayerstate->player == 1) || (locplayerstate->player == 3))
+					if ((locplayerstate->player == 1) ||
+						(locplayerstate->player == 3))
 						SD_PreCacheSound(SD_DOGWOMANSND);
 					else
 						SD_PreCacheSound(SD_DOGMANSND);
 
-					PreCacheGroup(W_GetNumForName("DOGNOSE1"), W_GetNumForName("DOGPAW4"), cache_patch_t);
+					PreCacheGroup(W_GetNumForName("DOGNOSE1"),
+								  W_GetNumForName("DOGPAW4"), cache_patch_t);
 					SpawnStatic(i, j, stat_dogmode, spawnz);
 					if (loadedgame == false)
 						gamestate.supertotal++;
@@ -6004,7 +6168,8 @@ void SetupStatics(void)
 					{
 						SpawnStatic(i, j, stat_collector, spawnz);
 						LASTSTAT->flags |= FL_COLORED;
-						LASTSTAT->hitpoints = (GameRandomNumber("colors", 0) % MAXPLAYERCOLORS);
+						LASTSTAT->hitpoints =
+							(GameRandomNumber("colors", 0) % MAXPLAYERCOLORS);
 						BATTLE_NumCollectorItems++;
 					}
 					break;
@@ -6058,7 +6223,8 @@ void RaiseSprites(int x, int y, int count, int dir)
 		{
 			xx = -hc + ((i + 1) << 8);
 			h = (c - FixedMulShift(a, (xx * xx), 8)) >> 8;
-			((statobj_t *)sprites[x + (dx * i)][y + (dy * i)])->z = maxheight - h;
+			((statobj_t *)sprites[x + (dx * i)][y + (dy * i)])->z =
+				maxheight - h;
 		}
 	}
 	else
@@ -6068,17 +6234,21 @@ void RaiseSprites(int x, int y, int count, int dir)
 		else if (ActorIsSpring(x + (dx * count), y + (dy * count)))
 			d = 0;
 		else
-			Error("Cannot find a spring board around a ramp ascension near x=%d y=%d\n", x, y);
+			Error("Cannot find a spring board around a ramp ascension near "
+				  "x=%d y=%d\n",
+				  x, y);
 
 		hc = ((maxheight + 20) << 16) / (count + 1);
 		h = hc << 1;
 		for (i = 0; i < count; i++)
 		{
 			if (d == 1)
-				((statobj_t *)sprites[x + (dx * i)][y + (dy * i)])->z = maxheight - (h >> 16);
-			else
-				((statobj_t *)sprites[x + (dx * (count - i - 1))][y + (dy * (count - i - 1))])->z =
+				((statobj_t *)sprites[x + (dx * i)][y + (dy * i)])->z =
 					maxheight - (h >> 16);
+			else
+				((statobj_t *)sprites[x + (dx * (count - i - 1))]
+									 [y + (dy * (count - i - 1))])
+					->z = maxheight - (h >> 16);
 			h += hc;
 		}
 	}
@@ -6101,8 +6271,9 @@ void LoftSprites(void)
 					while (StaticUndefined(x + count, y))
 						count++;
 					if (count < 3)
-						Error("Are You kidding me? You are trying to loft <3 sprites in an arc??? \n x=%d y=%d\n", x,
-							  y);
+						Error("Are You kidding me? You are trying to loft <3 "
+							  "sprites in an arc??? \n x=%d y=%d\n",
+							  x, y);
 					RaiseSprites(x, y, count, 1);
 				}
 				else if (StaticUndefined(x, y + 1))
@@ -6111,7 +6282,9 @@ void LoftSprites(void)
 					while (StaticUndefined(x, y + count))
 						count++;
 					if (count < 3)
-						Error("Are You kidding me? You are trying to loft <3 sprites??? \n x=%d y=%d\n", x, y);
+						Error("Are You kidding me? You are trying to loft <3 "
+							  "sprites??? \n x=%d y=%d\n",
+							  x, y);
 					RaiseSprites(x, y, count, 0);
 				}
 				else

@@ -31,7 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAXCLOCKS 10
 #define MAXSPAWNLOCATIONS 50
 #define POWERUPTICS ((VBLCOUNTER * 60) + 6)
-#define IsPlatform(x, y) ((MAPSPOT((x), (y), 2) == 1) || ((MAPSPOT((x), (y), 2) >= 4) && (MAPSPOT((x), (y), 2) <= 9)))
+#define IsPlatform(x, y) \
+	((MAPSPOT((x), (y), 2) == 1) || \
+	 ((MAPSPOT((x), (y), 2) >= 4) && (MAPSPOT((x), (y), 2) <= 9)))
 
 #define EXITTILE (107)
 #define SECRETEXITTILE (106)

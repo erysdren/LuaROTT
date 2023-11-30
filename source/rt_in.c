@@ -87,20 +87,27 @@ extern boolean sdl_fullscreen;
 //   'q','w','e','r','t','y','u','i','o','p','[',']','\\', 0 ,'a','s',
 
 const char ScanChars[128] = // Scan code names with single chars
-	{0,	  0,   '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 0,	0,	 'q', 'w', 'e',	 'r', 't', 'y',
-	 'u', 'i', 'o', 'p', '[', ']', 0,	0,	 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`', 0,   '\\',
-	 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 0,	0,	 0,	  ' ', 0,	0,	 0,	  0,   0,	 0,	  0,   0,
-	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 '-', 0,   '5', 0,	 '+', 0,   0,	0,	 0,	  0,   0,	 0,	  0,   0,
-	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	 0,	  0,   0,
-	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0};
+	{ 0,   0,	 '1', '2', '3',	 '4', '5', '6', '7', '8', '9', '0', '-',
+	  '=', 0,	 0,	  'q', 'w',	 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+	  '[', ']',	 0,	  0,   'a',	 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
+	  ';', '\'', '`', 0,   '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',',
+	  '.', '/',	 0,	  0,   0,	 ' ', 0,   0,	0,	 0,	  0,   0,	0,
+	  0,   0,	 0,	  0,   0,	 0,	  0,   0,	0,	 '-', 0,   '5', 0,
+	  '+', 0,	 0,	  0,   0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,
+	  0,   0,	 0,	  0,   0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,
+	  0,   0,	 0,	  0,   0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,
+	  0,   0,	 0,	  0,   0,	 0,	  0,   0,	0,	 0,	  0 };
 
 const char ShiftedScanChars[128] = // Shifted Scan code names with single chars
-	{0,	  0,   '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 0,	0,	 'Q', 'W', 'E', 'R', 'T', 'Y',
-	 'U', 'I', 'O', 'P', '{', '}', 0,	0,	 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', '~', 0,	  '|',
-	 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 0,	0,	 0,	  ' ', 0,	0,	 0,	  0,   0,	0,	 0,	  0,
-	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 '-', 0,   '5', 0,	 '+', 0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,
-	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,
-	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0};
+	{ 0,   0,	'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 0,
+	  0,   'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', 0,	0,
+	  'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', '~', 0,   '|', 'Z',
+	  'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 0,	0,	 0,	  ' ', 0,	0,
+	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	'-',
+	  0,   '5', 0,	 '+', 0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,
+	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,
+	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,	 0,	  0,   0,	0,
+	  0,   0,	0,	 0,	  0,   0,	0,	 0 };
 
 //****************************************************************************
 //
@@ -108,16 +115,21 @@ const char ShiftedScanChars[128] = // Shifted Scan code names with single chars
 //
 //****************************************************************************]
 
-#define SCANCODE_TO_KEYS_ARRAY                                                                                         \
-	{                                                                                                                  \
-		0, 0, 0, 0, sc_A, sc_B, sc_C, sc_D, sc_E, sc_F, sc_G, sc_H, sc_I, sc_J, sc_K, sc_L, sc_L, sc_N, sc_O, sc_P,    \
-			sc_Q, sc_R, sc_S, sc_T, sc_U, sc_V, sc_W, sc_X, sc_Y, sc_Z, sc_1, sc_2, sc_3, sc_4, sc_5, sc_6, sc_7,      \
-			sc_8, sc_9, sc_0, sc_Return, sc_Escape, sc_BackSpace, sc_Tab, sc_Space, sc_Minus, sc_Equals,               \
-			sc_OpenBracket, sc_CloseBracket, 0x2B, 0, 0x27, 0x28, 0x29, sc_Comma, sc_Period, 0x35, sc_CapsLock, sc_F1, \
-			sc_F2, sc_F3, sc_F4, sc_F5, sc_F6, sc_F7, sc_F8, sc_F9, sc_F10, sc_F11, sc_F12, sc_PrintScreen, 0x46, 0,   \
-			sc_Insert, sc_Home, sc_PgUp, sc_Delete, sc_End, sc_PgDn, sc_RightArrow, sc_LeftArrow, sc_DownArrow,        \
-			sc_UpArrow, 0x45, 0x35, 0x37, sc_Minus, sc_Plus, sc_Return, sc_End, sc_DownArrow, sc_PgDn, sc_LeftArrow,   \
-			0x4c, sc_RightArrow, sc_Home, sc_UpArrow, sc_PgUp, sc_Insert, sc_Period, 0, 0, 0, sc_Equals                \
+#define SCANCODE_TO_KEYS_ARRAY \
+	{ \
+		0, 0, 0, 0, sc_A, sc_B, sc_C, sc_D, sc_E, sc_F, sc_G, sc_H, sc_I, \
+			sc_J, sc_K, sc_L, sc_L, sc_N, sc_O, sc_P, sc_Q, sc_R, sc_S, sc_T, \
+			sc_U, sc_V, sc_W, sc_X, sc_Y, sc_Z, sc_1, sc_2, sc_3, sc_4, sc_5, \
+			sc_6, sc_7, sc_8, sc_9, sc_0, sc_Return, sc_Escape, sc_BackSpace, \
+			sc_Tab, sc_Space, sc_Minus, sc_Equals, sc_OpenBracket, \
+			sc_CloseBracket, 0x2B, 0, 0x27, 0x28, 0x29, sc_Comma, sc_Period, \
+			0x35, sc_CapsLock, sc_F1, sc_F2, sc_F3, sc_F4, sc_F5, sc_F6, \
+			sc_F7, sc_F8, sc_F9, sc_F10, sc_F11, sc_F12, sc_PrintScreen, 0x46, \
+			0, sc_Insert, sc_Home, sc_PgUp, sc_Delete, sc_End, sc_PgDn, \
+			sc_RightArrow, sc_LeftArrow, sc_DownArrow, sc_UpArrow, 0x45, 0x35, \
+			0x37, sc_Minus, sc_Plus, sc_Return, sc_End, sc_DownArrow, sc_PgDn, \
+			sc_LeftArrow, 0x4c, sc_RightArrow, sc_Home, sc_UpArrow, sc_PgUp, \
+			sc_Insert, sc_Period, 0, 0, 0, sc_Equals \
 	}
 
 static const int scancode_translate_table[] = SCANCODE_TO_KEYS_ARRAY;
@@ -151,18 +163,20 @@ static int GetScancode(const int scancode)
 	}
 }
 
-static KeyboardDef KbdDefs = {0x1d, 0x38, 0x47, 0x48, 0x49, 0x4b, 0x4d, 0x4f, 0x50, 0x51};
+static KeyboardDef KbdDefs = { 0x1d, 0x38, 0x47, 0x48, 0x49,
+							   0x4b, 0x4d, 0x4f, 0x50, 0x51 };
 static JoystickDef JoyDefs[MaxJoys];
 static ControlType Controls[MAXPLAYERS];
 
 static boolean IN_Started;
 
 static Direction DirTable[] = // Quick lookup for total direction
-	{dir_NorthWest, dir_North, dir_NorthEast, dir_West, dir_None, dir_East, dir_SouthWest, dir_South, dir_SouthEast};
+	{ dir_NorthWest, dir_North,		dir_NorthEast, dir_West,	 dir_None,
+	  dir_East,		 dir_SouthWest, dir_South,	   dir_SouthEast };
 
 int(far *function_ptr)();
 
-static char *ParmStrings[] = {"nojoys", "nomouse", NULL};
+static char *ParmStrings[] = { "nojoys", "nomouse", NULL };
 
 #define sdldebug printf
 
@@ -271,7 +285,9 @@ static int sdl_key_filter(const SDL_Event *event)
 	int grab_mode = 0;
 	int extended;
 
-	if ((event->key.keysym.sym == SDLK_g) && (event->key.state == SDL_PRESSED) && (event->key.keysym.mod & KMOD_CTRL))
+	if ((event->key.keysym.sym == SDLK_g) &&
+		(event->key.state == SDL_PRESSED) &&
+		(event->key.keysym.mod & KMOD_CTRL))
 	{
 		if (!sdl_fullscreen)
 		{
@@ -283,15 +299,18 @@ static int sdl_key_filter(const SDL_Event *event)
 		return (0);
 	} /* if */
 
-	else if (((event->key.keysym.sym == SDLK_RETURN) || (event->key.keysym.sym == SDLK_KP_ENTER)) &&
-			 (event->key.state == SDL_PRESSED) && (event->key.keysym.mod & KMOD_ALT))
+	else if (((event->key.keysym.sym == SDLK_RETURN) ||
+			  (event->key.keysym.sym == SDLK_KP_ENTER)) &&
+			 (event->key.state == SDL_PRESSED) &&
+			 (event->key.keysym.mod & KMOD_ALT))
 	{
 		ToggleFullScreen();
 		return (0);
 	} /* if */
 
 	/* HDG: put this above the scancode lookup otherwise it is never reached */
-	if ((event->key.keysym.sym == SDLK_PAUSE) && (event->key.state == SDL_PRESSED))
+	if ((event->key.keysym.sym == SDLK_PAUSE) &&
+		(event->key.state == SDL_PRESSED))
 	{
 		PausePressed = true;
 		return (0);
@@ -306,7 +325,8 @@ static int sdl_key_filter(const SDL_Event *event)
 	} /* if */
 
 	/* Fix elweirdo SDL capslock/numlock handling, always treat as press */
-	if ((event->key.keysym.sym != SDLK_CAPSLOCK) && (event->key.keysym.sym != SDLK_NUMLOCKCLEAR) &&
+	if ((event->key.keysym.sym != SDLK_CAPSLOCK) &&
+		(event->key.keysym.sym != SDLK_NUMLOCKCLEAR) &&
 		(event->key.state == SDL_RELEASED))
 		k += 128; /* +128 signifies that the key is released in DOS. */
 
@@ -638,11 +658,13 @@ boolean INL_StartJoy(word joy)
 
 		if ((sdl_stick_button_state == NULL) && (sdl_total_sticks > 0))
 		{
-			sdl_stick_button_state = (word *)malloc(sizeof(word) * sdl_total_sticks);
+			sdl_stick_button_state =
+				(word *)malloc(sizeof(word) * sdl_total_sticks);
 			if (sdl_stick_button_state == NULL)
 				SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 			else
-				memset(sdl_stick_button_state, '\0', sizeof(word) * sdl_total_sticks);
+				memset(sdl_stick_button_state, '\0',
+					   sizeof(word) * sdl_total_sticks);
 		}
 		SDL_JoystickEventState(SDL_ENABLE);
 	}
@@ -653,7 +675,8 @@ boolean INL_StartJoy(word joy)
 
 	IN_GetJoyAbs(joy, &x, &y);
 
-	if (((x == 0) || (x > MaxJoyValue - 10)) || ((y == 0) || (y > MaxJoyValue - 10)))
+	if (((x == 0) || (x > MaxJoyValue - 10)) ||
+		((y == 0) || (y > MaxJoyValue - 10)))
 		return (false);
 	else
 	{
@@ -1008,8 +1031,9 @@ void IN_UpdateKeyboard(void)
 
 				//            if (keysdown[key])
 				//            {
-				//               KeyboardQueue[Keytail] = KeyboardQueue[Keyhead];
-				//               Keytail = (Keytail+1)&(KEYQMAX-1);
+				//               KeyboardQueue[Keytail] =
+				//               KeyboardQueue[Keyhead]; Keytail =
+				//               (Keytail+1)&(KEYQMAX-1);
 				//            }
 				//            else
 				Keyboard[key] = 0;
@@ -1195,7 +1219,8 @@ void QueueLetterInput(void)
 							FinishModemMessage(MSG.textnum, true);
 						}
 					}
-					else if ((scancode >= sc_1) && (scancode <= sc_0) && (Keyboard[sc_Alt]))
+					else if ((scancode >= sc_1) && (scancode <= sc_0) &&
+							 (Keyboard[sc_Alt]))
 					{
 						int msg;
 
@@ -1204,7 +1229,8 @@ void QueueLetterInput(void)
 						if (CommbatMacros[msg].avail)
 						{
 							MSG.length = strlen(CommbatMacros[msg].macro) + 1;
-							strcpy(Messages[MSG.textnum].text, CommbatMacros[msg].macro);
+							strcpy(Messages[MSG.textnum].text,
+								   CommbatMacros[msg].macro);
 
 							MSG.messageon = false;
 							FinishModemMessage(MSG.textnum, true);

@@ -126,7 +126,7 @@ char getch(void)
 /* from Dan Olson */
 void put_dos2ansi(byte attrib)
 {
-	int lookup[] = {30, 34, 32, 36, 31, 35, 33, 37};
+	int lookup[] = { 30, 34, 32, 36, 31, 35, 33, 37 };
 	byte fore, back, blink = 0, intens = 0;
 
 	fore = attrib & 15;	  /* bits 0-3 */

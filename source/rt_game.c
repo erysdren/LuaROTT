@@ -70,14 +70,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 //******************************************************************************
 
-int PlayerSnds[5] = {SD_PLAYERTCSND, SD_PLAYERTBSND, SD_PLAYERDWSND, SD_PLAYERLNSND, SD_PLAYERIPFSND};
+int PlayerSnds[5] = { SD_PLAYERTCSND, SD_PLAYERTBSND, SD_PLAYERDWSND,
+					  SD_PLAYERLNSND, SD_PLAYERIPFSND };
 
 unsigned short SHAKETICS = 0xFFFF; // bna++
 // int SHAKETICS   = 0xFFFF;
 int damagecount = 0;
 HighScore Scores[MaxScores] = {
-	{"Tom", 70000, 7, 1},	  {"Chuck", 60000, 6, 1}, {"Mark", 50000, 5, 1},  {"The Joes", 40000, 4, 1},
-	{"William", 30000, 3, 1}, {"Jim", 20000, 2, 1},	  {"Steve", 10000, 1, 1},
+	{ "Tom", 70000, 7, 1 },		{ "Chuck", 60000, 6, 1 },
+	{ "Mark", 50000, 5, 1 },	{ "The Joes", 40000, 4, 1 },
+	{ "William", 30000, 3, 1 }, { "Jim", 20000, 2, 1 },
+	{ "Steve", 10000, 1, 1 },
 };
 
 //******************************************************************************
@@ -86,11 +89,13 @@ HighScore Scores[MaxScores] = {
 //
 //******************************************************************************
 
-static int KeyX[4] = {KEY1_X, KEY2_X, KEY3_X, KEY4_X};
+static int KeyX[4] = { KEY1_X, KEY2_X, KEY3_X, KEY4_X };
 
-static const char *Names[5] = {"Taradino", "Thi", "Doug", "Lorelei", "Ian Paul"};
+static const char *Names[5] = { "Taradino", "Thi", "Doug", "Lorelei",
+								"Ian Paul" };
 
-static const char *LastNames[5] = {"Cassatt", "Barrett", "Wendt", "Ni", "Freeley"};
+static const char *LastNames[5] = { "Cassatt", "Barrett", "Wendt", "Ni",
+									"Freeley" };
 
 static STR ScoreStr;
 static STR LivesStr;
@@ -138,8 +143,10 @@ static int playeruniformcolor;
 #define NUMBONUSES 11
 #define BONUSBONUS 100000
 
-extern void VL_MemToScreenClipped(byte *source, int width, int height, int x, int y);
-void DrawPPic(int xpos, int ypos, int width, int height, byte *src, int num, boolean up, boolean bufferofsonly);
+extern void VL_MemToScreenClipped(byte *source, int width, int height, int x,
+								  int y);
+void DrawPPic(int xpos, int ypos, int width, int height, byte *src, int num,
+			  boolean up, boolean bufferofsonly);
 extern void MoveScreenUpLeft();
 extern void MoveScreenUpRight();
 extern void MoveScreenDownLeft();
@@ -177,7 +184,8 @@ void V_ReDrawBkgnd(int x, int y, int width, int height, boolean shade)
 				{
 					if (shade)
 					{
-						*dest = *(colormap + ((MENUSHADELEVEL >> 2) << 8) + *src++);
+						*dest =
+							*(colormap + ((MENUSHADELEVEL >> 2) << 8) + *src++);
 					}
 					else
 					{
@@ -191,7 +199,8 @@ void V_ReDrawBkgnd(int x, int y, int width, int height, boolean shade)
 				{
 					if (shade)
 					{
-						*dest = *(colormap + ((MENUSHADELEVEL >> 2) << 8) + *src);
+						*dest =
+							*(colormap + ((MENUSHADELEVEL >> 2) << 8) + *src);
 					}
 					else
 					{
@@ -232,7 +241,8 @@ void CacheLumpGroup(char *startlump, pic_t **lumparray, int numberoflumps)
 
 	for (i = 0; i < numberoflumps; i++)
 	{
-		lumparray[i] = (pic_t *)W_CacheLumpNum(lumpnum + i, PU_LEVEL, Cvt_pic_t, 1);
+		lumparray[i] =
+			(pic_t *)W_CacheLumpNum(lumpnum + i, PU_LEVEL, Cvt_pic_t, 1);
 	}
 }
 
@@ -262,7 +272,8 @@ void SetupPlayScreen(void)
 		CacheLumpGroup("scnum0", scorenums, 10);
 
 		num = locplayerstate->player;
-		men[num] = (pic_t *)W_CacheLumpNum(W_GetNumForName("MAN1") + num, PU_LEVEL, Cvt_pic_t, 1);
+		men[num] = (pic_t *)W_CacheLumpNum(W_GetNumForName("MAN1") + num,
+										   PU_LEVEL, Cvt_pic_t, 1);
 	}
 	else
 	{
@@ -287,18 +298,24 @@ void SetupPlayScreen(void)
 			j = PLAYERSTATE[i].player;
 			if (!gamestate.teamplay)
 			{
-				fragpic[j] = (pic_t *)W_CacheLumpNum(num + j, PU_LEVEL, Cvt_pic_t, 1);
-				frag100pic[j] = (pic_t *)W_CacheLumpNum(num100 + j, PU_LEVEL, Cvt_pic_t, 1);
-				negfragpic[j] = (pic_t *)W_CacheLumpNum(negnum + j, PU_LEVEL, Cvt_pic_t, 1);
+				fragpic[j] =
+					(pic_t *)W_CacheLumpNum(num + j, PU_LEVEL, Cvt_pic_t, 1);
+				frag100pic[j] =
+					(pic_t *)W_CacheLumpNum(num100 + j, PU_LEVEL, Cvt_pic_t, 1);
+				negfragpic[j] =
+					(pic_t *)W_CacheLumpNum(negnum + j, PU_LEVEL, Cvt_pic_t, 1);
 			}
 			else
 			{
-				negfragpic[j] = (pic_t *)W_CacheLumpName("teamnpic", PU_LEVEL, Cvt_pic_t, 1);
-				fragpic[j] = (pic_t *)W_CacheLumpName("teampic", PU_LEVEL, Cvt_pic_t, 1);
+				negfragpic[j] = (pic_t *)W_CacheLumpName("teamnpic", PU_LEVEL,
+														 Cvt_pic_t, 1);
+				fragpic[j] =
+					(pic_t *)W_CacheLumpName("teampic", PU_LEVEL, Cvt_pic_t, 1);
 				frag100pic[j] = fragpic[j];
 			}
 
-			menneg[j] = (pic_t *)W_CacheLumpNum(negman + j, PU_LEVEL, Cvt_pic_t, 1);
+			menneg[j] =
+				(pic_t *)W_CacheLumpNum(negman + j, PU_LEVEL, Cvt_pic_t, 1);
 			men[j] = (pic_t *)W_CacheLumpNum(man + j, PU_LEVEL, Cvt_pic_t, 1);
 		}
 	}
@@ -342,11 +359,13 @@ void GameMemToScreen(pic_t *source, int x, int y, int bufferofsonly)
 {
 	if (bufferofsonly)
 	{
-		VL_MemToScreen((byte *)&source->data, source->width, source->height, x, y);
+		VL_MemToScreen((byte *)&source->data, source->width, source->height, x,
+					   y);
 	}
 	else
 	{
-		GM_MemToScreen((byte *)&source->data, source->width, source->height, x, y);
+		GM_MemToScreen((byte *)&source->data, source->width, source->height, x,
+					   y);
 	}
 }
 
@@ -373,17 +392,21 @@ void DrawPlayScreen(boolean bufferofsonly)
 			// GameMemToScreen( shape, 0, 0, bufferofsonly );
 			GameMemToScreen(shape, 320, 0, bufferofsonly);
 			// delete hart in middle of topbar
-			DrawPPic(323, 1, 8 >> 2, 16, (byte *)&erase->data, 2, true, bufferofsonly);
+			DrawPPic(323, 1, 8 >> 2, 16, (byte *)&erase->data, 2, true,
+					 bufferofsonly);
 			// delete bullet in end of topbar
-			DrawPPic(620, 1, 8 >> 2, 16, (byte *)&erase->data, 2, true, bufferofsonly);
-			shape = (pic_t *)W_CacheLumpName("stat_bar", PU_CACHE, Cvt_pic_t, 1);
+			DrawPPic(620, 1, 8 >> 2, 16, (byte *)&erase->data, 2, true,
+					 bufferofsonly);
+			shape =
+				(pic_t *)W_CacheLumpName("stat_bar", PU_CACHE, Cvt_pic_t, 1);
 			GameMemToScreen(shape, 0, 0, bufferofsonly);
 		}
 		else if (iGLOBAL_SCREENWIDTH == 320)
 		{
 
 			// SetTextMode (  );
-			shape = (pic_t *)W_CacheLumpName("stat_bar", PU_CACHE, Cvt_pic_t, 1);
+			shape =
+				(pic_t *)W_CacheLumpName("stat_bar", PU_CACHE, Cvt_pic_t, 1);
 			GameMemToScreen(shape, 0, 0, bufferofsonly);
 		}
 	}
@@ -400,14 +423,16 @@ void DrawPlayScreen(boolean bufferofsonly)
 		if (SHOW_KILLS())
 		{
 			ShowKillsYoffset = KILLS_HEIGHT;
-			// shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, Cvt_pic_t, 1 );
-			// DrawTiledRegion( 0, 584, iGLOBAL_SCREENWIDTH, 32-16, 0, 16, shape );//bna++
+			// shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE,
+			// Cvt_pic_t, 1 ); DrawTiledRegion( 0, 584, iGLOBAL_SCREENWIDTH,
+			// 32-16, 0, 16, shape );//bna++
 
 			//	     health_y = iGLOBAL_HEALTH_Y;
 			//  if ( SHOW_KILLS() )
 			//   {
 			// health_y -= KILLS_HEIGHT;
-			// GameMemToScreen( shape, 0, (iGLOBAL_SCREENHEIGHT-40)+16, bufferofsonly );
+			// GameMemToScreen( shape, 0, (iGLOBAL_SCREENHEIGHT-40)+16,
+			// bufferofsonly );
 
 			// GameMemToScreen( shape, 0, 160, bufferofsonly );bna++
 		}
@@ -417,17 +442,20 @@ void DrawPlayScreen(boolean bufferofsonly)
 			if (iGLOBAL_SCREENWIDTH == 640)
 			{
 				// bna fix - not to good? but no one has 286 any more
-				// statusbar dosent cover hole screen, because its a lump picture width max 320
-				// first write dummy shape and next over it
-				GameMemToScreen(shape, 320, (224 * 2) + 16 - ShowKillsYoffset, bufferofsonly);
+				// statusbar dosent cover hole screen, because its a lump
+				// picture width max 320 first write dummy shape and next over
+				// it
+				GameMemToScreen(shape, 320, (224 * 2) + 16 - ShowKillsYoffset,
+								bufferofsonly);
 				// copy next shape to mem
-				GameMemToScreen(shape, 0, (224 * 2) + 16 - ShowKillsYoffset, bufferofsonly);
+				GameMemToScreen(shape, 0, (224 * 2) + 16 - ShowKillsYoffset,
+								bufferofsonly);
 				// delete bullet in middle of shape picture
-				DrawPPic(310, (224 * 2) + 17 - ShowKillsYoffset, 8 >> 2, 16, (byte *)&erase->data, 2, true,
-						 bufferofsonly);
+				DrawPPic(310, (224 * 2) + 17 - ShowKillsYoffset, 8 >> 2, 16,
+						 (byte *)&erase->data, 2, true, bufferofsonly);
 				// delete hart in middle of shape picture
-				DrawPPic(324, (224 * 2) + 17 - ShowKillsYoffset, 8 >> 2, 16, (byte *)&erase->data, 2, true,
-						 bufferofsonly);
+				DrawPPic(324, (224 * 2) + 17 - ShowKillsYoffset, 8 >> 2, 16,
+						 (byte *)&erase->data, 2, true, bufferofsonly);
 			}
 			else
 			{
@@ -445,11 +473,13 @@ void DrawPlayScreen(boolean bufferofsonly)
 			{
 				// DrawPPic( 148, 185, shape->width, shape->height,
 				//    ( byte * )&shape->data, 1, true, bufferofsonly );bna
-				DrawPPic(148 * 2, 465, shape->width, shape->height, (byte *)&shape->data, 1, true, bufferofsonly);
+				DrawPPic(148 * 2, 465, shape->width, shape->height,
+						 (byte *)&shape->data, 1, true, bufferofsonly);
 			}
 			else
 			{
-				DrawPPic(148, 185, shape->width, shape->height, (byte *)&shape->data, 1, true, bufferofsonly);
+				DrawPPic(148, 185, shape->width, shape->height,
+						 (byte *)&shape->data, 1, true, bufferofsonly);
 			}
 		}
 	}
@@ -480,7 +510,8 @@ void DrawPlayScreen(boolean bufferofsonly)
 
 		VW_MeasurePropString(LastNames[character], &width, &height);
 
-		DrawGameString(MEN_X + 44 - width, MEN_Y + 8, LastNames[character], bufferofsonly);
+		DrawGameString(MEN_X + 44 - width, MEN_Y + 8, LastNames[character],
+					   bufferofsonly);
 
 		UpdateLives(locplayerstate->lives);
 		UpdateScore(gamestate.score);
@@ -518,7 +549,8 @@ void DrawPlayScreen(boolean bufferofsonly)
 
 		GameMemToScreen(eraseb, POWERUP1X, POWERUPY, bufferofsonly);
 
-		DrawMPPic(POWERUP1X, POWERUPY + powerupheight, shape->width, shape->height - powerupheight, powerupheight,
+		DrawMPPic(POWERUP1X, POWERUPY + powerupheight, shape->width,
+				  shape->height - powerupheight, powerupheight,
 				  (byte *)&shape->data, bufferofsonly);
 	}
 
@@ -541,8 +573,9 @@ void DrawPlayScreen(boolean bufferofsonly)
 
 		GameMemToScreen(eraseb, POWERUP2X, POWERUPY, bufferofsonly);
 
-		DrawMPPic(POWERUP2X, POWERUPY + protectionheight, shape->width, shape->height - protectionheight,
-				  protectionheight, (byte *)&shape->data, bufferofsonly);
+		DrawMPPic(POWERUP2X, POWERUPY + protectionheight, shape->width,
+				  shape->height - protectionheight, protectionheight,
+				  (byte *)&shape->data, bufferofsonly);
 	}
 }
 
@@ -605,7 +638,8 @@ void DrawKills(boolean bufferofsonly)
 			pic = menneg[PLAYERSTATE[playerimage].player];
 		}
 
-		DrawPPic(MEN_X, MEN_Y, pic->width, pic->height, (byte *)&pic->data, 1, true, bufferofsonly);
+		DrawPPic(MEN_X, MEN_Y, pic->width, pic->height, (byte *)&pic->data, 1,
+				 true, bufferofsonly);
 
 		// Draw player's name
 		if (gamestate.teamplay)
@@ -619,7 +653,8 @@ void DrawKills(boolean bufferofsonly)
 
 		DrawGameString(MEN_X + 2, MEN_Y + 2, codename, bufferofsonly);
 		// Draw "It" if player is 'it'
-		if (((gamestate.battlemode == battle_Tag) || (gamestate.battlemode == battle_Hunter)) &&
+		if (((gamestate.battlemode == battle_Tag) ||
+			 (gamestate.battlemode == battle_Hunter)) &&
 			(BATTLE_It == BATTLE_Team[consoleplayer]))
 		{
 			DrawGameString(MEN_X + 22, MEN_Y + 8, "It", bufferofsonly);
@@ -629,12 +664,14 @@ void DrawKills(boolean bufferofsonly)
 		if (PLAYER[consoleplayer]->flags & FL_DESIGNATED)
 		{
 			pic = W_CacheLumpName("smalltri", PU_CACHE, Cvt_pic_t, 1);
-			DrawPPic(TRIAD_X - 1, TRIAD_Y - 2, pic->width, pic->height, (byte *)&pic->data, 1, true, bufferofsonly);
+			DrawPPic(TRIAD_X - 1, TRIAD_Y - 2, pic->width, pic->height,
+					 (byte *)&pic->data, 1, true, bufferofsonly);
 		}
 		else if ((gamestate.ShowScores) && (DisplayPoints != bo_kills_infinite))
 		{
 			// Draw Kill goal
-			if ((gamestate.battlemode == battle_Collector) || (gamestate.battlemode == battle_StandAloneGame))
+			if ((gamestate.battlemode == battle_Collector) ||
+				(gamestate.battlemode == battle_StandAloneGame))
 			{
 				temp = BATTLE_NumCollectorItems;
 			}
@@ -667,8 +704,10 @@ void DrawKills(boolean bufferofsonly)
 		else
 		{
 			pic = W_CacheLumpName("minus", PU_CACHE, Cvt_pic_t, 1);
-			StatusDrawColoredPic(LIVES_X - 12, LIVES_Y, pic, bufferofsonly, playeruniformcolor);
-			StatusDrawColoredPic(LIVES_X - 4, LIVES_Y, pic, bufferofsonly, playeruniformcolor);
+			StatusDrawColoredPic(LIVES_X - 12, LIVES_Y, pic, bufferofsonly,
+								 playeruniformcolor);
+			StatusDrawColoredPic(LIVES_X - 4, LIVES_Y, pic, bufferofsonly,
+								 playeruniformcolor);
 		}
 
 		// Draw whoever is 'It'
@@ -685,9 +724,11 @@ void DrawKills(boolean bufferofsonly)
 			pic = menneg[PLAYERSTATE[playerimage].player];
 		}
 
-		DrawPPic(LEADER_X, LEADER_Y, pic->width, pic->height, (byte *)&pic->data, 1, true, bufferofsonly);
+		DrawPPic(LEADER_X, LEADER_Y, pic->width, pic->height,
+				 (byte *)&pic->data, 1, true, bufferofsonly);
 
-		if ((gamestate.battlemode == battle_Tag) || (gamestate.battlemode == battle_Hunter))
+		if ((gamestate.battlemode == battle_Tag) ||
+			(gamestate.battlemode == battle_Hunter))
 		{
 			DrawGameString(LEADER_X + 22, LEADER_Y + 8, "It", bufferofsonly);
 		}
@@ -707,19 +748,23 @@ void DrawKills(boolean bufferofsonly)
 		else
 		{
 			pic = W_CacheLumpName("minus", PU_CACHE, Cvt_pic_t, 1);
-			StatusDrawColoredPic(LEADER_NUM_X, LEADER_NUM_Y, pic, bufferofsonly, playeruniformcolor);
-			StatusDrawColoredPic(LEADER_NUM_X + 8, LEADER_NUM_Y, pic, bufferofsonly, playeruniformcolor);
+			StatusDrawColoredPic(LEADER_NUM_X, LEADER_NUM_Y, pic, bufferofsonly,
+								 playeruniformcolor);
+			StatusDrawColoredPic(LEADER_NUM_X + 8, LEADER_NUM_Y, pic,
+								 bufferofsonly, playeruniformcolor);
 		}
 
 		// Draw name
 		if (gamestate.teamplay)
 		{
-			DrawGameString(LEADER_NAME_X, LEADER_NAME_Y - 1, colorname[playeruniformcolor], bufferofsonly);
+			DrawGameString(LEADER_NAME_X, LEADER_NAME_Y - 1,
+						   colorname[playeruniformcolor], bufferofsonly);
 		}
 		else
 		{
 			GetShortCodeName(codename, PLAYERSTATE[playerimage].codename, 42);
-			DrawGameString(LEADER_NAME_X - 1, LEADER_NAME_Y, codename, bufferofsonly);
+			DrawGameString(LEADER_NAME_X - 1, LEADER_NAME_Y, codename,
+						   bufferofsonly);
 		}
 	}
 
@@ -735,9 +780,11 @@ void DrawKills(boolean bufferofsonly)
 	iKILLS_Y = iGLOBAL_SCREENHEIGHT - 24;
 	// draw blank status  pic->width = 8;pic->height = 24
 	pic = blankfragpic;
-	for (temp = iGLOBAL_SCREENWIDTH - pic->width - 24; temp > pic->width; temp -= pic->width)
+	for (temp = iGLOBAL_SCREENWIDTH - pic->width - 24; temp > pic->width;
+		 temp -= pic->width)
 	{
-		DrawPPic(temp, iKILLS_Y, pic->width, pic->height, (byte *)&pic->data, 1, true, bufferofsonly);
+		DrawPPic(temp, iKILLS_Y, pic->width, pic->height, (byte *)&pic->data, 1,
+				 true, bufferofsonly);
 	}
 
 	xpos = KILLS_X;
@@ -767,7 +814,8 @@ void DrawKills(boolean bufferofsonly)
 				pic = frag100pic[PLAYERSTATE[playerimage].player];
 			}
 		}
-		DrawPPic(xpos, iKILLS_Y, pic->width, pic->height, (byte *)&pic->data, 1, true, bufferofsonly);
+		DrawPPic(xpos, iKILLS_Y, pic->width, pic->height, (byte *)&pic->data, 1,
+				 true, bufferofsonly);
 
 		// Draw number of points
 		if (gamestate.ShowScores)
@@ -784,23 +832,28 @@ void DrawKills(boolean bufferofsonly)
 			{
 				width = 3;
 			}
-			DrawNumber(xpos + KILLS_OFFSET + 16 - (8 * width), iKILLS_Y, width, 4, bufferofsonly);
+			DrawNumber(xpos + KILLS_OFFSET + 16 - (8 * width), iKILLS_Y, width,
+					   4, bufferofsonly);
 		}
 		else
 		{
 			pic = (pic_t *)W_CacheLumpName("minus", PU_CACHE, Cvt_pic_t, 1);
-			StatusDrawColoredPic((xpos + KILLS_OFFSET), iKILLS_Y, pic, bufferofsonly, playeruniformcolor);
-			StatusDrawColoredPic((xpos + KILLS_OFFSET + 8), iKILLS_Y, pic, bufferofsonly, playeruniformcolor);
+			StatusDrawColoredPic((xpos + KILLS_OFFSET), iKILLS_Y, pic,
+								 bufferofsonly, playeruniformcolor);
+			StatusDrawColoredPic((xpos + KILLS_OFFSET + 8), iKILLS_Y, pic,
+								 bufferofsonly, playeruniformcolor);
 		}
 
 		// Get codename
 		if (gamestate.teamplay)
 		{
-			GetShortCodeName(codename, colorname[playeruniformcolor], KILLS_WIDTH - 2);
+			GetShortCodeName(codename, colorname[playeruniformcolor],
+							 KILLS_WIDTH - 2);
 		}
 		else
 		{
-			GetShortCodeName(codename, PLAYERSTATE[playerimage].codename, KILLS_WIDTH - 2);
+			GetShortCodeName(codename, PLAYERSTATE[playerimage].codename,
+							 KILLS_WIDTH - 2);
 		}
 
 		// Draw name
@@ -823,7 +876,8 @@ void DrawKills(boolean bufferofsonly)
 		}
 
 		pic = blankfragpic;
-		DrawPPic(xpos, iKILLS_Y, pic->width, pic->height, (byte *)&pic->data, 1, true, bufferofsonly);
+		DrawPPic(xpos, iKILLS_Y, pic->width, pic->height, (byte *)&pic->data, 1,
+				 true, bufferofsonly);
 
 		// Advance to next position
 		xpos += KILLS_WIDTH;
@@ -860,7 +914,8 @@ void DrawPlayers(void)
 	// Draw all the losers
 	CurrentFont = tinyfont;
 
-	xpos = (iGLOBAL_SCREENWIDTH - min(numplayers, MAXKILLBOXES) * KILLS_WIDTH) / 2;
+	xpos =
+		(iGLOBAL_SCREENWIDTH - min(numplayers, MAXKILLBOXES) * KILLS_WIDTH) / 2;
 	// SetTextMode (  );//PLAYERSTATE
 	for (team = 0; team < BATTLE_NumberOfTeams; team++)
 	{
@@ -870,7 +925,8 @@ void DrawPlayers(void)
 			{
 				character = PLAYERSTATE[player].player;
 
-				fragpic[character] = (pic_t *)W_CacheLumpNum(num + character, PU_CACHE, Cvt_pic_t, 1);
+				fragpic[character] = (pic_t *)W_CacheLumpNum(
+					num + character, PU_CACHE, Cvt_pic_t, 1);
 
 				if ((numplayers <= MAXKILLBOXES) || (player != consoleplayer))
 				{
@@ -939,7 +995,8 @@ void DrawPlayers(void)
 
 void StatusDrawPic(unsigned x, unsigned y, pic_t *nums, boolean bufferofsonly)
 {
-	DrawMPPic(x, y, nums->width, nums->height, 0, (byte *)&nums->data, bufferofsonly);
+	DrawMPPic(x, y, nums->width, nums->height, 0, (byte *)&nums->data,
+			  bufferofsonly);
 }
 
 //******************************************************************************
@@ -948,9 +1005,11 @@ void StatusDrawPic(unsigned x, unsigned y, pic_t *nums, boolean bufferofsonly)
 //
 //******************************************************************************
 
-void StatusDrawColoredPic(unsigned x, unsigned y, pic_t *nums, boolean bufferofsonly, int color)
+void StatusDrawColoredPic(unsigned x, unsigned y, pic_t *nums,
+						  boolean bufferofsonly, int color)
 {
-	DrawColoredMPPic(x, y, nums->width, nums->height, 0, (byte *)&nums->data, bufferofsonly, color);
+	DrawColoredMPPic(x, y, nums->width, nums->height, 0, (byte *)&nums->data,
+					 bufferofsonly, color);
 }
 
 //******************************************************************************
@@ -1037,7 +1096,8 @@ void DrawNumber(int x, int y, int width, int which, boolean bufferofsonly)
 				x += 6;
 				break;
 			case 4:
-				StatusDrawColoredPic(x, y, scorenums[0], bufferofsonly, playeruniformcolor);
+				StatusDrawColoredPic(x, y, scorenums[0], bufferofsonly,
+									 playeruniformcolor);
 				x += 8;
 				break;
 			case 5:
@@ -1070,7 +1130,8 @@ void DrawNumber(int x, int y, int width, int which, boolean bufferofsonly)
 				x += 6;
 				break;
 			case 4:
-				StatusDrawColoredPic(x, y, scorenums[str[c] - '0'], bufferofsonly, playeruniformcolor);
+				StatusDrawColoredPic(x, y, scorenums[str[c] - '0'],
+									 bufferofsonly, playeruniformcolor);
 				x += 8;
 				break;
 			case 5:
@@ -1212,13 +1273,13 @@ void GiveLives(int newlives)
 	DrawLives(false);
 }
 
-#define EnableOldWeapon(pstate)                                                                                        \
-	{                                                                                                                  \
-		LASTSTAT->flags |= FL_ABP;                                                                                     \
-		LASTSTAT->flags &= ~FL_RESPAWN;                                                                                \
-		MakeStatActive(LASTSTAT);                                                                                      \
-		pstate->weaponx = ob->tilex;                                                                                   \
-		pstate->weapony = ob->tiley;                                                                                   \
+#define EnableOldWeapon(pstate) \
+	{ \
+		LASTSTAT->flags |= FL_ABP; \
+		LASTSTAT->flags &= ~FL_RESPAWN; \
+		MakeStatActive(LASTSTAT); \
+		pstate->weaponx = ob->tilex; \
+		pstate->weapony = ob->tiley; \
 	}
 
 //******************************************************************************
@@ -1277,7 +1338,8 @@ void GiveMissileWeapon(objtype *ob, int which)
 
 	if (!gamestate.BattleOptions.WeaponPersistence)
 	{
-		if (pstate->ammo && (pstate->missileweapon != -1) && (!(WEAPON_IS_MAGICAL(which))) &&
+		if (pstate->ammo && (pstate->missileweapon != -1) &&
+			(!(WEAPON_IS_MAGICAL(which))) &&
 			(!(WEAPON_IS_MAGICAL(pstate->missileweapon))))
 		{
 			int nx, ny;
@@ -1291,7 +1353,8 @@ void GiveMissileWeapon(objtype *ob, int which)
 			else
 			{
 				int newz = sprites[ob->tilex][ob->tiley]->z;
-				SpawnStatic(nx, ny, GetItemForWeapon(pstate->missileweapon), -1);
+				SpawnStatic(nx, ny, GetItemForWeapon(pstate->missileweapon),
+							-1);
 				LASTSTAT->z = newz;
 			}
 			LASTSTAT->ammo = pstate->ammo;
@@ -1354,7 +1417,8 @@ void DrawKeys(boolean bufferofsonly)
 void StatusDrawTime(unsigned x, unsigned y, unsigned num, boolean bufferofsonly)
 
 {
-	DrawMPPic(x, y, timenums[num]->width, timenums[num]->height, 0, (byte *)&timenums[num]->data, bufferofsonly);
+	DrawMPPic(x, y, timenums[num]->width, timenums[num]->height, 0,
+			  (byte *)&timenums[num]->data, bufferofsonly);
 }
 
 //******************************************************************************
@@ -1365,7 +1429,8 @@ void StatusDrawTime(unsigned x, unsigned y, unsigned num, boolean bufferofsonly)
 //
 //******************************************************************************
 
-void DrawTimeNumber(int x, int y, int number, boolean seconds, boolean bufferofsonly)
+void DrawTimeNumber(int x, int y, int number, boolean seconds,
+					boolean bufferofsonly)
 {
 	char str[20];
 
@@ -1473,7 +1538,8 @@ void DrawTime(boolean bufferofsonly)
 //
 //******************************************************************************
 
-void DrawMPPic(int xpos, int ypos, int width, int height, int heightmod, byte *src, boolean bufferofsonly)
+void DrawMPPic(int xpos, int ypos, int width, int height, int heightmod,
+			   byte *src, boolean bufferofsonly)
 {
 	int olddest;
 	int dest;
@@ -1538,8 +1604,8 @@ void DrawMPPic(int xpos, int ypos, int width, int height, int heightmod, byte *s
 //
 //******************************************************************************
 
-void DrawColoredMPPic(int xpos, int ypos, int width, int height, int heightmod, byte *src, boolean bufferofsonly,
-					  int color)
+void DrawColoredMPPic(int xpos, int ypos, int width, int height, int heightmod,
+					  byte *src, boolean bufferofsonly, int color)
 {
 	int olddest;
 	int dest;
@@ -1690,7 +1756,8 @@ void DrawTriads(boolean bufferofsonly)
 //
 //******************************************************************************
 
-void DrawPPic(int xpos, int ypos, int width, int height, byte *src, int num, boolean up, boolean bufferofsonly)
+void DrawPPic(int xpos, int ypos, int width, int height, byte *src, int num,
+			  boolean up, boolean bufferofsonly)
 {
 	int olddest;
 	int dest;
@@ -1766,13 +1833,15 @@ void DrawBarHealth(boolean bufferofsonly)
 		health_y -= KILLS_HEIGHT;
 	}
 
-	percenthealth = (locplayerstate->health * 10) / MaxHitpointsForCharacter(locplayerstate);
+	percenthealth = (locplayerstate->health * 10) /
+					MaxHitpointsForCharacter(locplayerstate);
 
 	oldpercenthealth = percenthealth + 1;
 
 	if (playstate == ex_died)
 	{
-		DrawPPic(iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16, (byte *)&erase->data, 10, true, bufferofsonly);
+		DrawPPic(iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16, (byte *)&erase->data,
+				 10, true, bufferofsonly);
 
 		return;
 	}
@@ -1789,24 +1858,28 @@ void DrawBarHealth(boolean bufferofsonly)
 
 	if (oldpercenthealth < 4)
 	{
-		DrawPPic(iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16, (byte *)&health[0]->data, oldpercenthealth, true,
+		DrawPPic(iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16,
+				 (byte *)&health[0]->data, oldpercenthealth, true,
 				 bufferofsonly);
 	}
 	else if (oldpercenthealth < 5)
 	{
-		DrawPPic(iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16, (byte *)&health[1]->data, oldpercenthealth, true,
+		DrawPPic(iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16,
+				 (byte *)&health[1]->data, oldpercenthealth, true,
 				 bufferofsonly);
 	}
 	else
 	{
-		DrawPPic(iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16, (byte *)&health[2]->data, oldpercenthealth, true,
+		DrawPPic(iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16,
+				 (byte *)&health[2]->data, oldpercenthealth, true,
 				 bufferofsonly);
 	}
 
 	if (oldpercenthealth < 10)
 	{
-		DrawPPic(iGLOBAL_HEALTH_X + (8 * oldpercenthealth), health_y, 8 >> 2, 16, (byte *)&erase->data,
-				 10 - oldpercenthealth, true, bufferofsonly);
+		DrawPPic(iGLOBAL_HEALTH_X + (8 * oldpercenthealth), health_y, 8 >> 2,
+				 16, (byte *)&erase->data, 10 - oldpercenthealth, true,
+				 bufferofsonly);
 	}
 }
 
@@ -1832,30 +1905,37 @@ void DrawBarAmmo(boolean bufferofsonly)
 		ammo_y -= KILLS_HEIGHT;
 	}
 
-	DrawPPic(iGLOBAL_AMMO_X, ammo_y + 1, 8 >> 2, 16, (byte *)&erase->data, 10, false, bufferofsonly);
+	DrawPPic(iGLOBAL_AMMO_X, ammo_y + 1, 8 >> 2, 16, (byte *)&erase->data, 10,
+			 false, bufferofsonly);
 
 	if (!ARMED(player->dirchoosetime))
 	{
 		return;
 	}
-	if ((locplayerstate->new_weapon < wp_bazooka) || (locplayerstate->new_weapon == wp_godhand) ||
+	if ((locplayerstate->new_weapon < wp_bazooka) ||
+		(locplayerstate->new_weapon == wp_godhand) ||
 		(gamestate.BattleOptions.Ammo == bo_infinite_shots))
 	{
-		DrawPPic(iGLOBAL_AMMO_X - 16, ammo_y, 24 >> 2, 16, (byte *)&ammo[0]->data, 1, true, bufferofsonly);
+		DrawPPic(iGLOBAL_AMMO_X - 16, ammo_y, 24 >> 2, 16,
+				 (byte *)&ammo[0]->data, 1, true, bufferofsonly);
 
-		DrawPPic(iGLOBAL_AMMO_X - 32, ammo_y + 1, 8 >> 2, 16, (byte *)&erase->data, 2, true, bufferofsonly);
+		DrawPPic(iGLOBAL_AMMO_X - 32, ammo_y + 1, 8 >> 2, 16,
+				 (byte *)&erase->data, 2, true, bufferofsonly);
 	}
 #if (SHAREWARE == 0)
 	else if (locplayerstate->new_weapon == wp_dog)
 	{
-		DrawPPic(iGLOBAL_AMMO_X - 16, ammo_y, 24 >> 2, 16, (byte *)&ammo[12]->data, 1, true, bufferofsonly);
+		DrawPPic(iGLOBAL_AMMO_X - 16, ammo_y, 24 >> 2, 16,
+				 (byte *)&ammo[12]->data, 1, true, bufferofsonly);
 
-		DrawPPic(iGLOBAL_AMMO_X - 32, ammo_y + 1, 8 >> 2, 16, (byte *)&erase->data, 2, true, bufferofsonly);
+		DrawPPic(iGLOBAL_AMMO_X - 32, ammo_y + 1, 8 >> 2, 16,
+				 (byte *)&erase->data, 2, true, bufferofsonly);
 	}
 #endif
 	else
 	{
-		DrawPPic(iGLOBAL_AMMO_X, ammo_y + 1, 8 >> 2, 16, (byte *)&ammo[locplayerstate->new_weapon]->data,
+		DrawPPic(iGLOBAL_AMMO_X, ammo_y + 1, 8 >> 2, 16,
+				 (byte *)&ammo[locplayerstate->new_weapon]->data,
 				 locplayerstate->ammo, false, bufferofsonly);
 	}
 }
@@ -1866,7 +1946,8 @@ void DrawBarAmmo(boolean bufferofsonly)
 //
 //******************************************************************************
 
-void SingleDrawPPic(int xpos, int ypos, int width, int height, byte *src, int num, boolean up)
+void SingleDrawPPic(int xpos, int ypos, int width, int height, byte *src,
+					int num, boolean up)
 {
 	byte *olddest;
 	byte *dest;
@@ -1925,7 +2006,8 @@ void DrawStats(void)
 	int health_y;
 	int ammo_y;
 
-	if ((!SHOW_PLAYER_STATS()) || (playstate == ex_died) || (locplayerstate->health <= 0))
+	if ((!SHOW_PLAYER_STATS()) || (playstate == ex_died) ||
+		(locplayerstate->health <= 0))
 	{
 		return;
 	}
@@ -1952,7 +2034,8 @@ void DrawStats(void)
 	{
 		oldplayerhealth = locplayerstate->health;
 
-		percenthealth = (locplayerstate->health * 10) / MaxHitpointsForCharacter(locplayerstate);
+		percenthealth = (locplayerstate->health * 10) /
+						MaxHitpointsForCharacter(locplayerstate);
 
 		oldpercenthealth = percenthealth + 1;
 	}
@@ -1964,34 +2047,41 @@ void DrawStats(void)
 
 	if (oldpercenthealth < 4)
 	{
-		SingleDrawPPic(iGLOBAL_HEALTH_X - 16, health_y, 8 >> 2, 16, (byte *)&health[3]->data, oldpercenthealth, true);
+		SingleDrawPPic(iGLOBAL_HEALTH_X - 16, health_y, 8 >> 2, 16,
+					   (byte *)&health[3]->data, oldpercenthealth, true);
 	}
 	else if (oldpercenthealth < 5)
 	{
-		SingleDrawPPic(iGLOBAL_HEALTH_X - 16, health_y, 8 >> 2, 16, (byte *)&health[4]->data, oldpercenthealth, true);
+		SingleDrawPPic(iGLOBAL_HEALTH_X - 16, health_y, 8 >> 2, 16,
+					   (byte *)&health[4]->data, oldpercenthealth, true);
 	}
 	else
 	{
-		SingleDrawPPic(iGLOBAL_HEALTH_X - 16, health_y, 8 >> 2, 16, (byte *)&health[5]->data, oldpercenthealth, true);
+		SingleDrawPPic(iGLOBAL_HEALTH_X - 16, health_y, 8 >> 2, 16,
+					   (byte *)&health[5]->data, oldpercenthealth, true);
 	}
 
 	if (ARMED(consoleplayer))
 	{
-		if ((locplayerstate->new_weapon < wp_bazooka) || (locplayerstate->new_weapon == wp_godhand) ||
+		if ((locplayerstate->new_weapon < wp_bazooka) ||
+			(locplayerstate->new_weapon == wp_godhand) ||
 			(gamestate.BattleOptions.Ammo == bo_infinite_shots))
 
 		{
-			SingleDrawPPic(iGLOBAL_AMMO_X - 16, ammo_y, 24 >> 2, 16, (byte *)&ammo[13]->data, 1, true);
+			SingleDrawPPic(iGLOBAL_AMMO_X - 16, ammo_y, 24 >> 2, 16,
+						   (byte *)&ammo[13]->data, 1, true);
 		}
 #if (SHAREWARE == 0)
 		else if (locplayerstate->new_weapon == wp_dog)
 		{
-			SingleDrawPPic(iGLOBAL_AMMO_X - 16, ammo_y + 1, 24 >> 2, 16, (byte *)&ammo[25]->data, 1, true);
+			SingleDrawPPic(iGLOBAL_AMMO_X - 16, ammo_y + 1, 24 >> 2, 16,
+						   (byte *)&ammo[25]->data, 1, true);
 		}
 #endif
 		else
 		{
-			SingleDrawPPic(iGLOBAL_AMMO_X, ammo_y + 1, 8 >> 2, 16, (byte *)&ammo[13 + locplayerstate->new_weapon]->data,
+			SingleDrawPPic(iGLOBAL_AMMO_X, ammo_y + 1, 8 >> 2, 16,
+						   (byte *)&ammo[13 + locplayerstate->new_weapon]->data,
 						   locplayerstate->ammo, false);
 		}
 	}
@@ -2012,7 +2102,8 @@ void DrawPauseXY(int x, int y)
 
 	if (GamePaused == true)
 	{
-		p = (pic_t *)W_CacheLumpNum(W_GetNumForName("paused"), PU_CACHE, Cvt_pic_t, 1);
+		p = (pic_t *)W_CacheLumpNum(W_GetNumForName("paused"), PU_CACHE,
+									Cvt_pic_t, 1);
 		VL_MemToScreen((byte *)&p->data, p->width, p->height, x, y);
 		// VWB_DrawPic (x, y, p);
 		bufferofs = buftmp;
@@ -2021,7 +2112,8 @@ void DrawPauseXY(int x, int y)
 	}
 	else
 	{
-		p = (pic_t *)W_CacheLumpNum(W_GetNumForName("wait"), PU_CACHE, Cvt_pic_t, 1);
+		p = (pic_t *)W_CacheLumpNum(W_GetNumForName("wait"), PU_CACHE,
+									Cvt_pic_t, 1);
 		VL_MemToScreen((byte *)&p->data, p->width, p->height, x, y);
 		// VWB_DrawPic (x, y, p);
 	}
@@ -2044,8 +2136,10 @@ void DrawPause(void)
 	if (GamePaused == true)
 	{
 		bufferofs = bufftemp;
-		p = (pic_t *)W_CacheLumpNum(W_GetNumForName("paused"), PU_CACHE, Cvt_pic_t, 1);
-		DrawPauseXY((iGLOBAL_SCREENWIDTH - (p->width << 2)) >> 1, (iGLOBAL_SCREENHEIGHT - p->height) >> 1); // bna++
+		p = (pic_t *)W_CacheLumpNum(W_GetNumForName("paused"), PU_CACHE,
+									Cvt_pic_t, 1);
+		DrawPauseXY((iGLOBAL_SCREENWIDTH - (p->width << 2)) >> 1,
+					(iGLOBAL_SCREENHEIGHT - p->height) >> 1); // bna++
 		// DrawPauseXY( (320-(p->width<<2) ) >>1, (200-p->height)>>1);
 		/*
 			  //buf = (byte *) SafeMalloc (64000);
@@ -2060,15 +2154,17 @@ void DrawPause(void)
 			  source = bufferofs + (iGLOBAL_SCREENWIDTH*y)+x;
 			  target = bufferofs + (iGLOBAL_SCREENWIDTH*y1)+x1;
 
-			 // memcpy(tmpPICbuf,bufftemp,iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
+			 //
+		memcpy(tmpPICbuf,bufftemp,iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
 
-			  bufferofs = bufftemp;//(byte *)tmpPICbuf;//buf;//write picture in tmpbuf
-			  VL_MemToScreen ((byte *)&p->data, p->width, p->height,x, y);
+			  bufferofs = bufftemp;//(byte *)tmpPICbuf;//buf;//write picture in
+		tmpbuf VL_MemToScreen ((byte *)&p->data, p->width, p->height,x, y);
 			  bufferofs = bufftemp;
 			  DrawEpisodeLevel (x,y);
 
 
-			  //VL_MemStrechedToScreen ((byte *)&p->data, p->width, p->height,(iGLOBAL_SCREENWIDTH-((p->width*2)<<2) )
+			  //VL_MemStrechedToScreen ((byte *)&p->data, p->width,
+		p->height,(iGLOBAL_SCREENWIDTH-((p->width*2)<<2) )
 		>>1, (iGLOBAL_SCREENHEIGHT-(p->height*2))>>1);
 			  //DrawEpisodeLevel (x,y);
 
@@ -2095,7 +2191,8 @@ void DrawPause(void)
 			  }
 			  //strech then lines in y direction
 			  source -= ((iGLOBAL_SCREENWIDTH*(y/2))+(w*4));//bufferofs +
-		(iGLOBAL_SCREENWIDTH*y)+x+(iGLOBAL_SCREENWIDTH*(y)); target = (source+(iGLOBAL_SCREENWIDTH*(y))+1);//bufferofs +
+		(iGLOBAL_SCREENWIDTH*y)+x+(iGLOBAL_SCREENWIDTH*(y)); target =
+		(source+(iGLOBAL_SCREENWIDTH*(y))+1);//bufferofs +
 		(iGLOBAL_SCREENWIDTH*y)+x+(iGLOBAL_SCREENWIDTH*(y1));
 
 			  for (y=0;y<h;y++){
@@ -2122,12 +2219,15 @@ void DrawPause(void)
 			  }
 		*/
 
-		//	  memcpy( bufftemp,tmpPICbuf,iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
+		//	  memcpy(
+		// bufftemp,tmpPICbuf,iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
 	}
 	else
 	{
-		p = (pic_t *)W_CacheLumpNum(W_GetNumForName("wait"), PU_CACHE, Cvt_pic_t, 1);
-		DrawPauseXY((iGLOBAL_SCREENWIDTH - (p->width << 2)) >> 1, (iGLOBAL_SCREENHEIGHT - p->height) >> 1); // bna++
+		p = (pic_t *)W_CacheLumpNum(W_GetNumForName("wait"), PU_CACHE,
+									Cvt_pic_t, 1);
+		DrawPauseXY((iGLOBAL_SCREENWIDTH - (p->width << 2)) >> 1,
+					(iGLOBAL_SCREENHEIGHT - p->height) >> 1); // bna++
 		// DrawPauseXY( (320-(p->width<<2) ) >>1, (200-p->height)>>1);
 	}
 	//   VH_UpdateScreen () ;
@@ -2211,7 +2311,8 @@ void GM_UpdateBonus(int time, int powerup)
 			shapenum = POWERUP2X;
 		}
 
-		GM_MemToScreen((byte *)&eraseb->data, eraseb->width, eraseb->height, shapenum, POWERUPY);
+		GM_MemToScreen((byte *)&eraseb->data, eraseb->width, eraseb->height,
+					   shapenum, POWERUPY);
 
 		return;
 	}
@@ -2242,7 +2343,8 @@ void GM_UpdateBonus(int time, int powerup)
 			}
 			else
 			{
-				GM_MemToScreen((byte *)&eraseb->data, eraseb->width, eraseb->height, POWERUP1X, POWERUPY);
+				GM_MemToScreen((byte *)&eraseb->data, eraseb->width,
+							   eraseb->height, POWERUP1X, POWERUPY);
 
 				return;
 			}
@@ -2251,9 +2353,11 @@ void GM_UpdateBonus(int time, int powerup)
 
 			shape = (pic_t *)W_CacheLumpNum(shapenum, PU_CACHE, Cvt_pic_t, 1);
 
-			GM_MemToScreen((byte *)&eraseb->data, eraseb->width, eraseb->height, POWERUP1X, POWERUPY);
+			GM_MemToScreen((byte *)&eraseb->data, eraseb->width, eraseb->height,
+						   POWERUP1X, POWERUPY);
 
-			DrawMPPic(POWERUP1X, POWERUPY + powerupheight, shape->width, shape->height - powerupheight, powerupheight,
+			DrawMPPic(POWERUP1X, POWERUPY + powerupheight, shape->width,
+					  shape->height - powerupheight, powerupheight,
 					  (byte *)&shape->data, false);
 		}
 	}
@@ -2278,10 +2382,12 @@ void GM_UpdateBonus(int time, int powerup)
 
 			shape = (pic_t *)W_CacheLumpNum(shapenum, PU_CACHE, Cvt_pic_t, 1);
 
-			GM_MemToScreen((byte *)&eraseb->data, eraseb->width, eraseb->height, POWERUP2X, POWERUPY);
+			GM_MemToScreen((byte *)&eraseb->data, eraseb->width, eraseb->height,
+						   POWERUP2X, POWERUPY);
 
-			DrawMPPic(POWERUP2X, POWERUPY + protectionheight, shape->width, shape->height - protectionheight,
-					  protectionheight, (byte *)&shape->data, false);
+			DrawMPPic(POWERUP2X, POWERUPY + protectionheight, shape->width,
+					  shape->height - protectionheight, protectionheight,
+					  (byte *)&shape->data, false);
 		}
 	}
 }
@@ -2354,10 +2460,13 @@ void DrawEpisodeLevel(int x, int y)
 	{
 		ltoa(gamestate.episode, str, 10);
 
-		// bna-- Drawpic (x+29, y+16, 8>>2, 16, (byte *)&timenums[str[0]-'0']->data);
-		VL_MemToScreenClipped((byte *)&timenums[str[0] - '0']->data, 8 >> 2, 16, x + 29, y + 16);
+		// bna-- Drawpic (x+29, y+16, 8>>2, 16, (byte
+		// *)&timenums[str[0]-'0']->data);
+		VL_MemToScreenClipped((byte *)&timenums[str[0] - '0']->data, 8 >> 2, 16,
+							  x + 29, y + 16);
 
-		if ((gamestate.mapon == 6) || (gamestate.mapon == 14) || (gamestate.mapon == 22) || (gamestate.mapon == 32) ||
+		if ((gamestate.mapon == 6) || (gamestate.mapon == 14) ||
+			(gamestate.mapon == 22) || (gamestate.mapon == 32) ||
 			(gamestate.mapon == 33))
 		{
 			p = (pic_t *)W_CacheLumpName("tnumb", PU_CACHE, Cvt_pic_t, 1);
@@ -2383,15 +2492,21 @@ void DrawEpisodeLevel(int x, int y)
 
 		if (level < 10)
 		{
-			// Drawpic (x+49, y+16, 8>>2, 16, (byte *)&timenums[str[0]-'0']->data);
-			VL_MemToScreenClipped((byte *)&timenums[str[0] - '0']->data, 8 >> 2, 16, x + 49, y + 16);
+			// Drawpic (x+49, y+16, 8>>2, 16, (byte
+			// *)&timenums[str[0]-'0']->data);
+			VL_MemToScreenClipped((byte *)&timenums[str[0] - '0']->data, 8 >> 2,
+								  16, x + 49, y + 16);
 		}
 		else
 		{
-			// Drawpic (x+49, y+16, 8>>2, 16, (byte *)&timenums[str[0]-'0']->data);
-			VL_MemToScreenClipped((byte *)&timenums[str[0] - '0']->data, 8 >> 2, 16, x + 49, y + 16);
-			// Drawpic (x+57, y+16, 8>>2, 16, (byte *)&timenums[str[1]-'0']->data);
-			VL_MemToScreenClipped((byte *)&timenums[str[1] - '0']->data, 8 >> 2, 16, x + 57, y + 16);
+			// Drawpic (x+49, y+16, 8>>2, 16, (byte
+			// *)&timenums[str[0]-'0']->data);
+			VL_MemToScreenClipped((byte *)&timenums[str[0] - '0']->data, 8 >> 2,
+								  16, x + 49, y + 16);
+			// Drawpic (x+57, y+16, 8>>2, 16, (byte
+			// *)&timenums[str[1]-'0']->data);
+			VL_MemToScreenClipped((byte *)&timenums[str[1] - '0']->data, 8 >> 2,
+								  16, x + 57, y + 16);
 		}
 	}
 	else
@@ -2405,15 +2520,21 @@ void DrawEpisodeLevel(int x, int y)
 
 		if (level < 10)
 		{
-			// Drawpic (x+49, y+16, 8>>2, 16, (byte *)&timenums[str[0]-'0']->data);
-			VL_MemToScreenClipped((byte *)&timenums[str[0] - '0']->data, 8 >> 2, 16, x + 49, y + 16);
+			// Drawpic (x+49, y+16, 8>>2, 16, (byte
+			// *)&timenums[str[0]-'0']->data);
+			VL_MemToScreenClipped((byte *)&timenums[str[0] - '0']->data, 8 >> 2,
+								  16, x + 49, y + 16);
 		}
 		else
 		{
-			// Drawpic (x+49, y+16, 8>>2, 16, (byte *)&timenums[str[0]-'0']->data);
-			VL_MemToScreenClipped((byte *)&timenums[str[0] - '0']->data, 8 >> 2, 16, x + 49, y + 16);
-			// Drawpic (x+57, y+16, 8>>2, 16, (byte *)&timenums[str[1]-'0']->data);
-			VL_MemToScreenClipped((byte *)&timenums[str[1] - '0']->data, 8 >> 2, 16, x + 57, y + 16);
+			// Drawpic (x+49, y+16, 8>>2, 16, (byte
+			// *)&timenums[str[0]-'0']->data);
+			VL_MemToScreenClipped((byte *)&timenums[str[0] - '0']->data, 8 >> 2,
+								  16, x + 49, y + 16);
+			// Drawpic (x+57, y+16, 8>>2, 16, (byte
+			// *)&timenums[str[1]-'0']->data);
+			VL_MemToScreenClipped((byte *)&timenums[str[1] - '0']->data, 8 >> 2,
+								  16, x + 57, y + 16);
 		}
 	}
 }
@@ -2442,7 +2563,8 @@ void GM_MemToScreen(byte *source, int width, int height, int x, int y)
 		screen1 = dest1;
 		screen2 = dest2;
 		screen3 = dest3;
-		for (y = 0; y < height; y++, screen1 += linewidth, screen2 += linewidth, screen3 += linewidth, source += width)
+		for (y = 0; y < height; y++, screen1 += linewidth, screen2 += linewidth,
+			screen3 += linewidth, source += width)
 		{
 			for (x = 0; x < width; x++)
 			{
@@ -2633,7 +2755,8 @@ void CheckHighScore(long score, word other, boolean INMENU)
 	for (i = 0, n = -1; i < MaxScores; i++)
 	{
 		if ((myscore.score > Scores[i].score) ||
-			((myscore.score == Scores[i].score) && (myscore.completed > Scores[i].completed)))
+			((myscore.score == Scores[i].score) &&
+			 (myscore.completed > Scores[i].completed)))
 		{
 			for (j = MaxScores; --j > i;)
 				Scores[j] = Scores[j - 1];
@@ -2735,7 +2858,8 @@ void DrawEOLHeader(int playstate)
 	switch (playstate)
 	{
 		case ex_skiplevel:
-			if ((gamestate.violence >= vl_high) && (gamestate.difficulty >= gd_hard))
+			if ((gamestate.violence >= vl_high) &&
+				(gamestate.difficulty >= gd_hard))
 			{
 				string = "LEVEL WUSSED OUT ON!";
 			}
@@ -2833,7 +2957,8 @@ void DrawEOLHeader(int playstate)
 	VWB_DrawPropString(string);
 
 	px = BONERNAMEX;
-	health = ((locplayerstate->health * 100) / MaxHitpointsForCharacter(locplayerstate));
+	health = ((locplayerstate->health * 100) /
+			  MaxHitpointsForCharacter(locplayerstate));
 
 	itoa(health, tempstr, 10);
 	VWB_DrawPropString(tempstr);
@@ -2918,7 +3043,8 @@ void DrawEndBonus(char *string, char *bonusstring, int type)
 	px = BONERNAMEX;
 	V_ReDrawBkgnd(px, py, 107, 11, false);
 	VWB_TBar(px, py, 107, 11);
-	health = ((locplayerstate->health * 100) / MaxHitpointsForCharacter(locplayerstate));
+	health = ((locplayerstate->health * 100) /
+			  MaxHitpointsForCharacter(locplayerstate));
 	itoa(health, tempstr, 10);
 	VWB_DrawPropString(tempstr);
 	VWB_DrawPropString("%");
@@ -3026,7 +3152,8 @@ void LevelCompleted(exit_t playstate)
 		player->flags &= ~FL_NOFRICTION;
 	}
 
-	player->flags &= ~(FL_FLEET | FL_SHROOMS | FL_ELASTO | FL_GODMODE | FL_DOGMODE | FL_BPV | FL_AV | FL_GASMASK);
+	player->flags &= ~(FL_FLEET | FL_SHROOMS | FL_ELASTO | FL_GODMODE |
+					   FL_DOGMODE | FL_BPV | FL_AV | FL_GASMASK);
 
 	// Turn off quickload for next level
 	pickquick = false;
@@ -3045,42 +3172,50 @@ void LevelCompleted(exit_t playstate)
 
 	if (gamestate.killtotal)
 	{
-		kr = (int)(((int)gamestate.killcount) * 100) / ((int)gamestate.killtotal);
+		kr = (int)(((int)gamestate.killcount) * 100) /
+			 ((int)gamestate.killtotal);
 	}
 
 	if (gamestate.secrettotal)
 	{
-		sr = (int)(((int)gamestate.secretcount) * 100) / ((int)gamestate.secrettotal);
+		sr = (int)(((int)gamestate.secretcount) * 100) /
+			 ((int)gamestate.secrettotal);
 	}
 
 	if (gamestate.treasuretotal)
 	{
-		tr = (int)(((int)gamestate.treasurecount) * 100) / ((int)gamestate.treasuretotal);
+		tr = (int)(((int)gamestate.treasurecount) * 100) /
+			 ((int)gamestate.treasuretotal);
 	}
 
 	if (gamestate.supertotal)
 	{
-		superratio = (int)(((int)gamestate.supercount) * 100) / ((int)gamestate.supertotal);
+		superratio = (int)(((int)gamestate.supercount) * 100) /
+					 ((int)gamestate.supertotal);
 	}
 
 	if (gamestate.missiletotal)
 	{
-		missileratio = (int)(((int)gamestate.missilecount) * 100) / ((int)gamestate.missiletotal);
+		missileratio = (int)(((int)gamestate.missilecount) * 100) /
+					   ((int)gamestate.missiletotal);
 	}
 
 	if (gamestate.healthtotal)
 	{
-		healthratio = (int)(((int)gamestate.healthcount) * 100) / ((int)gamestate.healthtotal);
+		healthratio = (int)(((int)gamestate.healthcount) * 100) /
+					  ((int)gamestate.healthtotal);
 	}
 
 	if (gamestate.democratictotal)
 	{
-		democraticratio = (int)(((int)gamestate.democraticcount) * 100) / ((int)gamestate.democratictotal);
+		democraticratio = (int)(((int)gamestate.democraticcount) * 100) /
+						  ((int)gamestate.democratictotal);
 	}
 
 	if (gamestate.planttotal)
 	{
-		plantratio = (int)(((int)gamestate.plantcount) * 100) / ((int)gamestate.planttotal);
+		plantratio = (int)(((int)gamestate.plantcount) * 100) /
+					 ((int)gamestate.planttotal);
 	}
 
 	DrawEOLHeader(playstate);
@@ -3343,8 +3478,10 @@ void DrawTallyHeader(int which)
 	Name = (pic_t *)W_CacheLumpName("t_name", PU_CACHE, Cvt_pic_t, 1);
 	Blank = (pic_t *)W_CacheLumpName("t_blnk", PU_CACHE, Cvt_pic_t, 1);
 	KillCount = (pic_t *)W_CacheLumpName("t_kcount", PU_CACHE, Cvt_pic_t, 1);
-	TimesYouKilledPerson = (pic_t *)W_CacheLumpName("t_kilper", PU_CACHE, Cvt_pic_t, 1);
-	TimesPersonKilledYou = (pic_t *)W_CacheLumpName("t_perkil", PU_CACHE, Cvt_pic_t, 1);
+	TimesYouKilledPerson =
+		(pic_t *)W_CacheLumpName("t_kilper", PU_CACHE, Cvt_pic_t, 1);
+	TimesPersonKilledYou =
+		(pic_t *)W_CacheLumpName("t_perkil", PU_CACHE, Cvt_pic_t, 1);
 	Suicides = (pic_t *)W_CacheLumpName("t_suicid", PU_CACHE, Cvt_pic_t, 1);
 	Score = (pic_t *)W_CacheLumpName("t_score", PU_CACHE, Cvt_pic_t, 1);
 	TopBar = (pic_t *)W_CacheLumpName("t_bar", PU_CACHE, Cvt_pic_t, 1);
@@ -3399,7 +3536,8 @@ void DrawTallyHeader(int which)
 			// bna added end
 	}
 
-	DrawTimeXY(TALLYTIME_X, TALLYTIME_Y, gamestate.TimeCount / VBLCOUNTER, true);
+	DrawTimeXY(TALLYTIME_X, TALLYTIME_Y, gamestate.TimeCount / VBLCOUNTER,
+			   true);
 }
 
 #define BT_RANK_X 23
@@ -3458,7 +3596,8 @@ void ShowKills(int localplayer)
 
 	DrawTallyHeader(2);
 
-	IFont = (cfont_t *)W_CacheLumpNum(W_GetNumForName("sifont"), PU_CACHE, Cvt_cfont_t, 1);
+	IFont = (cfont_t *)W_CacheLumpNum(W_GetNumForName("sifont"), PU_CACHE,
+									  Cvt_cfont_t, 1);
 	CurrentFont = smallfont;
 	py = 43;
 
@@ -3489,7 +3628,8 @@ void ShowKills(int localplayer)
 		DrawIntensityString(BT_RANK_X - w, py, tempstr, color);
 
 		// Draw name
-		DrawIntensityString(BT_PLAYER_X, py, PLAYERSTATE[player].codename, color);
+		DrawIntensityString(BT_PLAYER_X, py, PLAYERSTATE[player].codename,
+							color);
 
 		// Draw kills
 		itoa(KillCount[player], tempstr, 10);
@@ -3511,7 +3651,9 @@ void ShowKills(int localplayer)
 
 		if (gamestate.teamplay)
 		{
-			DrawIntensityString(BT_DEATHS_X + 16, py, colorname[PLAYERSTATE[player].uniformcolor], color);
+			DrawIntensityString(BT_DEATHS_X + 16, py,
+								colorname[PLAYERSTATE[player].uniformcolor],
+								color);
 		}
 
 		py += h;
@@ -3564,7 +3706,8 @@ void ShowDeaths(int localplayer)
 
 	DrawTallyHeader(3);
 
-	IFont = (cfont_t *)W_CacheLumpNum(W_GetNumForName("sifont"), PU_CACHE, Cvt_cfont_t, 1);
+	IFont = (cfont_t *)W_CacheLumpNum(W_GetNumForName("sifont"), PU_CACHE,
+									  Cvt_cfont_t, 1);
 	CurrentFont = smallfont;
 	py = 43;
 
@@ -3594,7 +3737,8 @@ void ShowDeaths(int localplayer)
 		DrawIntensityString(BT_RANK_X - w, py, tempstr, color);
 
 		// Draw name
-		DrawIntensityString(BT_PLAYER_X, py, PLAYERSTATE[player].codename, color);
+		DrawIntensityString(BT_PLAYER_X, py, PLAYERSTATE[player].codename,
+							color);
 
 		// Draw deaths
 		itoa(DeathCount[player], tempstr, 10);
@@ -3608,7 +3752,9 @@ void ShowDeaths(int localplayer)
 
 		if (gamestate.teamplay)
 		{
-			DrawIntensityString(BT_DEATHS_X + 16, py, colorname[PLAYERSTATE[player].uniformcolor], color);
+			DrawIntensityString(BT_DEATHS_X + 16, py,
+								colorname[PLAYERSTATE[player].uniformcolor],
+								color);
 		}
 
 		py += h;
@@ -3655,7 +3801,8 @@ void ShowEndScore(int localplayer)
 			break;
 	}
 
-	IFont = (cfont_t *)W_CacheLumpNum(W_GetNumForName("sifont"), PU_CACHE, Cvt_cfont_t, 1);
+	IFont = (cfont_t *)W_CacheLumpNum(W_GetNumForName("sifont"), PU_CACHE,
+									  Cvt_cfont_t, 1);
 	CurrentFont = smallfont;
 	py = 43;
 
@@ -3671,7 +3818,8 @@ void ShowEndScore(int localplayer)
 		}
 
 		// Draw rank if not tied with previous rank
-		if ((rank == 0) || (BATTLE_Points[team] != BATTLE_Points[BATTLE_PlayerOrder[rank - 1]]))
+		if ((rank == 0) || (BATTLE_Points[team] !=
+							BATTLE_Points[BATTLE_PlayerOrder[rank - 1]]))
 		{
 			itoa(rank + 1, tempstr, 10);
 		}
@@ -3687,11 +3835,14 @@ void ShowEndScore(int localplayer)
 		leader = BATTLE_TeamLeader[team];
 		if (gamestate.teamplay)
 		{
-			DrawIntensityString(BT_PLAYER_X, py, colorname[PLAYERSTATE[leader].uniformcolor], color);
+			DrawIntensityString(BT_PLAYER_X, py,
+								colorname[PLAYERSTATE[leader].uniformcolor],
+								color);
 		}
 		else
 		{
-			DrawIntensityString(BT_PLAYER_X, py, PLAYERSTATE[leader].codename, color);
+			DrawIntensityString(BT_PLAYER_X, py, PLAYERSTATE[leader].codename,
+								color);
 		}
 
 		if (dofullstats)
@@ -3887,7 +4038,8 @@ boolean ZoomDeathOkay(void)
 	int x, y;
 	int radius;
 
-	if (!((player->state == &s_ashwait) || ((player->flags & FL_HBM) && (gamestate.violence >= vl_high))))
+	if (!((player->state == &s_ashwait) ||
+		  ((player->flags & FL_HBM) && (gamestate.violence >= vl_high))))
 		return false;
 
 	radius = STOPRADIUS;
@@ -3996,7 +4148,9 @@ void Died(void)
 						dummy->flags |= FL_SKELETON;
 					Collision(dummy, (objtype *)NULL, 0, 0);
 					deadflagset = true;
-					if ((killerobj == player) && (gamestate.violence >= vl_high) && (gamestate.difficulty >= gd_hard))
+					if ((killerobj == player) &&
+						(gamestate.violence >= vl_high) &&
+						(gamestate.difficulty >= gd_hard))
 					{
 						SD_Play(SD_YOUSUCKSND);
 					}
@@ -4015,8 +4169,10 @@ void Died(void)
 				dummy->momentumx += (RandomNumber("Died", 0) << 6) - (256 << 5);
 				dummy->momentumy += (RandomNumber("Died", 0) << 6) - (256 << 5);
 			}
-			player->x = x + FixedMul(radius, costable[iangle & (FINEANGLES - 1)]);
-			player->y = y - FixedMul(radius, sintable[iangle & (FINEANGLES - 1)]);
+			player->x =
+				x + FixedMul(radius, costable[iangle & (FINEANGLES - 1)]);
+			player->y =
+				y - FixedMul(radius, sintable[iangle & (FINEANGLES - 1)]);
 			player->z = dummy->z;
 			player->angle = (iangle + ANG180) & (FINEANGLES - 1);
 			if (dopefish == true)
@@ -4063,7 +4219,8 @@ void Died(void)
 			if (killerobj == player)
 			{
 				iangle = player->angle;
-				if ((gamestate.violence >= vl_high) && (gamestate.difficulty >= gd_hard))
+				if ((gamestate.violence >= vl_high) &&
+					(gamestate.difficulty >= gd_hard))
 				{
 					SD_Play(SD_YOUSUCKSND);
 				}
@@ -4151,19 +4308,23 @@ void Died(void)
 
 		if (pstate->falling == true)
 		{
-			RotateBuffer(0, 0, (FINEANGLES), (FINEANGLES >> 6), (VBLCOUNTER * (1 + slowrate)));
+			RotateBuffer(0, 0, (FINEANGLES), (FINEANGLES >> 6),
+						 (VBLCOUNTER * (1 + slowrate)));
 			SD_Play(SD_PLAYERTCDEATHSND + (pstate->player));
 			pstate->falling = false;
 		}
 
 		else if (rng < 64)
-			RotateBuffer(0, 0, (FINEANGLES), (FINEANGLES * 64), (VBLCOUNTER * (2 + slowrate)));
+			RotateBuffer(0, 0, (FINEANGLES), (FINEANGLES * 64),
+						 (VBLCOUNTER * (2 + slowrate)));
 		else if (rng < 128)
 		{
-			RotateBuffer(0, 0, (FINEANGLES), (FINEANGLES >> 6), (VBLCOUNTER * (1 + slowrate)));
+			RotateBuffer(0, 0, (FINEANGLES), (FINEANGLES >> 6),
+						 (VBLCOUNTER * (1 + slowrate)));
 		}
 		else if (rng < 192)
-			RotateBuffer(0, (FINEANGLES * 4), (FINEANGLES), (FINEANGLES * 64), (VBLCOUNTER * (3 + slowrate)));
+			RotateBuffer(0, (FINEANGLES * 4), (FINEANGLES), (FINEANGLES * 64),
+						 (VBLCOUNTER * (3 + slowrate)));
 		else
 			VL_FadeToColor(VBLCOUNTER * 2, 100, 0, 0);
 
@@ -4191,13 +4352,16 @@ void Died(void)
 		SD_Play(SD_GAMEOVERSND);
 		rng = RandomNumber("Died", 0);
 		if (rng < 64)
-			RotateBuffer(0, (FINEANGLES >> 1), (FINEANGLES), (FINEANGLES * 64), (VBLCOUNTER * (3 + slowrate)));
+			RotateBuffer(0, (FINEANGLES >> 1), (FINEANGLES), (FINEANGLES * 64),
+						 (VBLCOUNTER * (3 + slowrate)));
 		else if (rng < 128)
 			VL_FadeToColor(VBLCOUNTER * 3, 255, 255, 255);
 		else if (rng < 192)
-			RotateBuffer(0, (FINEANGLES * 2), (FINEANGLES), (FINEANGLES * 64), (VBLCOUNTER * (3 + slowrate)));
+			RotateBuffer(0, (FINEANGLES * 2), (FINEANGLES), (FINEANGLES * 64),
+						 (VBLCOUNTER * (3 + slowrate)));
 		else
-			RotateBuffer(0, (FINEANGLES * 2), (FINEANGLES), (FINEANGLES * 64), (VBLCOUNTER * (3 + slowrate)));
+			RotateBuffer(0, (FINEANGLES * 2), (FINEANGLES), (FINEANGLES * 64),
+						 (VBLCOUNTER * (3 + slowrate)));
 
 		screenfaded = false;
 
@@ -4207,11 +4371,14 @@ void Died(void)
 
 #if (SHAREWARE == 0)
 		if (gamestate.violence == vl_excessive)
-			LBM = (lbm_t *)W_CacheLumpNum(W_GetNumForName("bootblod"), PU_CACHE, Cvt_lbm_t, 1);
+			LBM = (lbm_t *)W_CacheLumpNum(W_GetNumForName("bootblod"), PU_CACHE,
+										  Cvt_lbm_t, 1);
 		else
-			LBM = (lbm_t *)W_CacheLumpNum(W_GetNumForName("bootnorm"), PU_CACHE, Cvt_lbm_t, 1);
+			LBM = (lbm_t *)W_CacheLumpNum(W_GetNumForName("bootnorm"), PU_CACHE,
+										  Cvt_lbm_t, 1);
 #else
-		LBM = (lbm_t *)W_CacheLumpNum(W_GetNumForName("bootblod"), PU_CACHE, Cvt_lbm_t, 1);
+		LBM = (lbm_t *)W_CacheLumpNum(W_GetNumForName("bootblod"), PU_CACHE,
+									  Cvt_lbm_t, 1);
 #endif
 		VL_DecompressLBM(LBM, true);
 
@@ -4675,7 +4842,8 @@ boolean LoadTheGame(int num, gamestorage_t *game)
 
 	// Retrieve saved checksum
 
-	memcpy(&savedchecksum, loadbuffer + (totalsize - sizeof(savedchecksum)), sizeof(savedchecksum));
+	memcpy(&savedchecksum, loadbuffer + (totalsize - sizeof(savedchecksum)),
+		   sizeof(savedchecksum));
 
 	// Compare the two checksums;
 
@@ -4732,7 +4900,8 @@ boolean LoadTheGame(int num, gamestorage_t *game)
 	SetupGameLevel();
 
 	// This prevents a nasty glitch when loading some saved games
-	PreCacheGroup(W_GetNumForName("BULLETHO"), W_GetNumForName("ALTBHO"), cache_transpatch_t);
+	PreCacheGroup(W_GetNumForName("BULLETHO"), W_GetNumForName("ALTBHO"),
+				  cache_transpatch_t);
 
 	// Door Tag
 

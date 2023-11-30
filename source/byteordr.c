@@ -28,15 +28,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "byteordr.h"
 #include "lumpy.h"
 
-#define DEFINE_CONVERTER(type)                                                                                         \
-	void Cvt_##type(void *lmp, int num)                                                                                \
-	{                                                                                                                  \
-		int i;                                                                                                         \
-		type *recs = (type *)lmp;                                                                                      \
-		for (i = 0; i < num; i++, recs++)                                                                              \
-		{                                                                                                              \
-			CONVERT_ENDIAN_##type(recs);                                                                               \
-		}                                                                                                              \
+#define DEFINE_CONVERTER(type) \
+	void Cvt_##type(void *lmp, int num) \
+	{ \
+		int i; \
+		type *recs = (type *)lmp; \
+		for (i = 0; i < num; i++, recs++) \
+		{ \
+			CONVERT_ENDIAN_##type(recs); \
+		} \
 	}
 
 DEFINE_CONVERTER(pic_t);

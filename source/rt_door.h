@@ -224,7 +224,8 @@ void ProcessElevators(void);
 void OperateElevatorDoor(int);
 
 int PlatformHeight(int, int);
-void Link_To_Touchplate(word, word, void (*)(intptr_t), void (*)(intptr_t), intptr_t, int);
+void Link_To_Touchplate(word, word, void (*)(intptr_t), void (*)(intptr_t),
+						intptr_t, int);
 void TriggerStuff(void);
 void ClockLink(void (*)(intptr_t), void (*)(intptr_t), intptr_t, int);
 void RecursiveConnect(int);
@@ -240,7 +241,8 @@ void DoorOpen(int);
 void DoorOpening(int);
 void DoorClosing(int door);
 void MoveDoors(void);
-void SpawnPushWall(int tilex, int tiley, int lock, int texture, int dir, int type);
+void SpawnPushWall(int tilex, int tiley, int lock, int texture, int dir,
+				   int type);
 void MovePWalls(void);
 void WallPushing(int pwall);
 void PushWall(int pwall, int dir);

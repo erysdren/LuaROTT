@@ -102,7 +102,8 @@ char *M_FileCaseExists(const char *path)
 		return path_dup;
 	}
 
-	// cast result to (char *), because `path_dup` isn't (const char *) in the first place
+	// cast result to (char *), because `path_dup` isn't (const char *) in the
+	// first place
 	filename = (char *)M_BaseName(path_dup);
 
 	// 1: lowercase filename, e.g. doom2.wad
@@ -151,8 +152,10 @@ char *M_FileCaseExists(const char *path)
 
 boolean M_StrToInt(const char *str, int *result)
 {
-	return sscanf(str, " 0x%x", (unsigned int *)result) == 1 || sscanf(str, " 0X%x", (unsigned int *)result) == 1 ||
-		   sscanf(str, " 0%o", (unsigned int *)result) == 1 || sscanf(str, " %d", result) == 1;
+	return sscanf(str, " 0x%x", (unsigned int *)result) == 1 ||
+		   sscanf(str, " 0X%x", (unsigned int *)result) == 1 ||
+		   sscanf(str, " 0%o", (unsigned int *)result) == 1 ||
+		   sscanf(str, " %d", result) == 1;
 }
 
 // Returns the directory portion of the given path, without the trailing
@@ -249,7 +252,8 @@ char *M_StringDuplicate(const char *orig)
 
 	if (result == NULL)
 	{
-		fprintf(stderr, "Failed to duplicate string (length %ld)\n", (long)strlen(orig));
+		fprintf(stderr, "Failed to duplicate string (length %ld)\n",
+				(long)strlen(orig));
 	}
 
 	return result;
@@ -257,7 +261,8 @@ char *M_StringDuplicate(const char *orig)
 
 // String replace function.
 
-char *M_StringReplace(const char *haystack, const char *needle, const char *replacement)
+char *M_StringReplace(const char *haystack, const char *needle,
+					  const char *replacement)
 {
 	char *result, *dst;
 	const char *p;
@@ -358,12 +363,14 @@ boolean M_StringConcat(char *dest, const char *src, size_t dest_size)
 
 boolean M_StringEndsWith(const char *s, const char *suffix)
 {
-	return strlen(s) >= strlen(suffix) && strcmp(s + strlen(s) - strlen(suffix), suffix) == 0;
+	return strlen(s) >= strlen(suffix) &&
+		   strcmp(s + strlen(s) - strlen(suffix), suffix) == 0;
 }
 
 boolean M_StringCaseEndsWith(const char *s, const char *suffix)
 {
-	return strlen(s) >= strlen(suffix) && strcasecmp(s + strlen(s) - strlen(suffix), suffix) == 0;
+	return strlen(s) >= strlen(suffix) &&
+		   strcasecmp(s + strlen(s) - strlen(suffix), suffix) == 0;
 }
 
 // Return a newly-malloced string with all the strings given as arguments
@@ -418,7 +425,8 @@ char *M_StringJoin(const char *s, ...)
 }
 
 // Safe, portable vsnprintf().
-static int PRINTF_ATTR(3, 0) M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args)
+static int PRINTF_ATTR(3, 0)
+	M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args)
 {
 	int result;
 

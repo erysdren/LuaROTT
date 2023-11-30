@@ -41,7 +41,8 @@ typedef struct memblock
 	pu_tag tag;
 } memblock_t;
 
-static const size_t HEADER_SIZE = (sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1);
+static const size_t HEADER_SIZE =
+	(sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1);
 
 static memblock_t *blockbytag[PU_MAX];
 static size_t heapsize;
@@ -75,7 +76,8 @@ void *Z_Malloc(size_t size, pu_tag tag, void **user)
 	while (!(block = malloc(size + HEADER_SIZE)))
 	{
 		if (!blockbytag[PU_CACHE])
-			Error("Z_Malloc: Failure trying to allocate %lu bytes", (unsigned long)size);
+			Error("Z_Malloc: Failure trying to allocate %lu bytes",
+				  (unsigned long)size);
 		Z_FreeTag(PU_CACHE);
 	}
 

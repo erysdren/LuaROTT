@@ -216,7 +216,8 @@ void BATTLE_SetOptions(battle_type *options);
 void BATTLE_GetOptions(battle_type *options);
 battle_status BATTLE_CheckGameStatus(battle_event reason, int player);
 void BATTLE_SortPlayerRanks(void);
-battle_status BATTLE_PlayerKilledPlayer(battle_event reason, int killer, int victim);
+battle_status BATTLE_PlayerKilledPlayer(battle_event reason, int killer,
+										int victim);
 void BATTLE_Shutdown(void);
 
 #endif

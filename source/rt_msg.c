@@ -167,7 +167,8 @@ void GetMessageOrder(void)
 
 		for (i = 0; i < MAXMSGS; i++)
 		{
-			if ((Messages[i].active == 1) && (done[i] == 0) && (Messages[i].tictime < lowesttime))
+			if ((Messages[i].active == 1) && (done[i] == 0) &&
+				(Messages[i].tictime < lowesttime))
 			{
 				lowesttime = Messages[i].tictime;
 				lowest = i;
@@ -541,18 +542,24 @@ void RestoreMessageBackground(void)
 				EraseMessage[i]--;
 				if (viewsize < 15)
 				{
-					shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1); // w=32 h=8
-																						  // SetTextMode (  );
-					// DrawTiledRegion( 0, y, 320, 9, 0, y, shape );KILLS_HEIGHT bna--
+					shape = (pic_t *)W_CacheLumpName(
+						"backtile", PU_CACHE, Cvt_pic_t, 1); // w=32 h=8
+															 // SetTextMode ( );
+					// DrawTiledRegion( 0, y, 320, 9, 0, y, shape );KILLS_HEIGHT
+					// bna--
 					DrawTiledRegion(0, y, iGLOBAL_SCREENWIDTH, 9, 0, y, shape);
-					DrawTiledRegion(0, y + 8, iGLOBAL_SCREENWIDTH, 9, 0, y, shape);
-					DrawTiledRegion(0, y + 16, iGLOBAL_SCREENWIDTH, 9, 0, y, shape);
+					DrawTiledRegion(0, y + 8, iGLOBAL_SCREENWIDTH, 9, 0, y,
+									shape);
+					DrawTiledRegion(0, y + 16, iGLOBAL_SCREENWIDTH, 9, 0, y,
+									shape);
 
-					// DrawTiledRegion( 0, y, iGLOBAL_SCREENWIDTH, 212, 0, y, shape );
+					// DrawTiledRegion( 0, y, iGLOBAL_SCREENWIDTH, 212, 0, y,
+					// shape );
 				}
 				if (viewsize == 0)
 				{
-					if ((y + 9 > YOURCPUSUCKS_Y) && (y < (YOURCPUSUCKS_Y + YOURCPUSUCKS_HEIGHT)))
+					if ((y + 9 > YOURCPUSUCKS_Y) &&
+						(y < (YOURCPUSUCKS_Y + YOURCPUSUCKS_HEIGHT)))
 					{
 						DrawCPUJape();
 					}
@@ -726,7 +733,8 @@ void FinishModemMessage(int num, boolean send)
 		MSG.messageon = false;
 		if (MSG.remoteridicule != -1)
 		{
-			AddRemoteRidiculeCommand(consoleplayer, MSG.towho, MSG.remoteridicule);
+			AddRemoteRidiculeCommand(consoleplayer, MSG.towho,
+									 MSG.remoteridicule);
 		}
 		if (MSG.length > 0)
 		{

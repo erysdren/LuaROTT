@@ -90,13 +90,14 @@ typedef CursorInfo ControlInfo;
 
 typedef struct
 {
-	ScanCode button0, button1, upleft, up, upright, left, right, downleft, down, downright;
+	ScanCode button0, button1, upleft, up, upright, left, right, downleft, down,
+		downright;
 } KeyboardDef;
 
 typedef struct
 {
-	word joyMinX, joyMinY, threshMinX, threshMinY, threshMaxX, threshMaxY, joyMaxX, joyMaxY, joyMultXL, joyMultYL,
-		joyMultXH, joyMultYH;
+	word joyMinX, joyMinY, threshMinX, threshMinY, threshMaxX, threshMaxY,
+		joyMaxX, joyMaxY, joyMultXL, joyMultYL, joyMultXH, joyMultYH;
 } JoystickDef;
 
 typedef struct

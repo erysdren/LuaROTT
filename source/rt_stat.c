@@ -58,119 +58,186 @@ respawn_t *firstrespawn, *lastrespawn;
 statobj_t *FIRSTSTAT, *LASTSTAT, *sprites[MAPSIZE][MAPSIZE];
 animwall_t animwalls[MAXANIMWALLS];
 
-dirtype opposite[9] = {west, southwest, south, southeast, east, northeast, north, northwest, nodir};
+dirtype opposite[9] = { west,	   southwest, south,	 southeast, east,
+						northeast, north,	  northwest, nodir };
 
 statinfo stats[NUMSTATS] = {
-	{0, SPR0_YLIGHT, stat_ylight, FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0},
-	{0, SPR1_RLIGHT, stat_rlight, FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0},
-	{0, SPR2_GLIGHT, stat_glight, FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0},
-	{0, SPR3_BLIGHT, stat_blight, FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0},
-	{0, SPR4_CHAND, stat_chandelier, FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0},
-	{0, SPR5_LAMPOFF, stat_lamp, FL_LIGHT | FL_BLOCK | FL_SHOOTABLE, 0, 0, 2, 0, 0},
-	{0, SPR73_GKEY1, stat_pedgoldkey, FL_COLORED | FL_BONUS | FL_CHANGES | FL_BLOCK | FL_ACTIVE, 2, 16, pc_orange, 0,
-	 0},
-	{0, SPR73_GKEY1, stat_pedsilverkey, FL_COLORED | FL_BONUS | FL_CHANGES | FL_BLOCK | FL_ACTIVE, 2, 16, pc_gray, 0,
-	 0},
-	{0, SPR73_GKEY1, stat_pedironkey, FL_COLORED | FL_BONUS | FL_CHANGES | FL_BLOCK | FL_ACTIVE, 2, 16, pc_olive, 0, 0},
-	{0, SPR73_GKEY1, stat_pedcrystalkey, FL_COLORED | FL_BONUS | FL_CHANGES | FL_BLOCK | FL_ACTIVE, 2, 16, pc_red, 0,
-	 0},
-	{0, SPR6_GIBS1, stat_gibs1, 0, 0, 0, 0, 0, 0},
-	{0, SPR7_GIBS2, stat_gibs2, 0, 0, 0, 0, 0, 0},
-	{0, SPR8_GIBS3, stat_gibs3, 0, 0, 0, 0, 0, 0},
-	{0, SPR9_MONKMEAL, stat_monkmeal, FL_BONUS | FL_RESPAWN, 0, 0, 0, 0, 0},
-	{0, PORRIDGE1, stat_priestporridge, FL_BONUS | FL_RESPAWN, 2, 6, 0, 0, 0},
-	{0, MONKCRYSTAL11, stat_monkcrystal1, FL_BONUS | FL_ACTIVE | FL_RESPAWN, 2, 6, 0, 0, 0},
-	{0, MONKCRYSTAL21, stat_monkcrystal2, FL_BONUS | FL_ACTIVE | FL_RESPAWN, 2, 7, 0, 0, 0},
-	{0, ONEUP01, stat_oneup, FL_BONUS | FL_ACTIVE | FL_FULLLIGHT, 2, 8, 0, 0, 0},
-	{0, THREEUP01, stat_threeup, FL_BONUS | FL_ACTIVE | FL_FULLLIGHT, 2, 8, 0, 0, 0},
-	{0, TORCH1, stat_altbrazier1, FL_HEAT | FL_BLOCK | FL_ACTIVE | FL_LIGHT | FL_SHOOTABLE, 2, 15, 2, 0, 0},
-	{0, SPR_ABRAZIER2, stat_altbrazier2, FL_HEAT | FL_BLOCK | FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0},
-	{0, FBASIN1, stat_healingbasin, FL_BONUS | FL_CHANGES | FL_ACTIVE | FL_BLOCK, 2, 3, 0, 0, 0},
-	{20, EBASIN, stat_emptybasin, FL_BLOCK | FL_SHOOTABLE, 0, 0, 0, 0, 0},
-	{0, BAT1, stat_bat, FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_WEAPON, 1, 16, 0, 0, 10},
-	{0, KNIFE_STATUE1, stat_knifestatue, FL_BONUS | FL_CHANGES | FL_BLOCK, 0, 0, 0, 0, 0},
-	{0, SPR_TWOPIST, stat_twopistol, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0, 5},
-	{0, SPR_MP40, stat_mp40, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0, 5},
-	{0, SPR_BAZOOKA, stat_bazooka, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0, 10},
-	{0, SPR_FIREBOMB, stat_firebomb, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0, 5},
-	{0, SPR_HEATSEEK, stat_heatseeker, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0, 7},
-	{0, SPR_DRUNK, stat_drunkmissile, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0, 7},
-	{0, SPR_FIREWALL, stat_firewall, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0, 5},
-	{0, SPR_SPLIT, stat_splitmissile, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0, 7},
-	{0, SPR_KES, stat_kes, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0, 7},
-	{0, LIFEITEMA01, stat_lifeitem1, FL_BONUS | FL_ACTIVE | FL_SHOOTABLE | FL_FULLLIGHT, 2, 8, 2, 0, 0},
-	{0, LIFEITEMB01, stat_lifeitem2, FL_BONUS | FL_ACTIVE | FL_SHOOTABLE | FL_FULLLIGHT, 2, 8, 2, 0, 0},
-	{0, LIFEITEMD01, stat_lifeitem3, FL_BONUS | FL_ACTIVE | FL_SHOOTABLE | FL_FULLLIGHT, 2, 8, 2, 0, 0},
-	{0, LIFEITEMC01, stat_lifeitem4, FL_BONUS | FL_ACTIVE | FL_SHOOTABLE | FL_FULLLIGHT, 2, 15, 2, 0, 0},
-	{24, SPR32_EXPLOS, stat_tntcrate, FL_SHOOTABLE | FL_BLOCK | FL_WOODEN, 0, 0, 3, 10, 0},
-	{12, SPR33_CBARREL, stat_bonusbarrel, FL_METALLIC | FL_SHOOTABLE | FL_BLOCK, 0, 0, 3, 10, 0},
-	{0, TORCH1, stat_torch, FL_BLOCK | FL_LIGHT | FL_ACTIVE | FL_HEAT | FL_SHOOTABLE, 2, 15, 2, 0, 0},
-	{30, FFLAME1, stat_floorfire, FL_HEAT | FL_BLOCK | FL_LIGHT | FL_ACTIVE | FL_SHOOTABLE, 2, 7, 30, 0, 0},
-	{0, DIP11, stat_dipball1, FL_BONUS | FL_FULLLIGHT, 0, 0, 0, 0, 0},
-	{0, DIP21, stat_dipball2, FL_BONUS | FL_FULLLIGHT, 0, 0, 0, 0, 0},
-	{0, DIP31, stat_dipball3, FL_BONUS | FL_FULLLIGHT, 0, 0, 0, 0, 0},
-	{0, SPR34_TOUCH1, stat_touch1, 0 | FL_TRANSLUCENT | FL_FADING, 0, 0, 0, 0, 0},
-	{0, SPR35_TOUCH2, stat_touch2, 0 | FL_TRANSLUCENT | FL_FADING, 0, 0, 0, 0, 0},
-	{0, SPR36_TOUCH3, stat_touch3, 0 | FL_TRANSLUCENT | FL_FADING, 0, 0, 0, 0, 0},
-	{0, SPR37_TOUCH4, stat_touch4, 0 | FL_TRANSLUCENT | FL_FADING, 0, 0, 0, 0, 0},
-	{20, SPR62_ETOUCH1, stat_dariantouch, FL_METALLIC | FL_BANDF | FL_SHOOTABLE | FL_BLOCK, 10, 3, 50, 0, 0},
-	{0, SCOTHEAD1, stat_scotthead, FL_BONUS | FL_ACTIVE | FL_FULLLIGHT, 4, 7, 0, 0, 0},
-	{0, SPR38_GARBAGE1, stat_garb1, 0, 0, 0, 0, 0, 0},
-	{0, SPR39_GARBAGE2, stat_garb2, 0, 0, 0, 0, 0, 0},
-	{0, SPR40_GARBAGE3, stat_garb3, 0, 0, 0, 0, 0, 0},
-	{0, SPR41_SHIT, stat_shit, 0, 0, 0, 0, 0, 0},
-	{0, SPR42_GRATE, stat_grate, 0, 0, 0, 0, 0, 0},
-	{0, SPR43_MSHARDS, stat_metalshards, 0, 0, 0, 0, 0, 0},
-	{20, SPR44_PEDESTAL, stat_emptypedestal, FL_BLOCK | FL_SHOOTABLE | FL_WOODEN, 0, 0, 60, 0, 0},
-	{20, SPR45_ETABLE, stat_emptytable, FL_BLOCK | FL_SHOOTABLE | FL_WOODEN, 0, 0, 100, 0, 0},
-	{16, SPR46_STOOL, stat_stool, FL_BLOCK | FL_SHOOTABLE | FL_WOODEN, 0, 0, 25, 0, 0},
-	{0, SPR_PUSHCOLUMN1, stat_bcolumn, FL_BLOCK | FL_HEIGHTFLIPPABLE, 0, 0, 0, 0, 0},
-	{0, SPR_PUSHCOLUMN1, stat_gcolumn, FL_BLOCK | FL_HEIGHTFLIPPABLE, 0, 0, 0, 0, 0},
-	{0, SPR_PUSHCOLUMN1, stat_icolumn, FL_BLOCK | FL_HEIGHTFLIPPABLE, 0, 0, 0, 0, 0},
-	{20, SPR50_TREE, stat_tree, FL_SHOOTABLE | FL_BLOCK, 0, 0, 0, 0, 0},
-	{20, SPR51_PLANT, stat_plant, FL_SHOOTABLE | FL_BLOCK, 0, 0, 0, 0, 0},
-	{20, BLUEVASE, stat_urn, FL_SHOOTABLE | FL_BLOCK, 0, 0, 0, 0, 0},
-	{0, SPR54_HAY, stat_haystack, FL_SHOOTABLE | FL_BLOCK, 0, 0, 20, 0, 0},
-	{12, SPR55_IBARREL, stat_ironbarrel, FL_METALLIC | FL_BLOCK | FL_SHOOTABLE, 0, 0, 50, 0, 0},
-	{0, HGRATE1, stat_heatgrate, FL_LIGHT | FL_ACTIVE, 2, 4, 0, 5, 0},
-	{-10, STNPOLE1, stat_standardpole, FL_SHOOTABLE | FL_BLOCK, 0, 0, 25, 0, 0},
-	{0, PREPIT, stat_pit, FL_CHANGES, 0, 0, 0, 0, 0},
-	{0, GODPOWERUP1, stat_godmode, FL_WEAPON | FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_FULLLIGHT, 2, 8, 0, 0, 0},
-	{0, DOGPOWERUP1, stat_dogmode, FL_WEAPON | FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_FULLLIGHT, 2, 8, 0, 0, 0},
-	{0, FLEETFEETPOWERUP1, stat_fleetfeet, FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_FULLLIGHT, 2, 8, 0, 0, 0},
-	{0, ELASTICPOWERUP1, stat_elastic, FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_FULLLIGHT, 2, 8, 0, 0, 0},
-	{0, MUSHROOMPOWERUP1, stat_mushroom, FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_FULLLIGHT, 2, 8, 0, 0, 0},
-	{0, GASMASKPOWERUP, stat_gasmask, FL_BONUS | FL_RESPAWN, 0, 0, 0, 0, 0},
-	{0, BULLETPROOFPOWERUP, stat_bulletproof, FL_BONUS | FL_RESPAWN, 0, 0, 0, 0, 0},
-	{0, ASBESTOSPOWERUP, stat_asbesto, FL_BONUS | FL_RESPAWN, 0, 0, 0, 0, 0},
-	{0, RANDOMPOWERUP1, stat_random, FL_BONUS | FL_ACTIVE | FL_RESPAWN, 2, 8, 0, 0, 0},
-	{0, RUBBLE1, stat_rubble, FL_ACTIVE, 2, 10, 0, 0, 0},
-	{0, WOODFRAG1, stat_woodfrag, FL_ACTIVE, 2, 14, 0, 0, 0},
-	{0, ROBOGRDDIE1, stat_metalfrag, FL_ACTIVE, 2, 10, 0, 0, 0},
-	{0, EMPTY_STATUE1, stat_emptystatue, FL_BLOCK | FL_SHOOTABLE, 0, 0, 50, 0, 0},
-	{16, TOMLARVA1, stat_tomlarva, FL_ACTIVE | FL_SHOOTABLE | FL_BLOCK, 2, 4, 150, 0, 0},
-	{0, BULLETHOLE, stat_bullethole, FL_TRANSLUCENT, 0, 0, 0, 0, 0},
+	{ 0, SPR0_YLIGHT, stat_ylight, FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0 },
+	{ 0, SPR1_RLIGHT, stat_rlight, FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0 },
+	{ 0, SPR2_GLIGHT, stat_glight, FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0 },
+	{ 0, SPR3_BLIGHT, stat_blight, FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0 },
+	{ 0, SPR4_CHAND, stat_chandelier, FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0 },
+	{ 0, SPR5_LAMPOFF, stat_lamp, FL_LIGHT | FL_BLOCK | FL_SHOOTABLE, 0, 0, 2,
+	  0, 0 },
+	{ 0, SPR73_GKEY1, stat_pedgoldkey,
+	  FL_COLORED | FL_BONUS | FL_CHANGES | FL_BLOCK | FL_ACTIVE, 2, 16,
+	  pc_orange, 0, 0 },
+	{ 0, SPR73_GKEY1, stat_pedsilverkey,
+	  FL_COLORED | FL_BONUS | FL_CHANGES | FL_BLOCK | FL_ACTIVE, 2, 16, pc_gray,
+	  0, 0 },
+	{ 0, SPR73_GKEY1, stat_pedironkey,
+	  FL_COLORED | FL_BONUS | FL_CHANGES | FL_BLOCK | FL_ACTIVE, 2, 16,
+	  pc_olive, 0, 0 },
+	{ 0, SPR73_GKEY1, stat_pedcrystalkey,
+	  FL_COLORED | FL_BONUS | FL_CHANGES | FL_BLOCK | FL_ACTIVE, 2, 16, pc_red,
+	  0, 0 },
+	{ 0, SPR6_GIBS1, stat_gibs1, 0, 0, 0, 0, 0, 0 },
+	{ 0, SPR7_GIBS2, stat_gibs2, 0, 0, 0, 0, 0, 0 },
+	{ 0, SPR8_GIBS3, stat_gibs3, 0, 0, 0, 0, 0, 0 },
+	{ 0, SPR9_MONKMEAL, stat_monkmeal, FL_BONUS | FL_RESPAWN, 0, 0, 0, 0, 0 },
+	{ 0, PORRIDGE1, stat_priestporridge, FL_BONUS | FL_RESPAWN, 2, 6, 0, 0, 0 },
+	{ 0, MONKCRYSTAL11, stat_monkcrystal1, FL_BONUS | FL_ACTIVE | FL_RESPAWN, 2,
+	  6, 0, 0, 0 },
+	{ 0, MONKCRYSTAL21, stat_monkcrystal2, FL_BONUS | FL_ACTIVE | FL_RESPAWN, 2,
+	  7, 0, 0, 0 },
+	{ 0, ONEUP01, stat_oneup, FL_BONUS | FL_ACTIVE | FL_FULLLIGHT, 2, 8, 0, 0,
+	  0 },
+	{ 0, THREEUP01, stat_threeup, FL_BONUS | FL_ACTIVE | FL_FULLLIGHT, 2, 8, 0,
+	  0, 0 },
+	{ 0, TORCH1, stat_altbrazier1,
+	  FL_HEAT | FL_BLOCK | FL_ACTIVE | FL_LIGHT | FL_SHOOTABLE, 2, 15, 2, 0,
+	  0 },
+	{ 0, SPR_ABRAZIER2, stat_altbrazier2,
+	  FL_HEAT | FL_BLOCK | FL_LIGHT | FL_SHOOTABLE, 0, 0, 2, 0, 0 },
+	{ 0, FBASIN1, stat_healingbasin,
+	  FL_BONUS | FL_CHANGES | FL_ACTIVE | FL_BLOCK, 2, 3, 0, 0, 0 },
+	{ 20, EBASIN, stat_emptybasin, FL_BLOCK | FL_SHOOTABLE, 0, 0, 0, 0, 0 },
+	{ 0, BAT1, stat_bat, FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_WEAPON, 1, 16,
+	  0, 0, 10 },
+	{ 0, KNIFE_STATUE1, stat_knifestatue, FL_BONUS | FL_CHANGES | FL_BLOCK, 0,
+	  0, 0, 0, 0 },
+	{ 0, SPR_TWOPIST, stat_twopistol, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0,
+	  0, 0, 5 },
+	{ 0, SPR_MP40, stat_mp40, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0,
+	  5 },
+	{ 0, SPR_BAZOOKA, stat_bazooka, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0,
+	  0, 10 },
+	{ 0, SPR_FIREBOMB, stat_firebomb, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0,
+	  0, 0, 5 },
+	{ 0, SPR_HEATSEEK, stat_heatseeker, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0,
+	  0, 0, 7 },
+	{ 0, SPR_DRUNK, stat_drunkmissile, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0,
+	  0, 0, 7 },
+	{ 0, SPR_FIREWALL, stat_firewall, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0,
+	  0, 0, 5 },
+	{ 0, SPR_SPLIT, stat_splitmissile, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0,
+	  0, 0, 7 },
+	{ 0, SPR_KES, stat_kes, FL_BONUS | FL_RESPAWN | FL_WEAPON, 0, 0, 0, 0, 7 },
+	{ 0, LIFEITEMA01, stat_lifeitem1,
+	  FL_BONUS | FL_ACTIVE | FL_SHOOTABLE | FL_FULLLIGHT, 2, 8, 2, 0, 0 },
+	{ 0, LIFEITEMB01, stat_lifeitem2,
+	  FL_BONUS | FL_ACTIVE | FL_SHOOTABLE | FL_FULLLIGHT, 2, 8, 2, 0, 0 },
+	{ 0, LIFEITEMD01, stat_lifeitem3,
+	  FL_BONUS | FL_ACTIVE | FL_SHOOTABLE | FL_FULLLIGHT, 2, 8, 2, 0, 0 },
+	{ 0, LIFEITEMC01, stat_lifeitem4,
+	  FL_BONUS | FL_ACTIVE | FL_SHOOTABLE | FL_FULLLIGHT, 2, 15, 2, 0, 0 },
+	{ 24, SPR32_EXPLOS, stat_tntcrate, FL_SHOOTABLE | FL_BLOCK | FL_WOODEN, 0,
+	  0, 3, 10, 0 },
+	{ 12, SPR33_CBARREL, stat_bonusbarrel,
+	  FL_METALLIC | FL_SHOOTABLE | FL_BLOCK, 0, 0, 3, 10, 0 },
+	{ 0, TORCH1, stat_torch,
+	  FL_BLOCK | FL_LIGHT | FL_ACTIVE | FL_HEAT | FL_SHOOTABLE, 2, 15, 2, 0,
+	  0 },
+	{ 30, FFLAME1, stat_floorfire,
+	  FL_HEAT | FL_BLOCK | FL_LIGHT | FL_ACTIVE | FL_SHOOTABLE, 2, 7, 30, 0,
+	  0 },
+	{ 0, DIP11, stat_dipball1, FL_BONUS | FL_FULLLIGHT, 0, 0, 0, 0, 0 },
+	{ 0, DIP21, stat_dipball2, FL_BONUS | FL_FULLLIGHT, 0, 0, 0, 0, 0 },
+	{ 0, DIP31, stat_dipball3, FL_BONUS | FL_FULLLIGHT, 0, 0, 0, 0, 0 },
+	{ 0, SPR34_TOUCH1, stat_touch1, 0 | FL_TRANSLUCENT | FL_FADING, 0, 0, 0, 0,
+	  0 },
+	{ 0, SPR35_TOUCH2, stat_touch2, 0 | FL_TRANSLUCENT | FL_FADING, 0, 0, 0, 0,
+	  0 },
+	{ 0, SPR36_TOUCH3, stat_touch3, 0 | FL_TRANSLUCENT | FL_FADING, 0, 0, 0, 0,
+	  0 },
+	{ 0, SPR37_TOUCH4, stat_touch4, 0 | FL_TRANSLUCENT | FL_FADING, 0, 0, 0, 0,
+	  0 },
+	{ 20, SPR62_ETOUCH1, stat_dariantouch,
+	  FL_METALLIC | FL_BANDF | FL_SHOOTABLE | FL_BLOCK, 10, 3, 50, 0, 0 },
+	{ 0, SCOTHEAD1, stat_scotthead, FL_BONUS | FL_ACTIVE | FL_FULLLIGHT, 4, 7,
+	  0, 0, 0 },
+	{ 0, SPR38_GARBAGE1, stat_garb1, 0, 0, 0, 0, 0, 0 },
+	{ 0, SPR39_GARBAGE2, stat_garb2, 0, 0, 0, 0, 0, 0 },
+	{ 0, SPR40_GARBAGE3, stat_garb3, 0, 0, 0, 0, 0, 0 },
+	{ 0, SPR41_SHIT, stat_shit, 0, 0, 0, 0, 0, 0 },
+	{ 0, SPR42_GRATE, stat_grate, 0, 0, 0, 0, 0, 0 },
+	{ 0, SPR43_MSHARDS, stat_metalshards, 0, 0, 0, 0, 0, 0 },
+	{ 20, SPR44_PEDESTAL, stat_emptypedestal,
+	  FL_BLOCK | FL_SHOOTABLE | FL_WOODEN, 0, 0, 60, 0, 0 },
+	{ 20, SPR45_ETABLE, stat_emptytable, FL_BLOCK | FL_SHOOTABLE | FL_WOODEN, 0,
+	  0, 100, 0, 0 },
+	{ 16, SPR46_STOOL, stat_stool, FL_BLOCK | FL_SHOOTABLE | FL_WOODEN, 0, 0,
+	  25, 0, 0 },
+	{ 0, SPR_PUSHCOLUMN1, stat_bcolumn, FL_BLOCK | FL_HEIGHTFLIPPABLE, 0, 0, 0,
+	  0, 0 },
+	{ 0, SPR_PUSHCOLUMN1, stat_gcolumn, FL_BLOCK | FL_HEIGHTFLIPPABLE, 0, 0, 0,
+	  0, 0 },
+	{ 0, SPR_PUSHCOLUMN1, stat_icolumn, FL_BLOCK | FL_HEIGHTFLIPPABLE, 0, 0, 0,
+	  0, 0 },
+	{ 20, SPR50_TREE, stat_tree, FL_SHOOTABLE | FL_BLOCK, 0, 0, 0, 0, 0 },
+	{ 20, SPR51_PLANT, stat_plant, FL_SHOOTABLE | FL_BLOCK, 0, 0, 0, 0, 0 },
+	{ 20, BLUEVASE, stat_urn, FL_SHOOTABLE | FL_BLOCK, 0, 0, 0, 0, 0 },
+	{ 0, SPR54_HAY, stat_haystack, FL_SHOOTABLE | FL_BLOCK, 0, 0, 20, 0, 0 },
+	{ 12, SPR55_IBARREL, stat_ironbarrel, FL_METALLIC | FL_BLOCK | FL_SHOOTABLE,
+	  0, 0, 50, 0, 0 },
+	{ 0, HGRATE1, stat_heatgrate, FL_LIGHT | FL_ACTIVE, 2, 4, 0, 5, 0 },
+	{ -10, STNPOLE1, stat_standardpole, FL_SHOOTABLE | FL_BLOCK, 0, 0, 25, 0,
+	  0 },
+	{ 0, PREPIT, stat_pit, FL_CHANGES, 0, 0, 0, 0, 0 },
+	{ 0, GODPOWERUP1, stat_godmode,
+	  FL_WEAPON | FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_FULLLIGHT, 2, 8, 0, 0,
+	  0 },
+	{ 0, DOGPOWERUP1, stat_dogmode,
+	  FL_WEAPON | FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_FULLLIGHT, 2, 8, 0, 0,
+	  0 },
+	{ 0, FLEETFEETPOWERUP1, stat_fleetfeet,
+	  FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_FULLLIGHT, 2, 8, 0, 0, 0 },
+	{ 0, ELASTICPOWERUP1, stat_elastic,
+	  FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_FULLLIGHT, 2, 8, 0, 0, 0 },
+	{ 0, MUSHROOMPOWERUP1, stat_mushroom,
+	  FL_BONUS | FL_ACTIVE | FL_RESPAWN | FL_FULLLIGHT, 2, 8, 0, 0, 0 },
+	{ 0, GASMASKPOWERUP, stat_gasmask, FL_BONUS | FL_RESPAWN, 0, 0, 0, 0, 0 },
+	{ 0, BULLETPROOFPOWERUP, stat_bulletproof, FL_BONUS | FL_RESPAWN, 0, 0, 0,
+	  0, 0 },
+	{ 0, ASBESTOSPOWERUP, stat_asbesto, FL_BONUS | FL_RESPAWN, 0, 0, 0, 0, 0 },
+	{ 0, RANDOMPOWERUP1, stat_random, FL_BONUS | FL_ACTIVE | FL_RESPAWN, 2, 8,
+	  0, 0, 0 },
+	{ 0, RUBBLE1, stat_rubble, FL_ACTIVE, 2, 10, 0, 0, 0 },
+	{ 0, WOODFRAG1, stat_woodfrag, FL_ACTIVE, 2, 14, 0, 0, 0 },
+	{ 0, ROBOGRDDIE1, stat_metalfrag, FL_ACTIVE, 2, 10, 0, 0, 0 },
+	{ 0, EMPTY_STATUE1, stat_emptystatue, FL_BLOCK | FL_SHOOTABLE, 0, 0, 50, 0,
+	  0 },
+	{ 16, TOMLARVA1, stat_tomlarva, FL_ACTIVE | FL_SHOOTABLE | FL_BLOCK, 2, 4,
+	  150, 0, 0 },
+	{ 0, BULLETHOLE, stat_bullethole, FL_TRANSLUCENT, 0, 0, 0, 0, 0 },
 // MED
 #if (SHAREWARE == 1)
-	{0, COLLECTOR1, stat_collector, FL_ACTIVE | FL_BONUS, 2, 8, -1, 0, 0},
+	{ 0, COLLECTOR1, stat_collector, FL_ACTIVE | FL_BONUS, 2, 8, -1, 0, 0 },
 #else
-	{0, DOPE1, stat_collector, FL_ACTIVE | FL_BONUS, 2, 8, -1, 0, 0},
+	{ 0, DOPE1, stat_collector, FL_ACTIVE | FL_BONUS, 2, 8, -1, 0, 0 },
 #endif
-	{0, SPR_MINE1, stat_mine, FL_BONUS | FL_SHOOTABLE | FL_RESPAWN, 0, 0, 10, 0, 0},
-	{0, MISSMOKE1, stat_missmoke, FL_ACTIVE, 6, 4, 0, 0, 0},
-	{0, PLATFORM1, stat_disk, FL_BLOCK | FL_HEIGHTFLIPPABLE, 0, 0, 0, 0, 0},
-	{-1, 0, 0, 0, 0, 0, 0, 0, 0}};
+	{ 0, SPR_MINE1, stat_mine, FL_BONUS | FL_SHOOTABLE | FL_RESPAWN, 0, 0, 10,
+	  0, 0 },
+	{ 0, MISSMOKE1, stat_missmoke, FL_ACTIVE, 6, 4, 0, 0, 0 },
+	{ 0, PLATFORM1, stat_disk, FL_BLOCK | FL_HEIGHTFLIPPABLE, 0, 0, 0, 0, 0 },
+	{ -1, 0, 0, 0, 0, 0, 0, 0, 0 }
+};
 
 dirtype diagonal[9][9] = {
-	/* east */ {nodir, nodir, northeast, nodir, nodir, nodir, southeast, nodir, nodir},
-	{nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir},
-	/* north */ {northeast, nodir, nodir, nodir, northwest, nodir, nodir, nodir, nodir},
-	{nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir},
-	/* west */ {nodir, nodir, northwest, nodir, nodir, nodir, southwest, nodir, nodir},
-	{nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir},
-	/* south */ {southeast, nodir, nodir, nodir, southwest, nodir, nodir, nodir, nodir},
-	{nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir},
-	{nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir}};
+	/* east */ { nodir, nodir, northeast, nodir, nodir, nodir, southeast, nodir,
+				 nodir },
+	{ nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir },
+	/* north */
+	{ northeast, nodir, nodir, nodir, northwest, nodir, nodir, nodir, nodir },
+	{ nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir },
+	/* west */
+	{ nodir, nodir, northwest, nodir, nodir, nodir, southwest, nodir, nodir },
+	{ nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir },
+	/* south */
+	{ southeast, nodir, nodir, nodir, southwest, nodir, nodir, nodir, nodir },
+	{ nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir },
+	{ nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir, nodir }
+};
 
 /*
 =============================================================================
@@ -179,23 +246,25 @@ Local Variables GLOBAL VARIABLES
 
 =============================================================================
 */
-static awallinfo_t animwallsinfo[MAXANIMWALLS] = {{3, 4, "FPLACE1\0"},	 // lava wall
-												  {3, 6, "ANIMY1\0"},	 // anim red
-												  {3, 6, "ANIMR1\0"},	 // anim yellow
-												  {40, 4, "ANIMFAC1\0"}, // anim face
-												  {3, 4, "ANIMONE1\0"},	 // anim one
-												  {3, 4, "ANIMTWO1\0"},	 // anim two
-												  {3, 4, "ANIMTHR1\0"},	 // anim three
-												  {3, 4, "ANIMFOR1\0"},	 // anim four
-												  {3, 6, "ANIMGW1\0"},	 // anim grey water
-												  {3, 6, "ANIMYOU1\0"},	 // anim you do not belong
-												  {3, 6, "ANIMBW1\0"},	 // anim brown water
-												  {3, 6, "ANIMBP1\0"},	 // anim brown piston
-												  {3, 6, "ANIMCHN1\0"},	 // anim chain
-												  {3, 6, "ANIMFW1\0"},	 // anim firewall
-												  {3, 6, "ANIMLAT1\0"},	 // anim little blips
-												  {3, 6, "ANIMST1\0"},	 // anim light streams left
-												  {3, 6, "ANIMRP1\0"}};	 // anim light streams right
+static awallinfo_t animwallsinfo[MAXANIMWALLS] = {
+	{ 3, 4, "FPLACE1\0" },	 // lava wall
+	{ 3, 6, "ANIMY1\0" },	 // anim red
+	{ 3, 6, "ANIMR1\0" },	 // anim yellow
+	{ 40, 4, "ANIMFAC1\0" }, // anim face
+	{ 3, 4, "ANIMONE1\0" },	 // anim one
+	{ 3, 4, "ANIMTWO1\0" },	 // anim two
+	{ 3, 4, "ANIMTHR1\0" },	 // anim three
+	{ 3, 4, "ANIMFOR1\0" },	 // anim four
+	{ 3, 6, "ANIMGW1\0" },	 // anim grey water
+	{ 3, 6, "ANIMYOU1\0" },	 // anim you do not belong
+	{ 3, 6, "ANIMBW1\0" },	 // anim brown water
+	{ 3, 6, "ANIMBP1\0" },	 // anim brown piston
+	{ 3, 6, "ANIMCHN1\0" },	 // anim chain
+	{ 3, 6, "ANIMFW1\0" },	 // anim firewall
+	{ 3, 6, "ANIMLAT1\0" },	 // anim little blips
+	{ 3, 6, "ANIMST1\0" },	 // anim light streams left
+	{ 3, 6, "ANIMRP1\0" }
+}; // anim light streams right
 
 int statcount;
 
@@ -315,7 +384,8 @@ void RemoveStatic(statobj_t *stat)
 		MISCVARS->NUMWEAPONS--;
 
 	if ((stat->flags & FL_RESPAWN) && gamestate.BattleOptions.RespawnItems &&
-		(!((stat->flags & FL_WEAPON) && (gamestate.BattleOptions.WeaponPersistence))))
+		(!((stat->flags & FL_WEAPON) &&
+		   (gamestate.BattleOptions.WeaponPersistence))))
 	{
 		respawn_t *temp;
 		//    if ( !( (stat->flags & FL_WEAPON) &&
@@ -323,7 +393,8 @@ void RemoveStatic(statobj_t *stat)
 		//      )
 		// )
 		{
-			temp = (respawn_t *)Z_LevelMalloc(sizeof(respawn_t), PU_LEVELSTRUCT, NULL);
+			temp = (respawn_t *)Z_LevelMalloc(sizeof(respawn_t), PU_LEVELSTRUCT,
+											  NULL);
 
 			memset(temp, 0, sizeof(*temp));
 			temp->ticcount = GetRespawnTimeForItem(stat->itemnumber);
@@ -332,7 +403,8 @@ void RemoveStatic(statobj_t *stat)
 			temp->itemnumber = stat->itemnumber;
 			temp->spawnz = stat->z;
 			temp->linked_to = stat->linked_to;
-			// SoftError("\nrespawn obj created for stattype %d with z = %d",stat->itemnumber,temp->spawnz);
+			// SoftError("\nrespawn obj created for stattype %d with z =
+			// %d",stat->itemnumber,temp->spawnz);
 			AddRespawnStatic(temp);
 		}
 	}
@@ -585,7 +657,8 @@ void SetupAnimatedWall(int which)
 	aw->basetexture = texture;
 	aw->texture = texture;
 
-	for (i = aw->basetexture; i < aw->basetexture + animwallsinfo[which].numanims; i++)
+	for (i = aw->basetexture;
+		 i < aw->basetexture + animwallsinfo[which].numanims; i++)
 		PreCacheLump(i, PU_CACHEWALLS, cache_pic_t);
 }
 
@@ -687,8 +760,9 @@ void DoLights(int tilex, int tiley)
 
 boolean TurnOffLight0(int tilex, int tiley)
 {
-	if (IsLight(tilex - 1, tiley) || IsLight(tilex - 1, tiley - 1) || IsLight(tilex, tiley - 1) ||
-		IsLight(tilex + 1, tiley - 1) || IsLight(tilex + 1, tiley) || IsLight(tilex + 1, tiley + 1) ||
+	if (IsLight(tilex - 1, tiley) || IsLight(tilex - 1, tiley - 1) ||
+		IsLight(tilex, tiley - 1) || IsLight(tilex + 1, tiley - 1) ||
+		IsLight(tilex + 1, tiley) || IsLight(tilex + 1, tiley + 1) ||
 		IsLight(tilex, tiley + 1) || IsLight(tilex - 1, tiley + 1))
 		return (false);
 	else
@@ -708,8 +782,10 @@ boolean TurnOffLight1(int tilex, int tiley, int i, int j)
 	int tempi = 2 * i;
 	int tempy = 2 * j;
 
-	if (IsLight(tilex + i, tiley) || IsLight(tilex + i, tiley + j) || IsLight(tilex, tiley + j) ||
-		IsLight(tilex, tiley + tempy) || IsLight(tilex + i, tiley + tempy) || IsLight(tilex + tempi, tiley + tempy) ||
+	if (IsLight(tilex + i, tiley) || IsLight(tilex + i, tiley + j) ||
+		IsLight(tilex, tiley + j) || IsLight(tilex, tiley + tempy) ||
+		IsLight(tilex + i, tiley + tempy) ||
+		IsLight(tilex + tempi, tiley + tempy) ||
 		IsLight(tilex + tempi, tiley + j) || IsLight(tilex + tempi, tiley))
 		return (false);
 	else
@@ -728,8 +804,9 @@ boolean TurnOffLight2(int tilex, int tiley, int j)
 {
 	int tempy = 2 * j;
 
-	if (IsLight(tilex - 1, tiley) || IsLight(tilex - 1, tiley + j) || IsLight(tilex - 1, tiley + tempy) ||
-		IsLight(tilex, tiley + j) || IsLight(tilex, tiley + tempy) || IsLight(tilex + 1, tiley) ||
+	if (IsLight(tilex - 1, tiley) || IsLight(tilex - 1, tiley + j) ||
+		IsLight(tilex - 1, tiley + tempy) || IsLight(tilex, tiley + j) ||
+		IsLight(tilex, tiley + tempy) || IsLight(tilex + 1, tiley) ||
 		IsLight(tilex + 1, tiley + j) || IsLight(tilex + 1, tiley + tempy))
 		return (false);
 	else
@@ -748,8 +825,9 @@ boolean TurnOffLight3(int tilex, int tiley, int i)
 {
 	int tempx = 2 * i;
 
-	if (IsLight(tilex, tiley - 1) || IsLight(tilex + 1, tiley - 1) || IsLight(tilex + tempx, tiley - 1) ||
-		IsLight(tilex + i, tiley) || IsLight(tilex + tempx, tiley) || IsLight(tilex, tiley + 1) ||
+	if (IsLight(tilex, tiley - 1) || IsLight(tilex + 1, tiley - 1) ||
+		IsLight(tilex + tempx, tiley - 1) || IsLight(tilex + i, tiley) ||
+		IsLight(tilex + tempx, tiley) || IsLight(tilex, tiley + 1) ||
 		IsLight(tilex + i, tiley + 1) || IsLight(tilex + tempx, tiley + 1))
 		return (false);
 	else
@@ -769,17 +847,22 @@ void PreCacheStaticFrames(statobj_t *temp)
 	int z, start, stop;
 	int female = 0, black = 0;
 
-	if (temp->itemnumber != stat_bullethole && ((temp->itemnumber < stat_touch1) || (temp->itemnumber > stat_touch4)))
-		PreCacheLump(temp->shapenum + shapestart, PU_CACHESPRITES, cache_patch_t);
+	if (temp->itemnumber != stat_bullethole &&
+		((temp->itemnumber < stat_touch1) || (temp->itemnumber > stat_touch4)))
+		PreCacheLump(temp->shapenum + shapestart, PU_CACHESPRITES,
+					 cache_patch_t);
 	else
-		PreCacheLump(temp->shapenum + shapestart, PU_CACHESPRITES, cache_transpatch_t);
+		PreCacheLump(temp->shapenum + shapestart, PU_CACHESPRITES,
+					 cache_transpatch_t);
 	for (z = 0; z < temp->numanims; z++)
-		PreCacheLump(temp->shapenum + shapestart + z, PU_CACHESPRITES, cache_patch_t);
+		PreCacheLump(temp->shapenum + shapestart + z, PU_CACHESPRITES,
+					 cache_patch_t);
 
 	if (temp->flags & FL_ROTATING)
 	{
 		for (z = 1; z < 8; z++)
-			PreCacheLump(temp->shapenum + shapestart + z, PU_CACHESPRITES, cache_patch_t);
+			PreCacheLump(temp->shapenum + shapestart + z, PU_CACHESPRITES,
+						 cache_patch_t);
 	}
 
 	if (temp->flags & FL_WOODEN)
@@ -791,7 +874,8 @@ void PreCacheStaticFrames(statobj_t *temp)
 
 	if (temp->flags & FL_METALLIC)
 	{
-		PreCacheLump(W_GetNumForName("MSHARDS"), PU_CACHESPRITES, cache_patch_t);
+		PreCacheLump(W_GetNumForName("MSHARDS"), PU_CACHESPRITES,
+					 cache_patch_t);
 		start = W_GetNumForName("ROBODIE1");
 		stop = W_GetNumForName("ROBODEAD");
 		PreCacheGroup(start, stop, cache_patch_t);
@@ -825,7 +909,8 @@ void PreCacheStaticFrames(statobj_t *temp)
 		case stat_pedsilverkey:
 		case stat_pedironkey:
 		case stat_pedcrystalkey:
-			PreCacheLump(W_GetNumForName("PEDESTA"), PU_CACHESPRITES, cache_patch_t);
+			PreCacheLump(W_GetNumForName("PEDESTA"), PU_CACHESPRITES,
+						 cache_patch_t);
 			break;
 
 		case stat_bat:
@@ -901,9 +986,11 @@ void PreCacheStaticFrames(statobj_t *temp)
 			stop = W_GetNumForName("GODHAND8");
 			PreCacheGroup(start, stop, cache_patch_t);
 
-			PreCacheGroup(W_GetNumForName("VAPO1"), W_GetNumForName("LITSOUL"), cache_patch_t);
+			PreCacheGroup(W_GetNumForName("VAPO1"), W_GetNumForName("LITSOUL"),
+						  cache_patch_t);
 
-			PreCacheGroup(W_GetNumForName("GODFIRE1"), W_GetNumForName("GODFIRE4"), cache_patch_t);
+			PreCacheGroup(W_GetNumForName("GODFIRE1"),
+						  W_GetNumForName("GODFIRE4"), cache_patch_t);
 
 			break;
 		case stat_dogmode:
@@ -926,7 +1013,7 @@ void PreCacheStaticFrames(statobj_t *temp)
 
 void LoadStatics(byte *buffer, int size)
 {
-	saved_stat_type dummy = {0};
+	saved_stat_type dummy = { 0 };
 	int stcount, i;
 	statobj_t *temp;
 
@@ -935,9 +1022,11 @@ void LoadStatics(byte *buffer, int size)
 
 	for (i = 0; i < stcount; i++)
 	{
-		temp = (statobj_t *)Z_LevelMalloc(sizeof(statobj_t), PU_LEVELSTRUCT, NULL);
+		temp =
+			(statobj_t *)Z_LevelMalloc(sizeof(statobj_t), PU_LEVELSTRUCT, NULL);
 		if (!temp)
-			Error("LoadStatics: Failed on allocation of static %d of %d", i, stcount);
+			Error("LoadStatics: Failed on allocation of static %d of %d", i,
+				  stcount);
 		memset(temp, 0, sizeof(*temp));
 		memcpy(&(dummy.x), buffer, sizeof(saved_stat_type));
 		temp->whichstat = statcount++;
@@ -961,7 +1050,8 @@ void LoadStatics(byte *buffer, int size)
 		temp->flags &= ~FL_ABP;
 		temp->visspot = &spotvis[temp->tilex][temp->tiley];
 
-		if ((temp->itemnumber >= stat_touch1) && (temp->itemnumber <= stat_touch4))
+		if ((temp->itemnumber >= stat_touch1) &&
+			(temp->itemnumber <= stat_touch4))
 		{
 			touchindices[temp->tilex][temp->tiley] = lasttouch + 1;
 			lasttouch++;
@@ -995,7 +1085,8 @@ void LoadStatics(byte *buffer, int size)
 	}
 }
 
-void Set_NewZ_to_MapValue(fixed *newz, int zoffset, const char *errorstr, int tilex, int tiley)
+void Set_NewZ_to_MapValue(fixed *newz, int zoffset, const char *errorstr,
+						  int tilex, int tiley)
 {
 	int zf, z;
 
@@ -1007,7 +1098,8 @@ void Set_NewZ_to_MapValue(fixed *newz, int zoffset, const char *errorstr, int ti
 	else
 	{
 		if (z > levelheight)
-			Error("You specified a height of %x for the %s at tilex=%d tiley=%d when\n the level is only %d high\n",
+			Error("You specified a height of %x for the %s at tilex=%d "
+				  "tiley=%d when\n the level is only %d high\n",
 				  zoffset, errorstr, tilex, tiley, levelheight);
 		else
 			*newz = nominalheight - (z << 6) - (zf << 2);
@@ -1088,8 +1180,11 @@ void SpawnStatic(int tilex, int tiley, int mtype, int zoffset)
 			case stat_monkcrystal1:
 			case stat_monkcrystal2:
 			case stat_healingbasin:
-				if ((gamestate.Product != ROTT_SHAREWARE) && (gamestate.BattleOptions.SpawnMines) &&
-					(!IsPlatform(tilex, tiley) && ((zoffset & 0xff00) != 0xb000)) && (zoffset == -1))
+				if ((gamestate.Product != ROTT_SHAREWARE) &&
+					(gamestate.BattleOptions.SpawnMines) &&
+					(!IsPlatform(tilex, tiley) &&
+					 ((zoffset & 0xff00) != 0xb000)) &&
+					(zoffset == -1))
 				{
 					mtype = stat_mine;
 				}
@@ -1103,7 +1198,8 @@ void SpawnStatic(int tilex, int tiley, int mtype, int zoffset)
 
 	if (!firstemptystat)
 	{
-		temp = (statobj_t *)Z_LevelMalloc(sizeof(statobj_t), PU_LEVELSTRUCT, NULL);
+		temp =
+			(statobj_t *)Z_LevelMalloc(sizeof(statobj_t), PU_LEVELSTRUCT, NULL);
 		// SoftError("\nMalloc-ing actor");
 		// if (insetupgame)
 		//	SoftError("in setup");
@@ -1133,7 +1229,8 @@ void SpawnStatic(int tilex, int tiley, int mtype, int zoffset)
 		temp->areanumber = MAPSPOT(tilex, tiley, 0) - AREATILE;
 		temp->linked_to = -1;
 		if ((temp->areanumber <= 0) || (temp->areanumber > NUMAREAS))
-			Error("Sprite at x=%d y=%d type=%d has an illegal areanumber\n", tilex, tiley, mtype);
+			Error("Sprite at x=%d y=%d type=%d has an illegal areanumber\n",
+				  tilex, tiley, mtype);
 		if (mtype == stat_mine)
 		{
 			temp->z = nominalheight;
@@ -1141,7 +1238,8 @@ void SpawnStatic(int tilex, int tiley, int mtype, int zoffset)
 		else if (zoffset != -1)
 		{
 			if ((zoffset & 0xff00) == 0xb000)
-				Set_NewZ_to_MapValue(&(temp->z), zoffset, "static", tilex, tiley);
+				Set_NewZ_to_MapValue(&(temp->z), zoffset, "static", tilex,
+									 tiley);
 			else if (IsPlatform(tilex, tiley))
 				temp->z = PlatformHeight(tilex, tiley);
 			else if (zoffset == 11)
@@ -1150,7 +1248,8 @@ void SpawnStatic(int tilex, int tiley, int mtype, int zoffset)
 				temp->z = -66;
 			else
 				temp->z = nominalheight;
-			// Error ("You didn't specify a valid height over the sprite at tilex=%ld tiley=%ld\n",tilex,tiley);
+			// Error ("You didn't specify a valid height over the sprite at
+			// tilex=%ld tiley=%ld\n",tilex,tiley);
 		}
 		else if (mtype > stat_chandelier)
 			temp->z = nominalheight;
@@ -1178,13 +1277,16 @@ void SpawnStatic(int tilex, int tiley, int mtype, int zoffset)
 
 		AddStatic(temp);
 
-		onetimer = ((mtype == stat_rubble) || (mtype == stat_woodfrag) || (mtype == stat_metalfrag) ||
-					(mtype == stat_missmoke));
+		onetimer = ((mtype == stat_rubble) || (mtype == stat_woodfrag) ||
+					(mtype == stat_metalfrag) || (mtype == stat_missmoke));
 
 		if (temp->numanims)
 		{
 			if (!onetimer)
-				temp->count = (int)(((int)GameRandomNumber("SpawnStatic", mtype) % stats[mtype].numanims) + 1);
+				temp->count =
+					(int)(((int)GameRandomNumber("SpawnStatic", mtype) %
+						   stats[mtype].numanims) +
+						  1);
 			else
 				temp->count = 0;
 		}
@@ -1196,7 +1298,8 @@ void SpawnStatic(int tilex, int tiley, int mtype, int zoffset)
 				temp->count = 0;
 		}
 
-		if ((temp->itemnumber == stat_knifestatue) || (temp->itemnumber == stat_emptystatue) ||
+		if ((temp->itemnumber == stat_knifestatue) ||
+			(temp->itemnumber == stat_emptystatue) ||
 			(temp->itemnumber == stat_standardpole))
 			temp->flags |= FL_ROTATING;
 
@@ -1205,7 +1308,8 @@ void SpawnStatic(int tilex, int tiley, int mtype, int zoffset)
 		else
 			temp->flags |= FL_NONMARK;
 
-		//================ check special junk ==================================//
+		//================ check special junk
+		//==================================//
 
 		if (temp->itemnumber == stat_dariantouch)
 		{
@@ -1218,7 +1322,8 @@ void SpawnStatic(int tilex, int tiley, int mtype, int zoffset)
 			sprites[tilex][tiley]->linked_to = MISCVARS->nexttouch;
 			MISCVARS->nexttouch++;
 		}
-		else if ((temp->itemnumber >= stat_touch1) && (temp->itemnumber <= stat_touch4))
+		else if ((temp->itemnumber >= stat_touch1) &&
+				 (temp->itemnumber <= stat_touch4))
 		{
 			touchindices[tilex][tiley] = lasttouch + 1;
 			SD_PreCacheSoundGroup(SD_TOUCHPLATESND, SD_BADTOUCHSND);
@@ -1256,7 +1361,8 @@ void SpawnInertStatic(int x, int y, int z, int mtype)
 
 	if (!firstemptystat)
 	{
-		temp = (statobj_t *)Z_LevelMalloc(sizeof(statobj_t), PU_LEVELSTRUCT, NULL);
+		temp =
+			(statobj_t *)Z_LevelMalloc(sizeof(statobj_t), PU_LEVELSTRUCT, NULL);
 		// SoftError("\nMalloc-ing actor");
 		// if (insetupgame)
 		//	SoftError("in setup");
@@ -1325,7 +1431,8 @@ void SpawnSolidStatic(statobj_t *temp)
 		temp->flags &= ~FL_ACTIVE;
 	temp->hitpoints = INITIALFIRECOLOR;
 	temp->flags = FL_SOLIDCOLOR | FL_SEEN | FL_ABP;
-	if ((gamestate.BattleOptions.RespawnItems) && (temp->itemnumber == stat_tntcrate))
+	if ((gamestate.BattleOptions.RespawnItems) &&
+		(temp->itemnumber == stat_tntcrate))
 		temp->flags |= FL_RESPAWN;
 
 	temp->ticcount = SOLIDCOLORTICTIME;
@@ -1618,16 +1725,16 @@ void AnimateWalls(void)
 	}
 }
 
-#define M_ResetSprites(x)                                                                                              \
-	{                                                                                                                  \
-		if ((index == stat_dariantouch) && (!x->count))                                                                \
-		{                                                                                                              \
-			x->shapenum = stats[index].picnum;                                                                         \
-			x->count = 1;                                                                                              \
-			x->ticcount = stats[index].tictime;                                                                        \
-			x->flags &= ~FL_BACKWARDS;                                                                                 \
-			x->flags &= ~FL_ACTIVE;                                                                                    \
-		}                                                                                                              \
+#define M_ResetSprites(x) \
+	{ \
+		if ((index == stat_dariantouch) && (!x->count)) \
+		{ \
+			x->shapenum = stats[index].picnum; \
+			x->count = 1; \
+			x->ticcount = stats[index].tictime; \
+			x->flags &= ~FL_BACKWARDS; \
+			x->flags &= ~FL_ACTIVE; \
+		} \
 	}
 
 void CheckCriticalStatics(void)

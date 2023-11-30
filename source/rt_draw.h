@@ -97,7 +97,8 @@ extern int firstcoloffset;
 //=========================== macros =============================
 
 #define LightSourceAt(x, y) (*(lights + ((x) << 7) + (y)))
-#define SetLight(x, y, level) (LightSourceAt((x), (y)) |= (unsigned long)(level))
+#define SetLight(x, y, level) \
+	(LightSourceAt((x), (y)) |= (unsigned long)(level))
 
 //=========================== functions =============================
 
@@ -109,7 +110,8 @@ void TurnShakeOff(void);
 void AdaptDetail(void);
 int CalcHeight(void);
 void DoLoadGameSequence(void);
-void RotateBuffer(int startangle, int endangle, int startscale, int endscale, int time);
+void RotateBuffer(int startangle, int endangle, int startscale, int endscale,
+				  int time);
 void ApogeeTitle(void);
 void DopefishTitle(void);
 void RotationFun(void);

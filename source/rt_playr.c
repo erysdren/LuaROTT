@@ -79,14 +79,16 @@ specials CurrentSpecialsTimes = {
 
 int GRAVITY = NORMAL_GRAVITY;
 
-ROTTCHARS characters[5] = {{0x2100, 0x4800, 100, 2, 25},  // Taradino Cassatt
-						   {0x2200, 0x5200, 85, 3, 32},	  // Thi Barrett
-						   {0x1f00, 0x4000, 150, 3, 20},  // Doug Wendt
-						   {0x2300, 0x5500, 70, 2, 33},	  // Lorelei Ni
-						   {0x2000, 0x4400, 120, 3, 25}}; // Ian Paul Freeley
+ROTTCHARS characters[5] = { { 0x2100, 0x4800, 100, 2, 25 }, // Taradino Cassatt
+							{ 0x2200, 0x5200, 85, 3, 32 },	// Thi Barrett
+							{ 0x1f00, 0x4000, 150, 3, 20 }, // Doug Wendt
+							{ 0x2300, 0x5500, 70, 2, 33 },	// Lorelei Ni
+							{ 0x2000, 0x4400, 120, 3,
+							  25 } }; // Ian Paul Freeley
 
 static const int TD = MINACTORDIST + 0x1000;
-static const int STRAFEAMOUNT = ((KEYBOARDNORMALTURNAMOUNT >> 10) + (KEYBOARDNORMALTURNAMOUNT >> 12));
+static const int STRAFEAMOUNT =
+	((KEYBOARDNORMALTURNAMOUNT >> 10) + (KEYBOARDNORMALTURNAMOUNT >> 12));
 
 static const int GODYZANGLE = -(9 * FINEANGLES / 360);
 static const int DOGYZANGLE = (4 * FINEANGLES / 360);
@@ -154,99 +156,181 @@ boolean RefreshPause = true;
 
 boolean buttonpoll[NUMBUTTONS];
 
-int buttonscan[NUMBUTTONS] = {sc_Control,	 sc_Alt,	   sc_RShift,	 sc_Space,	sc_PgUp,	  sc_PgDn, sc_Enter,
-							  sc_Delete,	 sc_Home,	   sc_End,		 sc_1,		sc_2,		  sc_3,	   sc_4,
-							  sc_CapsLock,	 sc_F12,	   sc_Comma,	 sc_Period, sc_BackSpace, sc_A,	   sc_UpArrow,
-							  sc_RightArrow, sc_DownArrow, sc_LeftArrow, sc_Tab,	sc_T,		  sc_Z};
+int buttonscan[NUMBUTTONS] = {
+	sc_Control, sc_Alt,		   sc_RShift,	 sc_Space,	   sc_PgUp,
+	sc_PgDn,	sc_Enter,	   sc_Delete,	 sc_Home,	   sc_End,
+	sc_1,		sc_2,		   sc_3,		 sc_4,		   sc_CapsLock,
+	sc_F12,		sc_Comma,	   sc_Period,	 sc_BackSpace, sc_A,
+	sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow, sc_Tab,
+	sc_T,		sc_Z
+};
 
 int joyxmax = 0, joyymax = 0, joyxmin = 0, joyymin = 0;
 
-int buttonmouse[6] = {bt_attack, bt_strafe, di_north, bt_nobutton, bt_use, bt_nobutton};
+int buttonmouse[6] = { bt_attack,	bt_strafe, di_north,
+					   bt_nobutton, bt_use,	   bt_nobutton };
 
-int buttonjoy[8] = {bt_attack, bt_strafe, bt_run, bt_use, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton};
+int buttonjoy[8] = { bt_attack,	  bt_strafe,   bt_run,		bt_use,
+					 bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton };
 
-williamdidthis FREE = {84,
-					   5,
-					   0,
-					   0,
-					   9,
-					   {{done, 2, 1},
-						{done, 2, 2},
-						{done, 2, 3},
-						{done, 2, 4},
-						{done, 2, 5},
-						{done, 2, 6},
-						{done, 2, 7},
-						{done, 2, 8},
-						{reset, 2, 9}}};
+williamdidthis FREE = { 84,
+						5,
+						0,
+						0,
+						9,
+						{ { done, 2, 1 },
+						  { done, 2, 2 },
+						  { done, 2, 3 },
+						  { done, 2, 4 },
+						  { done, 2, 5 },
+						  { done, 2, 6 },
+						  { done, 2, 7 },
+						  { done, 2, 8 },
+						  { reset, 2, 9 } } };
 
-williamdidthis DOGSCRATCH = {128, 5, 0, 0, 4, {{done, 2, 8}, {at_pulltrigger, 2, 9}, {done, 2, 10}, {reset, 2, 11}}};
+williamdidthis DOGSCRATCH = { 128,
+							  5,
+							  0,
+							  0,
+							  4,
+							  { { done, 2, 8 },
+								{ at_pulltrigger, 2, 9 },
+								{ done, 2, 10 },
+								{ reset, 2, 11 } } };
 
-williamdidthis DOGLICK = {128, 5, 0, 0, 4, {{done, 2, 4}, {done, 2, 5}, {done, 2, 6}, {reset, 2, 7}}};
+williamdidthis DOGLICK = {
+	128, 5, 0,
+	0,	 4, { { done, 2, 4 }, { done, 2, 5 }, { done, 2, 6 }, { reset, 2, 7 } }
+};
 
 williamdidthis WEAPONS[MAXWEAPONS] =
 
-	{{100, -1, 10, 0x2000l, 3, {{at_pulltrigger, 4, 1}, {done, 4, 2}, {reset, 4, 0}}}, // single pistol
-	 {100,
-	  -1,
-	  10,
-	  0x2000l,
-	  6,
-	  {{at_pulltrigger, 2, 1},
-	   {done, 2, 2},
-	   {done, 2, 3},
-	   {at_pulltrigger, 2, 4},
-	   {done, 2, 5},
-	   {reset, 2, 3}}},																					// double pistol
-	 {70, -1, 10, 0x2000l, 2, {{at_pulltrigger, 2, 1}, {reset, 1, 2}}},									// mp 40
-	 {80, 5, 10, 0x50000l, 4, {{at_missileweapon, 2, 1}, {done, 2, 2}, {reset, 2, 3}, {reset2, 6, 0}}}, // bazooka
-	 {80, 5, 10, 0x10000l, 4, {{at_missileweapon, 2, 1}, {done, 2, 2}, {reset, 2, 3}, {reset2, 6, 0}}}, // firebomb
-	 {80, 5, 10, 0x50000l, 4, {{at_missileweapon, 2, 1}, {done, 2, 2}, {reset, 2, 3}, {reset2, 6, 0}}}, // heatseeker
-	 {80, 5, 10, 0x10000l, 4, {{at_missileweapon, 2, 1}, {done, 2, 2}, {reset, 2, 3}, {reset2, 6, 0}}}, // drunk
-	 {80, 5, 7, 0x10000l, 4, {{at_missileweapon, 2, 1}, {done, 2, 2}, {reset, 2, 2}, {reset2, 6, 0}}},	// firewall
-	 {125,
-	  5,
-	  7,
-	  0x10000l,
-	  7,
-	  {{done, 3, 1},
-	   {done, 3, 2},
-	   {done, 3, 3},
-	   {done, 3, 4},
-	   {at_missileweapon, 3, 5},
-	   {done, 3, 6},
-	   {reset, 3, 7}}}, // GODHAND
+	{ { 100,
+		-1,
+		10,
+		0x2000l,
+		3,
+		{ { at_pulltrigger, 4, 1 },
+		  { done, 4, 2 },
+		  { reset, 4, 0 } } }, // single pistol
+	  { 100,
+		-1,
+		10,
+		0x2000l,
+		6,
+		{ { at_pulltrigger, 2, 1 },
+		  { done, 2, 2 },
+		  { done, 2, 3 },
+		  { at_pulltrigger, 2, 4 },
+		  { done, 2, 5 },
+		  { reset, 2, 3 } } }, // double pistol
+	  { 70,
+		-1,
+		10,
+		0x2000l,
+		2,
+		{ { at_pulltrigger, 2, 1 }, { reset, 1, 2 } } }, // mp 40
+	  { 80,
+		5,
+		10,
+		0x50000l,
+		4,
+		{ { at_missileweapon, 2, 1 },
+		  { done, 2, 2 },
+		  { reset, 2, 3 },
+		  { reset2, 6, 0 } } }, // bazooka
+	  { 80,
+		5,
+		10,
+		0x10000l,
+		4,
+		{ { at_missileweapon, 2, 1 },
+		  { done, 2, 2 },
+		  { reset, 2, 3 },
+		  { reset2, 6, 0 } } }, // firebomb
+	  { 80,
+		5,
+		10,
+		0x50000l,
+		4,
+		{ { at_missileweapon, 2, 1 },
+		  { done, 2, 2 },
+		  { reset, 2, 3 },
+		  { reset2, 6, 0 } } }, // heatseeker
+	  { 80,
+		5,
+		10,
+		0x10000l,
+		4,
+		{ { at_missileweapon, 2, 1 },
+		  { done, 2, 2 },
+		  { reset, 2, 3 },
+		  { reset2, 6, 0 } } }, // drunk
+	  { 80,
+		5,
+		7,
+		0x10000l,
+		4,
+		{ { at_missileweapon, 2, 1 },
+		  { done, 2, 2 },
+		  { reset, 2, 2 },
+		  { reset2, 6, 0 } } }, // firewall
+	  { 125,
+		5,
+		7,
+		0x10000l,
+		7,
+		{ { done, 3, 1 },
+		  { done, 3, 2 },
+		  { done, 3, 3 },
+		  { done, 3, 4 },
+		  { at_missileweapon, 3, 5 },
+		  { done, 3, 6 },
+		  { reset, 3, 7 } } }, // GODHAND
 
 #if (SHAREWARE == 0)
-	 {80, 5, 7, 0x10000l, 4, {{at_missileweapon, 2, 1}, {done, 2, 2}, {reset, 2, 3}, {reset2, 6, 0}}}, // split
-	 {80,
-	  5,
-	  7,
-	  0x10000l,
-	  9,
-	  {{done, 5, 1},
-	   {done, 5, 2},
-	   {done, 5, 3},
-	   {done, 5, 4},
-	   {at_missileweapon, 10, 5},
-	   {done, 5, 4},
-	   {done, 5, 3}, // kes
-	   {done, 5, 2},
-	   {reset, 5, 1}}},
-	 {200,
-	  5,
-	  7,
-	  0x10000l,
-	  6,
-	  {{done, 1, 1},
-	   {done, 1, 2},
-	   {at_pulltrigger, 1, 3},
-	   {at_pulltrigger, 1, 4},
-	   {at_pulltrigger, 1, 5},
-	   {reset, 1, 6}}}, // BAT
-	 {128, 5, 7, 0x10000l, 3, {{done, 2, 1}, {at_pulltrigger, 2, 2}, {reset, 2, 3}}}
+	  { 80,
+		5,
+		7,
+		0x10000l,
+		4,
+		{ { at_missileweapon, 2, 1 },
+		  { done, 2, 2 },
+		  { reset, 2, 3 },
+		  { reset2, 6, 0 } } }, // split
+	  { 80,
+		5,
+		7,
+		0x10000l,
+		9,
+		{ { done, 5, 1 },
+		  { done, 5, 2 },
+		  { done, 5, 3 },
+		  { done, 5, 4 },
+		  { at_missileweapon, 10, 5 },
+		  { done, 5, 4 },
+		  { done, 5, 3 }, // kes
+		  { done, 5, 2 },
+		  { reset, 5, 1 } } },
+	  { 200,
+		5,
+		7,
+		0x10000l,
+		6,
+		{ { done, 1, 1 },
+		  { done, 1, 2 },
+		  { at_pulltrigger, 1, 3 },
+		  { at_pulltrigger, 1, 4 },
+		  { at_pulltrigger, 1, 5 },
+		  { reset, 1, 6 } } }, // BAT
+	  { 128,
+		5,
+		7,
+		0x10000l,
+		3,
+		{ { done, 2, 1 }, { at_pulltrigger, 2, 2 }, { reset, 2, 3 } } }
 #endif
-};
+	};
 
 /*
 =============================================================================
@@ -273,17 +357,20 @@ void Cmd_Use(objtype *);
 // void     ComError (char *error, ...);
 int FinddTopYZANGLELIMITvalue(objtype *ob);
 
-statetype s_free = {false, 0, 0, T_Free, 0, &s_free};
-statetype s_inelevator = {false, 0, 420, T_Player, 0, &s_player};
+statetype s_free = { false, 0, 0, T_Free, 0, &s_free };
+statetype s_inelevator = { false, 0, 420, T_Player, 0, &s_player };
 
 #if (SHAREWARE == 0)
-statetype s_dogwait = {true, SERIALDOG_W11, 50, T_Player, SF_DOGSTATE, &s_serialdog};
+statetype s_dogwait = { true,	  SERIALDOG_W11, 50,
+						T_Player, SF_DOGSTATE,	 &s_serialdog };
 
-statetype s_doguse = {true, SERIALDOG_W11, 140, T_DogUse, SF_DOGSTATE, &s_serialdog};
-statetype s_doglick = {true, SERIALDOG_W11, 0, T_DogLick, SF_DOGSTATE, &s_doglick};
+statetype s_doguse = { true,	 SERIALDOG_W11, 140,
+					   T_DogUse, SF_DOGSTATE,	&s_serialdog };
+statetype s_doglick = { true,	   SERIALDOG_W11, 0,
+						T_DogLick, SF_DOGSTATE,	  &s_doglick };
 #endif
 
-statetype s_tag = {false, CASSATT_S1, 20, T_Tag, 0, &s_player};
+statetype s_tag = { false, CASSATT_S1, 20, T_Tag, 0, &s_player };
 
 //
 // curent user input
@@ -297,12 +384,12 @@ static int turnaroundtime;
 // Double Click variables
 //
 
-static int DoubleClickTimer[3] = {0};
-static byte DoubleClickCount[3] = {0};
-static byte DoubleClickPressed[3] = {false};
-static int JoyDblClickTimer[4] = {0};
-static byte JoyDblClickCount[4] = {0};
-static byte JoyDblClickPressed[4] = {false};
+static int DoubleClickTimer[3] = { 0 };
+static byte DoubleClickCount[3] = { 0 };
+static byte DoubleClickPressed[3] = { false };
+static int JoyDblClickTimer[4] = { 0 };
+static byte JoyDblClickCount[4] = { 0 };
+static byte JoyDblClickPressed[4] = { false };
 
 static int PlayerRecording = -1;
 static int nettics;
@@ -328,7 +415,8 @@ void LoadPlayer(void)
 
 int MaxHitpointsForCharacter(playertype *pstate)
 {
-	if (BATTLEMODE && (gamestate.BattleOptions.HitPoints != bo_character_hitpoints))
+	if (BATTLEMODE &&
+		(gamestate.BattleOptions.HitPoints != bo_character_hitpoints))
 	{
 		return (gamestate.BattleOptions.HitPoints);
 	}
@@ -353,7 +441,8 @@ void InitializeWeapons(playertype *pstate)
 	{
 		if (gamestate.PlayerHasGun[pstate - &PLAYERSTATE[0]])
 		{
-			pstate->new_weapon = pstate->weapon = pstate->oldweapon = pstate->bulletweapon = wp_pistol;
+			pstate->new_weapon = pstate->weapon = pstate->oldweapon =
+				pstate->bulletweapon = wp_pistol;
 			pstate->HASBULLETWEAPON[wp_pistol] = 1;
 			pstate->HASBULLETWEAPON[wp_twopistol] = 0;
 			pstate->HASBULLETWEAPON[wp_mp40] = 0;
@@ -361,7 +450,8 @@ void InitializeWeapons(playertype *pstate)
 		}
 		else
 		{
-			pstate->new_weapon = pstate->weapon = pstate->oldweapon = pstate->bulletweapon = -1;
+			pstate->new_weapon = pstate->weapon = pstate->oldweapon =
+				pstate->bulletweapon = -1;
 			pstate->HASBULLETWEAPON[wp_pistol] = 0;
 			pstate->HASBULLETWEAPON[wp_twopistol] = 0;
 			pstate->HASBULLETWEAPON[wp_mp40] = 0;
@@ -486,7 +576,8 @@ void RevivePlayerobj(int tilex, int tiley, int dir, objtype *ob)
 	tstate = ob->state;
 	RemoveFromArea(ob);
 	TurnActorIntoSprite(ob);
-	if ((LASTSTAT->z < nominalheight) && (!IsPlatform(LASTSTAT->tilex, LASTSTAT->tiley)))
+	if ((LASTSTAT->z < nominalheight) &&
+		(!IsPlatform(LASTSTAT->tilex, LASTSTAT->tiley)))
 	{
 		SpawnParticles(ob, GUTS, 10 + gamestate.difficulty);
 		RemoveStatic(LASTSTAT);
@@ -519,8 +610,8 @@ void RevivePlayerobj(int tilex, int tiley, int dir, objtype *ob)
 			if (BATTLE_Team[ob->dirchoosetime] == BATTLE_It)
 
 			{
-				pstate->missileweapon = pstate->oldweapon = pstate->new_weapon = pstate->oldmissileweapon =
-					pstate->weapon = wp_godhand;
+				pstate->missileweapon = pstate->oldweapon = pstate->new_weapon =
+					pstate->oldmissileweapon = pstate->weapon = wp_godhand;
 				pstate->bulletweapon = -1;
 				ob->flags |= FL_DESIGNATED;
 			}
@@ -687,7 +778,8 @@ void SpawnGunSmoke(int x, int y, int z, int angle, int bullethole)
 void SpawnBlood(objtype *ob, int angle)
 {
 
-	SpawnInertActor(ob->x - (costable[angle] >> 5), ob->y + (sintable[angle] >> 5), ob->z);
+	SpawnInertActor(ob->x - (costable[angle] >> 5),
+					ob->y + (sintable[angle] >> 5), ob->z);
 
 	NewState(new, &s_bloodspurt1);
 
@@ -705,7 +797,8 @@ void SpawnMetalSparks(objtype *ob, int angle)
 		dispy = ob->momentumy;
 	}
 
-	SpawnInertActor(ob->x - (costable[angle] >> 3) + dispx, ob->y + (sintable[angle] >> 3) + dispy, ob->z);
+	SpawnInertActor(ob->x - (costable[angle] >> 3) + dispx,
+					ob->y + (sintable[angle] >> 3) + dispy, ob->z);
 
 	if (GameRandomNumber("Spawn Metal Sparks", 0) < 128)
 		NewState(new, &s_hitmetalactor1);
@@ -844,30 +937,31 @@ int GetItemForWeapon(int weapon)
 
 missile_stats PlayerMissileData[13] =
 
-	{{0, 0, 0, 0, 0},
-	 {0, 0, 0, 0, 0},
-	 {0, 0, 0, 0, 0},
+	{ { 0, 0, 0, 0, 0 },
+	  { 0, 0, 0, 0, 0 },
+	  { 0, 0, 0, 0, 0 },
 
-	 {&s_p_bazooka1, 0x6000, p_bazookaobj, 0x7000, MF_SINGULAR},
-	 {&s_p_bazooka1, 0x8000, p_heatseekobj, 0x7000, MF_SINGULAR},
-	 {&s_p_bazooka1, 0x6000, p_drunkmissileobj, 0x7000, 0},
-	 {&s_p_bazooka1, 0x8000, p_firebombobj, 0x7000, MF_SINGULAR},
-	 {&s_p_grenade, 0x4000, p_firewallobj, 0x8000, 0},
-	 {&s_godfire1, 0x3800, p_godballobj, 0x8000, 0},
-	 {&s_p_bazooka1, 0x8000, p_splitmissileobj, 0x7000, MF_SINGULAR},
+	  { &s_p_bazooka1, 0x6000, p_bazookaobj, 0x7000, MF_SINGULAR },
+	  { &s_p_bazooka1, 0x8000, p_heatseekobj, 0x7000, MF_SINGULAR },
+	  { &s_p_bazooka1, 0x6000, p_drunkmissileobj, 0x7000, 0 },
+	  { &s_p_bazooka1, 0x8000, p_firebombobj, 0x7000, MF_SINGULAR },
+	  { &s_p_grenade, 0x4000, p_firewallobj, 0x8000, 0 },
+	  { &s_godfire1, 0x3800, p_godballobj, 0x8000, 0 },
+	  { &s_p_bazooka1, 0x8000, p_splitmissileobj, 0x7000, MF_SINGULAR },
 #if (SHAREWARE == 0)
-	 {&s_kessphere1, 0xc000, p_kesobj, 0x5000, MF_SINGULAR},
+	  { &s_kessphere1, 0xc000, p_kesobj, 0x5000, MF_SINGULAR },
 #else
-	 {0, 0, 0, 0, 0},
+	  { 0, 0, 0, 0, 0 },
 #endif
-	 {0, 0, 0, 0, 0},
-	 {0, 0, 0, 0, 0}
+	  { 0, 0, 0, 0, 0 },
+	  { 0, 0, 0, 0, 0 }
 
-};
+	};
 
 void MissileAutoTarget(objtype *ob, missile_stats *mdata)
 {
-	int dx, dy, angle, mindist, currdist, magangle, saveangle, xydist, dz, yzangle, oldyzangle, saveyzangle;
+	int dx, dy, angle, mindist, currdist, magangle, saveangle, xydist, dz,
+		yzangle, oldyzangle, saveyzangle;
 	objtype *target, *temp;
 
 	mindist = 0x7fffffff;
@@ -910,7 +1004,8 @@ void MissileAutoTarget(objtype *ob, missile_stats *mdata)
 	{
 		oldyzangle = ob->yzangle;
 		ob->yzangle = saveyzangle;
-		SpawnMissile(ob, mdata->obclass, mdata->speed, saveangle, mdata->state, mdata->offset);
+		SpawnMissile(ob, mdata->obclass, mdata->speed, saveangle, mdata->state,
+					 mdata->offset);
 		ob->yzangle = oldyzangle;
 	}
 
@@ -921,11 +1016,13 @@ void MissileAutoTarget(objtype *ob, missile_stats *mdata)
 		saveangle = ob->yzangle;
 		ob->yzangle -= GODYZANGLE;
 		Fix(ob->yzangle);
-		SpawnMissile(ob, mdata->obclass, mdata->speed, ob->angle, mdata->state, mdata->offset);
+		SpawnMissile(ob, mdata->obclass, mdata->speed, ob->angle, mdata->state,
+					 mdata->offset);
 		ob->yzangle = saveangle;
 	}
 	else
-		SpawnMissile(ob, mdata->obclass, mdata->speed, ob->angle, mdata->state, mdata->offset);
+		SpawnMissile(ob, mdata->obclass, mdata->speed, ob->angle, mdata->state,
+					 mdata->offset);
 }
 
 void PlayerMissileAttack(objtype *ob)
@@ -940,13 +1037,14 @@ void PlayerMissileAttack(objtype *ob)
 
 	// ready to annihilate this poor bastard
 
-	if ((newmissiledata->obclass == p_godballobj) || (newmissiledata->obclass == p_kesobj))
+	if ((newmissiledata->obclass == p_godballobj) ||
+		(newmissiledata->obclass == p_kesobj))
 		MissileAutoTarget(ob, newmissiledata);
 
 	else
 	{
-		SpawnMissile(ob, newmissiledata->obclass, newmissiledata->speed, ob->angle, newmissiledata->state,
-					 newmissiledata->offset);
+		SpawnMissile(ob, newmissiledata->obclass, newmissiledata->speed,
+					 ob->angle, newmissiledata->state, newmissiledata->offset);
 
 		if (newmissiledata->obclass == p_drunkmissileobj)
 		{
@@ -954,7 +1052,8 @@ void PlayerMissileAttack(objtype *ob)
 
 			for (i = 0; i < 4; i++)
 			{
-				if (!MissileTryMove(new, new->x + new->momentumx, new->y + new->momentumy, new->z))
+				if (!MissileTryMove(new, new->x + new->momentumx,
+									new->y + new->momentumy, new->z))
 				{
 					new->x = new->drawx = ob->x + (costable[new->angle] >> 3);
 					new->y = new->drawy = ob->y - (sintable[new->angle] >> 3);
@@ -963,7 +1062,8 @@ void PlayerMissileAttack(objtype *ob)
 					ob->momentumy = FixedMul(0x5000l, sintable[ob->angle]);
 				}
 
-				SpawnMissile(ob, newmissiledata->obclass, newmissiledata->speed, ob->angle, newmissiledata->state,
+				SpawnMissile(ob, newmissiledata->obclass, newmissiledata->speed,
+							 ob->angle, newmissiledata->state,
 							 newmissiledata->offset);
 			}
 		}
@@ -980,7 +1080,8 @@ void PlayerMissileAttack(objtype *ob)
 	new->dirchoosetime = 5;
 	if (missilecam == true)
 		missobj = new;
-	if (!MissileTryMove(new, new->x + new->momentumx, new->y + new->momentumy, new->z))
+	if (!MissileTryMove(new, new->x + new->momentumx, new->y + new->momentumy,
+						new->z))
 	{
 		new->x = new->drawx = ob->x + (costable[new->angle] >> 3);
 		new->y = new->drawy = ob->y - (sintable[new->angle] >> 3);
@@ -1024,7 +1125,8 @@ void DogAttack(objtype *ob)
 	objtype *temp;
 	int dx, dy, dz;
 
-	SD_PlaySoundRTP(SD_DOGMODEBITE1SND + (RandomNumber("DogAttack", 0) >> 7), ob->x, ob->y);
+	SD_PlaySoundRTP(SD_DOGMODEBITE1SND + (RandomNumber("DogAttack", 0) >> 7),
+					ob->x, ob->y);
 	for (temp = firstareaactor[ob->areanumber]; temp; temp = temp->nextinarea)
 	{
 
@@ -1056,7 +1158,8 @@ void DogAttack(objtype *ob)
 			SpawnParticles(temp, GUTS, 15);
 		Collision(temp, ob, -temp->momentumx, -temp->momentumy);
 		if ((temp->obclass == playerobj) && (temp->flags & FL_DYING))
-			BATTLE_PlayerKilledPlayer(battle_kill_with_missile, ob->dirchoosetime, temp->dirchoosetime);
+			BATTLE_PlayerKilledPlayer(battle_kill_with_missile,
+									  ob->dirchoosetime, temp->dirchoosetime);
 
 		return;
 	}
@@ -1088,7 +1191,8 @@ void DogBlast(objtype *ob)
 		{
 			temp = (objtype *)actorat[x][y];
 
-			if (temp && (temp->which == ACTOR) && (temp->flags & FL_SHOOTABLE) && (temp != ob) &&
+			if (temp && (temp->which == ACTOR) &&
+				(temp->flags & FL_SHOOTABLE) && (temp != ob) &&
 				(temp->obclass < roboguardobj) && (temp->flags & FL_ABP))
 			{
 				DamageThing(temp, 100);
@@ -1101,7 +1205,9 @@ void DogBlast(objtype *ob)
 				MISCVARS->supergibflag = false;
 
 				if ((temp->obclass == playerobj) && (temp->flags & FL_DYING))
-					BATTLE_PlayerKilledPlayer(battle_kill_with_missile, ob->dirchoosetime, temp->dirchoosetime);
+					BATTLE_PlayerKilledPlayer(battle_kill_with_missile,
+											  ob->dirchoosetime,
+											  temp->dirchoosetime);
 			}
 
 			tile = tilemap[x][y];
@@ -1115,7 +1221,8 @@ void DogBlast(objtype *ob)
 			}
 
 			tstat = sprites[x][y];
-			if (tstat && (tstat->flags & FL_SHOOTABLE) && (tstat->flags & FL_ABP))
+			if (tstat && (tstat->flags & FL_SHOOTABLE) &&
+				(tstat->flags & FL_ABP))
 				DamageThing(tstat, 50);
 		}
 }
@@ -1214,7 +1321,9 @@ void BatAttack(objtype *ob)
 		if (temp->flags & FL_DYING)
 			continue;
 
-		if ((temp->obclass != grenadeobj) && (!((temp->obclass >= grenadeobj) && (temp->obclass <= p_godballobj))) &&
+		if ((temp->obclass != grenadeobj) &&
+			(!((temp->obclass >= grenadeobj) &&
+			   (temp->obclass <= p_godballobj))) &&
 			(!(temp->flags & FL_SHOOTABLE) || (temp->obclass >= roboguardobj)))
 			continue;
 
@@ -1256,7 +1365,8 @@ void BatAttack(objtype *ob)
 			}
 			temp->flags |= FL_NOFRICTION;
 			SD_PlaySoundRTP(SD_EXCALIHITSND, ob->x, ob->y);
-			if ((gamestate.violence == vl_excessive) && (GameRandomNumber("Bat Gibs", 0) < 150))
+			if ((gamestate.violence == vl_excessive) &&
+				(GameRandomNumber("Bat Gibs", 0) < 150))
 			{
 				temp->flags |= FL_HBM;
 				DamageThing(temp, 50);
@@ -1266,7 +1376,8 @@ void BatAttack(objtype *ob)
 			if ((temp->flags & FL_HBM) && (temp->hitpoints > 0))
 				temp->flags &= ~FL_HBM;
 			Collision(temp, ob, momx, momy);
-			if ((temp->obclass == blitzguardobj) && (temp->state == &s_blitzplead7))
+			if ((temp->obclass == blitzguardobj) &&
+				(temp->state == &s_blitzplead7))
 			{
 				temp->shapeoffset += deathshapeoffset[temp->obclass];
 				temp->flags |= FL_ALTERNATE;
@@ -1281,13 +1392,16 @@ void BatAttack(objtype *ob)
 			rand = GameRandomNumber("bat/grenade target", 0);
 			if (rand < 80)
 			{
-				grenadetarget = (objtype *)(temp->whatever); // hit back at george
-				GetMomenta(grenadetarget, ob, &(temp->momentumx), &(temp->momentumy), &(temp->momentumz), 0x3000);
+				grenadetarget =
+					(objtype *)(temp->whatever); // hit back at george
+				GetMomenta(grenadetarget, ob, &(temp->momentumx),
+						   &(temp->momentumy), &(temp->momentumz), 0x3000);
 			}
 			else if (rand < 160) // hit back at first eligible
 			{
 
-				for (temp2 = firstareaactor[ob->areanumber]; temp2; temp2 = temp2->nextinarea)
+				for (temp2 = firstareaactor[ob->areanumber]; temp2;
+					 temp2 = temp2->nextinarea)
 				{
 					magangle = abs(ob->angle - AngleBetween(ob, temp2));
 					if (magangle > VANG180)
@@ -1295,7 +1409,8 @@ void BatAttack(objtype *ob)
 
 					if (magangle > ANGLES / 8)
 						continue;
-					GetMomenta(temp2, ob, &(temp->momentumx), &(temp->momentumy), &(temp->momentumz), 0x3000);
+					GetMomenta(temp2, ob, &(temp->momentumx),
+							   &(temp->momentumy), &(temp->momentumz), 0x3000);
 					break;
 				}
 			}
@@ -1386,7 +1501,8 @@ void AutoTargetHorizon(objtype *ob)
 		magangle = ob->angle - angle;
 		Fix(magangle);
 
-		if ((magangle >= (ANGLESDIV8 / 4)) && (magangle <= (FINEANGLES - (ANGLESDIV8 / 4))))
+		if ((magangle >= (ANGLESDIV8 / 4)) &&
+			(magangle <= (FINEANGLES - (ANGLESDIV8 / 4))))
 		{
 			continue;
 		}
@@ -1429,7 +1545,8 @@ void GunAttack(objtype *ob)
 	}
 
 	AutoTargetHorizon(ob);
-	RayShoot(ob, damage, (characters[pstate->player].accuracy + gamestate.difficulty) << 3);
+	RayShoot(ob, damage,
+			 (characters[pstate->player].accuracy + gamestate.difficulty) << 3);
 }
 
 /*
@@ -1525,7 +1642,8 @@ void Cmd_Use(objtype *ob)
 
 #if (SHAREWARE == 0)
 
-	if ((pstate->weapon == wp_dog) && (ob->state != &s_doguse) && (ob->state != &s_dogwait) && (!W_CHANGE(pstate)))
+	if ((pstate->weapon == wp_dog) && (ob->state != &s_doguse) &&
+		(ob->state != &s_dogwait) && (!W_CHANGE(pstate)))
 	{
 		pstate->attackframe = 0;
 		NewState(ob, &s_doguse);
@@ -1537,7 +1655,8 @@ void Cmd_Use(objtype *ob)
 
 	else
 #endif
-		if ((ob->flags & FL_DESIGNATED) && (BATTLEMODE) && (gamestate.battlemode == battle_Tag))
+		if ((ob->flags & FL_DESIGNATED) && (BATTLEMODE) &&
+			(gamestate.battlemode == battle_Tag))
 	{
 		NewState(ob, &s_tag);
 		// return;
@@ -1651,7 +1770,8 @@ void Cmd_Use(objtype *ob)
 							break;
 
 						default:
-							AddMessage("This door appears to be locked", MSG_DOOR);
+							AddMessage("This door appears to be locked",
+									   MSG_DOOR);
 							break;
 					}
 
@@ -1670,8 +1790,11 @@ void Cmd_Use(objtype *ob)
 		}
 	}
 
-	else if ((tempactor) && (tempactor->which == ACTOR) && (tempactor->obclass == pillarobj) &&
-			 DISTOK(ob->x, tempactor->x, TD) && DISTOK(ob->y, tempactor->y, TD) && (!(tempactor->flags & FL_DONE)) &&
+	else if ((tempactor) && (tempactor->which == ACTOR) &&
+			 (tempactor->obclass == pillarobj) &&
+			 DISTOK(ob->x, tempactor->x, TD) &&
+			 DISTOK(ob->y, tempactor->y, TD) &&
+			 (!(tempactor->flags & FL_DONE)) &&
 			 (!MAPSPOT(tempactor->tilex, tempactor->tiley, 2)))
 
 	{
@@ -1690,11 +1813,12 @@ void Cmd_Use(objtype *ob)
 			gamestate.secretcount++;
 		}
 	}
-	else if ((tempwall) && (tempwall->which == WALL) && (tempwall->flags & FL_SWITCH))
+	else if ((tempwall) && (tempwall->which == WALL) &&
+			 (tempwall->flags & FL_SWITCH))
 	{
 		tempwall->flags |= FL_S_FLIPPED;
-		if ((tempwall->flags & FL_W_INVERTED) && DISTOK(ob->x, wallx, TD) && DISTOK(ob->y, wally, TD) &&
-			DISTOK(ob->z, 0, 32))
+		if ((tempwall->flags & FL_W_INVERTED) && DISTOK(ob->x, wallx, TD) &&
+			DISTOK(ob->y, wally, TD) && DISTOK(ob->z, 0, 32))
 		{
 			index = touchindices[checkx][checky] - 1;
 			if (!(tempwall->flags & FL_ON))
@@ -1716,7 +1840,8 @@ void Cmd_Use(objtype *ob)
 					AddMessage("Switch turned off.", MSG_GAME);
 			}
 		}
-		else if (DISTOK(ob->x, wallx, TD) && DISTOK(ob->y, wally, TD) && !(tempwall->flags & FL_W_INVERTED))
+		else if (DISTOK(ob->x, wallx, TD) && DISTOK(ob->y, wally, TD) &&
+				 !(tempwall->flags & FL_W_INVERTED))
 		{
 			index = touchindices[checkx][checky] - 1;
 			if (!(tempwall->flags & FL_ON))
@@ -1830,7 +1955,8 @@ void PollMouseButtons(void)
 					DoubleClickPressed[i] = true;
 
 					// Is this the first click, or a really late click?
-					if ((DoubleClickCount[i] == 0) || (GetTicCount() >= DoubleClickTimer[i]))
+					if ((DoubleClickCount[i] == 0) ||
+						(GetTicCount() >= DoubleClickTimer[i]))
 					{
 						// Yes, now wait for a second click
 						DoubleClickTimer[i] = GetTicCount() + DoubleClickSpeed;
@@ -1928,7 +2054,8 @@ void PollJoystickButtons(void)
 					JoyDblClickPressed[i] = true;
 
 					// Is this the first click, or a really late click?
-					if ((JoyDblClickCount[i] == 0) || (GetTicCount() >= JoyDblClickTimer[i]))
+					if ((JoyDblClickCount[i] == 0) ||
+						(GetTicCount() >= JoyDblClickTimer[i]))
 					{
 						// Yes, now wait for a second click
 						JoyDblClickTimer[i] = GetTicCount() + DoubleClickSpeed;
@@ -2014,7 +2141,8 @@ void PollKeyboardMove(void)
 			KX = 0;
 			turnheldtime = 0;
 		}
-		if ((buttonpoll[bt_run]) && ((turnheldtime >= TURBOTURNTIME) || (turnheldtime == 0)))
+		if ((buttonpoll[bt_run]) &&
+			((turnheldtime >= TURBOTURNTIME) || (turnheldtime == 0)))
 			KX = FixedMul(KX, TURBOTURNAMOUNT);
 	}
 	else
@@ -2059,7 +2187,8 @@ void PollKeyboardMove(void)
 #define MOUSE_TZ_INPUT_SCALE 20
 int mouse_ry_input_scale = 5000;
 
-int sensitivity_scalar[15] = {0, 1, 2, 3, 4, 5, 6, 8, 11, 13, 15, 18, 12, 13, 14};
+int sensitivity_scalar[15] = { 0,  1,  2,  3,  4,  5,  6, 8,
+							   11, 13, 15, 18, 12, 13, 14 };
 // #define MOUSE_RY_SCALE 65535
 // #define MOUSE_TZ_SCALE 65535
 #define MAXMOUSETURN 7000000
@@ -2108,7 +2237,8 @@ void PollMouseMove(void)
 				playertype *pstate;
 				pstate = &PLAYERSTATE[consoleplayer];
 				// if (pstate->horizon > 512){
-				pstate->horizon -= Ys * (2 * sensitivity_scalar[mouseadjustment]);
+				pstate->horizon -=
+					Ys * (2 * sensitivity_scalar[mouseadjustment]);
 				//}
 			}
 			else if (MY < 0)
@@ -2116,7 +2246,8 @@ void PollMouseMove(void)
 				playertype *pstate;
 				pstate = &PLAYERSTATE[consoleplayer];
 				// SetTextMode (  );
-				pstate->horizon += Ys * (2 * sensitivity_scalar[mouseadjustment]);
+				pstate->horizon +=
+					Ys * (2 * sensitivity_scalar[mouseadjustment]);
 				// buttonpoll[ bt_horizonup ] = true;
 			}
 			MY = 0;
@@ -2136,7 +2267,8 @@ void PollMouseMove(void)
 	{
 		// MX = -MOUSE_RY_INPUT_SCALE*mousexmove;
 		MX = -mouse_ry_input_scale * mousexmove;
-		MX += FixedMul(MX, sensitivity_scalar[mouseadjustment] * MOUSE_RY_SENSITIVITY_SCALE);
+		MX += FixedMul(MX, sensitivity_scalar[mouseadjustment] *
+							   MOUSE_RY_SENSITIVITY_SCALE);
 		//   if (abs(MX) > MAXMOUSETURN)
 		//   MX = MAXMOUSETURN*SGN(MX);
 		if (usemouselook == true)
@@ -2319,7 +2451,8 @@ void PollMove(void)
 				leftmom = 0;
 		}
 
-		if ((GetTicCount() > nettics) && (rightmom > (NETMOM * 2)) && (leftmom > (NETMOM * 2)))
+		if ((GetTicCount() > nettics) && (rightmom > (NETMOM * 2)) &&
+			(leftmom > (NETMOM * 2)))
 		{
 			rightmom = 0;
 			leftmom = 0;
@@ -2328,7 +2461,8 @@ void PollMove(void)
 			locplayerstate->NETCAPTURED = 0;
 			MISCVARS->NET_IN_FLIGHT = false;
 			NewState(player, &s_player);
-			locplayerstate->weaponuptics = WEAPONS[locplayerstate->weapon].screenheight / GMOVE;
+			locplayerstate->weaponuptics =
+				WEAPONS[locplayerstate->weapon].screenheight / GMOVE;
 			locplayerstate->weaponheight = locplayerstate->weaponuptics * GMOVE;
 		}
 	}
@@ -2444,8 +2578,10 @@ void PollControls(void)
 	if (player->flags & FL_DYING) // Player has died
 	{
 		if ((playerdead == true) &&
-			(buttonpoll[bt_strafe] || buttonpoll[bt_attack] || buttonpoll[bt_use] ||
-			 ((gamestate.battlemode == battle_Hunter) && (BATTLE_Team[player->dirchoosetime] == BATTLE_It))))
+			(buttonpoll[bt_strafe] || buttonpoll[bt_attack] ||
+			 buttonpoll[bt_use] ||
+			 ((gamestate.battlemode == battle_Hunter) &&
+			  (BATTLE_Team[player->dirchoosetime] == BATTLE_It))))
 		{
 			AddRespawnCommand();
 		}
@@ -2542,22 +2678,24 @@ void SaveWeapons(objtype*ob)
 }
 */
 
-#define GiveProtection(flag, time, sound)                                                                              \
-	{                                                                                                                  \
-		if ((ob->flags & flag) || (ob->flags & FL_GODMODE) || (ob->flags & FL_DOGMODE))                                \
-			return;                                                                                                    \
-		ob->flags &= ~(FL_BPV | FL_GASMASK | FL_AV);                                                                   \
-		ob->flags |= flag;                                                                                             \
-		SD_PlaySoundRTP(sound, ob->x, ob->y);                                                                          \
-		pstate->protectiontime = time;                                                                                 \
-		gamestate.supercount++;                                                                                        \
+#define GiveProtection(flag, time, sound) \
+	{ \
+		if ((ob->flags & flag) || (ob->flags & FL_GODMODE) || \
+			(ob->flags & FL_DOGMODE)) \
+			return; \
+		ob->flags &= ~(FL_BPV | FL_GASMASK | FL_AV); \
+		ob->flags |= flag; \
+		SD_PlaySoundRTP(sound, ob->x, ob->y); \
+		pstate->protectiontime = time; \
+		gamestate.supercount++; \
 	}
 
 boolean GivePowerup(objtype *ob, int flag, int time, int sound)
 {
 	playertype *pstate;
 
-	if ((ob->flags & flag) || (ob->flags & FL_GODMODE) || (ob->flags & FL_DOGMODE))
+	if ((ob->flags & flag) || (ob->flags & FL_GODMODE) ||
+		(ob->flags & FL_DOGMODE))
 		return false;
 
 	M_LINKSTATE(ob, pstate);
@@ -2618,7 +2756,8 @@ boolean GiveBulletWeapon(objtype *ob, int bulletweapon, statobj_t *check)
 	return true;
 }
 
-boolean GivePlayerMissileWeapon(objtype *ob, playertype *pstate, statobj_t *check)
+boolean GivePlayerMissileWeapon(objtype *ob, playertype *pstate,
+								statobj_t *check)
 {
 	if ((ob->flags & FL_DOGMODE) || (ob->flags & FL_GODMODE))
 		return false;
@@ -2627,7 +2766,8 @@ boolean GivePlayerMissileWeapon(objtype *ob, playertype *pstate, statobj_t *chec
 		return false;
 
 	if ((GetWeaponForItem(check->itemnumber) == pstate->missileweapon) &&
-		(check->ammo == stats[check->itemnumber].ammo) && (pstate->ammo == stats[check->itemnumber].ammo))
+		(check->ammo == stats[check->itemnumber].ammo) &&
+		(pstate->ammo == stats[check->itemnumber].ammo))
 		return false;
 
 	SD_PlaySoundRTP(SD_GETWEAPONSND, ob->x, ob->y);
@@ -2652,15 +2792,15 @@ boolean GivePlayerMissileWeapon(objtype *ob, playertype *pstate, statobj_t *chec
 	return true;
 }
 
-#define LocalBonusMessage(string)                                                                                      \
-	{                                                                                                                  \
-		if (ob == player)                                                                                              \
-			AddMessage(string, MSG_BONUS);                                                                             \
+#define LocalBonusMessage(string) \
+	{ \
+		if (ob == player) \
+			AddMessage(string, MSG_BONUS); \
 	}
-#define LocalBonus1Message(string)                                                                                     \
-	{                                                                                                                  \
-		if (ob == player)                                                                                              \
-			AddMessage(string, MSG_BONUS1);                                                                            \
+#define LocalBonus1Message(string) \
+	{ \
+		if (ob == player) \
+			AddMessage(string, MSG_BONUS1); \
 	}
 
 /*
@@ -2854,7 +2994,8 @@ keys:
 			break;
 
 		case stat_oneup:
-			if (abs(pstate->health - MaxHitpointsForCharacter(pstate)) < (MaxHitpointsForCharacter(pstate) >> 2))
+			if (abs(pstate->health - MaxHitpointsForCharacter(pstate)) <
+				(MaxHitpointsForCharacter(pstate) >> 2))
 			{
 				GiveLives(1);
 				LocalBonusMessage("Extra Life!");
@@ -2867,7 +3008,8 @@ keys:
 			SD_PlaySoundRTP(SD_GET1UPSND, ob->x, ob->y);
 			break;
 		case stat_threeup:
-			if (abs(pstate->health - MaxHitpointsForCharacter(pstate)) < (MaxHitpointsForCharacter(pstate) >> 2))
+			if (abs(pstate->health - MaxHitpointsForCharacter(pstate)) <
+				(MaxHitpointsForCharacter(pstate) >> 2))
 			{
 				GiveLives(3);
 				LocalBonusMessage("Three Extra Lives!");
@@ -3005,25 +3147,29 @@ keys:
 			break;
 
 		case stat_bulletproof:
-			GiveProtection(FL_BPV, GetBonusTimeForItem(stat_bulletproof), SD_GETBVESTSND);
+			GiveProtection(FL_BPV, GetBonusTimeForItem(stat_bulletproof),
+						   SD_GETBVESTSND);
 			LocalBonusMessage("Bulletproof Armor!");
 
 			goto drw;
 
 		case stat_gasmask:
-			GiveProtection(FL_GASMASK, GetBonusTimeForItem(stat_gasmask), SD_GETMASKSND);
+			GiveProtection(FL_GASMASK, GetBonusTimeForItem(stat_gasmask),
+						   SD_GETMASKSND);
 			LocalBonusMessage("You put on a Gas Mask.");
 
 			goto drw;
 
 		case stat_asbesto:
-			GiveProtection(FL_AV, GetBonusTimeForItem(stat_asbesto), SD_GETAVESTSND);
+			GiveProtection(FL_AV, GetBonusTimeForItem(stat_asbesto),
+						   SD_GETAVESTSND);
 			LocalBonusMessage("Asbestos Armor! Oh so itchy!");
 
 			goto drw;
 
 		case stat_elastic:
-			if (GivePowerup(ob, FL_ELASTO, GetBonusTimeForItem(stat_elastic), SD_GETELASTSND) == false)
+			if (GivePowerup(ob, FL_ELASTO, GetBonusTimeForItem(stat_elastic),
+							SD_GETELASTSND) == false)
 				return;
 			LocalBonusMessage("Elasto Mode!");
 
@@ -3031,7 +3177,8 @@ keys:
 			goto drw;
 
 		case stat_fleetfeet:
-			if (GivePowerup(ob, FL_FLEET, GetBonusTimeForItem(stat_fleetfeet), SD_GETFLEETSND) == false)
+			if (GivePowerup(ob, FL_FLEET, GetBonusTimeForItem(stat_fleetfeet),
+							SD_GETFLEETSND) == false)
 				return;
 
 			LocalBonus1Message("Mercury Mode!");
@@ -3041,7 +3188,8 @@ keys:
 			goto drw;
 
 		case stat_mushroom:
-			if (GivePowerup(ob, FL_SHROOMS, GetBonusTimeForItem(stat_mushroom), SD_GETSHROOMSSND) == false)
+			if (GivePowerup(ob, FL_SHROOMS, GetBonusTimeForItem(stat_mushroom),
+							SD_GETSHROOMSSND) == false)
 				return;
 			LocalBonusMessage("Shrooms Mode!");
 
@@ -3077,7 +3225,8 @@ keys:
 
 			SetPlayerHorizon(pstate, GODYZANGLE);
 
-			ob->flags &= ~(FL_GODMODE | FL_SHROOMS | FL_ELASTO | FL_FLEET | FL_DOGMODE);
+			ob->flags &=
+				~(FL_GODMODE | FL_SHROOMS | FL_ELASTO | FL_FLEET | FL_DOGMODE);
 			ob->flags |= FL_GODMODE;
 			ob->temp2 = GODMODERISE;
 			pstate->poweruptime = GetBonusTimeForItem(stat_godmode);
@@ -3118,7 +3267,8 @@ keys:
 
 			SetPlayerHorizon(pstate, DOGYZANGLE);
 
-			ob->flags &= ~(FL_DOGMODE | FL_SHROOMS | FL_ELASTO | FL_FLEET | FL_GODMODE);
+			ob->flags &=
+				~(FL_DOGMODE | FL_SHROOMS | FL_ELASTO | FL_FLEET | FL_GODMODE);
 			ob->flags |= FL_DOGMODE;
 			ob->temp2 = DOGMODEFALL;
 			pstate->poweruptime = GetBonusTimeForItem(stat_dogmode);
@@ -3157,7 +3307,8 @@ drw:
 				LocalBonusMessage("You picked up a triad!  RUN!!!");
 			}
 			else
-				BATTLE_CheckGameStatus(battle_get_collector_item, ob->dirchoosetime);
+				BATTLE_CheckGameStatus(battle_get_collector_item,
+									   ob->dirchoosetime);
 
 			SD_PlaySoundRTP(SD_GETBONUSSND, ob->x, ob->y);
 			break;
@@ -3304,18 +3455,22 @@ void Thrust(objtype *ob)
 	PlayerMove(ob);
 	M_LINKSTATE(ob, pstate);
 
-	if ((gamestate.battlemode == battle_CaptureTheTriad) && (ob->flags & FL_DESIGNATED) &&
-		(ob->tilex == TEAM[pstate->team].tilex) && (ob->tiley == TEAM[pstate->team].tiley))
+	if ((gamestate.battlemode == battle_CaptureTheTriad) &&
+		(ob->flags & FL_DESIGNATED) &&
+		(ob->tilex == TEAM[pstate->team].tilex) &&
+		(ob->tiley == TEAM[pstate->team].tiley))
 	{
 		if (ob == player)
 			SD_Play(PlayerSnds[locplayerstate->player]);
 
-		if (BATTLE_CheckGameStatus(battle_captured_triad, ob->dirchoosetime) == battle_no_event)
+		if (BATTLE_CheckGameStatus(battle_captured_triad, ob->dirchoosetime) ==
+			battle_no_event)
 		{
 			ob->flags &= ~FL_DESIGNATED;
 			UpdateKills = true;
 			otherteam = (pstate->team ^ 1);
-			SpawnStatic(TEAM[otherteam].tilex, TEAM[otherteam].tiley, stat_collector, 9);
+			SpawnStatic(TEAM[otherteam].tilex, TEAM[otherteam].tiley,
+						stat_collector, 9);
 			LASTSTAT->flags |= FL_COLORED;
 			LASTSTAT->hitpoints = otherteam;
 			LASTSTAT->flags |= FL_ABP;
@@ -3335,7 +3490,8 @@ void Thrust(objtype *ob)
 #if (BNACRASHPREVENT == 1)
 			if (touchplate[index - 1] != 0)
 			{ //	CRASH IN SHAREWARE 'ride em cowboy' BNA FIX
-			  // SetTextMode (  ); qwert  // DONT ALLOW BAD touchplate ( == 0 ) see rt_door.c
+			  // SetTextMode (  ); qwert  // DONT ALLOW BAD touchplate ( == 0 )
+			  // see rt_door.c
 #endif
 				if (touchplate[index - 1]->complete)
 					SD_PlaySoundRTP(SD_BADTOUCHSND, ob->x, ob->y);
@@ -3368,12 +3524,14 @@ void Thrust(objtype *ob)
 		{
 #define OBJECT_IS_BONUS(tstat) ((tstat)->flags & FL_BONUS)
 #define PLAYER_IS_SWITCHING_WEAPONS(pstate) (W_CHANGE(pstate))
-// #define IS_ATTACKING( ob )                        ( ( ( ob )->state->think == T_Attack ) || ( ( ob )->state->think ==
-// T_BatBlast ) )
+// #define IS_ATTACKING( ob )                        ( ( ( ob )->state->think ==
+// T_Attack ) || ( ( ob )->state->think == T_BatBlast ) )
 #define IS_WEAPON(tstat) ((tstat)->flags & FL_WEAPON)
-#define PLAYER_MAY_NOT_GET_WEAPON(pstate, ob) (PLAYER_IS_SWITCHING_WEAPONS(pstate)) // || IS_ATTACKING( ob ) )
-#define OK_TO_PICK_UP(tstat, pstate, ob) (!(IS_WEAPON(tstat) && PLAYER_MAY_NOT_GET_WEAPON(pstate, ob)))
-#define WHERE_PLAYER_DROPPED_WEAPON(ob, pstate)                                                                        \
+#define PLAYER_MAY_NOT_GET_WEAPON(pstate, ob) \
+	(PLAYER_IS_SWITCHING_WEAPONS(pstate)) // || IS_ATTACKING( ob ) )
+#define OK_TO_PICK_UP(tstat, pstate, ob) \
+	(!(IS_WEAPON(tstat) && PLAYER_MAY_NOT_GET_WEAPON(pstate, ob)))
+#define WHERE_PLAYER_DROPPED_WEAPON(ob, pstate) \
 	(((ob)->tilex == (pstate)->weaponx) && ((ob)->tiley == (pstate)->weapony))
 
 			if (OBJECT_IS_BONUS(tstat) && OK_TO_PICK_UP(tstat, pstate, ob) &&
@@ -3389,11 +3547,13 @@ void Thrust(objtype *ob)
 					else
 #endif
 						nstate = &s_player;
-					pstate->attackframe = pstate->weaponframe = pstate->batblast = 0;
+					pstate->attackframe = pstate->weaponframe =
+						pstate->batblast = 0;
 					NewState(ob, nstate);
 				}
 			}
-			else if ((tstat->itemnumber == stat_pit) && (ob->temp2 != PITFALL) && (!(ob->flags & FL_FLEET)))
+			else if ((tstat->itemnumber == stat_pit) &&
+					 (ob->temp2 != PITFALL) && (!(ob->flags & FL_FLEET)))
 			{
 				ob->temp2 = PITFALL;
 				ob->momentumx = ob->momentumy = 0;
@@ -3409,7 +3569,8 @@ void Thrust(objtype *ob)
 					// tstat->flags &= ~FL_ABP;
 				}
 			}
-			else if ((tstat->itemnumber == stat_heatgrate) && (!(ob->flags & FL_DYING)) && (!(ob->flags & FL_AV)))
+			else if ((tstat->itemnumber == stat_heatgrate) &&
+					 (!(ob->flags & FL_DYING)) && (!(ob->flags & FL_AV)))
 			{
 				DamageThing(ob, 1);
 				Collision(ob, (objtype *)tstat, 0, 0);
@@ -3514,7 +3675,8 @@ void Move_Player_From_Exit_To_Start(objtype *ob)
 		if (ob == tplayer)
 			continue;
 
-		if ((tplayer->tilex == FIRST.x) && (tplayer->tiley == FIRST.y) && (!(tplayer->flags & FL_DYING)))
+		if ((tplayer->tilex == FIRST.x) && (tplayer->tiley == FIRST.y) &&
+			(!(tplayer->flags & FL_DYING)))
 		{
 			playertype *pstate;
 
@@ -3523,7 +3685,9 @@ void Move_Player_From_Exit_To_Start(objtype *ob)
 			pstate->health = tplayer->hitpoints = 0;
 			tplayer->flags |= FL_HBM;
 			Collision(tplayer, ob, 0, 0);
-			BATTLE_PlayerKilledPlayer(battle_kill_by_crushing, ob->dirchoosetime, tplayer->dirchoosetime);
+			BATTLE_PlayerKilledPlayer(battle_kill_by_crushing,
+									  ob->dirchoosetime,
+									  tplayer->dirchoosetime);
 		}
 	}
 }
@@ -3606,14 +3770,16 @@ void PlayerTiltHead(objtype *ob)
 	Fix(yzangle);
 
 	if ((pstate->lastmomz != ob->momentumz) && (ob->momentumz == 0) &&
-		((!(ob->flags & FL_FLEET)) || ((ob->flags & FL_FLEET) && (ob->z == nominalheight))))
+		((!(ob->flags & FL_FLEET)) ||
+		 ((ob->flags & FL_FLEET) && (ob->z == nominalheight))))
 		SetNormalHorizon(ob);
 
 	pstate->lastmomz = ob->momentumz;
 
 	if (ob->flags & FL_SHROOMS)
 	{
-		ob->yzangle = FixedMulShift(SHROOMYZANGLE, sintable[(oldpolltime << 6) & (FINEANGLES - 1)], 16);
+		ob->yzangle = FixedMulShift(
+			SHROOMYZANGLE, sintable[(oldpolltime << 6) & (FINEANGLES - 1)], 16);
 		Fix(ob->yzangle);
 		return;
 	}
@@ -3656,7 +3822,8 @@ void PlayerTiltHead(objtype *ob)
 			}
 			else
 			{
-				SetPlayerHorizon(pstate, (pstate->horizon - HORIZONYZOFFSET + YZHORIZONSPEED));
+				SetPlayerHorizon(pstate, (pstate->horizon - HORIZONYZOFFSET +
+										  YZHORIZONSPEED));
 			}
 		}
 		else if (pstate->buttonstate[bt_horizondown])
@@ -3667,7 +3834,8 @@ void PlayerTiltHead(objtype *ob)
 			}
 			else
 			{
-				SetPlayerHorizon(pstate, (pstate->horizon - HORIZONYZOFFSET - YZHORIZONSPEED));
+				SetPlayerHorizon(pstate, (pstate->horizon - HORIZONYZOFFSET -
+										  YZHORIZONSPEED));
 			}
 		}
 		if (pstate->buttonstate[bt_lookup] || CYBERLOOKUP)
@@ -3695,8 +3863,9 @@ void PlayerTiltHead(objtype *ob)
 				SetNormalHorizon(ob);
 			}
 		}
-		if (!(ob->flags & FL_DOGMODE) && !(ob->flags & FL_GODMODE) && !(ob->flags & FL_FLEET) &&
-			!(ob->flags & FL_RIDING) && (ob->momentumz > (GRAVITY << 1)) //(ob->momentumz>0x1000)
+		if (!(ob->flags & FL_DOGMODE) && !(ob->flags & FL_GODMODE) &&
+			!(ob->flags & FL_FLEET) && !(ob->flags & FL_RIDING) &&
+			(ob->momentumz > (GRAVITY << 1)) //(ob->momentumz>0x1000)
 		)
 		{
 			SetPlayerHorizon(pstate, FALLINGYZANGLE);
@@ -3880,7 +4049,8 @@ void UpdatePlayers(void)
 	{
 
 // ErrorDontQuit("obj->next = ",obj->next);
-#if (BNACRASHPREVENT == 1) // crashed here when oscuro and larves were all killed
+#if (BNACRASHPREVENT == \
+	 1) // crashed here when oscuro and larves were all killed
 		if (obj->next == 0)
 		{
 			return;
@@ -3915,7 +4085,8 @@ void PlayerMove(objtype *ob)
 	if (ob->flags & FL_FLEET)
 		CheckFlying(ob, pstate);
 	ActorMovement(ob);
-	pstate->anglefrac = (pstate->anglefrac + pstate->angle) & ((FINEANGLES << ANGLEBITS) - 1);
+	pstate->anglefrac =
+		(pstate->anglefrac + pstate->angle) & ((FINEANGLES << ANGLEBITS) - 1);
 	ob->angle = (pstate->anglefrac >> ANGLEBITS);
 	ob->dir = angletodir[ob->angle];
 	if (ob == player)
@@ -3929,8 +4100,8 @@ void PlayerMove(objtype *ob)
 		{
 			pstate->health = 0;
 			pstate->falling = true;
-			if ((ob->flags & FL_GODMODE) || (ob->flags & FL_DOGMODE) || (gamestate.battlemode == battle_Eluder) ||
-				(godmode == true))
+			if ((ob->flags & FL_GODMODE) || (ob->flags & FL_DOGMODE) ||
+				(gamestate.battlemode == battle_Eluder) || (godmode == true))
 			{
 				KillActor(ob);
 				NewState(ob, &s_remotedie1);
@@ -3994,24 +4165,24 @@ void T_Tag(objtype *ob)
 		if (!ob->ticcount)
 		  {if ( pstate->buttonstate[bt_use] && !pstate->buttonheld[bt_use] )
 				pstate->buttonstate[bt_use] = false;
-			if ( pstate->buttonstate[bt_attack] && !pstate->buttonheld[bt_attack])
-				pstate->buttonstate[bt_attack] = false;
+			if ( pstate->buttonstate[bt_attack] &&
+	   !pstate->buttonheld[bt_attack]) pstate->buttonstate[bt_attack] = false;
 		  }
 	*/
 }
 
 #if (SHAREWARE == 0)
-#define GET_RESETSTATE(ob, resetstate)                                                                                 \
-	{                                                                                                                  \
-		if (ob->state->condition & SF_DOGSTATE)                                                                        \
-			resetstate = &s_serialdog;                                                                                 \
-		else                                                                                                           \
-			resetstate = &s_player;                                                                                    \
+#define GET_RESETSTATE(ob, resetstate) \
+	{ \
+		if (ob->state->condition & SF_DOGSTATE) \
+			resetstate = &s_serialdog; \
+		else \
+			resetstate = &s_player; \
 	}
 #else
-#define GET_RESETSTATE(ob, resetstate)                                                                                 \
-	{                                                                                                                  \
-		resetstate = &s_player;                                                                                        \
+#define GET_RESETSTATE(ob, resetstate) \
+	{ \
+		resetstate = &s_player; \
 	}
 #endif
 
@@ -4053,8 +4224,8 @@ void T_Attack(objtype *ob)
 	)
 
 	{
-		if (pstate->weapondowntics == 1) // change to up; during change, up and down
-										 // are never zero at the same time
+		if (pstate->weapondowntics == 1) // change to up; during change, up and
+										 // down are never zero at the same time
 		{
 #if (SHAREWARE == 0)
 			if (pstate->weapon == wp_kes)
@@ -4077,7 +4248,8 @@ void T_Attack(objtype *ob)
 				}
 				else if (pstate->NETCAPTURED == -2)
 				{
-					pstate->weaponuptics = WEAPONS[pstate->weapon].screenheight / GMOVE;
+					pstate->weaponuptics =
+						WEAPONS[pstate->weapon].screenheight / GMOVE;
 					pstate->weaponheight = pstate->weaponuptics * GMOVE;
 					pstate->NETCAPTURED = 0;
 
@@ -4085,7 +4257,8 @@ void T_Attack(objtype *ob)
 				}
 				else
 				{
-					pstate->weaponuptics = WEAPONS[pstate->new_weapon].screenheight / GMOVE;
+					pstate->weaponuptics =
+						WEAPONS[pstate->new_weapon].screenheight / GMOVE;
 					pstate->weapon = pstate->new_weapon;
 					pstate->weaponheight = pstate->weaponuptics * GMOVE;
 				}
@@ -4113,7 +4286,8 @@ void T_Attack(objtype *ob)
 		Cmd_Use(ob);
 
 	if (pstate->attackframe >= WEAPONS[pstate->weapon].numattacks)
-		Error("\n attackframe %d for weapon %d gt numattacks %d", pstate->attackframe, pstate->weapon,
+		Error("\n attackframe %d for weapon %d gt numattacks %d",
+			  pstate->attackframe, pstate->weapon,
 			  WEAPONS[pstate->weapon].numattacks);
 
 	cur = &(WEAPONS[pstate->weapon].attackinfo[pstate->attackframe]);
@@ -4133,7 +4307,8 @@ void T_Attack(objtype *ob)
 						break;
 					if (BATTLEMODE && (pstate->weapon == wp_firebomb))
 						break;
-					if ((pstate->buttonstate[bt_attack]) && (pstate->weapon <= wp_firewall))
+					if ((pstate->buttonstate[bt_attack]) &&
+						(pstate->weapon <= wp_firewall))
 					{
 						if (pstate->weapon <= wp_mp40)
 						{
@@ -4166,7 +4341,8 @@ void T_Attack(objtype *ob)
 					pstate->batblast = 0;
 					pstate->ammo = -1;
 					pstate->missileweapon = -1;
-					pstate->weapondowntics = WEAPONS[pstate->weapon].screenheight / GMOVE;
+					pstate->weapondowntics =
+						WEAPONS[pstate->weapon].screenheight / GMOVE;
 
 					if ((ob == player) && SHOW_BOTTOM_STATUS_BAR())
 						DrawBarAmmo(false);
@@ -4240,7 +4416,8 @@ void T_Attack(objtype *ob)
 
 				if (!(ob->flags & FL_GODMODE) && !godmode)
 				{
-					if (!BATTLEMODE || (gamestate.BattleOptions.Ammo != bo_infinite_shots))
+					if (!BATTLEMODE ||
+						(gamestate.BattleOptions.Ammo != bo_infinite_shots))
 						pstate->ammo--;
 
 					if ((ob == player) && SHOW_BOTTOM_STATUS_BAR())
@@ -4298,7 +4475,8 @@ void T_BatBlast(objtype *ob)
 	BatBlast(ob);
 
 	if (pstate->attackframe >= WEAPONS[pstate->weapon].numattacks)
-		Error("\n attackframe %d for weapon %d gt numattacks %d", pstate->attackframe, pstate->weapon,
+		Error("\n attackframe %d for weapon %d gt numattacks %d",
+			  pstate->attackframe, pstate->weapon,
 			  WEAPONS[pstate->weapon].numattacks);
 
 	cur = &(WEAPONS[pstate->weapon].attackinfo[pstate->attackframe]);
@@ -4318,7 +4496,8 @@ void T_BatBlast(objtype *ob)
 				pstate->new_weapon = pstate->bulletweapon;
 				pstate->ammo = -1;
 				pstate->missileweapon = -1;
-				pstate->weapondowntics = WEAPONS[pstate->weapon].screenheight / GMOVE;
+				pstate->weapondowntics =
+					WEAPONS[pstate->weapon].screenheight / GMOVE;
 			}
 
 			NewState(ob, &s_player);
@@ -4327,7 +4506,8 @@ void T_BatBlast(objtype *ob)
 			return;
 		}
 		pstate->attackframe++;
-		pstate->weaponframe = WEAPONS[pstate->weapon].attackinfo[pstate->attackframe].frame;
+		pstate->weaponframe =
+			WEAPONS[pstate->weapon].attackinfo[pstate->attackframe].frame;
 		cur = &(WEAPONS[pstate->weapon].attackinfo[pstate->attackframe]);
 		pstate->attackcount = cur->mtics;
 	}
@@ -4344,10 +4524,12 @@ void T_Free(objtype *ob)
 
 		// Commented out until we find if it's valid
 		/*
-			if ( locplayerstate->buttonstate[bt_use] && !locplayerstate->buttonheld[bt_use] )
+			if ( locplayerstate->buttonstate[bt_use] &&
+		   !locplayerstate->buttonheld[bt_use] )
 				locplayerstate->buttonstate[bt_use] = false;
 
-			if ( locplayerstate->buttonstate[bt_attack] && !locplayerstate->buttonheld[bt_attack])
+			if ( locplayerstate->buttonstate[bt_attack] &&
+		   !locplayerstate->buttonheld[bt_attack])
 				locplayerstate->buttonstate[bt_attack] = false;
 		*/
 		Thrust(ob);
@@ -4358,7 +4540,8 @@ void T_Free(objtype *ob)
 
 	if (!locplayerstate->attackcount)
 	{
-		if ((locplayerstate->weaponframe > 3) && (locplayerstate->weaponframe < 8))
+		if ((locplayerstate->weaponframe > 3) &&
+			(locplayerstate->weaponframe < 8))
 			locplayerstate->NETCAPTURED++;
 		else if (locplayerstate->weaponframe == 8)
 		{
@@ -4389,8 +4572,8 @@ void Switch_Who_Is_It_For_Tag(objtype *actor1, objtype *actor2)
 		playertype *pstate2;
 
 		M_LINKSTATE(actor2, pstate2);
-		pstate2->oldmissileweapon = pstate2->oldweapon = pstate2->new_weapon = pstate2->missileweapon =
-			pstate2->weapon = wp_godhand;
+		pstate2->oldmissileweapon = pstate2->oldweapon = pstate2->new_weapon =
+			pstate2->missileweapon = pstate2->weapon = wp_godhand;
 		pstate2->weaponheight = 144;
 		pstate2->weaponuptics = (144 - TAGHANDHEIGHT) / GMOVE;
 		pstate2->weapondowntics = 0;
@@ -4399,7 +4582,8 @@ void Switch_Who_Is_It_For_Tag(objtype *actor1, objtype *actor2)
 		UpdateKills = true;
 
 		actor1->flags &= ~FL_DESIGNATED;
-		BATTLE_PlayerKilledPlayer(battle_player_tagged, actor1->dirchoosetime, actor2->dirchoosetime);
+		BATTLE_PlayerKilledPlayer(battle_player_tagged, actor1->dirchoosetime,
+								  actor2->dirchoosetime);
 	}
 }
 
@@ -4491,7 +4675,8 @@ void CheckWeaponChange(objtype *ob)
 	if (pstate->buttonstate[bt_swapweapon])
 #endif
 	{
-		if ((pstate->weapon == pstate->bulletweapon) && (pstate->missileweapon != -1))
+		if ((pstate->weapon == pstate->bulletweapon) &&
+			(pstate->missileweapon != -1))
 		{
 			pstate->new_weapon = pstate->missileweapon;
 			StartWeaponChange;
@@ -4503,7 +4688,8 @@ void CheckWeaponChange(objtype *ob)
 			StartWeaponChange;
 		}
 	}
-	else if ((pstate->buttonstate[bt_dropweapon]) && (!gamestate.BattleOptions.WeaponPersistence))
+	else if ((pstate->buttonstate[bt_dropweapon]) &&
+			 (!gamestate.BattleOptions.WeaponPersistence))
 	{
 		if (pstate->weapon == pstate->bulletweapon)
 		{
@@ -4535,7 +4721,8 @@ void CheckWeaponChange(objtype *ob)
 
 	else if (pstate->buttonstate[bt_dualpistol])
 	{
-		if ((pstate->weapon != wp_twopistol) && pstate->HASBULLETWEAPON[wp_twopistol])
+		if ((pstate->weapon != wp_twopistol) &&
+			pstate->HASBULLETWEAPON[wp_twopistol])
 		{
 			pstate->new_weapon = pstate->bulletweapon = wp_twopistol;
 			StartWeaponChange;
@@ -4551,7 +4738,8 @@ void CheckWeaponChange(objtype *ob)
 	}
 	else if (pstate->buttonstate[bt_missileweapon])
 	{
-		if ((pstate->weapon != pstate->missileweapon) && (pstate->missileweapon != -1))
+		if ((pstate->weapon != pstate->missileweapon) &&
+			(pstate->missileweapon != -1))
 		{
 			pstate->new_weapon = pstate->missileweapon;
 			StartWeaponChange;
@@ -4590,9 +4778,11 @@ void SetWhoHaveWeapons(void)
 
 				pstate->weapon = pstate->new_weapon;
 				pstate->weapondowntics = 0;
-				pstate->weaponuptics = WEAPONS[pstate->new_weapon].screenheight / GMOVE;
+				pstate->weaponuptics =
+					WEAPONS[pstate->new_weapon].screenheight / GMOVE;
 				pstate->weaponheight = pstate->weaponuptics * GMOVE;
-				pstate->attackframe = pstate->weaponframe = pstate->batblast = 0;
+				pstate->attackframe = pstate->weaponframe = pstate->batblast =
+					0;
 				if (i == consoleplayer)
 					DrawBarAmmo(false);
 			}
@@ -4636,8 +4826,9 @@ void CheckWeaponStates(objtype *ob)
 			pstate->weaponheight += GMOVE;
 			pstate->weapondowntics--;
 			if (!pstate->weapondowntics)
-				pstate->weapon = pstate->missileweapon = pstate->bulletweapon = pstate->new_weapon = pstate->oldweapon =
-					pstate->oldmissileweapon = -1;
+				pstate->weapon = pstate->missileweapon = pstate->bulletweapon =
+					pstate->new_weapon = pstate->oldweapon =
+						pstate->oldmissileweapon = -1;
 		}
 
 		if (pstate->weaponuptics)
@@ -4679,9 +4870,9 @@ void CheckWeaponStates(objtype *ob)
 =============================
 */
 
-#define REGDOGSTATE(ob)                                                                                                \
-	((ob->state == &s_serialdog) || (ob->state == &s_serialdog2) || (ob->state == &s_serialdog3) ||                    \
-	 (ob->state == &s_serialdog4))
+#define REGDOGSTATE(ob) \
+	((ob->state == &s_serialdog) || (ob->state == &s_serialdog2) || \
+	 (ob->state == &s_serialdog3) || (ob->state == &s_serialdog4))
 
 static int dyingvolume = 255;
 void CheckSpecialSounds(objtype *ob, playertype *pstate)
@@ -4707,7 +4898,8 @@ void CheckSpecialSounds(objtype *ob, playertype *pstate)
 		}
 	}
 
-	if (((ob->flags & FL_GODMODE) || (ob->flags & FL_DOGMODE)) && (!W_CHANGE(pstate)))
+	if (((ob->flags & FL_GODMODE) || (ob->flags & FL_DOGMODE)) &&
+		(!W_CHANGE(pstate)))
 	{
 		pstate->soundtime++;
 		if (pstate->soundtime > (2 * VBLCOUNTER))
@@ -4734,13 +4926,15 @@ void CheckSpecialSounds(objtype *ob, playertype *pstate)
 					SD_PlaySoundRTP(sound, ob->x, ob->y);
 				}
 #if (SHAREWARE == 0)
-				else if ((!pstate->batblast) && (!ob->momentumz) && (REGDOGSTATE(ob)))
+				else if ((!pstate->batblast) && (!ob->momentumz) &&
+						 (REGDOGSTATE(ob)))
 				{
 					sound = SD_DOGMODEPANTSND;
 					if (rand < 128)
 						sound += 2;
 					NewState(ob, &s_doglick);
-					pstate->attackframe = pstate->weaponframe = pstate->batblast = 0;
+					pstate->attackframe = pstate->weaponframe =
+						pstate->batblast = 0;
 					SD_PlaySoundRTP(sound, ob->x, ob->y);
 				}
 #endif
@@ -4946,7 +5140,8 @@ void CheckProtectionsAndPowerups(objtype *ob, playertype *pstate)
 			if (ob->state->condition & SF_DOGSTATE)
 			{
 				NewState(ob, &s_player);
-				pstate->attackframe = pstate->weaponframe = pstate->batblast = 0;
+				pstate->attackframe = pstate->weaponframe = pstate->batblast =
+					0;
 			}
 		}
 		else if (ob->flags & FL_SHROOMS)
@@ -4957,7 +5152,8 @@ void CheckProtectionsAndPowerups(objtype *ob, playertype *pstate)
 		else if (ob->flags & FL_FLEET)
 			SD_PlaySoundRTP(SD_LOSEMODESND, ob->x, ob->y);
 
-		ob->flags &= ~(FL_SHROOMS | FL_ELASTO | FL_FLEET | FL_GODMODE | FL_DOGMODE);
+		ob->flags &=
+			~(FL_SHROOMS | FL_ELASTO | FL_FLEET | FL_GODMODE | FL_DOGMODE);
 	}
 
 	if (pstate->protectiontime)
@@ -5026,7 +5222,9 @@ void CheckFlying(objtype *ob, playertype *pstate)
 =============================
 */
 
-#define IN_AIR(ob) (!((ob->z == nominalheight) || (IsPlatform(ob->tilex, ob->tiley)) || (DiskAt(ob->tilex, ob->tiley))))
+#define IN_AIR(ob) \
+	(!((ob->z == nominalheight) || (IsPlatform(ob->tilex, ob->tiley)) || \
+	   (DiskAt(ob->tilex, ob->tiley))))
 
 void CheckTemp2Codes(objtype *ob, playertype *pstate)
 {
@@ -5040,7 +5238,8 @@ void CheckTemp2Codes(objtype *ob, playertype *pstate)
 	height = ob->z + pstate->playerheight;
 	godheight = ob->z + GODOFFSET;
 
-	// SoftError("\nheightoffset: %d, temp2: %d",pstate->heightoffset,ob->temp2);
+	// SoftError("\nheightoffset: %d, temp2:
+	// %d",pstate->heightoffset,ob->temp2);
 
 	if (!((ob->temp2 == PITFALL) || (ob->temp2 == PITRISE)))
 	{
@@ -5051,7 +5250,8 @@ void CheckTemp2Codes(objtype *ob, playertype *pstate)
 		if (ob->flags & FL_FLEET)
 		{
 			if (IN_AIR(ob))
-				pstate->heightoffset = FixedMulShift(0x4000, sintable[(oldpolltime << 6) & 2047], 28);
+				pstate->heightoffset = FixedMulShift(
+					0x4000, sintable[(oldpolltime << 6) & 2047], 28);
 
 			ob->z += ((ob->momentumz + 0x8000) >> 16);
 			ob->momentumz = 0;
@@ -5177,7 +5377,8 @@ void CheckTemp2Codes(objtype *ob, playertype *pstate)
 				break;
 
 			case 0:
-				if (!((ob->flags & FL_FLEET) || (ob->flags & FL_DOGMODE) || (ob->flags & FL_GODMODE)))
+				if (!((ob->flags & FL_FLEET) || (ob->flags & FL_DOGMODE) ||
+					  (ob->flags & FL_GODMODE)))
 					pstate->heightoffset = 0;
 				break;
 		}
@@ -5234,7 +5435,8 @@ void CheckRemoteRecording(objtype *ob, playertype *pstate)
 {
 	if (networkgame == true)
 	{
-		if ((pstate->buttonstate[bt_recordsound]) && (!pstate->buttonheld[bt_recordsound]))
+		if ((pstate->buttonstate[bt_recordsound]) &&
+			(!pstate->buttonheld[bt_recordsound]))
 		{
 			if (SD_RecordingActive() == false)
 			{
@@ -5247,7 +5449,8 @@ void CheckRemoteRecording(objtype *ob, playertype *pstate)
 				}
 			}
 		}
-		else if ((pstate->buttonheld[bt_recordsound]) && (!pstate->buttonstate[bt_recordsound]))
+		else if ((pstate->buttonheld[bt_recordsound]) &&
+				 (!pstate->buttonstate[bt_recordsound]))
 		{
 			if (SD_RecordingActive() == true)
 			{
@@ -5324,7 +5527,8 @@ void T_DogUse(objtype *ob)
 	*/
 
 	if (pstate->attackframe >= DOGSCRATCH.numattacks)
-		Error("\n attackframe %d for DOGSCRATCH gt numattacks %d", pstate->attackframe, DOGSCRATCH.numattacks);
+		Error("\n attackframe %d for DOGSCRATCH gt numattacks %d",
+			  pstate->attackframe, DOGSCRATCH.numattacks);
 
 	cur = &(DOGSCRATCH.attackinfo[pstate->attackframe]);
 	if (!pstate->attackcount)
@@ -5333,7 +5537,8 @@ void T_DogUse(objtype *ob)
 		{
 			case reset: {
 				NewState(ob, &s_dogwait);
-				pstate->attackframe = pstate->weaponframe = pstate->batblast = 0;
+				pstate->attackframe = pstate->weaponframe = pstate->batblast =
+					0;
 				return;
 			}
 			break;
@@ -5386,7 +5591,8 @@ void T_DogLick(objtype *ob)
 	*/
 
 	if (pstate->attackframe >= DOGLICK.numattacks)
-		Error("\n attackframe %d for DOGLICK gt numattacks %d", pstate->attackframe, DOGLICK.numattacks);
+		Error("\n attackframe %d for DOGLICK gt numattacks %d",
+			  pstate->attackframe, DOGLICK.numattacks);
 
 	cur = &(DOGLICK.attackinfo[pstate->attackframe]);
 	if (!pstate->attackcount)
@@ -5405,8 +5611,8 @@ void T_DogLick(objtype *ob)
 	else
 		pstate->attackcount--;
 
-	//	if ( playerstate.buttonstate[bt_attack] && (!playerstate.buttonheld[bt_attack]) && (!W_CHANGE))
-	//		Cmd_Fire (ob);
+	//	if ( playerstate.buttonstate[bt_attack] &&
+	//(!playerstate.buttonheld[bt_attack]) && (!W_CHANGE)) 		Cmd_Fire (ob);
 }
 
 #endif
@@ -5416,13 +5622,15 @@ void T_DeadWait(objtype *ob)
 	playertype *pstate;
 
 	M_LINKSTATE(ob, pstate);
-	if ((ob->flags & FL_DESIGNATED) && (gamestate.battlemode == battle_CaptureTheTriad))
+	if ((ob->flags & FL_DESIGNATED) &&
+		(gamestate.battlemode == battle_CaptureTheTriad))
 	{
 		int otherteam = (pstate->team ^ 1);
 
 		ob->flags &= ~FL_DESIGNATED;
 		UpdateKills = true;
-		SpawnStatic(TEAM[otherteam].tilex, TEAM[otherteam].tiley, stat_collector, 9);
+		SpawnStatic(TEAM[otherteam].tilex, TEAM[otherteam].tiley,
+					stat_collector, 9);
 		LASTSTAT->flags |= FL_COLORED;
 		LASTSTAT->hitpoints = otherteam;
 		LASTSTAT->flags |= FL_ABP;
@@ -5494,7 +5702,8 @@ void T_Player(objtype *ob)
 		CheckPlayerSpecials(ob);
 		PlayerMove(ob);
 		if ((pstate->falling == true) ||
-			((!ob->momentumx) && (!ob->momentumy) && (!ob->momentumz) && (!ob->state->tictime)))
+			((!ob->momentumx) && (!ob->momentumy) && (!ob->momentumz) &&
+			 (!ob->state->tictime)))
 		{
 			KillActor(ob);
 			if (ob->state == &s_remoteguts12)
@@ -5521,7 +5730,8 @@ void T_Player(objtype *ob)
 	{
 		if (!(ob->state->condition & SF_DOGSTATE))
 		{
-			if ((ob->momentumx || ob->momentumy) && (ob->state->condition != SF_DOWN))
+			if ((ob->momentumx || ob->momentumy) &&
+				(ob->state->condition != SF_DOWN))
 				NewState(ob, &s_remotemove1);
 			else if (NOMOM && (ob->state != &s_player))
 				NewState(ob, &s_player);
@@ -5556,8 +5766,8 @@ void T_Player(objtype *ob)
 		//(gamestate.battlemode != battle_Tag)
 	)
 	{
-		if (pstate->weapondowntics == 1) // change to up; during change, up and down
-										 // are never zero at the same time
+		if (pstate->weapondowntics == 1) // change to up; during change, up and
+										 // down are never zero at the same time
 		{
 			pstate->weapondowntics = 0;
 			pstate->weaponframe = pstate->attackframe = 0;
@@ -5571,7 +5781,8 @@ void T_Player(objtype *ob)
 			}
 			else if (pstate->NETCAPTURED == -2)
 			{
-				pstate->weaponuptics = WEAPONS[pstate->weapon].screenheight / GMOVE;
+				pstate->weaponuptics =
+					WEAPONS[pstate->weapon].screenheight / GMOVE;
 				pstate->weaponheight = pstate->weaponuptics * GMOVE;
 				pstate->NETCAPTURED = 0;
 
@@ -5579,7 +5790,8 @@ void T_Player(objtype *ob)
 			}
 			else
 			{
-				pstate->weaponuptics = WEAPONS[pstate->new_weapon].screenheight / GMOVE;
+				pstate->weaponuptics =
+					WEAPONS[pstate->new_weapon].screenheight / GMOVE;
 				pstate->weapon = pstate->new_weapon;
 
 				pstate->weaponheight = pstate->weaponuptics * GMOVE;
@@ -5640,8 +5852,10 @@ void T_Player(objtype *ob)
 				{
 					int handle;
 
-					handle = SD_PlaySoundRTP(SD_DOGMODEPREPBLASTSND, ob->x, ob->y);
-					SD_SetSoundPitch(handle, -(BBTIME << 3) + (pstate->batblast << 3));
+					handle =
+						SD_PlaySoundRTP(SD_DOGMODEPREPBLASTSND, ob->x, ob->y);
+					SD_SetSoundPitch(handle,
+									 -(BBTIME << 3) + (pstate->batblast << 3));
 				}
 			}
 			if (pstate->batblast < BBTIME)
@@ -5671,7 +5885,8 @@ void T_Player(objtype *ob)
 
 #if (SHAREWARE == 0)
 
-	else if (((pstate->weapon == wp_bat) || ((pstate->weapon == wp_dog) && (!eluder))) &&
+	else if (((pstate->weapon == wp_bat) ||
+			  ((pstate->weapon == wp_dog) && (!eluder))) &&
 			 (pstate->buttonheld[bt_attack]))
 	{
 		if (pstate->weapon == wp_bat)

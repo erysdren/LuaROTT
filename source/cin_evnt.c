@@ -275,8 +275,8 @@ enum_eventtype GetEventType(void)
 */
 void ParseBack(eventtype *event)
 {
-	char name[10] = {0};
-	char name2[10] = {0};
+	char name[10] = { 0 };
+	char name2[10] = { 0 };
 	int width = 0;
 
 	GetToken(false);
@@ -292,7 +292,8 @@ void ParseBack(eventtype *event)
 	int duration = ParseNum(token);
 	GetToken(false);
 	int yoffset = ParseNum(token);
-	if ((event->effecttype == background_noscrolling) || (event->effecttype == background_scrolling))
+	if ((event->effecttype == background_noscrolling) ||
+		(event->effecttype == background_scrolling))
 	{
 		lpic_t *lpic;
 
@@ -309,7 +310,8 @@ void ParseBack(eventtype *event)
 
 	int startx = 0;
 	int endx = 0;
-	if ((event->effecttype == backdrop_scrolling) || (event->effecttype == background_scrolling) ||
+	if ((event->effecttype == backdrop_scrolling) ||
+		(event->effecttype == background_scrolling) ||
 		(event->effecttype == background_multi))
 	{
 		GetToken(false);
@@ -319,9 +321,11 @@ void ParseBack(eventtype *event)
 	}
 
 	if (event->effecttype == background_multi)
-		event->effect = SpawnCinematicMultiBack(name, name2, duration, startx, endx, yoffset);
+		event->effect = SpawnCinematicMultiBack(name, name2, duration, startx,
+												endx, yoffset);
 	else
-		event->effect = SpawnCinematicBack(name, duration, width, startx, endx, yoffset);
+		event->effect =
+			SpawnCinematicBack(name, duration, width, startx, endx, yoffset);
 }
 
 /*
@@ -361,7 +365,8 @@ void ParseSprite(eventtype *event)
 	GetToken(false);
 	endscale = ParseNum(token);
 
-	event->effect = SpawnCinematicSprite(name, duration, numframes, framedelay, x, y, scale, endx, endy, endscale);
+	event->effect = SpawnCinematicSprite(name, duration, numframes, framedelay,
+										 x, y, scale, endx, endy, endscale);
 }
 
 /*

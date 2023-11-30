@@ -138,9 +138,10 @@ int GetLevel(int episode, int mapon);
 void DrawPause(void);
 void DrawPauseXY(int x, int y);
 
-void DrawColoredMPPic(int xpos, int ypos, int width, int height, int heightmod, byte *src, boolean bufferofsonly,
-					  int color);
-void StatusDrawColoredPic(unsigned x, unsigned y, pic_t *nums, boolean bufferofsonly, int color);
+void DrawColoredMPPic(int xpos, int ypos, int width, int height, int heightmod,
+					  byte *src, boolean bufferofsonly, int color);
+void StatusDrawColoredPic(unsigned x, unsigned y, pic_t *nums,
+						  boolean bufferofsonly, int color);
 
 void ClearTriads(playertype *pstate);
 #endif

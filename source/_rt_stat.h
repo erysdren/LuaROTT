@@ -28,8 +28,9 @@ void PreCacheStaticSounds(int);
 #define SOLIDCOLORINCREMENT 1
 #define MAXFIRECOLOR 248
 #define INITIALFIRECOLOR 246
-#define IsLight(x, y)                                                                                                  \
-	((x >= 0) && (x <= 127) && (y >= 0) && (y <= 127) && (sprites[x][y]) && (sprites[x][y]->flags & FL_LIGHT))
+#define IsLight(x, y) \
+	((x >= 0) && (x <= 127) && (y >= 0) && (y <= 127) && (sprites[x][y]) && \
+	 (sprites[x][y]->flags & FL_LIGHT))
 
 typedef struct
 {

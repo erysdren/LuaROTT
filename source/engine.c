@@ -65,7 +65,8 @@ void Interpolate(int x1, int x2)
 
 	dx = x2 - x1;
 	dtexture = (((posts[x2].texture - posts[x1].texture) << 12) + 0x800) / dx;
-	dheight = (((posts[x2].wallheight - posts[x1].wallheight) << 8) + 0x80) / dx;
+	dheight =
+		(((posts[x2].wallheight - posts[x1].wallheight) << 8) + 0x80) / dx;
 	frac = dtexture + (posts[x1].texture << 12);
 	hfrac = dheight + (posts[x1].wallheight << 8);
 	for (i = x1 + 1; i <= x2 - 1; i++, frac += dtexture, hfrac += dheight)
@@ -143,7 +144,8 @@ void HitWall(int curx, int vertical, int xtile, int ytile)
 			else
 			{
 				if (posts[curx].lump & 0x1000)
-					posts[curx].lump = animwalls[posts[curx].lump & 0x3ff].texture;
+					posts[curx].lump =
+						animwalls[posts[curx].lump & 0x3ff].texture;
 				else
 					posts[curx].lump &= 0x3ff;
 			}
@@ -198,7 +200,8 @@ void HitWall(int curx, int vertical, int xtile, int ytile)
 			else
 			{
 				if (posts[curx].lump & 0x1000)
-					posts[curx].lump = animwalls[posts[curx].lump & 0x3ff].texture;
+					posts[curx].lump =
+						animwalls[posts[curx].lump & 0x3ff].texture;
 				else
 					posts[curx].lump &= 0x3ff;
 			}
@@ -291,7 +294,8 @@ void InitialCast(void)
 			{
 				if (tile & 0x8000)
 				{
-					if ((!(tile & 0x4000)) && (doorobjlist[tile & 0x3ff]->action == dr_closed))
+					if ((!(tile & 0x4000)) &&
+						(doorobjlist[tile & 0x3ff]->action == dr_closed))
 					{
 						spotvis[grid[0]][grid[1]] = 1;
 						if (doorobjlist[tile & 0x3ff]->flags & DF_MULTI)
@@ -301,7 +305,8 @@ void InitialCast(void)
 							index = (cnt >= 0);
 							cnt += incr[index];
 							grid[index] += thedir[index];
-							if ((tilemap[grid[0]][grid[1]] != 0) && (!(tilemap[grid[0]][grid[1]] & 0x8000)))
+							if ((tilemap[grid[0]][grid[1]] != 0) &&
+								(!(tilemap[grid[0]][grid[1]] & 0x8000)))
 								break;
 						} while (1);
 						break;
@@ -378,7 +383,8 @@ void Cast(int curx)
 		{
 			if (tile & 0x8000)
 			{
-				if ((!(tile & 0x4000)) && (doorobjlist[tile & 0x3ff]->action == dr_closed))
+				if ((!(tile & 0x4000)) &&
+					(doorobjlist[tile & 0x3ff]->action == dr_closed))
 				{
 					spotvis[grid[0]][grid[1]] = 1;
 					if (doorobjlist[tile & 0x3ff]->flags & DF_MULTI)
@@ -388,7 +394,8 @@ void Cast(int curx)
 						index = (cnt >= 0);
 						cnt += incr[index];
 						grid[index] += thedir[index];
-						if ((tilemap[grid[0]][grid[1]] != 0) && (!(tilemap[grid[0]][grid[1]] & 0x8000)))
+						if ((tilemap[grid[0]][grid[1]] != 0) &&
+							(!(tilemap[grid[0]][grid[1]] & 0x8000)))
 							break;
 					} while (1);
 					break;

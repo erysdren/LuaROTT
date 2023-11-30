@@ -88,7 +88,8 @@ enum
 
 #define SD_RANDOMSHIFT 1
 
-#define PitchOffset() ((RandomNumber("Pitch Offset", 0) - 128) >> SD_RANDOMSHIFT)
+#define PitchOffset() \
+	((RandomNumber("Pitch Offset", 0) - 128) >> SD_RANDOMSHIFT)
 
 #define SoundOffset(x) (sounds[x].snds[soundtype])
 

@@ -118,7 +118,8 @@ void DrawRotPost(int height, byte *src, byte *buf, int origheight)
 ========================
 */
 
-void GetPoint(int x1, int y1, int px, int py, int *screenx, int *height, int angle)
+void GetPoint(int x1, int y1, int px, int py, int *screenx, int *height,
+			  int angle)
 {
 
 	fixed gxt, gyt, nx, ny;
@@ -150,7 +151,8 @@ void GetPoint(int x1, int y1, int px, int py, int *screenx, int *height, int ang
 
 	// too close, don't overflow the divid'
 
-	*screenx = 160 + ((ny * NORMALWIDTHMULTIPLIER) / nx); // DEBUG: use assembly divide
+	*screenx =
+		160 + ((ny * NORMALWIDTHMULTIPLIER) / nx); // DEBUG: use assembly divide
 
 	*height = NORMALHEIGHTDIVISOR / nx;
 
@@ -324,15 +326,19 @@ void CalcPlanes(int px, int py, int angle)
 	{
 		if (SideOfLine(pptr->x1, pptr->y1, pptr->x2, pptr->y2, px, py) < 0)
 		{
-			GetPoint(pptr->x1, pptr->y1, px, py, &visptr->x1, &visptr->h1, angle);
-			GetPoint(pptr->x2, pptr->y2, px, py, &visptr->x2, &visptr->h2, angle);
+			GetPoint(pptr->x1, pptr->y1, px, py, &visptr->x1, &visptr->h1,
+					 angle);
+			GetPoint(pptr->x2, pptr->y2, px, py, &visptr->x2, &visptr->h2,
+					 angle);
 			visptr->textureend = 0x0;
 			visptr->texturestart = pptr->texturewidth;
 		}
 		else
 		{
-			GetPoint(pptr->x2, pptr->y2, px, py, &visptr->x1, &visptr->h1, angle);
-			GetPoint(pptr->x1, pptr->y1, px, py, &visptr->x2, &visptr->h2, angle);
+			GetPoint(pptr->x2, pptr->y2, px, py, &visptr->x1, &visptr->h1,
+					 angle);
+			GetPoint(pptr->x1, pptr->y1, px, py, &visptr->x2, &visptr->h2,
+					 angle);
 			visptr->texturestart = 0x0;
 			visptr->textureend = pptr->texturewidth;
 		}
@@ -546,7 +552,8 @@ void RefreshMenuBuf(int time)
 	for (i = 0; i <= time; i += tics)
 	{
 		// PositionMenuBuf (0,NORMALVIEW,false);
-		PositionMenuBuf(0, NORMALVIEW, true); // bna++ in not true bg in menu is no redrawn
+		PositionMenuBuf(0, NORMALVIEW,
+						true); // bna++ in not true bg in menu is no redrawn
 	}
 }
 
@@ -656,15 +663,18 @@ void DrawMenuBufItem(int x, int y, int shapenum)
 	shape = W_CacheLumpNum(shapenum, PU_CACHE, Cvt_patch_t, 1);
 	p = (patch_t *)shape;
 
-	if (((x - p->leftoffset) < 0) || ((x - p->leftoffset + p->width) >= TEXTUREW))
+	if (((x - p->leftoffset) < 0) ||
+		((x - p->leftoffset + p->width) >= TEXTUREW))
 		Error("DrawMenuBufItem: x is out of range\n");
-	if (((y - p->topoffset) < 0) || ((y - p->topoffset + p->height) >= TEXTUREHEIGHT))
+	if (((y - p->topoffset) < 0) ||
+		((y - p->topoffset + p->height) >= TEXTUREHEIGHT))
 		Error("DrawMenuBufItem: y is out of range\n");
 
 	buffer = (byte *)menubuf + y + ((x - p->leftoffset) * TEXTUREHEIGHT);
 
 	for (cnt = 0; cnt < p->width; cnt++, buffer += TEXTUREHEIGHT)
-		ScaleMenuBufPost((byte *)(p->collumnofs[cnt] + shape), p->topoffset, buffer);
+		ScaleMenuBufPost((byte *)(p->collumnofs[cnt] + shape), p->topoffset,
+						 buffer);
 }
 
 //******************************************************************************
@@ -715,15 +725,18 @@ void DrawIMenuBufItem(int x, int y, int shapenum, int color)
 	shape = W_CacheLumpNum(shapenum, PU_CACHE, Cvt_patch_t, 1);
 	p = (patch_t *)shape;
 
-	if (((x - p->leftoffset) < 0) || ((x - p->leftoffset + p->width) >= TEXTUREW))
+	if (((x - p->leftoffset) < 0) ||
+		((x - p->leftoffset + p->width) >= TEXTUREW))
 		Error("DrawIMenuBufItem: x is out of range\n");
-	if (((y - p->topoffset) < 0) || ((y - p->topoffset + p->height) >= TEXTUREHEIGHT))
+	if (((y - p->topoffset) < 0) ||
+		((y - p->topoffset + p->height) >= TEXTUREHEIGHT))
 		Error("DrawIMenuBufItem: y is out of range\n");
 
 	buffer = (byte *)menubuf + y + ((x - p->leftoffset) * TEXTUREHEIGHT);
 
 	for (cnt = 0; cnt < p->width; cnt++, buffer += TEXTUREHEIGHT)
-		IScaleMenuBufPost((byte *)(p->collumnofs[cnt] + shape), p->topoffset, buffer, color);
+		IScaleMenuBufPost((byte *)(p->collumnofs[cnt] + shape), p->topoffset,
+						  buffer, color);
 }
 
 //******************************************************************************
@@ -893,15 +906,18 @@ void DrawTMenuBufItem(int x, int y, int shapenum)
 
 	shadingtable = colormap + (25 << 8);
 
-	if (((x - p->leftoffset) < 0) || ((x - p->leftoffset + p->width) >= TEXTUREW))
+	if (((x - p->leftoffset) < 0) ||
+		((x - p->leftoffset + p->width) >= TEXTUREW))
 		Error("DrawTMenuBufItem: x is out of range\n");
-	if (((y - p->topoffset) < 0) || ((y - p->topoffset + p->height) >= TEXTUREHEIGHT))
+	if (((y - p->topoffset) < 0) ||
+		((y - p->topoffset + p->height) >= TEXTUREHEIGHT))
 		Error("DrawTMenuBufItem: y is out of range\n");
 
 	buffer = (byte *)menubuf + y + ((x - p->leftoffset) * TEXTUREHEIGHT);
 
 	for (cnt = 0; cnt < p->width; cnt++, buffer += TEXTUREHEIGHT)
-		TScaleMenuBufPost((byte *)(p->collumnofs[cnt] + shape), p->topoffset, buffer);
+		TScaleMenuBufPost((byte *)(p->collumnofs[cnt] + shape), p->topoffset,
+						  buffer);
 }
 
 //******************************************************************************
@@ -925,15 +941,18 @@ void DrawColoredMenuBufItem(int x, int y, int shapenum, int color)
 
 	shadingtable = playermaps[color] + (16 << 8);
 
-	if (((x - p->leftoffset) < 0) || ((x - p->leftoffset + p->width) >= TEXTUREW))
+	if (((x - p->leftoffset) < 0) ||
+		((x - p->leftoffset + p->width) >= TEXTUREW))
 		Error("DrawColoredMenuBufItem: x is out of range\n");
-	if (((y - p->topoffset) < 0) || ((y - p->topoffset + p->height) >= TEXTUREHEIGHT))
+	if (((y - p->topoffset) < 0) ||
+		((y - p->topoffset + p->height) >= TEXTUREHEIGHT))
 		Error("DrawColoredMenuBufItem: y is out of range\n");
 
 	buffer = (byte *)menubuf + y + ((x - p->leftoffset) * TEXTUREHEIGHT);
 
 	for (cnt = 0; cnt < p->width; cnt++, buffer += TEXTUREHEIGHT)
-		CScaleMenuBufPost((byte *)(p->collumnofs[cnt] + shape), p->topoffset, buffer);
+		CScaleMenuBufPost((byte *)(p->collumnofs[cnt] + shape), p->topoffset,
+						  buffer);
 }
 
 //******************************************************************************

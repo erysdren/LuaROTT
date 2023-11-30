@@ -183,7 +183,8 @@ void BATTLE_Init(int battlemode, int numplayers)
 		gamestate.BattleOptions.RandomWeapons = BattleOptions.RandomWeapons;
 		gamestate.BattleOptions.FriendlyFire = BattleOptions.FriendlyFire;
 		gamestate.BattleOptions.SpawnMines = BattleOptions.SpawnMines;
-		gamestate.BattleOptions.WeaponPersistence = BattleOptions.WeaponPersistence;
+		gamestate.BattleOptions.WeaponPersistence =
+			BattleOptions.WeaponPersistence;
 	}
 
 	gamestate.ShowScores = true;
@@ -234,7 +235,8 @@ void BATTLE_Init(int battlemode, int numplayers)
 	}
 
 	PointGoal = gamestate.BattleOptions.Kills;
-	if ((gamestate.BattleOptions.Kills == bo_kills_random) || (gamestate.BattleOptions.Kills == bo_kills_blind))
+	if ((gamestate.BattleOptions.Kills == bo_kills_random) ||
+		(gamestate.BattleOptions.Kills == bo_kills_blind))
 	{
 		// Possibility of playing from 5 to 50 kills
 		PointGoal = (GameRandomNumber("BATTLE_Init", 0) % 46) + 5;
@@ -527,7 +529,8 @@ static battle_status BATTLE_StartRound(void)
 			gamestate.PlayerHasGun[index] = true;
 		}
 
-		if ((gamestate.BattleOptions.Kills != bo_kills_infinite) && (BattleRound >= PointGoal))
+		if ((gamestate.BattleOptions.Kills != bo_kills_infinite) &&
+			(BattleRound >= PointGoal))
 		{
 			return (battle_end_game);
 		}
@@ -561,7 +564,8 @@ battle_status BATTLE_CheckGameStatus(battle_event reason, int player)
 	if ((player < 0) || (player >= MAXPLAYERS))
 	{
 #if (BATTLECHECK == 1)
-		Error("BATTLE_CheckGameStatus - reason %d : Player out of range!\n", reason);
+		Error("BATTLE_CheckGameStatus - reason %d : Player out of range!\n",
+			  reason);
 #else
 		return (battle_no_event);
 #endif
@@ -649,10 +653,12 @@ battle_status BATTLE_CheckGameStatus(battle_event reason, int player)
 
 		case battle_get_collector_item:
 
-			if ((BattleMode != battle_Collector) && (BattleMode != battle_Scavenger))
+			if ((BattleMode != battle_Collector) &&
+				(BattleMode != battle_Scavenger))
 			{
 #if (BATTLECHECK == 1)
-				Error("BATTLE_CheckGameStatus : Got collector item on wrong battle mode!");
+				Error("BATTLE_CheckGameStatus : Got collector item on wrong "
+					  "battle mode!");
 #else
 				return (battle_no_event);
 #endif
@@ -677,7 +683,8 @@ battle_status BATTLE_CheckGameStatus(battle_event reason, int player)
 			if (BattleMode != battle_Eluder)
 			{
 #if (BATTLECHECK == 1)
-				Error("BATTLE_CheckGameStatus : Caught Eluder on non-Eluder battle mode!");
+				Error("BATTLE_CheckGameStatus : Caught Eluder on non-Eluder "
+					  "battle mode!");
 #else
 				return (battle_no_event);
 #endif
@@ -686,7 +693,8 @@ battle_status BATTLE_CheckGameStatus(battle_event reason, int player)
 			BATTLE_Points[team]++;
 			UpdateKills = true;
 
-			if ((gamestate.BattleOptions.Kills != bo_kills_infinite) && (BATTLE_Points[team] >= PointGoal))
+			if ((gamestate.BattleOptions.Kills != bo_kills_infinite) &&
+				(BATTLE_Points[team] >= PointGoal))
 			{
 				RoundOver = true;
 				return (battle_end_game);
@@ -703,7 +711,8 @@ battle_status BATTLE_CheckGameStatus(battle_event reason, int player)
 			if (BattleMode != battle_Deluder)
 			{
 #if (BATTLECHECK == 1)
-				Error("BATTLE_CheckGameStatus : Shot Eluder on non-Eluder battle mode!");
+				Error("BATTLE_CheckGameStatus : Shot Eluder on non-Eluder "
+					  "battle mode!");
 #else
 				return (battle_no_event);
 #endif
@@ -712,7 +721,8 @@ battle_status BATTLE_CheckGameStatus(battle_event reason, int player)
 			BATTLE_Points[team]++;
 			UpdateKills = true;
 
-			if ((gamestate.BattleOptions.Kills != bo_kills_infinite) && (BATTLE_Points[team] >= PointGoal))
+			if ((gamestate.BattleOptions.Kills != bo_kills_infinite) &&
+				(BATTLE_Points[team] >= PointGoal))
 			{
 				RoundOver = true;
 				return (battle_end_game);
@@ -724,7 +734,8 @@ battle_status BATTLE_CheckGameStatus(battle_event reason, int player)
 			if (BattleMode != battle_CaptureTheTriad)
 			{
 #if (BATTLECHECK == 1)
-				Error("BATTLE_CheckGameStatus : Triad Captured on invalid battle mode!");
+				Error("BATTLE_CheckGameStatus : Triad Captured on invalid "
+					  "battle mode!");
 #else
 				return (battle_no_event);
 #endif
@@ -738,7 +749,8 @@ battle_status BATTLE_CheckGameStatus(battle_event reason, int player)
 			BATTLE_Points[team]++;
 			UpdateKills = true;
 
-			if ((gamestate.BattleOptions.Kills != bo_kills_infinite) && (BATTLE_Points[team] >= PointGoal))
+			if ((gamestate.BattleOptions.Kills != bo_kills_infinite) &&
+				(BATTLE_Points[team] >= PointGoal))
 			{
 				RoundOver = true;
 				return (battle_end_game);
@@ -778,7 +790,8 @@ void BATTLE_SortPlayerRanks(void)
 		{
 			for (j = i + 1; j < BATTLE_NumberOfTeams; j++)
 			{
-				if (BATTLE_Points[BATTLE_PlayerOrder[i]] > BATTLE_Points[BATTLE_PlayerOrder[j]])
+				if (BATTLE_Points[BATTLE_PlayerOrder[i]] >
+					BATTLE_Points[BATTLE_PlayerOrder[j]])
 				{
 					SwapFlag = true;
 					temp = BATTLE_PlayerOrder[i];
@@ -794,7 +807,8 @@ void BATTLE_SortPlayerRanks(void)
 		{
 			for (j = i + 1; j < BATTLE_NumberOfTeams; j++)
 			{
-				if (BATTLE_Points[BATTLE_PlayerOrder[i]] < BATTLE_Points[BATTLE_PlayerOrder[j]])
+				if (BATTLE_Points[BATTLE_PlayerOrder[i]] <
+					BATTLE_Points[BATTLE_PlayerOrder[j]])
 				{
 					SwapFlag = true;
 					temp = BATTLE_PlayerOrder[i];
@@ -813,12 +827,13 @@ void BATTLE_SortPlayerRanks(void)
 #if (BATTLEINFO == 1)
 	for (i = 0; i < BATTLE_NumberOfTeams; i++)
 	{
-		SoftError("Sorted rank %d = player %d : Score = %d\n", i, BATTLE_PlayerOrder[i],
-				  BATTLE_Points[BATTLE_PlayerOrder[i]]);
+		SoftError("Sorted rank %d = player %d : Score = %d\n", i,
+				  BATTLE_PlayerOrder[i], BATTLE_Points[BATTLE_PlayerOrder[i]]);
 	}
 #endif
 
-	if ((SwapFlag == true) && (gamestate.ShowScores) && (SHOW_TOP_STATUS_BAR() || SHOW_KILLS()))
+	if ((SwapFlag == true) && (gamestate.ShowScores) &&
+		(SHOW_TOP_STATUS_BAR() || SHOW_KILLS()))
 	{
 		SD_Play(SD_ENDBONUS1SND);
 	}
@@ -830,7 +845,8 @@ void BATTLE_SortPlayerRanks(void)
    Increases the number of kills a player has.
 ---------------------------------------------------------------------*/
 
-battle_status BATTLE_PlayerKilledPlayer(battle_event reason, int killer, int victim)
+battle_status BATTLE_PlayerKilledPlayer(battle_event reason, int killer,
+										int victim)
 
 {
 	int points;
@@ -849,7 +865,8 @@ battle_status BATTLE_PlayerKilledPlayer(battle_event reason, int killer, int vic
 	if ((killer < 0) || (killer >= MAXPLAYERS))
 	{
 #if (BATTLECHECK == 1)
-		Error("BATTLE_PlayerKilledPlayer - reason %d : Killer out of range!\n", reason);
+		Error("BATTLE_PlayerKilledPlayer - reason %d : Killer out of range!\n",
+			  reason);
 #else
 		return (battle_no_event);
 #endif
@@ -857,13 +874,15 @@ battle_status BATTLE_PlayerKilledPlayer(battle_event reason, int killer, int vic
 	if ((victim < 0) || (victim >= MAXPLAYERS))
 	{
 #if (BATTLECHECK == 1)
-		Error("BATTLE_PlayerKilledPlayer - reason %d : Victim out of range!\n", reason);
+		Error("BATTLE_PlayerKilledPlayer - reason %d : Victim out of range!\n",
+			  reason);
 #else
 		return (battle_no_event);
 #endif
 	}
 
-	if ((killer == victim) && (reason != battle_kill_with_missile) && (reason != battle_kill_with_missile_in_air))
+	if ((killer == victim) && (reason != battle_kill_with_missile) &&
+		(reason != battle_kill_with_missile_in_air))
 	{
 #if (BATTLECHECK == 1)
 		Error("BATTLE_PlayerKilledPlayer : Player "
@@ -877,11 +896,12 @@ battle_status BATTLE_PlayerKilledPlayer(battle_event reason, int killer, int vic
 	killerteam = BATTLE_Team[killer];
 	victimteam = BATTLE_Team[victim];
 
-	if ((killerteam < 0) || (killerteam >= BATTLE_NumberOfTeams) || (victimteam < 0) ||
-		(victimteam >= BATTLE_NumberOfTeams))
+	if ((killerteam < 0) || (killerteam >= BATTLE_NumberOfTeams) ||
+		(victimteam < 0) || (victimteam >= BATTLE_NumberOfTeams))
 	{
 #if (BATTLECHECK == 1)
-		Error("BATTLE_PlayerKilledPlayer - reason %d : Team out of range!\n", reason);
+		Error("BATTLE_PlayerKilledPlayer - reason %d : Team out of range!\n",
+			  reason);
 #else
 		return (battle_no_event);
 #endif
@@ -925,7 +945,8 @@ battle_status BATTLE_PlayerKilledPlayer(battle_event reason, int killer, int vic
 
 			default:
 #if (BATTLECHECK == 1)
-				Error("BATTLE_PlayerKilledPlayer called with a reason of %d.", reason);
+				Error("BATTLE_PlayerKilledPlayer called with a reason of %d.",
+					  reason);
 #else
 				return (battle_no_event);
 #endif
@@ -955,7 +976,8 @@ battle_status BATTLE_PlayerKilledPlayer(battle_event reason, int killer, int vic
 			UpdateKills = true;
 			BATTLE_It = victimteam;
 
-			if ((gamestate.BattleOptions.Kills != bo_kills_infinite) && (BATTLE_Points[victimteam] >= PointGoal))
+			if ((gamestate.BattleOptions.Kills != bo_kills_infinite) &&
+				(BATTLE_Points[victimteam] >= PointGoal))
 			{
 				RoundOver = true;
 				status = battle_end_game;
@@ -1042,7 +1064,8 @@ battle_status BATTLE_PlayerKilledPlayer(battle_event reason, int killer, int vic
 
 			default:
 #if (BATTLECHECK == 1)
-				Error("BATTLE_PlayerKilledPlayer called with a reason of %d.", reason);
+				Error("BATTLE_PlayerKilledPlayer called with a reason of %d.",
+					  reason);
 #else
 				return (battle_no_event);
 #endif

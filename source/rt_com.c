@@ -193,7 +193,8 @@ void InitROTTNET(void)
 
 	if (!quiet)
 	{
-		printf("ROTTNET: consoleplayer=%ld\n", (long int)rottcom->consoleplayer);
+		printf("ROTTNET: consoleplayer=%ld\n",
+			   (long int)rottcom->consoleplayer);
 	}
 }
 
@@ -226,10 +227,12 @@ boolean ReadPacket(void)
 	if (rottcom->remotenode != -1)
 	{
 		// calculate crc on packet
-		crc = CalculateCRC((byte *)&rottcom->data[0], rottcom->datalength - sizeof(word));
+		crc = CalculateCRC((byte *)&rottcom->data[0],
+						   rottcom->datalength - sizeof(word));
 
 		// get crc inside packet
-		sentcrc = *((word *)(&rottcom->data[rottcom->datalength - sizeof(word)]));
+		sentcrc =
+			*((word *)(&rottcom->data[rottcom->datalength - sizeof(word)]));
 
 		// are the crcs the same?
 		if (crc != sentcrc)
@@ -248,7 +251,8 @@ boolean ReadPacket(void)
 		}
 		memcpy(&ROTTpacket[0], &rottcom->data[0], rottcom->datalength);
 
-		//      SoftError( "ReadPacket: time=%ld size=%ld src=%ld type=%d\n",GetTicCount(),
+		//      SoftError( "ReadPacket: time=%ld size=%ld src=%ld
+		//      type=%d\n",GetTicCount(),
 		//      rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
 
 		return true;
@@ -407,12 +411,14 @@ boolean MasterPhaseHandler(synctype *sync)
 			sync->pkt.phase = SYNC_PHASE3;
 			break;
 		case SYNC_PHASE3:
-			sync->pkt.delta = sync->pkt.clocktime - GetTicCount() + (sync->deltatime >> 1);
+			sync->pkt.delta =
+				sync->pkt.clocktime - GetTicCount() + (sync->deltatime >> 1);
 			sync->pkt.phase = SYNC_PHASE4;
 			break;
 		case SYNC_PHASE4:
 			sync->pkt.phase = SYNC_PHASE5;
-			sync->pkt.delta = sync->pkt.clocktime - GetTicCount() + (sync->deltatime >> 1);
+			sync->pkt.delta =
+				sync->pkt.clocktime - GetTicCount() + (sync->deltatime >> 1);
 			sync->sendtime = GetTicCount() + SYNCTIME;
 			sync->pkt.clocktime = sync->sendtime;
 			done = true;
@@ -648,7 +654,8 @@ void SyncTime(int client)
 
 	sync = (synctype *)SafeMalloc(sizeof(synctype));
 
-	if (((networkgame == true) && (IsServer == true)) || ((networkgame == false) && (consoleplayer == 0)))
+	if (((networkgame == true) && (IsServer == true)) ||
+		((networkgame == false) && (consoleplayer == 0)))
 	{
 		// Master
 
@@ -729,7 +736,8 @@ void SyncTime(int client)
 	{
 	}
 
-	if (((networkgame == true) && (IsServer == true)) || ((networkgame == false) && (consoleplayer == 0)))
+	if (((networkgame == true) && (IsServer == true)) ||
+		((networkgame == false) && (consoleplayer == 0)))
 		SetTransitTime(client, (sync->deltatime >> 1));
 
 	SafeFree(sync);

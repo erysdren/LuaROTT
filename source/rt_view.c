@@ -85,7 +85,8 @@ byte gammatable[GAMMAENTRIES];
 int gammaindex;
 int focalwidth = 160;
 int yzangleconverter;
-byte uniformcolors[MAXPLAYERCOLORS] = {25, 222, 29, 206, 52, 6, 155, 16, 90, 129, 109};
+byte uniformcolors[MAXPLAYERCOLORS] = { 25,	 222, 29, 206, 52, 6,
+										155, 16,  90, 129, 109 };
 
 /*
 =============================================================================
@@ -97,8 +98,10 @@ byte uniformcolors[MAXPLAYERCOLORS] = {25, 222, 29, 206, 52, 6, 155, 16, 90, 129
 
 static char *YourComputerSucksString = "Buy a 486! :)";
 
-static int viewsizes[MAXVIEWSIZES * 2] = {80,  48,	128, 72,  160, 88,	192, 104, 224, 120, 256,
-										  136, 288, 152, 320, 168, 320, 184, 320, 200, 320, 200};
+static int viewsizes[MAXVIEWSIZES * 2] = { 80,	48,	 128, 72,  160, 88,
+										   192, 104, 224, 120, 256, 136,
+										   288, 152, 320, 168, 320, 184,
+										   320, 200, 320, 200 };
 
 static int ColorMapLoaded = 0;
 
@@ -375,7 +378,8 @@ void DrawCPUJape(void)
 	CurrentFont = tinyfont;
 	VW_MeasurePropString(YourComputerSucksString, &width, &height);
 
-	DrawGameString(160 - width / 2, 100 + 48 / 2 + 2, YourComputerSucksString, true);
+	DrawGameString(160 - width / 2, 100 + 48 / 2 + 2, YourComputerSucksString,
+				   true);
 }
 
 /*
@@ -396,7 +400,8 @@ void SetupScreen(boolean flip)
 	{
 		shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1);
 		// DrawTiledRegion( 0, 16, 320, 200 - 32, 0, 16, shape );
-		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape); // bna++
+		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32,
+						0, 16, shape); // bna++
 	}
 
 	if (viewsize == 0)
@@ -494,26 +499,36 @@ void SetupLightLevels(void)
 		if (fog == 0)
 		{
 			lightsource = 1;
-			lights = Z_Malloc(MAPSIZE * MAPSIZE * (sizeof(unsigned long)), PU_LEVEL, NULL);
+			lights = Z_Malloc(MAPSIZE * MAPSIZE * (sizeof(unsigned long)),
+							  PU_LEVEL, NULL);
 			memset(lights, 0, MAPSIZE * MAPSIZE * (sizeof(unsigned long)));
 		}
 		else
-			Error("You cannot use light sourcing on a level with fog on map %d\n", gamestate.mapon);
+			Error(
+				"You cannot use light sourcing on a level with fog on map %d\n",
+				gamestate.mapon);
 	}
 	else if ((word)MAPSPOT(3, 0, 1))
-		Error("You must use the lightsource icon or nothing at all at (3,0) in plane 1 on map %d\n", gamestate.mapon);
-	if (((word)MAPSPOT(2, 0, 0) >= LIGHTLEVELBASE) && ((word)MAPSPOT(2, 0, 0) <= LIGHTLEVELEND))
+		Error("You must use the lightsource icon or nothing at all at (3,0) in "
+			  "plane 1 on map %d\n",
+			  gamestate.mapon);
+	if (((word)MAPSPOT(2, 0, 0) >= LIGHTLEVELBASE) &&
+		((word)MAPSPOT(2, 0, 0) <= LIGHTLEVELEND))
 		glevel = (MAPSPOT(2, 0, 0) - LIGHTLEVELBASE);
 	else
-		Error("You must specify a valid darkness level icon at (2,0) on map %d\n", gamestate.mapon);
+		Error(
+			"You must specify a valid darkness level icon at (2,0) on map %d\n",
+			gamestate.mapon);
 
 	SetLightLevels(glevel);
 
-	if (((word)MAPSPOT(3, 0, 0) >= LIGHTRATEBASE) && ((word)MAPSPOT(3, 0, 0) <= LIGHTRATEEND))
+	if (((word)MAPSPOT(3, 0, 0) >= LIGHTRATEBASE) &&
+		((word)MAPSPOT(3, 0, 0) <= LIGHTRATEEND))
 		glevel = (MAPSPOT(3, 0, 0) - LIGHTRATEBASE);
 	else
 	{
-		//      Error("You must specify a valid darkness rate icon at (3,0) on map %ld\n",gamestate.mapon);
+		//      Error("You must specify a valid darkness rate icon at (3,0) on
+		//      map %ld\n",gamestate.mapon);
 		glevel = 4;
 	}
 
@@ -746,7 +761,8 @@ void UpdateLightning(void)
 			volume = 255 - lightningdistance;
 			if (volume > 170)
 				volume = 170;
-			SD_PlayPitchedSound(SD_LIGHTNINGSND, volume, -(lightningdistance << 2));
+			SD_PlayPitchedSound(SD_LIGHTNINGSND, volume,
+								-(lightningdistance << 2));
 			lightningsoundtime = 0;
 		}
 	}

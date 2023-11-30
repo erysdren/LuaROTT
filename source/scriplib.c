@@ -107,7 +107,8 @@ void GetToken(boolean crossline)
 	if (script_p >= scriptend_p)
 	{
 		if (!crossline)
-			Error("Line %i is incomplete\nin file %s\n", scriptline, scriptfilename);
+			Error("Line %i is incomplete\nin file %s\n", scriptline,
+				  scriptfilename);
 		endofscript = true;
 		return;
 	}
@@ -121,14 +122,16 @@ skipspace:
 		if (script_p >= scriptend_p)
 		{
 			if (!crossline)
-				Error("Line %i is incomplete\nin file %s\n", scriptline, scriptfilename);
+				Error("Line %i is incomplete\nin file %s\n", scriptline,
+					  scriptfilename);
 			endofscript = true;
 			return;
 		}
 		if (*script_p++ == '\n')
 		{
 			if (!crossline)
-				Error("Line %i is incomplete\nin file %s\n", scriptline, scriptfilename);
+				Error("Line %i is incomplete\nin file %s\n", scriptline,
+					  scriptfilename);
 			scriptline++;
 		}
 	}
@@ -136,7 +139,8 @@ skipspace:
 	if (script_p >= scriptend_p)
 	{
 		if (!crossline)
-			Error("Line %i is incomplete\nin file %s\n", scriptline, scriptfilename);
+			Error("Line %i is incomplete\nin file %s\n", scriptline,
+				  scriptfilename);
 		endofscript = true;
 		return;
 	}
@@ -144,7 +148,8 @@ skipspace:
 	if (*script_p == ';') // semicolon is comment field
 	{
 		if (!crossline)
-			Error("Line %i is incomplete\nin file %s\n", scriptline, scriptfilename);
+			Error("Line %i is incomplete\nin file %s\n", scriptline,
+				  scriptfilename);
 		while (*script_p++ != '\n')
 			if (script_p >= scriptend_p)
 			{
@@ -165,7 +170,8 @@ skipspace:
 		if (script_p == scriptend_p)
 			break;
 		if (token_p == &token[MAXTOKEN])
-			Error("Token too large on line %i\nin file %s\n", scriptline, scriptfilename);
+			Error("Token too large on line %i\nin file %s\n", scriptline,
+				  scriptfilename);
 	}
 
 	*token_p = 0;
@@ -192,7 +198,8 @@ void GetTokenEOL(boolean crossline)
 	if (script_p >= scriptend_p)
 	{
 		if (!crossline)
-			Error("Line %i is incomplete\nin file %s\n", scriptline, scriptfilename);
+			Error("Line %i is incomplete\nin file %s\n", scriptline,
+				  scriptfilename);
 		endofscript = true;
 		return;
 	}
@@ -206,14 +213,16 @@ skipspace:
 		if (script_p >= scriptend_p)
 		{
 			if (!crossline)
-				Error("Line %i is incomplete\nin file %s\n", scriptline, scriptfilename);
+				Error("Line %i is incomplete\nin file %s\n", scriptline,
+					  scriptfilename);
 			endofscript = true;
 			return;
 		}
 		if (*script_p++ == '\n')
 		{
 			if (!crossline)
-				Error("Line %i is incomplete\nin file %s\n", scriptline, scriptfilename);
+				Error("Line %i is incomplete\nin file %s\n", scriptline,
+					  scriptfilename);
 			scriptline++;
 		}
 	}
@@ -221,7 +230,8 @@ skipspace:
 	if (script_p >= scriptend_p)
 	{
 		if (!crossline)
-			Error("Line %i is incomplete\nin file %s\n", scriptline, scriptfilename);
+			Error("Line %i is incomplete\nin file %s\n", scriptline,
+				  scriptfilename);
 		endofscript = true;
 		return;
 	}
@@ -229,7 +239,8 @@ skipspace:
 	if (*script_p == ';') // semicolon is comment field
 	{
 		if (!crossline)
-			Error("Line %i is incomplete\nin file %s\n", scriptline, scriptfilename);
+			Error("Line %i is incomplete\nin file %s\n", scriptline,
+				  scriptfilename);
 		while (*script_p++ != '\n')
 			if (script_p >= scriptend_p)
 			{
@@ -250,7 +261,8 @@ skipspace:
 		if (script_p == scriptend_p)
 			break;
 		if (name_p == &name[MAXTOKEN * 2])
-			Error("Name too large on line %i\nin file %s\n", scriptline, scriptfilename);
+			Error("Name too large on line %i\nin file %s\n", scriptline,
+				  scriptfilename);
 	}
 
 	*name_p = 0;

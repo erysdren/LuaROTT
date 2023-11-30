@@ -77,7 +77,8 @@ void MoveScreenUpLeft()
 	byte *Ycnt, *b;
 	//   SetTextMode (  );
 	b = (byte *)bufferofs;
-	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) + ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
+	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) +
+		 ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
 	if (viewsize == 8)
 	{
 		b += 8 * iGLOBAL_SCREENWIDTH;
@@ -86,7 +87,8 @@ void MoveScreenUpLeft()
 	startY = 3; // take 3 lines down
 	startoffset = (startY * iGLOBAL_SCREENWIDTH) + startX;
 
-	for (Ycnt = b; Ycnt < b + ((viewheight - startY) * iGLOBAL_SCREENWIDTH); Ycnt += iGLOBAL_SCREENWIDTH)
+	for (Ycnt = b; Ycnt < b + ((viewheight - startY) * iGLOBAL_SCREENWIDTH);
+		 Ycnt += iGLOBAL_SCREENWIDTH)
 	{
 		memcpy(Ycnt, Ycnt + startoffset, viewwidth - startX);
 	}
@@ -98,7 +100,8 @@ void MoveScreenDownLeft()
 	byte *Ycnt, *b;
 	//   SetTextMode (  );
 	b = (byte *)bufferofs;
-	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) + ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
+	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) +
+		 ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
 	if (viewsize == 8)
 	{
 		b += 8 * iGLOBAL_SCREENWIDTH;
@@ -108,7 +111,8 @@ void MoveScreenDownLeft()
 	startoffset = (startY * iGLOBAL_SCREENWIDTH); //+startX;
 
 	// Ycnt starts in botton of screen and copys lines upwards
-	for (Ycnt = b + ((viewheight - startY - 1) * iGLOBAL_SCREENWIDTH); Ycnt > b; Ycnt -= iGLOBAL_SCREENWIDTH)
+	for (Ycnt = b + ((viewheight - startY - 1) * iGLOBAL_SCREENWIDTH); Ycnt > b;
+		 Ycnt -= iGLOBAL_SCREENWIDTH)
 	{
 		memcpy(Ycnt + startoffset, Ycnt + startX, viewwidth - startX);
 	}
@@ -121,7 +125,8 @@ void MoveScreenUpRight()
 	//   SetTextMode (  );
 	b = (byte *)bufferofs;
 
-	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) + ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
+	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) +
+		 ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
 	if (viewsize == 8)
 	{
 		b += 8 * iGLOBAL_SCREENWIDTH;
@@ -130,7 +135,8 @@ void MoveScreenUpRight()
 	startY = 3;									  // take 3 lines down
 	startoffset = (startY * iGLOBAL_SCREENWIDTH); //+startX;
 
-	for (Ycnt = b; Ycnt < b + ((viewheight - startY) * iGLOBAL_SCREENWIDTH); Ycnt += iGLOBAL_SCREENWIDTH)
+	for (Ycnt = b; Ycnt < b + ((viewheight - startY) * iGLOBAL_SCREENWIDTH);
+		 Ycnt += iGLOBAL_SCREENWIDTH)
 	{
 		memcpy(Ycnt + startX, Ycnt + startoffset, viewwidth - startX);
 	}
@@ -143,7 +149,8 @@ void MoveScreenDownRight()
 	//   SetTextMode (  );
 	b = (byte *)bufferofs;
 
-	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) + ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
+	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) +
+		 ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
 	if (viewsize == 8)
 	{
 		b += 8 * iGLOBAL_SCREENWIDTH;
@@ -153,7 +160,8 @@ void MoveScreenDownRight()
 	startoffset = (startY * iGLOBAL_SCREENWIDTH) + startX;
 
 	// Ycnt starts in botton of screen and copys lines upwards
-	for (Ycnt = b + ((viewheight - startY - 1) * iGLOBAL_SCREENWIDTH); Ycnt > b; Ycnt -= iGLOBAL_SCREENWIDTH)
+	for (Ycnt = b + ((viewheight - startY - 1) * iGLOBAL_SCREENWIDTH); Ycnt > b;
+		 Ycnt -= iGLOBAL_SCREENWIDTH)
 	{
 		memcpy(Ycnt + startoffset, Ycnt, viewwidth - startX);
 	}

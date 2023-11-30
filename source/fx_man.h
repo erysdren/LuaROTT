@@ -60,7 +60,8 @@ enum FX_ERRORS
 
 char *FX_ErrorString(int ErrorNumber);
 int FX_SetupCard(int SoundCard, fx_device *device);
-int FX_Init(int SoundCard, int numvoices, int numchannels, int samplebits, unsigned mixrate);
+int FX_Init(int SoundCard, int numvoices, int numchannels, int samplebits,
+			unsigned mixrate);
 int FX_Shutdown(void);
 int FX_SetCallBack(void (*function)(unsigned long));
 void FX_SetVolume(int volume);
@@ -73,7 +74,8 @@ int FX_VoiceAvailable(int priority);
 int FX_SetPan(int handle, int vol, int left, int right);
 int FX_SetPitch(int handle, int pitchoffset);
 
-int FX_Play(int handle, int sndnum, int pitchoffset, int angle, int distance, int priority);
+int FX_Play(int handle, int sndnum, int pitchoffset, int angle, int distance,
+			int priority);
 
 int FX_Pan3D(int handle, int angle, int distance);
 int FX_SoundActive(int handle);

@@ -58,9 +58,9 @@ static boolean PositionStored = false;
 static int remotestart;
 static boolean SoundsRemapped = false;
 
-int musicnums[11] = {-1, -1, -1, -1, -1, -1, SoundScape, -1, -1, -1, -1};
+int musicnums[11] = { -1, -1, -1, -1, -1, -1, SoundScape, -1, -1, -1, -1 };
 
-int fxnums[11] = {-1, -1, -1, -1, -1, -1, SoundScape, -1, -1, -1, -1};
+int fxnums[11] = { -1, -1, -1, -1, -1, -1, SoundScape, -1, -1, -1, -1 };
 
 int MUSIC_GetPosition(void)
 {
@@ -92,7 +92,8 @@ int SoundNumber(int x)
 
 //***************************************************************************
 //
-// SD_MakeCacheable - Make a sound that has just finished playing cacheable again
+// SD_MakeCacheable - Make a sound that has just finished playing cacheable
+// again
 //
 //***************************************************************************
 void SD_MakeCacheable(unsigned long sndnum)
@@ -104,7 +105,8 @@ void SD_MakeCacheable(unsigned long sndnum)
 
 	if (sndnum >= MAXSOUNDS)
 	{
-		SoftError("Illegal sound value in SD_MakeCacheable value=%ld\n", sndnum);
+		SoftError("Illegal sound value in SD_MakeCacheable value=%ld\n",
+				  sndnum);
 		return;
 	}
 	sounds[sndnum].count--;
@@ -198,7 +200,8 @@ int SD_Startup(boolean bombonerror)
 				snd = sounds[i].snds[fx_digital];
 				if (snd >= 0)
 				{
-					sounds[i].snds[fx_digital] = W_GetNumForName(W_GetNameForNum(snd + soundstart));
+					sounds[i].snds[fx_digital] =
+						W_GetNumForName(W_GetNameForNum(snd + soundstart));
 				}
 			}
 			SoundsRemapped = true;
@@ -263,7 +266,8 @@ boolean SD_SoundOkay(int sndnum)
 	if (SoundOffset(sndnum) == -1)
 		return false;
 
-	if ((sounds[sndnum].flags & SD_PLAYONCE) && (SD_SoundActive(sounds[sndnum].prevhandle)))
+	if ((sounds[sndnum].flags & SD_PLAYONCE) &&
+		(SD_SoundActive(sounds[sndnum].prevhandle)))
 	{
 		return false;
 	}
@@ -297,7 +301,8 @@ int SD_PlayIt(int sndnum, int angle, int distance, int pitch)
 		return (0);
 	}
 
-	voice = FX_Play(voice, sndnum, pitch, angle, distance, sounds[sndnum].priority);
+	voice =
+		FX_Play(voice, sndnum, pitch, angle, distance, sounds[sndnum].priority);
 
 	if (voice >= 0 && !(sounds[sndnum].flags & SD_WRITE))
 	{
@@ -718,7 +723,8 @@ void SD_PreCacheSound(int num)
 	if (SD_SoundOkay(num) == false)
 		return;
 
-	PreCacheLump(SoundNumber(num), PU_CACHESOUNDS /*+sounds[num].priority*/, cache_other);
+	PreCacheLump(SoundNumber(num), PU_CACHESOUNDS /*+sounds[num].priority*/,
+				 cache_other);
 }
 
 //***************************************************************************
@@ -741,61 +747,63 @@ void SD_PreCacheSoundGroup(int lo, int hi)
 #if (SHAREWARE == 1)
 #define MAXSONGS 18
 static song_t rottsongs[MAXSONGS] = {
-	{loop_no, song_apogee, "FANFARE2", "Apogee Fanfare"},
-	{loop_yes, song_title, "RISE", "Rise"},
-	{loop_yes, song_menu, "MMMENU", "MMMenu"},
-	{loop_yes, song_christmas, "DEADLY", "Deadly Gentlemen"},
-	{loop_yes, song_elevator, "GOINGUP", "Going up?"},
-	{loop_yes, song_endlevel, "HOWDIDO", "How'd I do?"},
-	{loop_yes, song_secretmenu, "FISHPOLK", "Fish Polka"},
-	{loop_yes, song_gameover, "YOUSUCK", "You Suck"},
-	{loop_yes, song_youwin, "WATZNEXT", "Watz Next?"},
-	{loop_no, song_gason, "GAZZ!", "Gazz!"},
-	{loop_yes, song_level, "FASTWAY", "Goin' Down The Fast Way"},
-	{loop_yes, song_level, "MISTACHE", "Mist Ache"},
-	{loop_yes, song_level, "OWW", "Oww!!!"},
-	{loop_yes, song_level, "SMOKE", "Smoke And Mirrors"},
-	{loop_yes, song_level, "SPRAY", "Spray"},
-	{loop_yes, song_level, "RUNLIKE", "Run Like Smeg"},
-	{loop_yes, song_level, "SMOOTH", "Havana Smooth"},
-	{loop_yes, song_level, "CHANT", "Chant"},
+	{ loop_no, song_apogee, "FANFARE2", "Apogee Fanfare" },
+	{ loop_yes, song_title, "RISE", "Rise" },
+	{ loop_yes, song_menu, "MMMENU", "MMMenu" },
+	{ loop_yes, song_christmas, "DEADLY", "Deadly Gentlemen" },
+	{ loop_yes, song_elevator, "GOINGUP", "Going up?" },
+	{ loop_yes, song_endlevel, "HOWDIDO", "How'd I do?" },
+	{ loop_yes, song_secretmenu, "FISHPOLK", "Fish Polka" },
+	{ loop_yes, song_gameover, "YOUSUCK", "You Suck" },
+	{ loop_yes, song_youwin, "WATZNEXT", "Watz Next?" },
+	{ loop_no, song_gason, "GAZZ!", "Gazz!" },
+	{ loop_yes, song_level, "FASTWAY", "Goin' Down The Fast Way" },
+	{ loop_yes, song_level, "MISTACHE", "Mist Ache" },
+	{ loop_yes, song_level, "OWW", "Oww!!!" },
+	{ loop_yes, song_level, "SMOKE", "Smoke And Mirrors" },
+	{ loop_yes, song_level, "SPRAY", "Spray" },
+	{ loop_yes, song_level, "RUNLIKE", "Run Like Smeg" },
+	{ loop_yes, song_level, "SMOOTH", "Havana Smooth" },
+	{ loop_yes, song_level, "CHANT", "Chant" },
 };
 #else
 #define MAXSONGS 34
-static song_t rottsongs[MAXSONGS] = {{loop_no, song_apogee, "FANFARE2", "Apogee Fanfare"},
-									 {loop_yes, song_title, "RISE", "Rise"},
-									 {loop_yes, song_menu, "MMMENU", "MMMenu"},
-									 {loop_yes, song_christmas, "DEADLY", "Deadly Gentlemen"},
-									 {loop_yes, song_elevator, "GOINGUP", "Going up?"},
-									 {loop_yes, song_secretmenu, "FISHPOLK", "Fish Polka"},
-									 {loop_yes, song_endlevel, "HOWDIDO", "How'd I do?"},
-									 {loop_yes, song_gameover, "YOUSUCK", "You Suck"},
-									 {loop_yes, song_cinematic2, "WATZNEXT", "Watz Next?"},
-									 {loop_no, song_gason, "GAZZ!", "Gazz!"},
-									 {loop_yes, song_level, "FASTWAY", "Goin' Down The Fast Way"},
-									 {loop_yes, song_level, "MISTACHE", "Mist Ache"},
-									 {loop_yes, song_level, "OWW", "Oww!!!"},
-									 {loop_yes, song_level, "SMOKE", "Smoke And Mirrors"},
-									 {loop_yes, song_level, "SPRAY", "Spray"},
-									 {loop_yes, song_level, "RUNLIKE", "Run Like Smeg"},
-									 {loop_yes, song_level, "SMOOTH", "Havana Smooth"},
-									 {loop_yes, song_level, "CHANT", "Chant"},
-									 {loop_yes, song_level, "MEDIEV1A", "Funeral of Queen Mary"},
-									 {loop_yes, song_level, "TASKFORC", "Task Force"},
-									 {loop_yes, song_level, "KISSOFF", "KISS Off"},
-									 {loop_yes, song_level, "RADAGIO", "Adagio For Strings"},
-									 {loop_yes, song_level, "SHARDS", "Shards"},
-									 {loop_yes, song_level, "STAIRS", "I Choose the Stairs"},
-									 {loop_yes, song_level, "SUCKTHIS", "Suck This"},
-									 {loop_yes, song_level, "EXCALIBR", "Excalibur"},
-									 {loop_yes, song_level, "CCCOOL", "CCCool"},
-									 {loop_yes, song_level, "WORK_DAY", "Work Day"},
-									 {loop_yes, song_level, "WHERIZIT", "Where Iz It?"},
-									 {loop_no, song_bossdie, "BOSSBLOW", "Boss Blow"},
-									 {loop_yes, song_bosssee, "HELLERO", "Hellero"},
-									 {loop_yes, song_cinematic1, "EVINRUDE", "Evin Rude"},
-									 {loop_yes, song_youwin, "VICTORY", "Victory!"},
-									 {loop_yes, song_dogend, "HERE_BOY", "Here Boy"}};
+static song_t rottsongs[MAXSONGS] = {
+	{ loop_no, song_apogee, "FANFARE2", "Apogee Fanfare" },
+	{ loop_yes, song_title, "RISE", "Rise" },
+	{ loop_yes, song_menu, "MMMENU", "MMMenu" },
+	{ loop_yes, song_christmas, "DEADLY", "Deadly Gentlemen" },
+	{ loop_yes, song_elevator, "GOINGUP", "Going up?" },
+	{ loop_yes, song_secretmenu, "FISHPOLK", "Fish Polka" },
+	{ loop_yes, song_endlevel, "HOWDIDO", "How'd I do?" },
+	{ loop_yes, song_gameover, "YOUSUCK", "You Suck" },
+	{ loop_yes, song_cinematic2, "WATZNEXT", "Watz Next?" },
+	{ loop_no, song_gason, "GAZZ!", "Gazz!" },
+	{ loop_yes, song_level, "FASTWAY", "Goin' Down The Fast Way" },
+	{ loop_yes, song_level, "MISTACHE", "Mist Ache" },
+	{ loop_yes, song_level, "OWW", "Oww!!!" },
+	{ loop_yes, song_level, "SMOKE", "Smoke And Mirrors" },
+	{ loop_yes, song_level, "SPRAY", "Spray" },
+	{ loop_yes, song_level, "RUNLIKE", "Run Like Smeg" },
+	{ loop_yes, song_level, "SMOOTH", "Havana Smooth" },
+	{ loop_yes, song_level, "CHANT", "Chant" },
+	{ loop_yes, song_level, "MEDIEV1A", "Funeral of Queen Mary" },
+	{ loop_yes, song_level, "TASKFORC", "Task Force" },
+	{ loop_yes, song_level, "KISSOFF", "KISS Off" },
+	{ loop_yes, song_level, "RADAGIO", "Adagio For Strings" },
+	{ loop_yes, song_level, "SHARDS", "Shards" },
+	{ loop_yes, song_level, "STAIRS", "I Choose the Stairs" },
+	{ loop_yes, song_level, "SUCKTHIS", "Suck This" },
+	{ loop_yes, song_level, "EXCALIBR", "Excalibur" },
+	{ loop_yes, song_level, "CCCOOL", "CCCool" },
+	{ loop_yes, song_level, "WORK_DAY", "Work Day" },
+	{ loop_yes, song_level, "WHERIZIT", "Where Iz It?" },
+	{ loop_no, song_bossdie, "BOSSBLOW", "Boss Blow" },
+	{ loop_yes, song_bosssee, "HELLERO", "Hellero" },
+	{ loop_yes, song_cinematic1, "EVINRUDE", "Evin Rude" },
+	{ loop_yes, song_youwin, "VICTORY", "Victory!" },
+	{ loop_yes, song_dogend, "HERE_BOY", "Here Boy" }
+};
 #endif
 
 static byte *currentsong;
@@ -851,8 +859,8 @@ void MU_JukeBoxMenu(void)
 		SongNames[i] = rottsongs[i].songname;
 	}
 
-	HandleMultiPageCustomMenu(SongNames, MAXSONGS, lastsongnumber, "Jukebox", MU_PlayJukeBoxSong, MU_JukeBoxRedraw,
-							  false);
+	HandleMultiPageCustomMenu(SongNames, MAXSONGS, lastsongnumber, "Jukebox",
+							  MU_PlayJukeBoxSong, MU_JukeBoxRedraw, false);
 
 	if (rottsongs[lastsongnumber].loopflag == loop_no)
 	{
@@ -1000,7 +1008,8 @@ void MU_StopSong(void)
 	MUSIC_StopSong();
 	if (currentsong)
 	{
-		W_CacheLumpName(rottsongs[lastsongnumber].lumpname, PU_CACHE, CvtNull, 1);
+		W_CacheLumpName(rottsongs[lastsongnumber].lumpname, PU_CACHE, CvtNull,
+						1);
 		currentsong = 0;
 	}
 }

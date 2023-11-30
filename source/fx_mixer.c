@@ -59,7 +59,8 @@ static int FX_Installed = 0;
 #define MV_MaxPanPosition 31
 #define MV_NumPanPositions (MV_MaxPanPosition + 1)
 
-#define MIX_VOLUME(volume) ((max(0, min((volume), 255)) * (MV_MaxVolume + 1)) >> 8)
+#define MIX_VOLUME(volume) \
+	((max(0, min((volume), 255)) * (MV_MaxVolume + 1)) >> 8)
 
 typedef struct
 {
@@ -243,8 +244,8 @@ int FX_SetupCard(int SoundCard, fx_device *device)
 		return FX_Error;
 	}
 
-	if (Mix_OpenAudioDevice(snd_samplerate, AUDIO_S16SYS, 2, GetSliceSize(), NULL, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) <
-		0)
+	if (Mix_OpenAudioDevice(snd_samplerate, AUDIO_S16SYS, 2, GetSliceSize(),
+							NULL, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
 	{
 		fprintf(stderr, "\n Couldn't open audio with desired format.");
 		return FX_Error;
@@ -253,12 +254,16 @@ int FX_SetupCard(int SoundCard, fx_device *device)
 	// [FG] feed actual sample frequency back into config variable
 	Mix_QuerySpec(&snd_samplerate, &mix_format, &mix_channels);
 
-	printf("\n Configured audio device with %.1f kHz (%s%d%s), %d channels.", (float)snd_samplerate / 1000,
+	printf("\n Configured audio device with %.1f kHz (%s%d%s), %d channels.",
+		   (float)snd_samplerate / 1000,
 		   SDL_AUDIO_ISFLOAT(mix_format)	? "F"
 		   : SDL_AUDIO_ISSIGNED(mix_format) ? "S"
 											: "U",
 		   (int)SDL_AUDIO_BITSIZE(mix_format),
-		   SDL_AUDIO_BITSIZE(mix_format) > 8 ? (SDL_AUDIO_ISBIGENDIAN(mix_format) ? "MSB" : "LSB") : "", mix_channels);
+		   SDL_AUDIO_BITSIZE(mix_format) > 8
+			   ? (SDL_AUDIO_ISBIGENDIAN(mix_format) ? "MSB" : "LSB")
+			   : "",
+		   mix_channels);
 
 	// [FG] let SDL_Mixer do the actual sound mixing
 	Mix_AllocateChannels(MAX_CHANNELS);
@@ -281,7 +286,8 @@ int FX_Shutdown(void)
 
 extern int SoundNumber(int x);
 
-int FX_Init(int SoundCard, int numvoices, int numchannels, int samplebits, unsigned mixrate)
+int FX_Init(int SoundCard, int numvoices, int numchannels, int samplebits,
+			unsigned mixrate)
 {
 	int i;
 
@@ -303,7 +309,8 @@ int FX_Init(int SoundCard, int numvoices, int numchannels, int samplebits, unsig
 
 			if (!(sounds[i].chunk = Mix_LoadWAV_RW(rw, 1)))
 			{
-				fprintf(stderr, "FX_Init: %s (%s)\n", SDL_GetError(), W_GetNameForNum(snd));
+				fprintf(stderr, "FX_Init: %s (%s)\n", SDL_GetError(),
+						W_GetNameForNum(snd));
 			}
 
 			Z_Free(data);
@@ -367,7 +374,8 @@ int FX_VoiceAvailable(int priority)
 	return -1;
 }
 
-int FX_Play(int handle, int sndnum, int pitchoffset, int angle, int distance, int priority)
+int FX_Play(int handle, int sndnum, int pitchoffset, int angle, int distance,
+			int priority)
 {
 	FX_StopSound(handle);
 

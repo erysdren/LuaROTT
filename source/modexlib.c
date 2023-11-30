@@ -61,8 +61,9 @@ void DrawCenterAim();
 
 /* rt_def.h isn't included, so I just put this here... */
 #ifndef STUB_FUNCTION
-#define STUB_FUNCTION                                                                                                  \
-	fprintf(stderr, "STUB: %s at " __FILE__ ", line %d, thread %d\n", __FUNCTION__, __LINE__, getpid())
+#define STUB_FUNCTION \
+	fprintf(stderr, "STUB: %s at " __FILE__ ", line %d, thread %d\n", \
+			__FUNCTION__, __LINE__, getpid())
 #endif
 
 /*
@@ -79,7 +80,7 @@ static SDL_Window *screen;
 static SDL_Renderer *renderer;
 static SDL_Surface *argbbuffer;
 static SDL_Texture *texture;
-static SDL_Rect blit_rect = {0};
+static SDL_Rect blit_rect = { 0 };
 
 SDL_Surface *VL_GetVideoSurface(void)
 {
@@ -115,8 +116,9 @@ void GraphicsMode(void)
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
 
-	screen = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, iGLOBAL_SCREENWIDTH,
-							  iGLOBAL_SCREENHEIGHT, flags);
+	screen =
+		SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+						 iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, flags);
 	SDL_SetWindowMinimumSize(screen, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
 	SDL_SetWindowTitle(screen, PACKAGE_STRING);
 
@@ -131,16 +133,21 @@ void GraphicsMode(void)
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 
-	sdl_surface = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
+	sdl_surface = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH,
+									   iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
 	SDL_FillRect(sdl_surface, NULL, 0);
 
 	pixel_format = SDL_GetWindowPixelFormat(screen);
-	SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &rmask, &gmask, &bmask, &amask);
-	argbbuffer = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, bpp, rmask, gmask, bmask, amask);
+	SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &rmask, &gmask, &bmask,
+							   &amask);
+	argbbuffer =
+		SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, bpp,
+							 rmask, gmask, bmask, amask);
 
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
-	texture = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, iGLOBAL_SCREENWIDTH,
-								iGLOBAL_SCREENHEIGHT);
+	texture =
+		SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING,
+						  iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
 
 	blit_rect.w = iGLOBAL_SCREENWIDTH;
 	blit_rect.h = iGLOBAL_SCREENHEIGHT;
@@ -248,7 +255,9 @@ void VL_SetVGAPlaneMode(void)
 	iG_X_center = iGLOBAL_SCREENWIDTH / 2;
 	iG_Y_center = (iGLOBAL_SCREENHEIGHT / 2) + 10; //+10 = move aim down a bit
 
-	iG_buf_center = bufferofs + (screensize / 2); //(iG_Y_center*iGLOBAL_SCREENWIDTH);//+iG_X_center;
+	iG_buf_center =
+		bufferofs +
+		(screensize / 2); //(iG_Y_center*iGLOBAL_SCREENWIDTH);//+iG_X_center;
 
 	bufofsTopLimit = bufferofs + screensize - iGLOBAL_SCREENWIDTH;
 	bufofsBottomLimit = bufferofs + iGLOBAL_SCREENWIDTH;
@@ -332,7 +341,8 @@ void VL_ClearBuffer(byte *buf, byte color)
 
 void VL_ClearVideo(byte color)
 {
-	memset(sdl_surface->pixels, color, iGLOBAL_SCREENWIDTH * iGLOBAL_SCREENHEIGHT);
+	memset(sdl_surface->pixels, color,
+		   iGLOBAL_SCREENWIDTH * iGLOBAL_SCREENHEIGHT);
 }
 
 /*
@@ -401,10 +411,12 @@ void EnableScreenStretch(void)
 	{
 		/* should really be just 320x200, but there is code all over the
 		   places which crashes then */
-		unstretch_sdl_surface = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
+		unstretch_sdl_surface = SDL_CreateRGBSurface(
+			0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
 	}
 
-	displayofs = unstretch_sdl_surface->pixels + (displayofs - (byte *)sdl_surface->pixels);
+	displayofs = unstretch_sdl_surface->pixels +
+				 (displayofs - (byte *)sdl_surface->pixels);
 	bufferofs = unstretch_sdl_surface->pixels;
 	page1start = unstretch_sdl_surface->pixels;
 	page2start = unstretch_sdl_surface->pixels;
@@ -417,7 +429,8 @@ void DisableScreenStretch(void)
 	if (iGLOBAL_SCREENWIDTH <= 320 || !StretchScreen)
 		return;
 
-	displayofs = sdl_surface->pixels + (displayofs - (byte *)unstretch_sdl_surface->pixels);
+	displayofs = sdl_surface->pixels +
+				 (displayofs - (byte *)unstretch_sdl_surface->pixels);
 	bufferofs = sdl_surface->pixels;
 	page1start = sdl_surface->pixels;
 	page2start = sdl_surface->pixels;
@@ -451,14 +464,18 @@ void DrawCenterAim()
 {
 	int x;
 
-	int percenthealth = (locplayerstate->health * 10) / MaxHitpointsForCharacter(locplayerstate);
-	int color = percenthealth < 3 ? egacolor[RED] : percenthealth < 4 ? egacolor[YELLOW] : egacolor[GREEN];
+	int percenthealth = (locplayerstate->health * 10) /
+						MaxHitpointsForCharacter(locplayerstate);
+	int color = percenthealth < 3	? egacolor[RED]
+				: percenthealth < 4 ? egacolor[YELLOW]
+									: egacolor[GREEN];
 
 	if (iG_aimCross && !GamePaused)
 	{
 		if ((ingame == true) && (iGLOBAL_SCREENWIDTH > 320))
 		{
-			if ((iG_playerTilt < 0) || (iG_playerTilt > iGLOBAL_SCREENHEIGHT / 2))
+			if ((iG_playerTilt < 0) ||
+				(iG_playerTilt > iGLOBAL_SCREENHEIGHT / 2))
 			{
 				iG_playerTilt = -(2048 - iG_playerTilt);
 			}
@@ -467,36 +484,45 @@ void DrawCenterAim()
 				x = iG_playerTilt;
 				iG_playerTilt = x / 2;
 			}
-			iG_buf_center = bufferofs + ((iG_Y_center - iG_playerTilt) * iGLOBAL_SCREENWIDTH); //+iG_X_center;
+			iG_buf_center = bufferofs + ((iG_Y_center - iG_playerTilt) *
+										 iGLOBAL_SCREENWIDTH); //+iG_X_center;
 
 			for (x = iG_X_center - 10; x <= iG_X_center - 4; x++)
 			{
-				if ((iG_buf_center + x < bufofsTopLimit) && (iG_buf_center + x > bufofsBottomLimit))
+				if ((iG_buf_center + x < bufofsTopLimit) &&
+					(iG_buf_center + x > bufofsBottomLimit))
 				{
 					*(iG_buf_center + x) = color;
 				}
 			}
 			for (x = iG_X_center + 4; x <= iG_X_center + 10; x++)
 			{
-				if ((iG_buf_center + x < bufofsTopLimit) && (iG_buf_center + x > bufofsBottomLimit))
+				if ((iG_buf_center + x < bufofsTopLimit) &&
+					(iG_buf_center + x > bufofsBottomLimit))
 				{
 					*(iG_buf_center + x) = color;
 				}
 			}
 			for (x = 10; x >= 4; x--)
 			{
-				if (((iG_buf_center - (x * iGLOBAL_SCREENWIDTH) + iG_X_center) < bufofsTopLimit) &&
-					((iG_buf_center - (x * iGLOBAL_SCREENWIDTH) + iG_X_center) > bufofsBottomLimit))
+				if (((iG_buf_center - (x * iGLOBAL_SCREENWIDTH) + iG_X_center) <
+					 bufofsTopLimit) &&
+					((iG_buf_center - (x * iGLOBAL_SCREENWIDTH) + iG_X_center) >
+					 bufofsBottomLimit))
 				{
-					*(iG_buf_center - (x * iGLOBAL_SCREENWIDTH) + iG_X_center) = color;
+					*(iG_buf_center - (x * iGLOBAL_SCREENWIDTH) + iG_X_center) =
+						color;
 				}
 			}
 			for (x = 4; x <= 10; x++)
 			{
-				if (((iG_buf_center + (x * iGLOBAL_SCREENWIDTH) + iG_X_center) < bufofsTopLimit) &&
-					((iG_buf_center + (x * iGLOBAL_SCREENWIDTH) + iG_X_center) > bufofsBottomLimit))
+				if (((iG_buf_center + (x * iGLOBAL_SCREENWIDTH) + iG_X_center) <
+					 bufofsTopLimit) &&
+					((iG_buf_center + (x * iGLOBAL_SCREENWIDTH) + iG_X_center) >
+					 bufofsBottomLimit))
 				{
-					*(iG_buf_center + (x * iGLOBAL_SCREENWIDTH) + iG_X_center) = color;
+					*(iG_buf_center + (x * iGLOBAL_SCREENWIDTH) + iG_X_center) =
+						color;
 				}
 			}
 		}

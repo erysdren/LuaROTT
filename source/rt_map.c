@@ -67,10 +67,14 @@ typedef struct PType
 } Ptype;
 
 static Ptype arrows[8][7] = {
-	{{4, 2}, {2, 4}, {2, 3}, {0, 3}, {0, 1}, {2, 1}, {2, 0}}, {{4, 0}, {4, 3}, {3, 2}, {1, 4}, {0, 3}, {2, 1}, {1, 0}},
-	{{2, 0}, {4, 2}, {3, 2}, {3, 4}, {1, 4}, {1, 2}, {0, 2}}, {{0, 0}, {3, 0}, {2, 1}, {4, 3}, {3, 4}, {1, 2}, {0, 3}},
-	{{0, 2}, {2, 0}, {2, 1}, {4, 1}, {4, 3}, {2, 3}, {2, 4}}, {{0, 4}, {0, 1}, {1, 2}, {3, 0}, {4, 1}, {2, 3}, {3, 4}},
-	{{2, 4}, {0, 2}, {1, 2}, {1, 0}, {3, 0}, {3, 2}, {4, 2}}, {{4, 4}, {1, 4}, {2, 3}, {0, 1}, {1, 0}, {3, 2}, {4, 1}},
+	{ { 4, 2 }, { 2, 4 }, { 2, 3 }, { 0, 3 }, { 0, 1 }, { 2, 1 }, { 2, 0 } },
+	{ { 4, 0 }, { 4, 3 }, { 3, 2 }, { 1, 4 }, { 0, 3 }, { 2, 1 }, { 1, 0 } },
+	{ { 2, 0 }, { 4, 2 }, { 3, 2 }, { 3, 4 }, { 1, 4 }, { 1, 2 }, { 0, 2 } },
+	{ { 0, 0 }, { 3, 0 }, { 2, 1 }, { 4, 3 }, { 3, 4 }, { 1, 2 }, { 0, 3 } },
+	{ { 0, 2 }, { 2, 0 }, { 2, 1 }, { 4, 1 }, { 4, 3 }, { 2, 3 }, { 2, 4 } },
+	{ { 0, 4 }, { 0, 1 }, { 1, 2 }, { 3, 0 }, { 4, 1 }, { 2, 3 }, { 3, 4 } },
+	{ { 2, 4 }, { 0, 2 }, { 1, 2 }, { 1, 0 }, { 3, 0 }, { 3, 2 }, { 4, 2 } },
+	{ { 4, 4 }, { 1, 4 }, { 2, 3 }, { 0, 1 }, { 1, 0 }, { 3, 2 }, { 4, 1 } },
 };
 
 void DrawMap_MaskedShape(int x, int y, int lump, int type);
@@ -102,22 +106,32 @@ void FixMapSeen(void)
 		for (i = 0; i < MAPSIZE; i++)
 			if (!mapseen[i][j])
 			{
-				if (i == 0 && ((mapseen[i][j + 1] && j < MAPSIZE - 1) || (mapseen[i][j - 1] && j > 0)) &&
+				if (i == 0 &&
+					((mapseen[i][j + 1] && j < MAPSIZE - 1) ||
+					 (mapseen[i][j - 1] && j > 0)) &&
 					mapseen[i + 1][j])
 					mapseen[i][j] = 1;
 				else if (i == MAPSIZE - 1 && mapseen[i - 1][j] &&
-						 ((mapseen[i][j + 1] && j < MAPSIZE - 1) || (mapseen[i][j - 1] && j > 0)))
+						 ((mapseen[i][j + 1] && j < MAPSIZE - 1) ||
+						  (mapseen[i][j - 1] && j > 0)))
 					mapseen[i][j] = 1;
-				else if (j == 0 && ((mapseen[i + 1][j] && i < MAPSIZE - 1) || (mapseen[i - 1][j] && i > 0)) &&
+				else if (j == 0 &&
+						 ((mapseen[i + 1][j] && i < MAPSIZE - 1) ||
+						  (mapseen[i - 1][j] && i > 0)) &&
 						 mapseen[i][j + 1])
 					mapseen[i][j] = 1;
 				else if (j == MAPSIZE - 1 && mapseen[i][j - 1] &&
-						 ((mapseen[i + 1][j] && i < MAPSIZE - 1) || (mapseen[i - 1][j] && i > 0)))
+						 ((mapseen[i + 1][j] && i < MAPSIZE - 1) ||
+						  (mapseen[i - 1][j] && i > 0)))
 					mapseen[i][j] = 1;
-				else if ((((mapseen[i - 1][j]) && (mapseen[i][j + 1]) && (!(tilemap[i - 1][j + 1]))) ||
-						  ((mapseen[i - 1][j]) && (mapseen[i][j - 1]) && (!(tilemap[i - 1][j - 1]))) ||
-						  ((mapseen[i + 1][j]) && (mapseen[i][j + 1]) && (!(tilemap[i + 1][j + 1]))) ||
-						  ((mapseen[i + 1][j]) && (mapseen[i][j - 1]) && (!(tilemap[i + 1][j - 1])))) &&
+				else if ((((mapseen[i - 1][j]) && (mapseen[i][j + 1]) &&
+						   (!(tilemap[i - 1][j + 1]))) ||
+						  ((mapseen[i - 1][j]) && (mapseen[i][j - 1]) &&
+						   (!(tilemap[i - 1][j - 1]))) ||
+						  ((mapseen[i + 1][j]) && (mapseen[i][j + 1]) &&
+						   (!(tilemap[i + 1][j + 1]))) ||
+						  ((mapseen[i + 1][j]) && (mapseen[i][j - 1]) &&
+						   (!(tilemap[i + 1][j - 1])))) &&
 						 tilemap[i][j])
 					mapseen[i][j] = 1;
 			}
@@ -239,7 +253,8 @@ void DrawMap_MaskedWall(int x, int y, int tile)
 void DrawMap_Door(int x, int y, int tile)
 {
 	if ((doorobjlist[tile]->lock > 0) && (doorobjlist[tile]->lock <= 4))
-		DrawMap_Wall(x, y, W_GetNumForName("lock1") + doorobjlist[tile]->lock - 1);
+		DrawMap_Wall(x, y,
+					 W_GetNumForName("lock1") + doorobjlist[tile]->lock - 1);
 	else if (doorobjlist[tile]->texture == doorobjlist[tile]->basetexture)
 		DrawMap_Wall(x, y, doorobjlist[tile]->texture);
 	else
@@ -333,10 +348,12 @@ void DrawMap_MaskedShape(int x, int y, int lump, int type)
 */
 
 /* Indices: mapscale, reduced coordinate */
-static const int arrowscale[4][5] = {{1, 17, 32, 47, 63}, /* Mapscale 0: 64 pixels/sprite */
-									 {1, 9, 16, 23, 31},  /* Mapscale 1: 32 pixels/sprite */
-									 {1, 5, 8, 11, 15},	  /* Mapscale 2: 16 pixels/sprite */
-									 {1, 3, 4, 5, 7}};	  /* Mapscale 3:  8 pixels/sprite */
+static const int arrowscale[4][5] = {
+	{ 1, 17, 32, 47, 63 }, /* Mapscale 0: 64 pixels/sprite */
+	{ 1, 9, 16, 23, 31 },  /* Mapscale 1: 32 pixels/sprite */
+	{ 1, 5, 8, 11, 15 },   /* Mapscale 2: 16 pixels/sprite */
+	{ 1, 3, 4, 5, 7 }
+}; /* Mapscale 3:  8 pixels/sprite */
 
 void DrawMap_PlayerArrow(int x, int y, int dir)
 {
@@ -354,12 +371,15 @@ void DrawMap_PlayerArrow(int x, int y, int dir)
 
 	for (i = 0; i < 6; i++)
 	{
-		VL_DrawLine(arrowscale[mapscale][arrows[dir][i].x] + x, arrowscale[mapscale][arrows[dir][i].y] + y,
-					arrowscale[mapscale][arrows[dir][i + 1].x] + x, arrowscale[mapscale][arrows[dir][i + 1].y] + y,
-					244);
+		VL_DrawLine(arrowscale[mapscale][arrows[dir][i].x] + x,
+					arrowscale[mapscale][arrows[dir][i].y] + y,
+					arrowscale[mapscale][arrows[dir][i + 1].x] + x,
+					arrowscale[mapscale][arrows[dir][i + 1].y] + y, 244);
 	}
-	VL_DrawLine(arrowscale[mapscale][arrows[dir][6].x] + x, arrowscale[mapscale][arrows[dir][6].y] + y,
-				arrowscale[mapscale][arrows[dir][0].x] + x, arrowscale[mapscale][arrows[dir][0].y] + y, 244);
+	VL_DrawLine(arrowscale[mapscale][arrows[dir][6].x] + x,
+				arrowscale[mapscale][arrows[dir][6].y] + y,
+				arrowscale[mapscale][arrows[dir][0].x] + x,
+				arrowscale[mapscale][arrows[dir][0].y] + y, 244);
 }
 
 /*
@@ -375,7 +395,9 @@ void DrawMap_Player(int x, int y)
 	if (player->flags & FL_SHROOMS)
 		DrawMap_PlayerArrow(x, y, (RandomNumber("DrawMap_PLAYER", 0) >> 5));
 	else
-		DrawMap_PlayerArrow(x, y, (((player->angle + (FINEANGLES / 16)) & (FINEANGLES - 1)) >> 8));
+		DrawMap_PlayerArrow(
+			x, y,
+			(((player->angle + (FINEANGLES / 16)) & (FINEANGLES - 1)) >> 8));
 	DrawMap_MaskedShape(x, y, player->shapenum + shapestart, 0);
 }
 
@@ -504,7 +526,9 @@ void DrawMap(int cx, int cy)
 							DrawMap_Actor(i, j, a);
 							break;
 						default:
-							SoftError("Unable to resolve actorat at x=%d y=%d which=%d\n", mapx, mapy, a->which);
+							SoftError("Unable to resolve actorat at x=%d y=%d "
+									  "which=%d\n",
+									  mapx, mapy, a->which);
 							break;
 					}
 				}
@@ -539,7 +563,8 @@ void SetupFullMap(void)
 
 	// Fill in backgrounds
 
-	pic = (pic_t *)W_CacheLumpNum(W_GetNumForName("mmbk"), PU_CACHE, Cvt_pic_t, 1);
+	pic = (pic_t *)W_CacheLumpNum(W_GetNumForName("mmbk"), PU_CACHE, Cvt_pic_t,
+								  1);
 	VWB_DrawPic(0, 0, pic);
 	CheckHolidays();
 
@@ -655,7 +680,9 @@ void DrawFullMap(void)
 								*(buf) = egacolor[MAP_SPRITECOLOR];
 							break;
 						default:
-							SoftError("Unable to resolve actorat at x=%d y=%d which=%d\n", mapx, mapy, a->which);
+							SoftError("Unable to resolve actorat at x=%d y=%d "
+									  "which=%d\n",
+									  mapx, mapy, a->which);
 							break;
 					}
 				}
@@ -937,8 +964,9 @@ void DoMap(int cx, int cy)
 	{ // bna++
 		pic_t *shape;
 		shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1);
-		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape); // bna++
-		DisableScreenStretch(); // dont strech when we go BACK TO GAME
+		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32,
+						0, 16, shape); // bna++
+		DisableScreenStretch();		   // dont strech when we go BACK TO GAME
 		VW_UpdateScreen();
 		DrawPlayScreen(true); // repaint ammo and life stat
 	}

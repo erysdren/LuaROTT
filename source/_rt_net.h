@@ -26,9 +26,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define SETUPTIME 15
 
-#define PlayerCommand(player, command) (PlayerCmds[(player)]->Commands[(command)])
+#define PlayerCommand(player, command) \
+	(PlayerCmds[(player)]->Commands[(command)])
 
-#define ClientCommand(player, command) (ClientCmds[(player)]->Commands[(command)])
+#define ClientCommand(player, command) \
+	(ClientCmds[(player)]->Commands[(command)])
 
 #define LocalCommand(command) (LocalCmds->Commands[(command)])
 
@@ -40,15 +42,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define NextServerCommand() (ServerCommand(CommandAddress(serverupdatetime)))
 
-#define ClientTimeCommand(which, whichtime) (ClientCmds[(which)]->Commands[(CommandAddress((whichtime)))])
+#define ClientTimeCommand(which, whichtime) \
+	(ClientCmds[(which)]->Commands[(CommandAddress((whichtime)))])
 
-#define ServerCommandStatus(whichtime) (CommandState[0]->CommandStates[(CommandAddress((whichtime)))])
+#define ServerCommandStatus(whichtime) \
+	(CommandState[0]->CommandStates[(CommandAddress((whichtime)))])
 
-#define ServerCommandNumberStatus(command) (CommandState[0]->CommandStates[(command)])
+#define ServerCommandNumberStatus(command) \
+	(CommandState[0]->CommandStates[(command)])
 
-#define ClientCommandStatus(which, whichtime) (CommandState[(which + 1)]->CommandStates[(CommandAddress((whichtime)))])
+#define ClientCommandStatus(which, whichtime) \
+	(CommandState[(which + 1)]->CommandStates[(CommandAddress((whichtime)))])
 
-#define ClientCommandNumberStatus(which, command) (CommandState[(which + 1)]->CommandStates[(command)])
+#define ClientCommandNumberStatus(which, command) \
+	(CommandState[(which + 1)]->CommandStates[(command)])
 
 /*
 #define PacketAddress(time)    \

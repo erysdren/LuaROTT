@@ -83,39 +83,40 @@ unsigned long *lights;
 
 int wstart;
 
-const int dirangle8[9] = {0,
-						  FINEANGLES / 8,
-						  2 * FINEANGLES / 8,
-						  3 * FINEANGLES / 8,
-						  4 * FINEANGLES / 8,
-						  5 * FINEANGLES / 8,
-						  6 * FINEANGLES / 8,
-						  7 * FINEANGLES / 8,
-						  8 * FINEANGLES / 8};
+const int dirangle8[9] = { 0,
+						   FINEANGLES / 8,
+						   2 * FINEANGLES / 8,
+						   3 * FINEANGLES / 8,
+						   4 * FINEANGLES / 8,
+						   5 * FINEANGLES / 8,
+						   6 * FINEANGLES / 8,
+						   7 * FINEANGLES / 8,
+						   8 * FINEANGLES / 8 };
 
-const int dirangle16[16] = {0,
-							FINEANGLES / 16,
-							2 * FINEANGLES / 16,
-							3 * FINEANGLES / 16,
-							4 * FINEANGLES / 16,
-							5 * FINEANGLES / 16,
-							6 * FINEANGLES / 16,
-							7 * FINEANGLES / 16,
-							8 * FINEANGLES / 16,
-							9 * FINEANGLES / 16,
-							10 * FINEANGLES / 16,
-							11 * FINEANGLES / 16,
-							12 * FINEANGLES / 16,
-							13 * FINEANGLES / 16,
-							14 * FINEANGLES / 16,
-							15 * FINEANGLES / 16};
+const int dirangle16[16] = { 0,
+							 FINEANGLES / 16,
+							 2 * FINEANGLES / 16,
+							 3 * FINEANGLES / 16,
+							 4 * FINEANGLES / 16,
+							 5 * FINEANGLES / 16,
+							 6 * FINEANGLES / 16,
+							 7 * FINEANGLES / 16,
+							 8 * FINEANGLES / 16,
+							 9 * FINEANGLES / 16,
+							 10 * FINEANGLES / 16,
+							 11 * FINEANGLES / 16,
+							 12 * FINEANGLES / 16,
+							 13 * FINEANGLES / 16,
+							 14 * FINEANGLES / 16,
+							 15 * FINEANGLES / 16 };
 
 //
 // math tables
 //
 
 short tantable[FINEANGLES];
-int sintable[FINEANGLES + FINEANGLEQUAD + 1], *costable = sintable + (FINEANGLES / 4);
+int sintable[FINEANGLES + FINEANGLEQUAD + 1],
+	*costable = sintable + (FINEANGLES / 4);
 
 //
 // refresh variables
@@ -176,16 +177,19 @@ static const int weaponshape[NUMWEAPGRAPHICS] = {
 	W_KNIFE,
 #endif
 
-	W_MALEPISTOL1, W_MRIGHTPISTOL1, W_MP40, W_BAZOOKA, W_HEATSEEKER,	W_DRUNK,	   W_FIREBOMB,
-	W_FIREWALL,	   W_GODHAND,
+	W_MALEPISTOL1, W_MRIGHTPISTOL1, W_MP40,		W_BAZOOKA, W_HEATSEEKER,
+	W_DRUNK,	   W_FIREBOMB,		W_FIREWALL, W_GODHAND,
 
 #if (SHAREWARE == 0)
-	W_SPLIT,	   W_KES,			W_BAT,	W_DOG,	   W_FEMALEPISTOL1, W_BMALEPISTOL1
+	W_SPLIT,	   W_KES,			W_BAT,		W_DOG,	   W_FEMALEPISTOL1,
+	W_BMALEPISTOL1
 #endif
 };
 
-void SetColorLightLevel(int x, int y, visobj_t *sprite, int dir, int color, int fullbright);
-void DrawRotatedScreen(int cx, int cy, byte *destscreen, int angle, int scale, int masked);
+void SetColorLightLevel(int x, int y, visobj_t *sprite, int dir, int color,
+						int fullbright);
+void DrawRotatedScreen(int cx, int cy, byte *destscreen, int angle, int scale,
+					   int masked);
 void InterpolateMaskedWall(visobj_t *plane);
 void InterpolateDoor(visobj_t *plane);
 void InterpolateWall(visobj_t *plane);
@@ -354,7 +358,8 @@ boolean TransformObject(int x, int y, int *dispx, int *dispheight)
 ========================
 */
 
-void TransformPoint(int x, int y, int *screenx, int *height, int *texture, int vertical)
+void TransformPoint(int x, int y, int *screenx, int *height, int *texture,
+					int vertical)
 {
 
 	fixed gxt, gyt, nx, ny;
@@ -484,7 +489,8 @@ void TransformPoint(int x, int y, int *screenx, int *height, int *texture, int v
 ========================
 */
 
-boolean TransformSimplePoint(int x, int y, int *screenx, int *height, int *texture, int vertical)
+boolean TransformSimplePoint(int x, int y, int *screenx, int *height,
+							 int *texture, int vertical)
 {
 
 	fixed gxt, gyt, nx, ny;
@@ -547,8 +553,10 @@ boolean TransformPlane(int x1, int y1, int x2, int y2, visobj_t *plane)
 	plane->viewx = vertical;
 	txstart = plane->texturestart;
 	txend = plane->textureend;
-	result1 = TransformSimplePoint(x1, y1, &(plane->x1), &(plane->h1), &(plane->texturestart), vertical);
-	result2 = TransformSimplePoint(x2, y2, &(plane->x2), &(plane->h2), &(plane->textureend), vertical);
+	result1 = TransformSimplePoint(x1, y1, &(plane->x1), &(plane->h1),
+								   &(plane->texturestart), vertical);
+	result2 = TransformSimplePoint(x2, y2, &(plane->x2), &(plane->h2),
+								   &(plane->textureend), vertical);
 	if (result1 == true)
 	{
 		if (plane->x1 >= viewwidth)
@@ -556,7 +564,8 @@ boolean TransformPlane(int x1, int y1, int x2, int y2, visobj_t *plane)
 		if (result2 == false)
 		{
 			plane->textureend = txend;
-			TransformPoint(x2, y2, &(plane->x2), &(plane->h2), &(plane->textureend), vertical);
+			TransformPoint(x2, y2, &(plane->x2), &(plane->h2),
+						   &(plane->textureend), vertical);
 		}
 	}
 	else
@@ -568,23 +577,27 @@ boolean TransformPlane(int x1, int y1, int x2, int y2, visobj_t *plane)
 			if (plane->x2 < 0)
 				return false;
 			plane->texturestart = txstart;
-			TransformPoint(x1, y1, &(plane->x1), &(plane->h1), &(plane->texturestart), vertical);
+			TransformPoint(x1, y1, &(plane->x1), &(plane->h1),
+						   &(plane->texturestart), vertical);
 		}
 	}
 	if (plane->x1 < 0)
 	{
 		plane->texturestart = txstart;
-		TransformPoint(x1, y1, &(plane->x1), &(plane->h1), &(plane->texturestart), vertical);
+		TransformPoint(x1, y1, &(plane->x1), &(plane->h1),
+					   &(plane->texturestart), vertical);
 	}
 	if (plane->x2 >= viewwidth)
 	{
 		plane->textureend = txend;
-		TransformPoint(x2, y2, &(plane->x2), &(plane->h2), &(plane->textureend), vertical);
+		TransformPoint(x2, y2, &(plane->x2), &(plane->h2), &(plane->textureend),
+					   vertical);
 	}
 
 	plane->viewheight = (plane->h1 + plane->h2) >> 1;
 
-	if ((plane->viewheight >= (2000 << HEIGHTFRACTION)) || (plane->x1 >= viewwidth - 1) || (plane->x2 <= 0))
+	if ((plane->viewheight >= (2000 << HEIGHTFRACTION)) ||
+		(plane->x1 >= viewwidth - 1) || (plane->x2 <= 0))
 		return false;
 
 	return true;
@@ -759,7 +772,8 @@ void SortVisibleList(int numvisible, visobj_t *vlist)
 	whereami = 5;
 	for (i = 0; i < numvisible; i++)
 		sortedvislist[i] = &(vlist[i]);
-	hsort((char *)&(sortedvislist[0]), numvisible, sizeof(visobj_t *), &CompareHeights, &SwitchPointers);
+	hsort((char *)&(sortedvislist[0]), numvisible, sizeof(visobj_t *),
+		  &CompareHeights, &SwitchPointers);
 }
 
 /*
@@ -830,11 +844,13 @@ void DrawScaleds(void)
 			{
 				visptr->viewx++;
 			}
-			else if ((tmwall->flags & MW_BOTTOMFLIPPING) && (nonbobpheight > maxheight - 32))
+			else if ((tmwall->flags & MW_BOTTOMFLIPPING) &&
+					 (nonbobpheight > maxheight - 32))
 			{
 				visptr->shapenum++;
 			}
-			if ((visptr < &vislist[MAXVISIBLE - 1]) && (result == true)) // don't let it overflo'
+			if ((visptr < &vislist[MAXVISIBLE - 1]) &&
+				(result == true)) // don't let it overflo'
 				visptr++;
 		}
 	}
@@ -849,19 +865,23 @@ void DrawScaleds(void)
 
 		visptr->shapenum += shapestart;
 		if ((visptr->shapenum <= shapestart) || (visptr->shapenum >= shapestop))
-			Error("actor shapenum %d out of range (%d-%d)", visptr->shapenum, shapestart, shapestop);
+			Error("actor shapenum %d out of range (%d-%d)", visptr->shapenum,
+				  shapestart, shapestop);
 
 		visspot = statptr->visspot;
-		if (!((*(visspot - 0)) || (*(visspot - 1)) || (*(visspot + 1)) || (*(visspot - 129)) || (*(visspot - 128)) ||
-			  (*(visspot - 127)) || (*(visspot + 129)) || (*(visspot + 128)) || (*(visspot + 127))))
+		if (!((*(visspot - 0)) || (*(visspot - 1)) || (*(visspot + 1)) ||
+			  (*(visspot - 129)) || (*(visspot - 128)) || (*(visspot - 127)) ||
+			  (*(visspot + 129)) || (*(visspot + 128)) || (*(visspot + 127))))
 		{
 			statptr->flags &= ~FL_VISIBLE;
 			continue; // not visible
 		}
 
-		result = TransformObject(statptr->x, statptr->y, &(visptr->viewx), &(visptr->viewheight));
+		result = TransformObject(statptr->x, statptr->y, &(visptr->viewx),
+								 &(visptr->viewheight));
 
-		if ((result == false) || (visptr->viewheight < (1 << (HEIGHTFRACTION + 2))))
+		if ((result == false) ||
+			(visptr->viewheight < (1 << (HEIGHTFRACTION + 2))))
 			continue; // to close to the object
 		statptr->flags |= FL_SEEN;
 
@@ -877,7 +897,8 @@ void DrawScaleds(void)
 				visptr->h2 = transparentlevel;
 			else
 				visptr->h2 = FIXEDTRANSLEVEL;
-			SetSpriteLightLevel(statptr->x, statptr->y, visptr, 0, (statptr->flags & FL_FULLLIGHT));
+			SetSpriteLightLevel(statptr->x, statptr->y, visptr, 0,
+								(statptr->flags & FL_FULLLIGHT));
 		}
 		else if (statptr->flags & FL_SOLIDCOLOR)
 		{
@@ -887,17 +908,21 @@ void DrawScaleds(void)
 		else if (statptr->flags & FL_COLORED)
 		{
 			visptr->shapesize = 0;
-			SetColorLightLevel(statptr->x, statptr->y, visptr, 0, statptr->hitpoints, (statptr->flags & FL_FULLLIGHT));
+			SetColorLightLevel(statptr->x, statptr->y, visptr, 0,
+							   statptr->hitpoints,
+							   (statptr->flags & FL_FULLLIGHT));
 		}
 		else
 		{
 			visptr->shapesize = 0;
-			SetSpriteLightLevel(statptr->x, statptr->y, visptr, 0, (statptr->flags & FL_FULLLIGHT));
+			SetSpriteLightLevel(statptr->x, statptr->y, visptr, 0,
+								(statptr->flags & FL_FULLLIGHT));
 		}
 
 		visptr->h1 = pheight - statptr->z;
 
-		if ((statptr->itemnumber != (unsigned int)-1) && (statptr->flags & FL_HEIGHTFLIPPABLE))
+		if ((statptr->itemnumber != (unsigned int)-1) &&
+			(statptr->flags & FL_HEIGHTFLIPPABLE))
 		{
 			if (statptr->itemnumber == stat_disk)
 			{
@@ -943,19 +968,24 @@ void DrawScaleds(void)
 
 		visptr->shapenum += shapestart;
 		if ((visptr->shapenum <= shapestart) || (visptr->shapenum >= shapestop))
-			Error("actor shapenum %d out of range (%d-%d)", visptr->shapenum, shapestart, shapestop);
+			Error("actor shapenum %d out of range (%d-%d)", visptr->shapenum,
+				  shapestart, shapestop);
 		visspot = &spotvis[obj->tilex][obj->tiley];
 
 		//
 		// could be in any of the nine surrounding tiles
 		//
-		if (*visspot || (*(visspot - 1)) || (*(visspot + 1)) || (*(visspot - 129)) || (*(visspot - 128)) ||
-			(*(visspot - 127)) || (*(visspot + 129)) || (*(visspot + 128)) || (*(visspot + 127)))
+		if (*visspot || (*(visspot - 1)) || (*(visspot + 1)) ||
+			(*(visspot - 129)) || (*(visspot - 128)) || (*(visspot - 127)) ||
+			(*(visspot + 129)) || (*(visspot + 128)) || (*(visspot + 127)))
 		{
 
-			//        result = TransformObject (obj->drawx, obj->drawy,&(visptr->viewx),&(visptr->viewheight));
-			result = TransformObject(obj->x, obj->y, &(visptr->viewx), &(visptr->viewheight));
-			if ((result == false) || (visptr->viewheight < (1 << (HEIGHTFRACTION + 2))))
+			//        result = TransformObject (obj->drawx,
+			//        obj->drawy,&(visptr->viewx),&(visptr->viewheight));
+			result = TransformObject(obj->x, obj->y, &(visptr->viewx),
+									 &(visptr->viewheight));
+			if ((result == false) ||
+				(visptr->viewheight < (1 << (HEIGHTFRACTION + 2))))
 				continue; // to close to the object
 			if (obj->state->rotate)
 				visptr->shapenum += CalcRotate(obj);
@@ -979,21 +1009,25 @@ void DrawScaleds(void)
 					playertype *pstate;
 
 					M_LINKSTATE(obj, pstate);
-					SetColorLightLevel(obj->x, obj->y, visptr, obj->dir, pstate->uniformcolor,
+					SetColorLightLevel(obj->x, obj->y, visptr, obj->dir,
+									   pstate->uniformcolor,
 									   (obj->flags & FL_FULLLIGHT));
 				}
 				else
-					SetSpriteLightLevel(obj->x, obj->y, visptr, obj->dir, (obj->flags & FL_FULLLIGHT));
+					SetSpriteLightLevel(obj->x, obj->y, visptr, obj->dir,
+										(obj->flags & FL_FULLLIGHT));
 			}
 			else
 			{
-				if ((obj->obclass >= b_darianobj) && (obj->obclass <= b_robobossobj) && MISCVARS->redindex)
+				if ((obj->obclass >= b_darianobj) &&
+					(obj->obclass <= b_robobossobj) && MISCVARS->redindex)
 				{
 					visptr->colormap = redmap + ((MISCVARS->redindex - 1) << 8);
 				}
 				else
 				{
-					SetSpriteLightLevel(obj->x, obj->y, visptr, obj->dir, (obj->flags & FL_FULLLIGHT));
+					SetSpriteLightLevel(obj->x, obj->y, visptr, obj->dir,
+										(obj->flags & FL_FULLLIGHT));
 				}
 			}
 
@@ -1020,7 +1054,8 @@ void DrawScaleds(void)
 					visptr->shapenum += 4;
 				}
 			}
-			else if ((obj->obclass == pillarobj) && ((nonbobpheight - obj->z) < -16))
+			else if ((obj->obclass == pillarobj) &&
+					 ((nonbobpheight - obj->z) < -16))
 			{
 				visptr->shapenum++;
 			}
@@ -1099,22 +1134,25 @@ void DrawPlayerWeapon(void)
 
 	SoftError("\n attackframe: %d, weaponframe: %d, weapondowntics: %d"
 			  " weaponuptics: %d",
-			  locplayerstate->attackframe, locplayerstate->weaponframe, locplayerstate->weapondowntics,
-			  locplayerstate->weaponuptics);
+			  locplayerstate->attackframe, locplayerstate->weaponframe,
+			  locplayerstate->weapondowntics, locplayerstate->weaponuptics);
 
 	if ((locplayerstate->NETCAPTURED == 1) && (!locplayerstate->HASKNIFE))
 		return;
 
 	if (locplayerstate->weapon != -1)
 	{
-		female = ((locplayerstate->player == 1) || (locplayerstate->player == 3));
+		female =
+			((locplayerstate->player == 1) || (locplayerstate->player == 3));
 		black = (locplayerstate->player == 2);
 
-		if (((locplayerstate->NETCAPTURED >= 1) || (locplayerstate->NETCAPTURED == -2)) &&
+		if (((locplayerstate->NETCAPTURED >= 1) ||
+			 (locplayerstate->NETCAPTURED == -2)) &&
 			(locplayerstate->HASKNIFE == 1)) // if raising or lowering
 		{
 			index = 0;
-			shapenum = gunsstart + weaponshape[index] + locplayerstate->weaponframe;
+			shapenum =
+				gunsstart + weaponshape[index] + locplayerstate->weaponframe;
 		}
 		else if (locplayerstate->weapon != wp_twopistol)
 		{
@@ -1141,15 +1179,18 @@ void DrawPlayerWeapon(void)
 
 			if ((index < 0) || (index >= NUMWEAPGRAPHICS))
 				Error("Weapon shapenum out of range\n");
-			shapenum = gunsstart + weaponshape[index] + locplayerstate->weaponframe;
+			shapenum =
+				gunsstart + weaponshape[index] + locplayerstate->weaponframe;
 
 #if (SHAREWARE == 0)
-			if ((shapenum < W_GetNumForName("KNIFE1")) || (shapenum > W_GetNumForName("DOGPAW4")))
+			if ((shapenum < W_GetNumForName("KNIFE1")) ||
+				(shapenum > W_GetNumForName("DOGPAW4")))
 #else
-			if ((shapenum < W_GetNumForName("MPIST11")) || (shapenum > W_GetNumForName("GODHAND8")))
+			if ((shapenum < W_GetNumForName("MPIST11")) ||
+				(shapenum > W_GetNumForName("GODHAND8")))
 #endif
-				Error("\n illegal weapon shapenum %d, index %d, weaponframe %d", shapenum, index,
-					  locplayerstate->weaponframe);
+				Error("\n illegal weapon shapenum %d, index %d, weaponframe %d",
+					  shapenum, index, locplayerstate->weaponframe);
 		}
 
 		else
@@ -1180,7 +1221,9 @@ void DrawPlayerWeapon(void)
 				shapenum += locplayerstate->weaponframe;
 		}
 
-		if (!(locplayerstate->NETCAPTURED) || (locplayerstate->NETCAPTURED == -1) || (locplayerstate->HASKNIFE == 0))
+		if (!(locplayerstate->NETCAPTURED) ||
+			(locplayerstate->NETCAPTURED == -1) ||
+			(locplayerstate->HASKNIFE == 0))
 		{
 			switch (locplayerstate->weapon)
 			{
@@ -1235,7 +1278,8 @@ void DrawPlayerWeapon(void)
 #endif
 
 				default:
-					Error("Illegal weapon value = %d\n", locplayerstate->weapon);
+					Error("Illegal weapon value = %d\n",
+						  locplayerstate->weapon);
 					break;
 			}
 		}
@@ -1250,9 +1294,13 @@ void DrawPlayerWeapon(void)
 			temp = weaponscale;
 			delta = FixedMul((weaponbobx << 9), weaponscale);
 			weaponscale += delta;
-			ScaleWeapon(xdisp - weaponbobx, ydisp + weaponboby + locplayerstate->weaponheight, shapenum);
+			ScaleWeapon(xdisp - weaponbobx,
+						ydisp + weaponboby + locplayerstate->weaponheight,
+						shapenum);
 			weaponscale -= delta;
-			ScaleWeapon(weaponbobx - 80, ydisp + weaponboby + locplayerstate->weaponheight, altshape);
+			ScaleWeapon(weaponbobx - 80,
+						ydisp + weaponboby + locplayerstate->weaponheight,
+						altshape);
 			weaponscale = temp;
 		}
 		else
@@ -1263,7 +1311,9 @@ void DrawPlayerWeapon(void)
 			temp = weaponscale;
 			delta = FixedMul((weaponbobx << 9), weaponscale);
 			weaponscale -= delta;
-			ScaleWeapon(xdisp + weaponbobx, ydisp + weaponboby + locplayerstate->weaponheight, shapenum);
+			ScaleWeapon(xdisp + weaponbobx,
+						ydisp + weaponboby + locplayerstate->weaponheight,
+						shapenum);
 			weaponscale = temp;
 		}
 	}
@@ -1278,7 +1328,8 @@ void AdaptDetail(void)
 	whereami = 8;
 	if ((preindex < 0) || (preindex > 2))
 		Error("preindex out of range\n");
-	pretics[preindex] = (pretics[0] + pretics[1] + pretics[2] + (tics << 16) + 0x8000) >> 2;
+	pretics[preindex] =
+		(pretics[0] + pretics[1] + pretics[2] + (tics << 16) + 0x8000) >> 2;
 	if (pretics[preindex] > GOLOWER)
 	{
 		pretics[0] = GOHIGHER;
@@ -1365,7 +1416,8 @@ void CalcTics(void)
 ==========================
 */
 
-void SetSpriteLightLevel(int x, int y, visobj_t *sprite, int dir, int fullbright)
+void SetSpriteLightLevel(int x, int y, visobj_t *sprite, int dir,
+						 int fullbright)
 {
 	int i;
 	int lv;
@@ -1387,7 +1439,8 @@ void SetSpriteLightLevel(int x, int y, visobj_t *sprite, int dir, int fullbright
 
 	if (fog)
 	{
-		i = ((sprite->viewheight * 200 / iGLOBAL_SCREENHEIGHT) >> normalshade) + minshade;
+		i = ((sprite->viewheight * 200 / iGLOBAL_SCREENHEIGHT) >> normalshade) +
+			minshade;
 		if (i > maxshade)
 			i = maxshade;
 		sprite->colormap = colormap + (i << 8);
@@ -1425,7 +1478,8 @@ void SetSpriteLightLevel(int x, int y, visobj_t *sprite, int dir, int fullbright
 ==========================
 */
 
-void SetColorLightLevel(int x, int y, visobj_t *sprite, int dir, int color, int fullbright)
+void SetColorLightLevel(int x, int y, visobj_t *sprite, int dir, int color,
+						int fullbright)
 {
 	int i;
 	int lv;
@@ -1551,7 +1605,8 @@ void SetWallLightLevel(wallcast_t *post)
 	}
 	if (fog)
 	{
-		i = ((post->wallheight * 200 / iGLOBAL_SCREENHEIGHT) >> normalshade) + minshade - lv + la;
+		i = ((post->wallheight * 200 / iGLOBAL_SCREENHEIGHT) >> normalshade) +
+			minshade - lv + la;
 		if (i > maxshade + la)
 			i = maxshade + la;
 		shadingtable = colormap + (i << 8);
@@ -1704,7 +1759,8 @@ void DrawWalls(void)
 		{
 			VGAMAPMASK((1 << plane) + (1 << (plane + 1)));
 			buf = (byte *)(bufferofs);
-			for (post = &posts[plane]; post < &posts[viewwidth]; post += 2, buf += 2)
+			for (post = &posts[plane]; post < &posts[viewwidth];
+				 post += 2, buf += 2)
 			{
 				SetWallLightLevel(post);
 				DrawWallPost(post, buf);
@@ -1782,8 +1838,10 @@ void TransformDoors(void)
 				doorptr->altshapenum = doorobjlist[i]->alttexture;
 				if (doorobjlist[i]->texture == doorobjlist[i]->basetexture)
 				{
-					doorptr->shapesize = (doorobjlist[i]->tilex << 7) + doorobjlist[i]->tiley;
-					if (doorptr < &visdoorlist[MAXVISIBLEDOORS - 1]) // don't let it overflo'
+					doorptr->shapesize =
+						(doorobjlist[i]->tilex << 7) + doorobjlist[i]->tiley;
+					if (doorptr < &visdoorlist[MAXVISIBLEDOORS -
+											   1]) // don't let it overflo'
 						doorptr++;
 				}
 				else
@@ -1836,10 +1894,12 @@ void TransformPushWalls(void)
 	//
 	for (i = 0; i < pwallnum; i++)
 	{
-		if ((pwallobjlist[i]->action == pw_pushed) || (pwallobjlist[i]->action == pw_npushed))
+		if ((pwallobjlist[i]->action == pw_pushed) ||
+			(pwallobjlist[i]->action == pw_npushed))
 			continue;
 		visspot = &spotvis[pwallobjlist[i]->x >> 16][pwallobjlist[i]->y >> 16];
-		if (*visspot || (*(visspot - 1)) || (*(visspot + 1)) || (*(visspot - 128)) || (*(visspot + 128)))
+		if (*visspot || (*(visspot - 1)) || (*(visspot + 1)) ||
+			(*(visspot - 128)) || (*(visspot + 128)))
 		{
 			gx = pwallobjlist[i]->x;
 			gy = pwallobjlist[i]->y;
@@ -1850,31 +1910,39 @@ void TransformPushWalls(void)
 				{
 					visptr->texturestart = (gx - 0x8000) & 0xffff;
 					visptr->textureend = visptr->texturestart;
-					result = TransformPlane(gx + 0x7fff, gy - 0x8000, gx - 0x8000, gy - 0x8000, visptr);
+					result = TransformPlane(gx + 0x7fff, gy - 0x8000,
+											gx - 0x8000, gy - 0x8000, visptr);
 					visptr->texturestart ^= 0xffff;
 					visptr->textureend ^= 0xffff;
 					visptr->shapenum = pwallobjlist[i]->texture;
-					visptr->shapesize = ((pwallobjlist[i]->x >> 16) << 7) + (pwallobjlist[i]->y >> 16);
+					visptr->shapesize = ((pwallobjlist[i]->x >> 16) << 7) +
+										(pwallobjlist[i]->y >> 16);
 					visptr->viewx += 2;
-					if ((visptr < &vislist[MAXVISIBLE - 1]) && (result == true)) // don't let it overflo'
+					if ((visptr < &vislist[MAXVISIBLE - 1]) &&
+						(result == true)) // don't let it overflo'
 						visptr++;
 					visptr->texturestart = (gy - 0x8000) & 0xffff;
 					visptr->textureend = visptr->texturestart; //-0xffff;
-					result = TransformPlane(gx - 0x8000, gy - 0x8000, gx - 0x8000, gy + 0x7fff, visptr);
+					result = TransformPlane(gx - 0x8000, gy - 0x8000,
+											gx - 0x8000, gy + 0x7fff, visptr);
 				}
 				else
 				{
 					visptr->texturestart = (gy - 0x8000) & 0xffff;
 					visptr->textureend = visptr->texturestart; //-0xffff;
-					result = TransformPlane(gx - 0x8000, gy - 0x8000, gx - 0x8000, gy + 0x7fff, visptr);
+					result = TransformPlane(gx - 0x8000, gy - 0x8000,
+											gx - 0x8000, gy + 0x7fff, visptr);
 					visptr->shapenum = pwallobjlist[i]->texture;
-					visptr->shapesize = ((pwallobjlist[i]->x >> 16) << 7) + (pwallobjlist[i]->y >> 16);
+					visptr->shapesize = ((pwallobjlist[i]->x >> 16) << 7) +
+										(pwallobjlist[i]->y >> 16);
 					visptr->viewx += 2;
-					if ((visptr < &vislist[MAXVISIBLE - 1]) && (result == true)) // don't let it overflo'
+					if ((visptr < &vislist[MAXVISIBLE - 1]) &&
+						(result == true)) // don't let it overflo'
 						visptr++;
 					visptr->texturestart = (gx - 0x8000) & 0xffff;
 					visptr->textureend = visptr->texturestart; //-0xffff;
-					result = TransformPlane(gx - 0x8000, gy + 0x7fff, gx + 0x7fff, gy + 0x7fff, visptr);
+					result = TransformPlane(gx - 0x8000, gy + 0x7fff,
+											gx + 0x7fff, gy + 0x7fff, visptr);
 				}
 			}
 			else
@@ -1883,17 +1951,21 @@ void TransformPushWalls(void)
 				{
 					visptr->texturestart = (gy - 0x8000) & 0xffff;
 					visptr->textureend = visptr->texturestart;
-					result = TransformPlane(gx + 0x7fff, gy + 0x7fff, gx + 0x7fff, gy - 0x8000, visptr);
+					result = TransformPlane(gx + 0x7fff, gy + 0x7fff,
+											gx + 0x7fff, gy - 0x8000, visptr);
 					visptr->texturestart ^= 0xffff;
 					visptr->textureend ^= 0xffff;
 					visptr->shapenum = pwallobjlist[i]->texture;
-					visptr->shapesize = ((pwallobjlist[i]->x >> 16) << 7) + (pwallobjlist[i]->y >> 16);
+					visptr->shapesize = ((pwallobjlist[i]->x >> 16) << 7) +
+										(pwallobjlist[i]->y >> 16);
 					visptr->viewx += 2;
-					if ((visptr < &vislist[MAXVISIBLE - 1]) && (result == true)) // don't let it overflo'
+					if ((visptr < &vislist[MAXVISIBLE - 1]) &&
+						(result == true)) // don't let it overflo'
 						visptr++;
 					visptr->texturestart = (gx - 0x8000) & 0xffff;
 					visptr->textureend = visptr->texturestart;
-					result = TransformPlane(gx + 0x7fff, gy - 0x8000, gx - 0x8000, gy - 0x8000, visptr);
+					result = TransformPlane(gx + 0x7fff, gy - 0x8000,
+											gx - 0x8000, gy - 0x8000, visptr);
 					visptr->texturestart ^= 0xffff;
 					visptr->textureend ^= 0xffff;
 				}
@@ -1901,23 +1973,29 @@ void TransformPushWalls(void)
 				{
 					visptr->texturestart = (gx - 0x8000) & 0xffff;
 					visptr->textureend = visptr->texturestart; //-0xffff;
-					result = TransformPlane(gx - 0x8000, gy + 0x7fff, gx + 0x7fff, gy + 0x7fff, visptr);
+					result = TransformPlane(gx - 0x8000, gy + 0x7fff,
+											gx + 0x7fff, gy + 0x7fff, visptr);
 					visptr->shapenum = pwallobjlist[i]->texture;
-					visptr->shapesize = ((pwallobjlist[i]->x >> 16) << 7) + (pwallobjlist[i]->y >> 16);
+					visptr->shapesize = ((pwallobjlist[i]->x >> 16) << 7) +
+										(pwallobjlist[i]->y >> 16);
 					visptr->viewx += 2;
-					if ((visptr < &vislist[MAXVISIBLE - 1]) && (result == true)) // don't let it overflo'
+					if ((visptr < &vislist[MAXVISIBLE - 1]) &&
+						(result == true)) // don't let it overflo'
 						visptr++;
 					visptr->texturestart = (gy - 0x8000) & 0xffff;
 					visptr->textureend = visptr->texturestart;
-					result = TransformPlane(gx + 0x7fff, gy + 0x7fff, gx + 0x7fff, gy - 0x8000, visptr);
+					result = TransformPlane(gx + 0x7fff, gy + 0x7fff,
+											gx + 0x7fff, gy - 0x8000, visptr);
 					visptr->texturestart ^= 0xffff;
 					visptr->textureend ^= 0xffff;
 				}
 			}
 			visptr->viewx += 2;
 			visptr->shapenum = pwallobjlist[i]->texture;
-			visptr->shapesize = ((pwallobjlist[i]->x >> 16) << 7) + (pwallobjlist[i]->y >> 16);
-			if ((visptr < &vislist[MAXVISIBLE - 1]) && (result == true)) // don't let it overflo'
+			visptr->shapesize =
+				((pwallobjlist[i]->x >> 16) << 7) + (pwallobjlist[i]->y >> 16);
+			if ((visptr < &vislist[MAXVISIBLE - 1]) &&
+				(result == true)) // don't let it overflo'
 				visptr++;
 		}
 	}
@@ -1935,7 +2013,8 @@ void TransformPushWalls(void)
 		// draw farthest
 		//
 		if (sortedvislist[i]->shapenum & 0x1000)
-			sortedvislist[i]->shapenum = animwalls[sortedvislist[i]->shapenum & 0x3ff].texture;
+			sortedvislist[i]->shapenum =
+				animwalls[sortedvislist[i]->shapenum & 0x3ff].texture;
 		sortedvislist[i]->altshapenum = 0;
 		InterpolateWall(sortedvislist[i]);
 	}
@@ -1975,9 +2054,13 @@ void WallRefresh(void)
 		if (player->flags & FL_SHROOMS)
 		{
 			viewangle = (player->angle +
-						 FixedMulShift(FINEANGLES, sintable[(GetTicCount() << 5) & (FINEANGLES - 1)], (16 + 4))) &
+						 FixedMulShift(
+							 FINEANGLES,
+							 sintable[(GetTicCount() << 5) & (FINEANGLES - 1)],
+							 (16 + 4))) &
 						(FINEANGLES - 1);
-			ChangeFocalWidth(FixedMulShift(40, sintable[(GetTicCount() << 5) & (FINEANGLES - 1)], 16));
+			ChangeFocalWidth(FixedMulShift(
+				40, sintable[(GetTicCount() << 5) & (FINEANGLES - 1)], 16));
 		}
 		else
 			viewangle = player->angle;
@@ -1985,20 +2068,27 @@ void WallRefresh(void)
 			Error("View angle out of range = %d\n", viewangle);
 		viewx = player->x;
 		viewy = player->y;
-		pheight = player->z + locplayerstate->playerheight + locplayerstate->heightoffset;
+		pheight = player->z + locplayerstate->playerheight +
+				  locplayerstate->heightoffset;
 		nonbobpheight = pheight;
-		if (((player->z == nominalheight) || (IsPlatform(player->tilex, player->tiley)) ||
+		if (((player->z == nominalheight) ||
+			 (IsPlatform(player->tilex, player->tiley)) ||
 			 (DiskAt(player->tilex, player->tiley))) &&
-			(!(player->flags & FL_DOGMODE)) && (BobbinOn == true) && (GamePaused == false))
+			(!(player->flags & FL_DOGMODE)) && (BobbinOn == true) &&
+			(GamePaused == false))
 		{
 			int mag;
 
 			mag = (player->speed > MAXBOB ? MAXBOB : player->speed);
 
-			pheight += FixedMulShift(mag, sintable[(GetTicCount() << 7) & 2047], 28);
+			pheight +=
+				FixedMulShift(mag, sintable[(GetTicCount() << 7) & 2047], 28);
 
-			weaponbobx = FixedMulShift(mag, costable[((GetTicCount() << 5)) & (FINEANGLES - 1)], 27);
-			weaponboby = FixedMulShift(mag, sintable[((GetTicCount() << 5)) & ((FINEANGLES / 2) - 1)], 26);
+			weaponbobx = FixedMulShift(
+				mag, costable[((GetTicCount() << 5)) & (FINEANGLES - 1)], 27);
+			weaponboby = FixedMulShift(
+				mag, sintable[((GetTicCount() << 5)) & ((FINEANGLES / 2) - 1)],
+				26);
 		}
 		else
 		{
@@ -2014,8 +2104,10 @@ void WallRefresh(void)
 	else
 		pheight += (sintable[yzangle & 2047] >> 14);
 
-	viewx -= (FixedMul(sintable[yzangle & 2047], costable[viewangle & 2047]) >> 1);
-	viewy += (FixedMul(sintable[yzangle & 2047], sintable[viewangle & 2047]) >> 1);
+	viewx -=
+		(FixedMul(sintable[yzangle & 2047], costable[viewangle & 2047]) >> 1);
+	viewy +=
+		(FixedMul(sintable[yzangle & 2047], sintable[viewangle & 2047]) >> 1);
 
 	// Set YZ angle
 
@@ -2042,7 +2134,8 @@ void WallRefresh(void)
 
 	mag = 7 + ((3 - gamestate.difficulty) << 2);
 
-	transparentlevel = FixedMul(mag, sintable[(GetTicCount() << 5) & (FINEANGLES - 1)]) + mag;
+	transparentlevel =
+		FixedMul(mag, sintable[(GetTicCount() << 5) & (FINEANGLES - 1)]) + mag;
 
 	viewsin = sintable[viewangle];
 	viewcos = costable[viewangle];
@@ -2134,7 +2227,9 @@ void InterpolateWall(visobj_t *plane)
 		return;
 	d1 = (1 << (16 + HEIGHTFRACTION)) / plane->h1;
 	d2 = (1 << (16 + HEIGHTFRACTION)) / plane->h2;
-	dh = (((plane->h2 - plane->h1) << DHEIGHTFRACTION) + (1 << (DHEIGHTFRACTION - 1))) / dx;
+	dh = (((plane->h2 - plane->h1) << DHEIGHTFRACTION) +
+		  (1 << (DHEIGHTFRACTION - 1))) /
+		 dx;
 	top = 0;
 	topinc = FixedMulShift(d1, plane->textureend - plane->texturestart, 4);
 	bot = d2 * dx;
@@ -2144,7 +2239,8 @@ void InterpolateWall(visobj_t *plane)
 		return;
 	for (i = plane->x1; i <= plane->x2; i++)
 	{
-		if ((i >= 0 && i < viewwidth) && (posts[i].wallheight <= (height >> DHEIGHTFRACTION)))
+		if ((i >= 0 && i < viewwidth) &&
+			(posts[i].wallheight <= (height >> DHEIGHTFRACTION)))
 		{
 			if (bot)
 			{
@@ -2198,7 +2294,9 @@ void InterpolateDoor(visobj_t *plane)
 	p = (patch_t *)shape;
 	d1 = (1 << (16 + HEIGHTFRACTION)) / plane->h1;
 	d2 = (1 << (16 + HEIGHTFRACTION)) / plane->h2;
-	dh = (((plane->h2 - plane->h1) << DHEIGHTFRACTION) + (1 << (DHEIGHTFRACTION - 1))) / dx;
+	dh = (((plane->h2 - plane->h1) << DHEIGHTFRACTION) +
+		  (1 << (DHEIGHTFRACTION - 1))) /
+		 dx;
 	topinc = FixedMulShift(d1, plane->textureend - plane->texturestart, 4);
 	botinc = d1 - d2;
 	if (plane->x1 >= viewwidth)
@@ -2212,12 +2310,16 @@ void InterpolateDoor(visobj_t *plane)
 
 		for (i = plane->x1; i <= plane->x2; i++, buf++)
 		{
-			if ((i >= 0 && i < viewwidth) && (bot != 0) && (posts[i].wallheight <= (height >> DHEIGHTFRACTION)))
+			if ((i >= 0 && i < viewwidth) && (bot != 0) &&
+				(posts[i].wallheight <= (height >> DHEIGHTFRACTION)))
 			{
 				dc_invscale = height >> (HEIGHTFRACTION + DHEIGHTFRACTION - 10);
 				dc_iscale = 0xffffffffu / (unsigned)dc_invscale;
-				dc_texturemid = ((pheight - nominalheight + p->topoffset) << SFRACBITS) + (SFRACUNIT >> 1);
-				sprtopoffset = centeryfrac - FixedMul(dc_texturemid, dc_invscale);
+				dc_texturemid =
+					((pheight - nominalheight + p->topoffset) << SFRACBITS) +
+					(SFRACUNIT >> 1);
+				sprtopoffset =
+					centeryfrac - FixedMul(dc_texturemid, dc_invscale);
 
 				texture = ((top / bot) + (plane->texturestart >> 4)) >> 6;
 				SetLightLevel(height >> DHEIGHTFRACTION);
@@ -2319,7 +2421,9 @@ void InterpolateMaskedWall(visobj_t *plane)
 
 	d1 = (1 << (16 + HEIGHTFRACTION)) / plane->h1;
 	d2 = (1 << (16 + HEIGHTFRACTION)) / plane->h2;
-	dh = (((plane->h2 - plane->h1) << DHEIGHTFRACTION) + (1 << (DHEIGHTFRACTION - 1))) / dx;
+	dh = (((plane->h2 - plane->h1) << DHEIGHTFRACTION) +
+		  (1 << (DHEIGHTFRACTION - 1))) /
+		 dx;
 	topinc = FixedMulShift(d1, plane->textureend - plane->texturestart, 4);
 	botinc = d1 - d2;
 	if (plane->x1 >= viewwidth)
@@ -2332,17 +2436,22 @@ void InterpolateMaskedWall(visobj_t *plane)
 		buf = (byte *)bufferofs + (plane->x1);
 		for (i = plane->x1; i <= plane->x2; i++, buf++)
 		{
-			if ((i >= 0 && i < viewwidth) && (bot != 0) && (posts[i].wallheight <= (height >> DHEIGHTFRACTION)))
+			if ((i >= 0 && i < viewwidth) && (bot != 0) &&
+				(posts[i].wallheight <= (height >> DHEIGHTFRACTION)))
 			{
 				dc_invscale = height >> (HEIGHTFRACTION + DHEIGHTFRACTION - 10);
 				dc_iscale = 0xffffffffu / (unsigned)dc_invscale;
-				dc_texturemid = ((pheight - nominalheight + topoffset) << SFRACBITS) + (SFRACUNIT >> 1);
-				sprtopoffset = centeryfrac - FixedMul(dc_texturemid, dc_invscale);
+				dc_texturemid =
+					((pheight - nominalheight + topoffset) << SFRACBITS) +
+					(SFRACUNIT >> 1);
+				sprtopoffset =
+					centeryfrac - FixedMul(dc_texturemid, dc_invscale);
 
 				texture = ((top / bot) + (plane->texturestart >> 4)) >> 6;
 				SetLightLevel(height >> DHEIGHTFRACTION);
 				if (drawbottom == true)
-					ScaleTransparentPost(p->collumnofs[texture] + shape, buf, (p->translevel + 8));
+					ScaleTransparentPost(p->collumnofs[texture] + shape, buf,
+										 (p->translevel + 8));
 				for (j = 0; j < levelheight - 2; j++)
 				{
 					sprtopoffset -= (dc_invscale << 6);
@@ -2461,7 +2570,8 @@ void ThreeDRefresh(void)
 
 		if (SCREENEYE)
 			DrawScreenSprite(SCREENEYE->targettilex, SCREENEYE->targettiley,
-							 SCREENEYE->state->condition + GIBEYE1 + shapestart);
+							 SCREENEYE->state->condition + GIBEYE1 +
+								 shapestart);
 		UpdateClientControls();
 
 		if (player->flags & FL_GASMASK)
@@ -2481,7 +2591,8 @@ void ThreeDRefresh(void)
 	DrawMessages();
 	bufferofs += screenofs;
 
-	if (((GamePaused == true) && (!Keyboard[sc_LShift])) || (controlupdatestarted == 0))
+	if (((GamePaused == true) && (!Keyboard[sc_LShift])) ||
+		(controlupdatestarted == 0))
 		DrawPause();
 
 	//
@@ -2493,7 +2604,8 @@ void ThreeDRefresh(void)
 			ShutdownClientControls();
 		bufferofs -= screenofs;
 		DrawPlayScreen(true);
-		RotateBuffer(0, FINEANGLES, FINEANGLES * 8, FINEANGLES, (VBLCOUNTER * 3) / 4);
+		RotateBuffer(0, FINEANGLES, FINEANGLES * 8, FINEANGLES,
+					 (VBLCOUNTER * 3) / 4);
 		bufferofs += screenofs;
 		fizzlein = false;
 		StartupClientControls();
@@ -2655,7 +2767,8 @@ void DoLoadGameSequence(void)
 	CalcTics();
 	// bna++ section
 	shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1);
-	DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape); // bna++
+	DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0,
+					16, shape); // bna++
 	DrawPlayScreen(false);
 	DisableScreenStretch();
 	SHAKETICS = 0xFFFF;
@@ -2727,7 +2840,8 @@ void StartupRotateBuffer(int masked)
 			for (b = 0; b < iGLOBAL_SCREENWIDTH; b++)
 			{
 				k = ((a + 28) << 10);
-				*(RotatedImage + (k) + b) = *((byte *)bufferofs + (a * linewidth) + b);
+				*(RotatedImage + (k) + b) =
+					*((byte *)bufferofs + (a * linewidth) + b);
 			}
 		}
 	}
@@ -2736,7 +2850,8 @@ void StartupRotateBuffer(int masked)
 		for (a = 0; a < 200; a++)
 		{
 			for (b = 0; b < 320; b++)
-				*(RotatedImage + 99 + ((a + 28) << 9) + b) = *((byte *)bufferofs + (a * linewidth) + b);
+				*(RotatedImage + 99 + ((a + 28) << 9) + b) =
+					*((byte *)bufferofs + (a * linewidth) + b);
 		}
 	}
 }
@@ -2767,7 +2882,8 @@ void ShutdownRotateBuffer(void)
 //
 //******************************************************************************
 
-void ScaleAndRotateBuffer(int startangle, int endangle, int startscale, int endscale, int time)
+void ScaleAndRotateBuffer(int startangle, int endangle, int startscale,
+						  int endscale, int time)
 {
 	int anglestep;
 	int scalestep;
@@ -2795,18 +2911,22 @@ void ScaleAndRotateBuffer(int startangle, int endangle, int startscale, int ends
 	CalcTics();
 	for (i = 0; i < time; i += tics)
 	{ // zxcv
-		DrawRotatedScreen(Xh, Yh, (byte *)bufferofs, (angle >> 16) & (FINEANGLES - 1), scale >> 6, 0);
+		DrawRotatedScreen(Xh, Yh, (byte *)bufferofs,
+						  (angle >> 16) & (FINEANGLES - 1), scale >> 6, 0);
 		FlipPage();
 		scale += (scalestep * tics);
 		angle += (anglestep * tics);
 		CalcTics();
 	}
 
-	DrawRotatedScreen(Xh, Yh, (byte *)bufferofs, endangle & (FINEANGLES - 1), endscale, 0);
+	DrawRotatedScreen(Xh, Yh, (byte *)bufferofs, endangle & (FINEANGLES - 1),
+					  endscale, 0);
 	FlipPage();
-	DrawRotatedScreen(Xh, Yh, (byte *)bufferofs, endangle & (FINEANGLES - 1), endscale, 0);
+	DrawRotatedScreen(Xh, Yh, (byte *)bufferofs, endangle & (FINEANGLES - 1),
+					  endscale, 0);
 	FlipPage();
-	DrawRotatedScreen(Xh, Yh, (byte *)bufferofs, endangle & (FINEANGLES - 1), endscale, 0);
+	DrawRotatedScreen(Xh, Yh, (byte *)bufferofs, endangle & (FINEANGLES - 1),
+					  endscale, 0);
 	CalcTics();
 	CalcTics();
 	// I_Delay (240);//bna++
@@ -2815,9 +2935,10 @@ void ScaleAndRotateBuffer(int startangle, int endangle, int startscale, int ends
 	{ // bna++
 		pic_t *shape;
 		shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1);
-		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape); // bna++
-		DisableScreenStretch(); // dont strech when we go BACK TO GAME
-		DrawPlayScreen(true);	// repaint ammo and life stat
+		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32,
+						0, 16, shape); // bna++
+		DisableScreenStretch();		   // dont strech when we go BACK TO GAME
+		DrawPlayScreen(true);		   // repaint ammo and life stat
 	}
 }
 // bna section end
@@ -2828,7 +2949,8 @@ void ScaleAndRotateBuffer(int startangle, int endangle, int startscale, int ends
 //
 //******************************************************************************
 
-void RotateBuffer(int startangle, int endangle, int startscale, int endscale, int time)
+void RotateBuffer(int startangle, int endangle, int startscale, int endscale,
+				  int time)
 {
 	int savetics;
 
@@ -2852,7 +2974,8 @@ void RotateBuffer(int startangle, int endangle, int startscale, int endscale, in
 //
 //******************************************************************************
 
-void DrawRotatedScreen(int cx, int cy, byte *destscreen, int angle, int scale, int masked)
+void DrawRotatedScreen(int cx, int cy, byte *destscreen, int angle, int scale,
+					   int masked)
 { // ZXCV
 	int c, s;
 	int xst, xct;
@@ -2923,7 +3046,8 @@ void DrawScaledPost(int height, byte *src, int offset, int x)
 	p = (patch_t *)src;
 	dc_invscale = (height << 16) / p->origsize;
 	dc_iscale = (p->origsize << 16) / height;
-	dc_texturemid = (((p->origsize >> 1) + p->topoffset) << SFRACBITS) + (SFRACUNIT >> 1);
+	dc_texturemid =
+		(((p->origsize >> 1) + p->topoffset) << SFRACBITS) + (SFRACUNIT >> 1);
 	sprtopoffset = centeryfrac - FixedMul(dc_texturemid, dc_invscale);
 	shadingtable = colormap + (1 << 12);
 	VGAWRITEMAP(x & 3);
@@ -2996,7 +3120,8 @@ void ApogeeTitle(void)
 
 		x = 100 + FixedMul(APOGEEXMAG, sintable[anglex >> 16]);
 
-		DrawRotatedScreen(x, y >> 16, (byte *)bufferofs, (angle >> 16) & (FINEANGLES - 1), scale >> 16, 1);
+		DrawRotatedScreen(x, y >> 16, (byte *)bufferofs,
+						  (angle >> 16) & (FINEANGLES - 1), scale >> 16, 1);
 		FlipPage();
 		CalcTics();
 		angle += dangle * tics;
@@ -3058,8 +3183,10 @@ void DopefishTitle(void)
 	oldtime = GetTicCount();
 	for (height = 0; height < FINEANGLES << 1; height += (tics << 5))
 	{
-		DrawPositionedScaledSprite(160 + FixedMul(60, costable[height & (FINEANGLES - 1)]),
-								   100 + FixedMul(60, sintable[height & (FINEANGLES - 1)]), shapenum, 200, 0);
+		DrawPositionedScaledSprite(
+			160 + FixedMul(60, costable[height & (FINEANGLES - 1)]),
+			100 + FixedMul(60, sintable[height & (FINEANGLES - 1)]), shapenum,
+			200, 0);
 		FlipPage();
 		VL_CopyPlanarPage((byte *)displayofs, (byte *)bufferofs);
 		CalcTics();
@@ -3232,7 +3359,8 @@ void UpdateScreenSaver(void)
 	}
 	ScreenSaver->x += ScreenSaver->dx * tics;
 	ScreenSaver->y += ScreenSaver->dy * tics;
-	ScreenSaver->angle = (ScreenSaver->angle + (ScreenSaver->dangle * tics)) & (FINEANGLES - 1);
+	ScreenSaver->angle =
+		(ScreenSaver->angle + (ScreenSaver->dangle * tics)) & (FINEANGLES - 1);
 	ScreenSaver->scale += ScreenSaver->dscale * tics;
 	if (ScreenSaver->x < SPINSIZE)
 	{
@@ -3265,7 +3393,8 @@ void UpdateScreenSaver(void)
 	if (abs(ScreenSaver->dy) > MAXSPEED)
 		ScreenSaver->dy = SGN(ScreenSaver->dy) * MAXSPEED;
 
-	DrawRotatedScreen(ScreenSaver->x, ScreenSaver->y, (byte *)bufferofs, ScreenSaver->angle, ScreenSaver->scale, 0);
+	DrawRotatedScreen(ScreenSaver->x, ScreenSaver->y, (byte *)bufferofs,
+					  ScreenSaver->angle, ScreenSaver->scale, 0);
 
 	ScreenSaver->pausetime -= tics;
 	if (ScreenSaver->pausetime <= 0)
@@ -3333,7 +3462,8 @@ void PrepareBackground(byte *bkgnd)
 //
 //******************************************************************************
 
-void WarpString(int x, int y, int endx, int endy, int time, byte *back, char *str)
+void WarpString(int x, int y, int endx, int endy, int time, byte *back,
+				char *str)
 {
 	int dx;
 	int dy;
@@ -3382,7 +3512,8 @@ void WarpString(int x, int y, int endx, int endy, int time, byte *back, char *st
 //
 //******************************************************************************
 
-void WarpSprite(int x, int y, int endx, int endy, int time, byte *back, int shape)
+void WarpSprite(int x, int y, int endx, int endy, int time, byte *back,
+				int shape)
 {
 	int dx;
 	int dy;
@@ -3536,7 +3667,8 @@ void DoEndCinematic(void)
 	VL_DrawPostPic(trilogo);
 	PrepareBackground(bkgnd);
 
-	WarpSprite(160, -100, 160, 100, (VBLCOUNTER * 3), bkgnd, W_GetNumForName("youwin"));
+	WarpSprite(160, -100, 160, 100, (VBLCOUNTER * 3), bkgnd,
+			   W_GetNumForName("youwin"));
 	if (LastScan != 0)
 		goto fadelogo;
 
@@ -3551,7 +3683,8 @@ fadelogo:
 	VL_DrawPostPic(world);
 	PrepareBackground(bkgnd);
 
-	WarpSprite(160, 250, 160, 100, (VBLCOUNTER * 3), bkgnd, W_GetNumForName("wrldsafe"));
+	WarpSprite(160, 250, 160, 100, (VBLCOUNTER * 3), bkgnd,
+			   W_GetNumForName("wrldsafe"));
 	if (LastScan != 0)
 		goto fadeworld;
 
@@ -3559,7 +3692,8 @@ fadelogo:
 	if (LastScan != 0)
 		goto fadeworld;
 
-	WarpSprite(160, 100, 160, -50, (VBLCOUNTER * 3), bkgnd, W_GetNumForName("wrldsafe"));
+	WarpSprite(160, 100, 160, -50, (VBLCOUNTER * 3), bkgnd,
+			   W_GetNumForName("wrldsafe"));
 	if (LastScan != 0)
 		goto fadeworld;
 
@@ -3810,10 +3944,10 @@ typedef struct
 } ExplosionInfoType;
 
 ExplosionInfoType ExplosionInfo[NUMEXPLOSIONTYPES] = {
-	{"EXPLOS1\0", 20},
-	{"EXP1\0", 20},
-	{"GREXP1\0", 25},
-	{"PART1\0", 12},
+	{ "EXPLOS1\0", 20 },
+	{ "EXP1\0", 20 },
+	{ "GREXP1\0", 25 },
+	{ "PART1\0", 12 },
 };
 
 typedef struct
@@ -3865,7 +3999,8 @@ void UpdateTransmitterExplosions(void)
 	for (i = 0; i < MAXTRANSMITTEREXPLOSIONS; i++)
 	{
 		Explosions[i].frame += tics;
-		if (Explosions[i].frame >= (ExplosionInfo[Explosions[i].which].numframes << 1))
+		if (Explosions[i].frame >=
+			(ExplosionInfo[Explosions[i].which].numframes << 1))
 		{
 			ResetTransmitterExplosion(&Explosions[i]);
 			SD_Play(SD_EXPLODEFLOORSND + (RandomNumber("Explosion", 4) >> 7));
@@ -3878,8 +4013,11 @@ void DrawTransmitterExplosions(void)
 	int i;
 	for (i = 0; i < MAXTRANSMITTEREXPLOSIONS; i++)
 	{
-		DrawUnScaledSprite(Explosions[i].x, Explosions[i].y,
-						   (W_GetNumForName(ExplosionInfo[Explosions[i].which].name) + (Explosions[i].frame >> 1)), 16);
+		DrawUnScaledSprite(
+			Explosions[i].x, Explosions[i].y,
+			(W_GetNumForName(ExplosionInfo[Explosions[i].which].name) +
+			 (Explosions[i].frame >> 1)),
+			16);
 	}
 }
 
@@ -4009,7 +4147,8 @@ void ShowFinalFire(void)
 	VL_FadeOut(0, 255, 0, 0, 0, 30);
 }
 
-void ScrollString(int cy, char *string, byte *bkgnd, int scrolltime, int pausetime)
+void ScrollString(int cy, char *string, byte *bkgnd, int scrolltime,
+				  int pausetime)
 {
 	int x, y;
 	int width, height;
@@ -4049,7 +4188,8 @@ void DoBurningCastle(void)
 	CurrentFont = smallfont;
 	FlipPage();
 	VL_FadeIn(0, 255, origpal, 30);
-	CurrentFont = (font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
+	CurrentFont =
+		(font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
 	ScrollString(150, &burnCastle1Msg[0], back, 4 * VBLCOUNTER, 80);
 	W_CacheLumpName("newfnt1", PU_CACHE, Cvt_font_t, 1);
 	VL_FadeOut(0, 255, 0, 0, 0, 80);
@@ -4112,7 +4252,8 @@ void UpdateWorldExplosions(void)
 	for (i = 0; i < MAXTRANSMITTEREXPLOSIONS; i++)
 	{
 		Explosions[i].frame += tics;
-		if (Explosions[i].frame >= (ExplosionInfo[Explosions[i].which].numframes << 1))
+		if (Explosions[i].frame >=
+			(ExplosionInfo[Explosions[i].which].numframes << 1))
 		{
 			ResetWorldExplosion(&Explosions[i]);
 			SD_Play(SD_EXPLODEFLOORSND + (RandomNumber("Explosion", 4) >> 7));
@@ -4195,7 +4336,8 @@ void PlayerQuestionScreen(void)
 	CurrentFont = smallfont;
 	FlipPage();
 	VL_FadeIn(0, 255, origpal, 30);
-	CurrentFont = (font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
+	CurrentFont =
+		(font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
 	ScrollString(100, &doneMsg[0], back, 4 * VBLCOUNTER, 40);
 	ScrollString(100, &youWin1Msg[0], back, 4 * VBLCOUNTER, 50);
 	VL_DrawPostPic(W_GetNumForName("trilogo"));
@@ -4237,12 +4379,14 @@ void DoYouWin(void)
 	back = SafeMalloc(800 * linewidth);
 	LastScan = 0;
 	VL_ClearVideo(0);
-	pic = (pic_t *)W_CacheLumpNum(W_GetNumForName("mmbk"), PU_CACHE, Cvt_pic_t, 1);
+	pic = (pic_t *)W_CacheLumpNum(W_GetNumForName("mmbk"), PU_CACHE, Cvt_pic_t,
+								  1);
 	VWB_DrawPic(0, 0, pic);
 	PrepareBackground(back);
 	FlipPage();
 	VL_FadeIn(0, 255, origpal, 30);
-	CurrentFont = (font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
+	CurrentFont =
+		(font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
 	ScrollString(100, &youWin7Msg[0], back, 4 * VBLCOUNTER, 300);
 	W_CacheLumpName("newfnt1", PU_CACHE, Cvt_font_t, 1);
 	VL_FadeOut(0, 255, 0, 0, 0, 80);
@@ -4257,7 +4401,8 @@ void DoFinalEnd(void)
 	back = SafeMalloc(800 * linewidth);
 	LastScan = 0;
 	VL_ClearVideo(0);
-	pic = (pic_t *)W_CacheLumpNum(W_GetNumForName("mmbk"), PU_CACHE, Cvt_pic_t, 1);
+	pic = (pic_t *)W_CacheLumpNum(W_GetNumForName("mmbk"), PU_CACHE, Cvt_pic_t,
+								  1);
 	VWB_DrawPic(0, 0, pic);
 	DrawNormalSprite(0, 0, W_GetNumForName("sombrero"));
 	DrawNormalSprite(0, 0, W_GetNumForName("amflag"));
@@ -4267,7 +4412,8 @@ void DoFinalEnd(void)
 	PrepareBackground(back);
 	FlipPage();
 	VL_FadeIn(0, 255, origpal, 30);
-	CurrentFont = (font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
+	CurrentFont =
+		(font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
 	ScrollString(100, &youWin8Msg[0], back, 4 * VBLCOUNTER, 100);
 	W_CacheLumpName("newfnt1", PU_CACHE, Cvt_font_t, 1);
 	VL_FadeOut(0, 255, 0, 0, 0, 80);
@@ -4454,7 +4600,8 @@ void DIPCredits(void)
 	PrepareBackground(back);
 	FlipPage();
 	VL_FadeIn(0, 255, origpal, 30);
-	CurrentFont = (font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
+	CurrentFont =
+		(font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
 	ScrollString(100, &creditsMsg[0], back, 4 * VBLCOUNTER, 30);
 	CurrentFont = smallfont;
 	ScrollString(100, &credits1Msg[0], back, 4 * VBLCOUNTER, 50);
@@ -4470,7 +4617,8 @@ void DIPCredits(void)
 	ScrollString(100, &credits11Msg[0], back, 4 * VBLCOUNTER, 80);
 	ScrollString(100, &credits12Msg[0], back, 4 * VBLCOUNTER, 80);
 
-	CurrentFont = (font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
+	CurrentFont =
+		(font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
 	ScrollString(100, &actorsMsg[0], back, 4 * VBLCOUNTER, 50);
 
 	CurrentFont = smallfont;
@@ -4543,7 +4691,8 @@ void DIPCredits(void)
 
 	VL_DrawPostPic(W_GetNumForName("trilogo"));
 	PrepareBackground(back);
-	CurrentFont = (font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
+	CurrentFont =
+		(font_t *)W_CacheLumpName("newfnt1", PU_STATIC, Cvt_font_t, 1);
 	ScrollString(100, &playersCutMsg[0], back, 4 * VBLCOUNTER, 40);
 
 	CurrentFont = smallfont;
@@ -4668,57 +4817,57 @@ typedef struct CreditType
 } CreditType;
 
 CreditType FirstCredits[NUMFIRSTCREDITMESSAGES] = {
-	{"Rise of the Triad Credits", 0, 0},
-	{"COPYRIGHT (c) 1995 Apogee Software Ltd.", 1, 10},
-	{"Apogee's Developers of Incredible Power", 1, 20},
-	{"Creative Director", 0, 30},
-	{"Tom Hall", 1, 40},
-	{"Programmers", 0, 50},
-	{"Mark Dochtermann  William Scarboro", 1, 60},
-	{"Jim Dose'  Nolan Martin", 1, 66},
-	{"Artists", 0, 76},
-	{"Stephen Hornback  Chuck Jones", 1, 86},
-	{"Susan Singer  Tim Neveu", 1, 92},
-	{"James Storey  Cygnus Multimedia", 1, 98},
-	{"Level Designers", 0, 108},
-	{"Joseph Selinske  Tom Hall", 1, 118},
-	{"Marianna Vayntrub  Joe Siegler", 1, 124},
-	{"Musicians", 0, 134},
-	{"Lee Jackson  Robert Prince", 1, 144},
-	{"Uniforms", 0, 154},
-	{"D.J. Goodwin  Matt McKinney", 1, 164},
-	{"Special Thanks", 0, 174},
-	{"John Carmack  Ken Silverman  Gregor Punchatz", 1, 184},
+	{ "Rise of the Triad Credits", 0, 0 },
+	{ "COPYRIGHT (c) 1995 Apogee Software Ltd.", 1, 10 },
+	{ "Apogee's Developers of Incredible Power", 1, 20 },
+	{ "Creative Director", 0, 30 },
+	{ "Tom Hall", 1, 40 },
+	{ "Programmers", 0, 50 },
+	{ "Mark Dochtermann  William Scarboro", 1, 60 },
+	{ "Jim Dose'  Nolan Martin", 1, 66 },
+	{ "Artists", 0, 76 },
+	{ "Stephen Hornback  Chuck Jones", 1, 86 },
+	{ "Susan Singer  Tim Neveu", 1, 92 },
+	{ "James Storey  Cygnus Multimedia", 1, 98 },
+	{ "Level Designers", 0, 108 },
+	{ "Joseph Selinske  Tom Hall", 1, 118 },
+	{ "Marianna Vayntrub  Joe Siegler", 1, 124 },
+	{ "Musicians", 0, 134 },
+	{ "Lee Jackson  Robert Prince", 1, 144 },
+	{ "Uniforms", 0, 154 },
+	{ "D.J. Goodwin  Matt McKinney", 1, 164 },
+	{ "Special Thanks", 0, 174 },
+	{ "John Carmack  Ken Silverman  Gregor Punchatz", 1, 184 },
 };
 
 CreditType SecondCredits[NUMSECONDCREDITMESSAGES] = {
-	{"Rise of the Triad Credits", 0, 0},
-	{"COPYRIGHT (c) 1995 Apogee Software Ltd.", 1, 10},
-	{"Executive Producers", 0, 20},
-	{"George Broussard  Scott Miller", 1, 30},
-	{"Manual Design", 0, 40},
-	{"Robert Atkins", 1, 50},
-	{"Beta Testers", 0, 60},
-	{"Steven Blackburn", 1, 70},
-	{"Todd Aubin  Mike Bartelt", 1, 76},
-	{"Wayne Benner  Neil Bonner", 1, 82},
-	{"Glenn Brensinger  Douglas Brewer", 1, 88},
-	{"David Butler  Daniel Creeron", 1, 94},
-	{"Scott Darling  Jason Ewasiuk", 1, 100},
-	{"Craig Hamilton  Ken Heckbert", 1, 106},
-	{"Terry Herrin  Greg Hively", 1, 112},
-	{"John Howard  Douglas Howell", 1, 118},
-	{"Dennis Kurek  Hank Leukart", 1, 124},
-	{"Jim Lietzan  Ken Mayer", 1, 130},
-	{"Wayne Millard  Penny Plant", 1, 136},
-	{"Brian Prinner  Jeff Rausch", 1, 142},
-	{"Kelly Rogers  Neil Rubenking", 1, 148},
-	{"Steven Salter  Chris White", 1, 154},
-	{"Special Thanks", 0, 162},
-	{"Apogee Technical Support  Pau Suet Ying", 1, 172},
-	{"Anthony, Zach, Rajan, Miki, Loki", 1, 178},
-	{"Nathan, Petro, Tim, Jake, MacKay", 1, 184},
-	{"Loyal, Ric, Teller, Amano", 1, 190},
+	{ "Rise of the Triad Credits", 0, 0 },
+	{ "COPYRIGHT (c) 1995 Apogee Software Ltd.", 1, 10 },
+	{ "Executive Producers", 0, 20 },
+	{ "George Broussard  Scott Miller", 1, 30 },
+	{ "Manual Design", 0, 40 },
+	{ "Robert Atkins", 1, 50 },
+	{ "Beta Testers", 0, 60 },
+	{ "Steven Blackburn", 1, 70 },
+	{ "Todd Aubin  Mike Bartelt", 1, 76 },
+	{ "Wayne Benner  Neil Bonner", 1, 82 },
+	{ "Glenn Brensinger  Douglas Brewer", 1, 88 },
+	{ "David Butler  Daniel Creeron", 1, 94 },
+	{ "Scott Darling  Jason Ewasiuk", 1, 100 },
+	{ "Craig Hamilton  Ken Heckbert", 1, 106 },
+	{ "Terry Herrin  Greg Hively", 1, 112 },
+	{ "John Howard  Douglas Howell", 1, 118 },
+	{ "Dennis Kurek  Hank Leukart", 1, 124 },
+	{ "Jim Lietzan  Ken Mayer", 1, 130 },
+	{ "Wayne Millard  Penny Plant", 1, 136 },
+	{ "Brian Prinner  Jeff Rausch", 1, 142 },
+	{ "Kelly Rogers  Neil Rubenking", 1, 148 },
+	{ "Steven Salter  Chris White", 1, 154 },
+	{ "Special Thanks", 0, 162 },
+	{ "Apogee Technical Support  Pau Suet Ying", 1, 172 },
+	{ "Anthony, Zach, Rajan, Miki, Loki", 1, 178 },
+	{ "Nathan, Petro, Tim, Jake, MacKay", 1, 184 },
+	{ "Loyal, Ric, Teller, Amano", 1, 190 },
 };
 
 void DrawPreviousCredits(int num, CreditType *Credits)
@@ -4793,7 +4942,9 @@ void WarpCreditString(int time, byte *back, int num, CreditType *Credits)
 
 				do
 				{
-					snd = (RandomNumber("DoCredits", 0) + RandomNumber("DoCredits", 0)) % MAXSOUNDS;
+					snd = (RandomNumber("DoCredits", 0) +
+						   RandomNumber("DoCredits", 0)) %
+						  MAXSOUNDS;
 				} while (SD_SoundOkay(snd) == false);
 				SD_Play(snd);
 			}
@@ -4801,7 +4952,8 @@ void WarpCreditString(int time, byte *back, int num, CreditType *Credits)
 			{
 //            SD_Play ( SD_BAZOOKAFIRESND );
 #if (SHAREWARE == 0)
-				SD_Play(SD_BAZOOKAFIRESND + (RandomNumber("DoCredits", 1) % 13));
+				SD_Play(SD_BAZOOKAFIRESND +
+						(RandomNumber("DoCredits", 1) % 13));
 #else
 				SD_Play(SD_BAZOOKAFIRESND + (RandomNumber("DoCredits", 1) % 6));
 #endif
@@ -4840,7 +4992,8 @@ void DoCreditScreen(void)
 
 	for (i = 0; i < NUMFIRSTCREDITMESSAGES; i++)
 	{
-		time = (CREDITSTARTY - FirstCredits[i].endy) * (VBLCOUNTER * 1) / CREDITSTARTY;
+		time = (CREDITSTARTY - FirstCredits[i].endy) * (VBLCOUNTER * 1) /
+			   CREDITSTARTY;
 		//      time = VBLCOUNTER;
 		WarpCreditString(time, bkgnd, i, FirstCredits);
 		IN_PumpEvents();
@@ -4858,7 +5011,8 @@ void DoCreditScreen(void)
 
 	for (i = 0; i < NUMSECONDCREDITMESSAGES; i++)
 	{
-		time = (CREDITSTARTY - SecondCredits[i].endy) * (VBLCOUNTER / 2) / CREDITSTARTY;
+		time = (CREDITSTARTY - SecondCredits[i].endy) * (VBLCOUNTER / 2) /
+			   CREDITSTARTY;
 		//      time = VBLCOUNTER;
 		WarpCreditString(time, bkgnd, i, SecondCredits);
 		IN_PumpEvents();
@@ -4882,22 +5036,22 @@ void DoCreditScreen(void)
 
 #define NUMSTORYLINES 16
 
-char *MicroStory[NUMSTORYLINES] = {"You are a member of HUNT, the",
-								   "High-Risk United Nations Taskforce.",
-								   "Stranded on an island in the",
-								   "Pacific, you must battle a master",
-								   "of pyrotechnics, hundreds of",
-								   "members of a death cult, and their",
-								   "leader, El Oscuro.",
-								   "\0",
-								   "You must reach the transmitter",
-								   "that is signalling the systematic",
-								   "destruction of Los Angeles.",
-								   "\0",
-								   "If you fail, millions will die",
-								   "and you will be tortured.",
-								   "\0",
-								   "So, you know, don't fail."};
+char *MicroStory[NUMSTORYLINES] = { "You are a member of HUNT, the",
+									"High-Risk United Nations Taskforce.",
+									"Stranded on an island in the",
+									"Pacific, you must battle a master",
+									"of pyrotechnics, hundreds of",
+									"members of a death cult, and their",
+									"leader, El Oscuro.",
+									"\0",
+									"You must reach the transmitter",
+									"that is signalling the systematic",
+									"destruction of Los Angeles.",
+									"\0",
+									"If you fail, millions will die",
+									"and you will be tortured.",
+									"\0",
+									"So, you know, don't fail." };
 
 void DoMicroStoryScreen(void)
 {
