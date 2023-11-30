@@ -67,6 +67,20 @@ typedef struct cvar_t
 	struct cvar_t *next;
 } cvar_t;
 
+/* console command structure */
+typedef struct cmd_t
+{
+	/* name for searching */
+	const char *name;
+
+	/* function to call */
+	int (*func)(int, char**);
+
+	/* next in chain */
+	struct cmd_t *next;
+
+} cmd_t;
+
 //****************************************************************************
 //
 // MACROS
@@ -105,6 +119,9 @@ typedef struct cvar_t
 		.name = n, .type = CVAR_TYPE_STRING, .value.s = v, .next = NULL \
 	}
 
+/* cmd creation macro */
+#define CMD(n, f) (cmd_t){ .name = n, .func = f, .next = NULL }
+
 //****************************************************************************
 //
 // GLOBALS
@@ -122,5 +139,11 @@ cvar_t *cvar_retrieve(const char *name);
 
 /* add cvar to chain */
 void cvar_register(cvar_t *cvar);
+
+/* retrieve cmd from chain */
+cmd_t *cmd_retrieve(const char *name);
+
+/* add cmd to chain */
+void cmd_register(cmd_t *cmd);
 
 #endif

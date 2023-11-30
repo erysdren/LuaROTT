@@ -31,6 +31,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 /* global cvar chain */
 static cvar_t *cvar_list = NULL;
 
+/* global cmd chain */
+static cmd_t *cmd_list = NULL;
+
 /* retrieve cvar from chain */
 cvar_t *cvar_retrieve(const char *name)
 {
@@ -65,5 +68,42 @@ void cvar_register(cvar_t *cvar)
 		/* add to chain */
 		cvar->next = cvar_list;
 		cvar_list = cvar;
+	}
+}
+
+/* retrieve cmd from chain */
+cmd_t *cmd_retrieve(const char *name)
+{
+	cmd_t *cmd = cmd_list;
+
+	while (cmd != NULL)
+	{
+		if (strcasecmp(name, cmd->name) == 0)
+			return cmd;
+
+		/* move down chain */
+		cmd = cmd->next;
+	}
+
+	return NULL;
+}
+
+/* add cmd to chain */
+void cmd_register(cmd_t *cmd)
+{
+	/* don't add it if there's already one in the chain with the same name */
+	if (cmd_retrieve(cmd->name) != NULL)
+		return;
+
+	if (cmd_list == NULL)
+	{
+		/* start chain */
+		cmd_list = cmd;
+	}
+	else
+	{
+		/* add to chain */
+		cmd->next = cmd_list;
+		cmd_list = cmd;
 	}
 }
