@@ -29,7 +29,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 boolean lua_init(void);
 void lua_quit(void);
-void lua_menu_add(const char *name);
-void lua_menu_run_script(const char *filename);
+void lua_menu_init(const char *name);
+void lua_menu_quit(const char *name);
+void lua_menu_draw(const char *name);
 
 #endif

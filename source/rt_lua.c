@@ -27,6 +27,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "rt_def.h"
 #include "rt_datadir.h"
 #include "rt_util.h"
+#include "rt_build.h"
+#include "rt_menu.h"
 
 #include "rt_lua.h"
 
@@ -62,6 +64,26 @@ static const struct luaL_Reg _lua_io[] = {
 
 //****************************************************************************
 //
+// MENU LIBRARY
+//
+//****************************************************************************
+
+int _lua_menu_drawstring(lua_State *L)
+{
+	int x = luaL_checkinteger(L, 1);
+	int y = luaL_checkinteger(L, 2);
+	const char *s = luaL_checkstring(L, 3);
+	DrawMenuBufPropString(x, y, s);
+	return 0;
+}
+
+static const struct luaL_Reg _lua_menu[] = {
+	{"drawstring", _lua_menu_drawstring},
+	{NULL, NULL}
+};
+
+//****************************************************************************
+//
 // LOCAL VARIABLES
 //
 //****************************************************************************
@@ -87,6 +109,10 @@ boolean lua_init(void)
 	lua_setglobal(lua_menu_state, "io");
 	lua_settop(lua_menu_state, 0);
 
+	luaL_newlib(lua_menu_state, _lua_menu);
+	lua_setglobal(lua_menu_state, "menu");
+	lua_settop(lua_menu_state, 0);
+
 	return true;
 }
 
@@ -95,7 +121,7 @@ void lua_quit(void)
 	lua_close(lua_menu_state);
 }
 
-void lua_menu_add(const char *name)
+void lua_menu_init(const char *name)
 {
 	char *temp;
 	char *filename;
@@ -122,15 +148,25 @@ void lua_menu_add(const char *name)
 	/* run init function */
 	lua_getglobal(lua_menu_state, name);
 	lua_getfield(lua_menu_state, -1, "init");
-	lua_call(lua_menu_state, 0, 0);
+	lua_pcall(lua_menu_state, 0, 0, 0);
 
 	/* free tempstrings */
 	free(temp);
 	free(filename);
 }
 
-void lua_menu_run_script(const char *filename)
+void lua_menu_quit(const char *name)
 {
-	luaL_dofile(lua_menu_state, filename);
+	/* run quit function */
+	lua_getglobal(lua_menu_state, name);
+	lua_getfield(lua_menu_state, -1, "quit");
+	lua_pcall(lua_menu_state, 0, 0, 0);
 }
 
+void lua_menu_draw(const char *name)
+{
+	/* run draw function */
+	lua_getglobal(lua_menu_state, name);
+	lua_getfield(lua_menu_state, -1, "draw");
+	lua_pcall(lua_menu_state, 0, 0, 0);
+}

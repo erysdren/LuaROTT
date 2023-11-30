@@ -19,3 +19,9 @@ target_link_libraries(rotten PUBLIC ${LUA_LIBRARY})
 target_include_directories(rotten PUBLIC ${LUA_INCLUDE_DIR})
 target_compile_definitions(rotten PRIVATE PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten PRIVATE PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
+
+# copy lua scripts
+add_custom_command(
+	TARGET rotten POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/scripts ${PROJECT_BINARY_DIR}
+)

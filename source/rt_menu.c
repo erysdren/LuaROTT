@@ -68,6 +68,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_msg.h"
 #include "rt_net.h"
 #include "rt_scale.h"
+#include "rt_lua.h"
 
 #include "rt_battl.h"
 #include "develop.h"
@@ -1488,6 +1489,8 @@ void DrawMainMenu(void)
 
 	numdone++;
 	DisplayInfo(0);
+
+	lua_menu_draw("menu_main");
 }
 
 //******************************************************************************
