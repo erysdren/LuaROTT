@@ -79,6 +79,15 @@ int _lua_menu_drawstring(lua_State *L)
 	return 0;
 }
 
+int _lua_menu_drawpic(lua_State *L)
+{
+	int x = luaL_checkinteger(L, 1);
+	int y = luaL_checkinteger(L, 2);
+	const char *s = luaL_checkstring(L, 3);
+	DrawMenuBufPic(x, y, W_GetNumForName((char *)s));
+	return 0;
+}
+
 int _lua_io_setfont(lua_State *L)
 {
 	int f = luaL_checkinteger(L, 1);
@@ -87,9 +96,18 @@ int _lua_io_setfont(lua_State *L)
 	return 0;
 }
 
+int _lua_io_settitle(lua_State *L)
+{
+	const char *s = luaL_checkstring(L, 1);
+	SetMenuTitle(s);
+	return 0;
+}
+
 static const struct luaL_Reg _lua_menu[] = {
 	{"drawstring", _lua_menu_drawstring},
+	{"drawpic", _lua_menu_drawpic},
 	{"setfont", _lua_io_setfont},
+	{"settitle", _lua_io_settitle},
 	{NULL, NULL}
 };
 
@@ -115,11 +133,12 @@ boolean lua_init(void)
 	if (lua_menu_state == NULL)
 		return false;
 
-	/* link libraries */
+	/* link io libraries */
 	luaL_newlib(lua_menu_state, _lua_io);
 	lua_setglobal(lua_menu_state, "io");
 	lua_settop(lua_menu_state, 0);
 
+	/* link menu library */
 	luaL_newlib(lua_menu_state, _lua_menu);
 	lua_setglobal(lua_menu_state, "menu");
 	lua_settop(lua_menu_state, 0);
@@ -132,52 +151,38 @@ void lua_quit(void)
 	lua_close(lua_menu_state);
 }
 
-void lua_menu_init(const char *name)
+void lua_menu_init(const char *menu)
 {
 	char *temp;
 	char *filename;
 
 	/* get lua path */
-	temp = M_StringJoin(name, ".lua", NULL);
+	temp = M_StringJoin("scripts/menu/", menu, ".lua", NULL);
 	filename = FindFileByName(temp);
 
 	if (filename == NULL)
-		Error("Invalid menu \"%s\" specified!", name);
+		Error("Invalid menu \"%s\" specified!", menu);
 
 	/* run file */
 	luaL_loadfile(lua_menu_state, filename);
 	if (lua_pcall(lua_menu_state, 0, LUA_MULTRET, 0))
-	{
 		Error("Lua Error: \"%s\"", lua_tostring(lua_menu_state, -1));
-		return;
-	}
 
 	/* make module global */
-	lua_setglobal(lua_menu_state, name);
+	lua_setglobal(lua_menu_state, menu);
 	lua_settop(lua_menu_state, 0);
-
-	/* run init function */
-	lua_getglobal(lua_menu_state, name);
-	lua_getfield(lua_menu_state, -1, "init");
-	lua_pcall(lua_menu_state, 0, 0, 0);
 
 	/* free tempstrings */
 	free(temp);
 	free(filename);
 }
 
-void lua_menu_quit(const char *name)
+void lua_menu_call(const char *menu, const char *field)
 {
-	/* run quit function */
-	lua_getglobal(lua_menu_state, name);
-	lua_getfield(lua_menu_state, -1, "quit");
-	lua_pcall(lua_menu_state, 0, 0, 0);
-}
+	/* get function */
+	lua_getglobal(lua_menu_state, menu);
+	lua_getfield(lua_menu_state, -1, field);
 
-void lua_menu_draw(const char *name)
-{
-	/* run draw function */
-	lua_getglobal(lua_menu_state, name);
-	lua_getfield(lua_menu_state, -1, "draw");
+	/* do the call */
 	lua_pcall(lua_menu_state, 0, 0, 0);
 }

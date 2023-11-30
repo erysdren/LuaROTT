@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
 		Error("Failed to initialize Lua library!");
 
 	/* initialize main menu */
-	lua_menu_init("menu_main");
+	lua_menu_init("main");
 
 	// Set which release version we're on
 	gamestate.Version = ROTTVERSION;

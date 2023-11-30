@@ -1316,7 +1316,6 @@ boolean CP_CheckQuick(byte scancode)
 //
 //******************************************************************************
 void ControlPanel(byte scancode)
-
 {
 	if (scancode == sc_Escape)
 	{
@@ -1398,7 +1397,6 @@ void ControlPanel(byte scancode)
 //
 //******************************************************************************
 menuitems CP_MainMenu(void)
-
 {
 	int which = 0;
 
@@ -1489,8 +1487,6 @@ void DrawMainMenu(void)
 
 	numdone++;
 	DisplayInfo(0);
-
-	lua_menu_draw("menu_main");
 }
 
 //******************************************************************************
