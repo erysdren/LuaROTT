@@ -1484,7 +1484,11 @@ void CP_Console(void)
 						break;
 				}
 			}
+
+			return;
 		}
+
+		console_printf("unknown cmd or cvar!");
 	}
 
 	/* shutdown menu stuff */
