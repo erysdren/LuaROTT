@@ -89,6 +89,8 @@ void US_PrintCentered(const char *s);
 void US_CPrintLine(const char *s);
 void US_CPrint(const char *s);
 
+char **US_Tokenize(char *s, int *num_args);
+
 //
 // Input rtns
 //

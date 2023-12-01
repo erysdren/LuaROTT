@@ -1408,6 +1408,9 @@ void CP_Console(void)
 	/* console input buffer */
 	static char buffer[256];
 	cmd_t *cmd;
+	cvar_t *cvar;
+	int argc;
+	char **argv;
 
 	/* setup menu stuff */
 	SetupMenuBuf();
@@ -1423,15 +1426,64 @@ void CP_Console(void)
 	/* get user input */
 	while (US_LineInput(18, 139, buffer, NULL, true, 255, 251, 0))
 	{
-		console_printf("> %s\n", buffer);
+		/* tokenize string */
+		argv = US_Tokenize(buffer, &argc);
 
-		if ((cmd = cmd_retrieve(buffer)) != NULL)
+		/* no valid text entered */
+		if (!argv || !argc)
 		{
-			cmd->func(0, NULL);
+			console_printf("\n");
+			continue;
 		}
-		else
+
+		/* check for cmd */
+		if ((cmd = cmd_retrieve(argv[0])) != NULL)
 		{
-			console_printf("command \"%s\" not found\n", buffer);
+			cmd->func(argc, argv);
+			return;
+		}
+
+		/* check cvar */
+		if ((cvar = cvar_retrieve(argv[0])) != NULL)
+		{
+			/* user probably wants to set it */
+			if (argv[1])
+			{
+				/* set value */
+			}
+			else
+			{
+				/* print value */
+				switch (cvar->type)
+				{
+					case CVAR_TYPE_BOOL:
+						if (cvar->value.b)
+							console_printf("true");
+						else
+							console_printf("false");
+						break;
+
+					case CVAR_TYPE_INT:
+						console_printf("%d", cvar->value.i);
+						break;
+
+					case CVAR_TYPE_UINT:
+						console_printf("%u", cvar->value.u);
+						break;
+
+					case CVAR_TYPE_FIXED:
+						console_printf("%0.4f", cvar->value.x * (1.0f / (float)(1 << 16)));
+						break;
+
+					case CVAR_TYPE_FLOAT:
+						console_printf("%0.4f", cvar->value.f);
+						break;
+
+					case CVAR_TYPE_STRING:
+						console_printf("%s", cvar->value.s);
+						break;
+				}
+			}
 		}
 	}
 

@@ -583,6 +583,49 @@ void US_CPrint(const char *string)
 	}
 }
 
+//******************************************************************************
+//
+// US_Tokenize ()
+//
+//******************************************************************************
+
+#define MAX_ARGV 128
+char **US_Tokenize(char *s, int *num_args)
+{
+	static char *argv[MAX_ARGV];
+	int argc = 0;
+	char *ptr, *end;
+
+	ptr = s;
+	for(;;)
+	{
+		while(*ptr && isspace(*ptr))
+			ptr++;
+
+		if(!*ptr)
+			break;
+
+		end = ptr + 1;
+
+		while(*end && !isspace(*end))
+			end++;
+
+		if (argc < MAX_ARGV - 1)
+			argv[argc++] = ptr;
+
+		if (!*end)
+			break;
+
+		*end = 0;
+		ptr = end + 1;
+	}
+
+	argv[argc] = 0;
+	*num_args = argc;
+	return argv;
+}
+#undef MAX_ARGV
+
 //
 //
 // Text Input routines
