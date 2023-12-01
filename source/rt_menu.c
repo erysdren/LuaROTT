@@ -1291,6 +1291,7 @@ boolean CP_CheckQuick(byte scancode)
 	{
 		switch (scancode)
 		{
+			case sc_Tilde:
 			case sc_Escape:
 			case sc_F1:
 			case sc_F2:
@@ -1317,6 +1318,11 @@ boolean CP_CheckQuick(byte scancode)
 //******************************************************************************
 void ControlPanel(byte scancode)
 {
+	if (scancode == sc_Tilde)
+	{
+		CP_Console();
+		return;
+	}
 	if (scancode == sc_Escape)
 	{
 		CP_MainMenu();
@@ -1389,6 +1395,39 @@ void ControlPanel(byte scancode)
 	}
 
 	loadsavesound = false;
+}
+
+//******************************************************************************
+//
+// CP_Console
+//
+//******************************************************************************
+void CP_Console(void)
+{
+	/* console input buffer */
+	static char buffer[256];
+
+	/* setup menu stuff */
+	SetupMenuBuf();
+	SetUpControlPanel();
+	EnableScreenStretch();
+
+	/* set title */
+	SetMenuTitle("Developer Console");
+
+	/* console area outline */
+	DrawTMenuBufBox(17, 16, 253, 130);
+
+	/* console input outline */
+	// DrawSTMenuBuf(17, 134, 253, 10, false);
+
+	/* get user input */
+	US_LineInput(18, 136, buffer, NULL, true, 255, 253, 0);
+
+	/* shutdown menu stuff */
+	DisableScreenStretch();
+	CleanUpControlPanel();
+	ShutdownMenuBuf();
 }
 
 //******************************************************************************

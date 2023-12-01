@@ -175,6 +175,7 @@ void CleanUpControlPanel(void);
 void SetUpControlPanel(void);
 void ControlPanel(byte scancode);
 menuitems CP_MainMenu(void);
+void CP_Console(void);
 int getASCII(void);
 void DoMainMenu(void);
 boolean CP_CheckQuick(byte scancode);

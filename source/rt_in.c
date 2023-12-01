@@ -147,6 +147,9 @@ static int GetScancode(const int scancode)
 		case SDL_SCANCODE_RSHIFT:
 			return sc_RShift;
 
+		case SDL_SCANCODE_GRAVE:
+			return sc_Tilde;
+
 		case SDL_SCANCODE_LALT:
 		case SDL_SCANCODE_RALT:
 			return sc_Alt;
