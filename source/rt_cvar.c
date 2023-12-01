@@ -24,15 +24,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 //****************************************************************************
 
+#include <stdarg.h>
 #include "rt_def.h"
-
 #include "rt_cvar.h"
+#include "cmdlib.h"
+
+//****************************************************************************
+//
+// CVAR
+//
+//****************************************************************************
 
 /* global cvar chain */
 static cvar_t *cvar_list = NULL;
-
-/* global cmd chain */
-static cmd_t *cmd_list = NULL;
 
 /* retrieve cvar from chain */
 cvar_t *cvar_retrieve(const char *name)
@@ -71,6 +75,15 @@ void cvar_register(cvar_t *cvar)
 	}
 }
 
+//****************************************************************************
+//
+// CMD
+//
+//****************************************************************************
+
+/* global cmd chain */
+static cmd_t *cmd_list = NULL;
+
 /* retrieve cmd from chain */
 cmd_t *cmd_retrieve(const char *name)
 {
@@ -106,4 +119,25 @@ void cmd_register(cmd_t *cmd)
 		cmd->next = cmd_list;
 		cmd_list = cmd;
 	}
+}
+
+//****************************************************************************
+//
+// CONSOLE
+//
+//****************************************************************************
+
+/* print to console */
+void console_printf(const char *s, ...)
+{
+	static char buffer[256];
+	va_list args;
+
+	/* do vargs */
+	va_start(args, s);
+	vsnprintf(buffer, 256, s, args);
+	va_end(args);
+
+	/* print to standard output */
+	printf("%s\n", buffer);
 }

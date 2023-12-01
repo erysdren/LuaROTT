@@ -146,4 +146,7 @@ cmd_t *cmd_retrieve(const char *name);
 /* add cmd to chain */
 void cmd_register(cmd_t *cmd);
 
+/* print to console */
+void console_printf(const char *s, ...);
+
 #endif

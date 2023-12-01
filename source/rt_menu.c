@@ -69,6 +69,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_net.h"
 #include "rt_scale.h"
 #include "rt_lua.h"
+#include "rt_cvar.h"
 
 #include "rt_battl.h"
 #include "develop.h"
@@ -1406,6 +1407,7 @@ void CP_Console(void)
 {
 	/* console input buffer */
 	static char buffer[256];
+	cmd_t *cmd;
 
 	/* setup menu stuff */
 	SetupMenuBuf();
@@ -1416,13 +1418,22 @@ void CP_Console(void)
 	SetMenuTitle("Developer Console");
 
 	/* console area outline */
-	DrawTMenuBufBox(17, 16, 253, 130);
-
-	/* console input outline */
-	// DrawSTMenuBuf(17, 134, 253, 10, false);
+	DrawTMenuBufBox(17, 14, 253, 132);
 
 	/* get user input */
-	US_LineInput(18, 136, buffer, NULL, true, 255, 253, 0);
+	while (US_LineInput(18, 139, buffer, NULL, true, 255, 251, 0))
+	{
+		console_printf("> %s\n", buffer);
+
+		if ((cmd = cmd_retrieve(buffer)) != NULL)
+		{
+			cmd->func(0, NULL);
+		}
+		else
+		{
+			console_printf("command \"%s\" not found\n", buffer);
+		}
+	}
 
 	/* shutdown menu stuff */
 	DisableScreenStretch();
