@@ -478,7 +478,6 @@ void CheckCommandLineParameters(void)
 	MAPSTATS = false;
 	TILESTATS = false;
 	IS8250 = false;
-	vrenabled = false;
 	demoexit = false;
 
 	modemgame = false;
@@ -689,9 +688,6 @@ void CheckCommandLineParameters(void)
 				IS8250 = true;
 				break;
 			case 16:
-				vrenabled = true;
-				if (!quiet)
-					printf("Virtual Reality Mode enabled\n");
 				break;
 			case 17:
 				timelimitenabled = true;

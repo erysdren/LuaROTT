@@ -426,13 +426,9 @@ void ShutdownMenuBuf(void)
 
 void SetupMenuBuf(void)
 {
-#define SRCH 148
-#define SRCW 258
 #define PLANEX1 (-0x24000)
 #define PLANEX2 (0x23fff)
 #define PLANEW (16 << 10)
-#define PLANEY (0x40000)
-#define PLANEW2 (0x5a827)
 
 	if (MenuBufStarted == true)
 		return;

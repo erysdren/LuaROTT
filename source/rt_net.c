@@ -1390,8 +1390,6 @@ void ProcessSoundAndDeltaPacket(void *pkt, int src)
 // SyncToServer
 //
 //****************************************************************************
-#define NETWORKTIMEAHEADOFSERVER (1)
-#define MODEMTIMEAHEADOFSERVER (2)
 void SyncToServer(void)
 {
 	int diff;

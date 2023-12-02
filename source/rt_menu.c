@@ -83,8 +83,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define DELAYAMT 2
 
-#define SNDCARDS 12
-
 #define CP_NO 0
 #define CP_ESC -1
 #define CP_YES 1
@@ -141,8 +139,6 @@ char order[21] = { di_west,		  di_east,		  di_north,		  di_south,
 				   bt_directmsg };
 
 // bt_pistol, bt_dualpistol, bt_mp40, bt_missileweapon, bt_recordsound,
-
-#define RETURNVAL 100
 
 static boolean loadsavesound = false;
 static int numdone;
@@ -2406,9 +2402,6 @@ boolean CP_DisplayMsg(char *s, int number)
 #define W_Y 11
 #define W_W 102
 
-#define YES "q_yes\0"
-#define NO "q_no\0"
-
 	ControlInfo ci;
 	boolean retval;
 	boolean done;
@@ -3240,8 +3233,6 @@ int CP_SaveGame(void)
 
 void CP_Control(void)
 {
-#define CTL_SPC 70
-
 	int which;
 
 	DrawCtlScreen();
@@ -3940,11 +3931,7 @@ void PrintLSEntry(int w)
 //
 //******************************************************************************
 int CalibrateJoystick(void)
-
 {
-#define CALX 45
-#define CALY 22
-
 	word xmax, ymax, xmin, ymin, jb;
 	int checkbits;
 	int status;
@@ -3973,7 +3960,6 @@ int CalibrateJoystick(void)
 		SetAlternateMenuBuf();
 		ClearMenuBuf();
 		SetMenuTitle("Calibrate Joystick");
-		// DrawMenuBufItem( CALX, CALY, W_GetNumForName( "joystk2" ) );
 		WindowW = 288;
 		WindowH = 158;
 		PrintX = WindowX = 0;
@@ -4013,7 +3999,6 @@ int CalibrateJoystick(void)
 		}
 
 		ClearMenuBuf();
-		//      DrawMenuBufItem( CALX, CALY, W_GetNumForName( "joystk1" ) );
 		WindowW = 288;
 		WindowH = 158;
 		PrintX = WindowX = 0;
@@ -4261,9 +4246,6 @@ void WaitKeyUp(void)
 			Error("Stuck in WaitKeyUp\n");
 	}
 }
-
-#define PMOUSE 3
-#define SMOUSE 4
 
 //******************************************************************************
 //

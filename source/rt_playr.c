@@ -137,7 +137,6 @@ int JX = 0;
 int JY = 0;
 int CX = 0;
 int CY = 0;
-boolean vrenabled = false;
 int VX = 0;
 int VY = 0;
 
@@ -2181,7 +2180,6 @@ void PollKeyboardMove(void)
 
 // #define MOUSE_RY_SHIFT 12
 // #define MOUSE_TZ_SHIFT 3
-#define MOUSE_TZ_SENSITIVITY_SCALE 65535
 #define MOUSE_RY_SENSITIVITY_SCALE 18725 * 2
 // #define MOUSE_RY_INPUT_SCALE 6000
 #define MOUSE_TZ_INPUT_SCALE 20
@@ -2189,9 +2187,6 @@ int mouse_ry_input_scale = 5000;
 
 int sensitivity_scalar[15] = { 0,  1,  2,  3,  4,  5,  6, 8,
 							   11, 13, 15, 18, 12, 13, 14 };
-// #define MOUSE_RY_SCALE 65535
-// #define MOUSE_TZ_SCALE 65535
-#define MAXMOUSETURN 7000000
 
 /* use SDL mouse */
 #define USESDLMOUSE 1
@@ -2339,41 +2334,6 @@ void PollJoystickMove(void)
 			JY <<= 1;
 		}
 	}
-}
-
-//******************************************************************************
-//
-// StartVRFeedback
-//
-//******************************************************************************
-
-void StartVRFeedback(int guntype)
-{
-	STUB_FUNCTION;
-}
-
-//******************************************************************************
-//
-// StopVRFeedback
-//
-//******************************************************************************
-
-void StopVRFeedback(void)
-{
-	STUB_FUNCTION;
-}
-
-//******************************************************************************
-//
-// PollVirtualReality
-//
-//******************************************************************************
-
-#define VR_BUTTON(x) ((vr_buttons >> x) & 1)
-
-void PollVirtualReality(void)
-{
-	STUB_FUNCTION;
 }
 
 //******************************************************************************
@@ -2568,9 +2528,6 @@ void PollControls(void)
 		PollMouseMove();
 
 	PollKeyboardMove();
-
-	if (vrenabled)
-		PollVirtualReality();
 
 	PollMove();
 
@@ -4296,10 +4253,6 @@ void T_Attack(objtype *ob)
 		switch (cur->attack)
 		{
 			case reset:
-				if (vrenabled && (ob == player))
-				{
-					StopVRFeedback();
-				}
 				ob->flags &= ~FL_FULLLIGHT;
 				if (pstate->ammo)
 				{
@@ -4352,10 +4305,6 @@ void T_Attack(objtype *ob)
 				break;
 
 			case reset2:
-				if (vrenabled && (ob == player))
-				{
-					StopVRFeedback();
-				}
 				ob->flags &= ~FL_FULLLIGHT;
 				if (pstate->buttonstate[bt_attack] && pstate->ammo)
 				{
@@ -4376,10 +4325,6 @@ void T_Attack(objtype *ob)
 				break;
 
 			case at_pulltrigger:
-				if (vrenabled && (ob == player))
-				{
-					StartVRFeedback(1);
-				}
 				ob->flags |= FL_FULLLIGHT;
 
 #if (SHAREWARE == 0)
@@ -4405,10 +4350,6 @@ void T_Attack(objtype *ob)
 					return;
 				}
 
-				if (vrenabled && (ob == player))
-				{
-					StartVRFeedback(1);
-				}
 				ob->flags |= FL_FULLLIGHT;
 				if (ob == player)
 					SetIllumination(2);
