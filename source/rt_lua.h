@@ -29,7 +29,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 boolean lua_init(void);
 void lua_quit(void);
-void lua_menu_init(const char *menu);
-void lua_menu_call(const char *menu, const char *field);
+void lua_module_add(const char *module);
+void lua_module_call(const char *module, const char *field);
 
 #endif

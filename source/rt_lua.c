@@ -117,8 +117,8 @@ static const struct luaL_Reg _lua_menu[] = {
 //
 //****************************************************************************
 
-/* lua state for menus */
-static lua_State *lua_menu_state = NULL;
+/* lua state */
+static lua_State *lua_state = NULL;
 
 //****************************************************************************
 //
@@ -129,60 +129,60 @@ static lua_State *lua_menu_state = NULL;
 boolean lua_init(void)
 {
 	/* create lua state */
-	lua_menu_state = luaL_newstate();
-	if (lua_menu_state == NULL)
+	lua_state = luaL_newstate();
+	if (lua_state == NULL)
 		return false;
 
 	/* link io libraries */
-	luaL_newlib(lua_menu_state, _lua_io);
-	lua_setglobal(lua_menu_state, "io");
-	lua_settop(lua_menu_state, 0);
+	luaL_newlib(lua_state, _lua_io);
+	lua_setglobal(lua_state, "io");
+	lua_settop(lua_state, 0);
 
 	/* link menu library */
-	luaL_newlib(lua_menu_state, _lua_menu);
-	lua_setglobal(lua_menu_state, "menu");
-	lua_settop(lua_menu_state, 0);
+	luaL_newlib(lua_state, _lua_menu);
+	lua_setglobal(lua_state, "menu");
+	lua_settop(lua_state, 0);
 
 	return true;
 }
 
 void lua_quit(void)
 {
-	lua_close(lua_menu_state);
+	lua_close(lua_state);
 }
 
-void lua_menu_init(const char *menu)
+void lua_module_add(const char *module)
 {
 	char *temp;
 	char *filename;
 
 	/* get lua path */
-	temp = M_StringJoin("scripts/menu/", menu, ".lua", NULL);
+	temp = M_StringJoin("scripts/", module, ".lua", NULL);
 	filename = FindFileByName(temp);
 
 	if (filename == NULL)
-		Error("Invalid menu \"%s\" specified!", menu);
+		Error("Invalid module \"%s\" specified!", module);
 
 	/* run file */
-	luaL_loadfile(lua_menu_state, filename);
-	if (lua_pcall(lua_menu_state, 0, LUA_MULTRET, 0))
-		Error("Lua Error: \"%s\"", lua_tostring(lua_menu_state, -1));
+	luaL_loadfile(lua_state, filename);
+	if (lua_pcall(lua_state, 0, LUA_MULTRET, 0))
+		Error("Lua Error: \"%s\"", lua_tostring(lua_state, -1));
 
 	/* make module global */
-	lua_setglobal(lua_menu_state, menu);
-	lua_settop(lua_menu_state, 0);
+	lua_setglobal(lua_state, module);
+	lua_settop(lua_state, 0);
 
 	/* free tempstrings */
 	free(temp);
 	free(filename);
 }
 
-void lua_menu_call(const char *menu, const char *field)
+void lua_module_call(const char *module, const char *field)
 {
 	/* get function */
-	lua_getglobal(lua_menu_state, menu);
-	lua_getfield(lua_menu_state, -1, field);
+	lua_getglobal(lua_state, module);
+	lua_getfield(lua_state, -1, field);
 
 	/* do the call */
-	lua_pcall(lua_menu_state, 0, 0, 0);
+	lua_pcall(lua_state, 0, 0, 0);
 }

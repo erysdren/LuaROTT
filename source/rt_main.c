@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
 		Error("Failed to initialize Lua library!");
 
 	/* initialize main menu */
-	lua_menu_init("main");
+	lua_module_add("menu_main");
 
 	/* register cmds and cvars */
 	cmdlib_init();
