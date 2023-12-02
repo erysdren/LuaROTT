@@ -223,9 +223,8 @@ int main(int argc, char *argv[])
 
 	CheckCommandLineParameters();
 
-	// Start up Memory manager with a certain amount of reserved memory
-
-	Z_Init(50000, 1000000);
+	// Start up Memory manager
+	Z_Init();
 
 	IN_Startup();
 
@@ -445,8 +444,6 @@ void DrawRottTitle(void)
 		printf("\n");
 
 		printf("User dir: %s\nData dir: %s\n", ApogeePath, datadir);
-
-		UL_ColorBox(0, 0, 80, 2, 0x1e);
 	}
 	else
 	{
@@ -1639,7 +1636,6 @@ void InitCharacter(void)
 void UpdateGameObjects(void)
 {
 	int j;
-	volatile int atime;
 	objtype *ob, *temp;
 	battle_status BattleStatus;
 
@@ -1650,8 +1646,6 @@ void UpdateGameObjects(void)
 		return;
 		waminot();
 	}
-
-	atime = GetFastTics();
 
 	UpdateClientControls();
 
@@ -1721,7 +1715,6 @@ void UpdateGameObjects(void)
 		if (GamePaused == true)
 			break;
 	}
-	actortime = GetFastTics() - atime;
 
 	UpdateClientControls();
 
@@ -1783,10 +1776,7 @@ void PauseLoop(void)
 }
 
 void PlayLoop(void)
-
 {
-	volatile int atime;
-
 	boolean canquit = true;
 	int quittime = 0;
 
@@ -1813,10 +1803,7 @@ fromloadedgame:
 		DoLoadGameSequence();
 	}
 
-	drawtime = 0;
-	actortime = 0;
 	tics = 0;
-	SetFastTics(0);
 
 	if (fizzlein == false)
 	{
@@ -1848,8 +1835,6 @@ fromloadedgame:
 		{
 			PauseLoop();
 
-			atime = GetFastTics();
-
 			if (RefreshPause)
 			{
 				ThreeDRefresh();
@@ -1864,14 +1849,10 @@ fromloadedgame:
 			if (controlupdatestarted == 1)
 				UpdateGameObjects();
 
-			atime = GetFastTics();
-
 			ThreeDRefresh();
 		}
 
 		SyncToServer();
-
-		drawtime = GetFastTics() - atime;
 
 		// Don't allow player to quit if entering message
 		canquit = !MSG.messageon;
@@ -2077,17 +2058,6 @@ void CheckRemoteRidicule(int scancode)
 
 //******************************************************************************
 //
-// DoBossKey ()
-//
-//******************************************************************************
-
-void DoBossKey(void)
-{
-	STUB_FUNCTION;
-}
-
-//******************************************************************************
-//
 // PollKeyboard ()
 //
 //******************************************************************************
@@ -2285,7 +2255,6 @@ void PollKeyboard(void)
 		{
 			Keyboard[sc_F12] = false;
 			LastScan = 0;
-			DoBossKey();
 		}
 		// #endif
 

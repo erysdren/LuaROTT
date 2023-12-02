@@ -336,7 +336,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOMENU,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ESCPRESSEDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -348,7 +348,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOMENU,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_MOVECURSORSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -360,7 +360,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOMENU,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SELECTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -372,7 +372,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOMENU,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_WARNINGBOXSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -384,7 +384,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOMENU,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_INFOBOXSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -396,7 +396,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOMENU,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_QUESTIONBOXSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -408,7 +408,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOMENU,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NOPESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -420,7 +420,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOMENU,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_QUIT1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -432,7 +432,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOQUIT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_QUIT2SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -444,7 +444,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOQUIT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_QUIT3SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -456,7 +456,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOQUIT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_QUIT4SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -468,7 +468,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOQUIT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_QUIT5SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -480,7 +480,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOQUIT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_QUIT6SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -492,7 +492,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOQUIT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_QUIT7SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -504,7 +504,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOQUIT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LEVELSTARTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -516,7 +516,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LEVELDONESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -528,7 +528,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GAMEOVERSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -540,7 +540,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ENDBONUS1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -552,7 +552,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NOBONUSSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -564,7 +564,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PERCENT100SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -576,7 +576,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_HITWALLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -588,7 +588,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SELECTWPNSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -600,7 +600,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NOWAYSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -612,7 +612,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DONOTHINGSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -624,7 +624,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NOITEMSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -636,7 +636,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERDYINGSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -648,7 +648,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERTCDEATHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -660,7 +660,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERTBDEATHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -672,7 +672,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERDWDEATHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -684,7 +684,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERLNDEATHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -696,7 +696,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERIPFDEATHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -708,7 +708,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERTCHURTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -720,7 +720,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERTBHURTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -732,7 +732,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERDWHURTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -744,7 +744,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERLNHURTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -756,7 +756,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERIPFHURTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -768,7 +768,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERTCSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -780,7 +780,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERTBSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -792,7 +792,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERDWSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -804,7 +804,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERLNSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -816,7 +816,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERIPFSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -828,7 +828,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_WALK1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -850,7 +850,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERLANDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -862,7 +862,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERCOUGHMSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -874,7 +874,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERCOUGHFSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -886,7 +886,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NETWIGGLESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -898,7 +898,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NETFALLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -910,7 +910,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ATKPISTOLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -922,7 +922,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPGUNS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ATKTWOPISTOLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -934,7 +934,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPGUNS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ATKMP40SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -946,7 +946,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMP40,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_RICOCHET1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -958,7 +958,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_RICOCHET2SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -970,7 +970,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_RICOCHET3SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -982,7 +982,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BAZOOKAFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -994,7 +994,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FIREBOMBFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1006,7 +1006,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_HEATSEEKFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1018,7 +1018,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DRUNKFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1030,7 +1030,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FLAMEWALLFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1042,7 +1042,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FLAMEWALLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1054,7 +1054,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SPLITFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1066,7 +1066,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SPLITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1078,7 +1078,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GRAVBUILDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1090,7 +1090,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GRAVFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1102,7 +1102,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GRAVSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1114,7 +1114,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GRAVHITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1126,7 +1126,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOEXPL,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FIREHITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1138,7 +1138,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOEXPL,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_MISSILEFLYSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1150,7 +1150,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_MISSILEHITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1162,7 +1162,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOEXPL,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_EXCALIBOUNCESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1174,7 +1174,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_EXCALISWINGSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1186,7 +1186,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_EXCALIHITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1198,7 +1198,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOEXPL,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_EXCALIBUILDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1210,7 +1210,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPSNDS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_EXCALIBLASTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1222,7 +1222,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPMISS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GODMODEFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1234,7 +1234,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GODMODE1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1246,7 +1246,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GODMODE2SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1258,7 +1258,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GODMODE3SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1270,7 +1270,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOSEMODESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1282,7 +1282,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DOGMODEPANTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1294,7 +1294,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DOGMODEBITE1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1306,7 +1306,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DOGMODEBITE2SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1318,7 +1318,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DOGMODELICKSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1330,7 +1330,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DOGMODEBLASTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1342,7 +1342,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DOGMODEPREPBLASTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1354,7 +1354,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DOGMANSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1366,7 +1366,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DOGWOMANSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1378,7 +1378,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GODMANSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1390,7 +1390,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GODWOMANSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1402,7 +1402,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FLYINGSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1414,7 +1414,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GLASSBREAKSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1426,7 +1426,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGLASS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ITEMBLOWSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1438,7 +1438,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOEXPL,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BONUSBARRELSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1450,7 +1450,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOEXPL,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_TOUCHPLATESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1462,7 +1462,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BADTOUCHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1474,7 +1474,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_EXPLODEFLOORSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1486,7 +1486,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOEXPL,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_EXPLODESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1498,7 +1498,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOEXPL,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GASSTARTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1510,7 +1510,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GASHISSSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1522,7 +1522,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GASENDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1534,7 +1534,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GASMASKSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1546,7 +1546,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETKEYSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1558,7 +1558,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETBONUSSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1570,7 +1570,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETHEALTH1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1582,7 +1582,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETHEALTH2SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1594,7 +1594,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_COOKHEALTHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1606,7 +1606,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETWEAPONSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1618,7 +1618,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETKNIFESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1630,7 +1630,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETGODSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1642,7 +1642,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETDOGSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1654,7 +1654,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGODDOG,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETFLEETSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1666,7 +1666,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETELASTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1678,7 +1678,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETSHROOMSSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1690,7 +1690,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETBVESTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1702,7 +1702,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETAVESTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1714,7 +1714,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETMASKSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1726,7 +1726,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETBATSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1738,7 +1738,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GETHEADSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1750,7 +1750,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GET1UPSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1762,7 +1762,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GET3UPSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1774,7 +1774,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_RESPAWNSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1786,7 +1786,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PLAYERSPAWNSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1798,7 +1798,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOGAME,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOWGUARD1SEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1810,7 +1810,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOWGUARD1ASEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1822,7 +1822,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOWGUARD1SEE3SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1834,7 +1834,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOWGUARD2SEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1846,7 +1846,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOWGUARD2ASEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1858,7 +1858,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOWGUARD2SEE3SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1870,7 +1870,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOWGUARDFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1882,7 +1882,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOWGUARDOUCHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1894,7 +1894,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOWGUARD1DIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1906,7 +1906,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LOWGUARD2DIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1918,7 +1918,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNEAKYSPRINGMSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1930,7 +1930,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOASNEAK,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNEAKYSPRINGFSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1942,7 +1942,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOASNEAK,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_HIGHGUARD1SEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1954,7 +1954,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_HIGHGUARD2SEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1966,7 +1966,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_HIGHGUARDFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1978,7 +1978,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_HIGHGUARDOUCHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -1990,7 +1990,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_HIGHGUARDDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2002,7 +2002,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_OVERP1SEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2014,7 +2014,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_OVERP2SEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2026,7 +2026,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_OVERPFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2038,7 +2038,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_OVERPNETSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2050,7 +2050,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOASNEAK,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_OVERPOUCHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2062,7 +2062,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_OVERPDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2074,7 +2074,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_STRIKE1SEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2086,7 +2086,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_STRIKE2SEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2098,7 +2098,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_STRIKEFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2110,7 +2110,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_STRIKEROLLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2122,7 +2122,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOASNEAK,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_STRIKEOUCHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2134,7 +2134,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_STRIKEDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2146,7 +2146,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BLITZ1SEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2158,7 +2158,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BLITZ2SEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2170,7 +2170,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BLITZFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2182,7 +2182,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BLITZSTEALSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2194,7 +2194,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOASNEAK,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BLITZOUCHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2206,7 +2206,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BLITZDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2218,7 +2218,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BLITZPLEADSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2230,7 +2230,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BLITZPLEAD1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2242,7 +2242,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BLITZPLEAD2SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2254,7 +2254,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ENFORCERSEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2266,7 +2266,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ENFORCERFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2278,7 +2278,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ENFORCERTHROWSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2290,7 +2290,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOASNEAK,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ENFORCEROUCHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2302,7 +2302,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ENFORCERDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2314,7 +2314,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_MONKSEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2326,7 +2326,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_MONKGRABSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2338,7 +2338,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_MONKOUCHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2350,7 +2350,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_MONKDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2362,7 +2362,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FIREMONKSEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2374,7 +2374,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FIREMONKFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2386,7 +2386,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FIREMONKOUCHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2398,7 +2398,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FIREMONKDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2410,7 +2410,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ROBOTSEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2422,7 +2422,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ROBOTFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2434,7 +2434,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ROBOTDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2446,7 +2446,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ROBOTMOVESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2458,7 +2458,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BALLISTIKRAFTSEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2470,7 +2470,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BALLISTIKRAFTFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2482,7 +2482,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARIANSEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2494,7 +2494,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARIANFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2506,7 +2506,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARIANGONNAUSESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2518,7 +2518,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARIANUSESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2530,7 +2530,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARIANHIDESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2542,7 +2542,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARIANDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2554,7 +2554,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARIANSAY1,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2566,7 +2566,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARIANSAY2,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2578,7 +2578,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARIANSAY3,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2590,7 +2590,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTSEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2602,7 +2602,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2614,7 +2614,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTMOTORSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2626,7 +2626,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTTURNSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2638,7 +2638,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTDROPSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2650,7 +2650,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTMINEBEEPSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2662,7 +2662,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTMINEHITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2674,7 +2674,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2686,7 +2686,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTSAY1,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2698,7 +2698,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTSAY2,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2710,7 +2710,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_KRISTSAY3,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2722,7 +2722,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NMESEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2734,7 +2734,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NMEREADYSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2746,7 +2746,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NMEFIRE1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2758,7 +2758,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NMEAPARTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2770,7 +2770,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NMEUFOSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2782,7 +2782,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_NMEDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2794,7 +2794,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKSEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2806,7 +2806,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKFIRE1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2818,7 +2818,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKFIRE2SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2830,7 +2830,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKFIRE3SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2842,7 +2842,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKFIRE4SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2854,7 +2854,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKRECHARGESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2866,7 +2866,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKFLOATSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2878,7 +2878,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2890,7 +2890,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKSAY1,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2902,7 +2902,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKSAY2,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2914,7 +2914,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DARKMONKSAY3,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2926,7 +2926,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNAKESEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2938,7 +2938,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNAKEREADYSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2950,7 +2950,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNAKECHARGESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2962,7 +2962,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNAKEOUCHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2974,7 +2974,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNAKEDIESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2986,7 +2986,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNAKESPITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -2998,7 +2998,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNAKESAY1,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3010,7 +3010,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNAKESAY2,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3022,7 +3022,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SNAKESAY3,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3034,7 +3034,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOBOSS,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_EMPLACEMENTSEESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3046,7 +3046,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAGREET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_EMPLACEMENTFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3058,7 +3058,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BIGEMPLACEFIRESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3070,7 +3070,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAFIRE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_OPENDOORSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3082,7 +3082,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_CLOSEDOORSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3094,7 +3094,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DOORHITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3106,7 +3106,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FIRECHUTESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3118,7 +3118,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FIREBALLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3130,7 +3130,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FIREBALLHITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3142,7 +3142,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BLADESPINSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3154,7 +3154,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PUSHWALLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3166,7 +3166,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PUSHWALLHITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3178,7 +3178,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GOWALLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3190,7 +3190,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_TURBOWALLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3202,7 +3202,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BOULDERHITSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3214,7 +3214,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BOULDERROLLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3226,7 +3226,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BOULDERFALLSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3238,7 +3238,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_PITTRAPSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3250,7 +3250,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_FIREJETSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3262,7 +3262,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ACTORSQUISHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3274,7 +3274,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOADEATH,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ACTORBURNEDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3286,7 +3286,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ACTORSKELETONSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3298,7 +3298,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOAHURT,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SPEARSTABSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3310,7 +3310,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_CYLINDERMOVESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3322,7 +3322,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ELEVATORONSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3334,7 +3334,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ELEVATORENDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3346,7 +3346,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SPRINGBOARDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3358,7 +3358,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LIGHTNINGSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3370,7 +3370,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_WINDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3382,7 +3382,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_WATERSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3394,7 +3394,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOPCAUSD,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_BODYLANDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3406,7 +3406,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_GIBSPLASHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3418,7 +3418,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_ACTORLANDSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3430,7 +3430,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOENVRON,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_DOPEFISHSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3442,7 +3442,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_YOUSUCKSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3454,7 +3454,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SILLYMOVESND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3466,7 +3466,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SOUNDSELECTSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3478,7 +3478,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_SOUNDESCSND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3490,7 +3490,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_REMOTEM1SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3502,7 +3502,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOREMOTE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_REMOTEM2SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3514,7 +3514,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOREMOTE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_REMOTEM3SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3526,7 +3526,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOREMOTE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_REMOTEM4SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3538,7 +3538,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOREMOTE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_REMOTEM5SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3550,7 +3550,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOREMOTE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_REMOTEM6SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3562,7 +3562,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOREMOTE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_REMOTEM7SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3574,7 +3574,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOREMOTE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_REMOTEM8SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3586,7 +3586,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOREMOTE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_REMOTEM9SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3598,7 +3598,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOREMOTE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_REMOTEM10SND,
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3610,7 +3610,7 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOREMOTE,
 	  0,
 	  0,
-	  0 },
+	  0, 0 },
 	// อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 	// SD_LASTSOUND
 	//|-------DIGITAL--------|--------MUSE----------|----FLAGS---|
@@ -3622,6 +3622,6 @@ static sound_t sounds[MAXSOUNDS] = {
 	  SD_PRIOSECRET,
 	  0,
 	  0,
-	  0 }
+	  0, 0 }
 	// ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
 };

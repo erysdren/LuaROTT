@@ -1884,7 +1884,7 @@ void T_Spring(objtype *ob)
 		if (!temp->momentumz)
 		{
 			op = FixedMul(GRAVITY, (temp->z - 5) << 16) << 1;
-			temp->momentumz = -FixedSqrtHP(op);
+			temp->momentumz = -FixedSqrt(op);
 			SD_PlaySoundRTP(SD_SPRINGBOARDSND, ob->x, ob->y);
 		}
 	}
@@ -4271,7 +4271,7 @@ void HeatSeek(objtype *ob)
 			dx = tactor->x - ob->x;
 			dy = ob->y - tactor->y;
 			dz = ob->z - tactor->z;
-			// xydist = FixedSqrtHP((FixedMul(dx,dx) + FixedMul(dy,dy))>>16);
+			// xydist = FixedSqrt((FixedMul(dx,dx) + FixedMul(dy,dy))>>16);
 			xydist = FindDistance(dx, dy);
 			angle = atan2_appx(dx, dy);
 			adjust = (ob->obclass == p_godballobj) ? (GODHAPT) : (HAAPT);
@@ -5834,7 +5834,7 @@ actors:
 		{
 			{
 				op = (FixedMul((int)GRAVITY, (int)((ob->z - 10) << 16)) << 1);
-				ob->momentumz = -FixedSqrtHP(op);
+				ob->momentumz = -FixedSqrt(op);
 			}
 			SD_PlaySoundRTP(SD_SPRINGBOARDSND, listrover->x, listrover->y);
 			NewState(listrover, &s_spring2);
@@ -8564,7 +8564,7 @@ void T_NME_Explode(objtype *ob)
 		head = (objtype *)(ob->whatever);
 
 		op = FixedMul(GRAVITY, (head->z - 25) << 16) << 1;
-		head->momentumz = -FixedSqrtHP(op);
+		head->momentumz = -FixedSqrt(op);
 		head->momentumx = (GameRandomNumber("NME head momx", 0) << 2);
 		head->momentumy = (GameRandomNumber("NME head momy", 0) << 2);
 		head->hitpoints = 0;

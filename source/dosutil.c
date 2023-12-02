@@ -13,6 +13,7 @@
 #include <fcntl.h>
 
 #include "rt_def.h"
+#include "rt_util.h"
 
 #include "SDL.h"
 
@@ -74,7 +75,7 @@ char *itoa(int value, char *string, int radix)
 			sprintf(string, "%x", value);
 			break;
 		default:
-			STUB_FUNCTION;
+			Error("Invalid radix %d in itoa()", radix);
 			break;
 	}
 
@@ -92,7 +93,7 @@ char *ltoa(long value, char *string, int radix)
 			sprintf(string, "%lx", value);
 			break;
 		default:
-			STUB_FUNCTION;
+			Error("Invalid radix %d in ltoa()", radix);
 			break;
 	}
 
@@ -110,7 +111,7 @@ char *ultoa(unsigned long value, char *string, int radix)
 			sprintf(string, "%lux", value);
 			break;
 		default:
-			STUB_FUNCTION;
+			Error("Invalid radix %d in ultoa()", radix);
 			break;
 	}
 

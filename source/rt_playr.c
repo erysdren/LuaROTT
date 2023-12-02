@@ -1360,7 +1360,7 @@ void BatAttack(objtype *ob)
 			if (levelheight > 2)
 			{
 				op = FixedMul(GRAVITY, (maxheight - 100) << 16) << 1;
-				temp->momentumz = -FixedSqrtHP(op);
+				temp->momentumz = -FixedSqrt(op);
 			}
 			temp->flags |= FL_NOFRICTION;
 			SD_PlaySoundRTP(SD_EXCALIHITSND, ob->x, ob->y);
@@ -5148,7 +5148,7 @@ void CheckFlying(objtype *ob, playertype *pstate)
 	   if (dist>0)
 		  {
 		  op = FixedMul(GRAVITY,(dist<<16)) << 1;
-		  ob->momentumz = -FixedSqrtHP(op);
+		  ob->momentumz = -FixedSqrt(op);
 		  SD_PlaySoundRTP(SD_FLYINGSND,ob->x,ob->y);
 		  }
 	   }

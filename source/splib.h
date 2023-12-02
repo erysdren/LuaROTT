@@ -33,12 +33,6 @@ extern "C"
 {
 #endif
 
-#if defined(REALMODE)
-#define FAR __far
-#else
-#define FAR
-#endif
-
 //---------------------------------------------------------------------------
 // Constants
 

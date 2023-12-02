@@ -47,7 +47,7 @@ static const size_t HEADER_SIZE =
 static memblock_t *blockbytag[PU_MAX];
 static size_t heapsize;
 
-void Z_Init(int size, int min)
+void Z_Init(void)
 {
 	zonememorystarted = 1;
 	heapsize = 0;

@@ -62,7 +62,6 @@ static char titlestring[40] = "\0";
 static int readytoflip;
 static boolean MenuBufStarted = false;
 static int mindist = 0x2700;
-static boolean BackgroundDrawn = false;
 
 static plane_t planelist[MAXPLANES], *planeptr;
 
@@ -485,7 +484,6 @@ void SetupMenuBuf(void)
 	menubuffers[1] = SafeMalloc(TEXTUREW * TEXTUREHEIGHT);
 	menubuf = menubuffers[0];
 	ClearMenuBuf();
-	BackgroundDrawn = false;
 }
 
 //******************************************************************************
@@ -504,7 +502,7 @@ void PositionMenuBuf(int angle, int distance, boolean drawbackground)
 		Error("Called PositionMenuBuf without menubuf started\n");
 	CalcTics();
 	SetupPlanes();
-	if ((drawbackground == true) || (BackgroundDrawn == false))
+	if (drawbackground == true)
 	{
 		VL_DrawPostPic(W_GetNumForName("trilogo"));
 	}
@@ -522,11 +520,6 @@ void PositionMenuBuf(int angle, int distance, boolean drawbackground)
 	titleshade += titleshadedir;
 	if (abs(titleshade - 16) > 6)
 		titleshadedir = -titleshadedir;
-	if (BackgroundDrawn == false)
-	{
-		VL_CopyDisplayToHidden();
-		BackgroundDrawn = true;
-	}
 }
 
 //******************************************************************************
@@ -1486,7 +1479,6 @@ void FlipMenuBuf(void)
 		}
 	}
 	titleyoffset = 0;
-	BackgroundDrawn = false;
 }
 
 //******************************************************************************

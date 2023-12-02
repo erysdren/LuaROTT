@@ -106,6 +106,7 @@ int _lua_menu_settitle(lua_State *L)
 int _lua_menu_goto(lua_State *L)
 {
 	const char *s = luaL_checkstring(L, 1);
+	printf("%s\n", s);
 	return 0;
 }
 
