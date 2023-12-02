@@ -88,7 +88,7 @@ int _lua_menu_drawpic(lua_State *L)
 	return 0;
 }
 
-int _lua_io_setfont(lua_State *L)
+int _lua_menu_setfont(lua_State *L)
 {
 	int f = luaL_checkinteger(L, 1);
 	if (f < mn_tinyfont || f > mn_largefont) return 0;
@@ -96,18 +96,25 @@ int _lua_io_setfont(lua_State *L)
 	return 0;
 }
 
-int _lua_io_settitle(lua_State *L)
+int _lua_menu_settitle(lua_State *L)
 {
 	const char *s = luaL_checkstring(L, 1);
 	SetMenuTitle(s);
 	return 0;
 }
 
+int _lua_menu_goto(lua_State *L)
+{
+	const char *s = luaL_checkstring(L, 1);
+	return 0;
+}
+
 static const struct luaL_Reg _lua_menu[] = {
 	{"drawstring", _lua_menu_drawstring},
 	{"drawpic", _lua_menu_drawpic},
-	{"setfont", _lua_io_setfont},
-	{"settitle", _lua_io_settitle},
+	{"setfont", _lua_menu_setfont},
+	{"settitle", _lua_menu_settitle},
+	{"goto", _lua_menu_goto},
 	{NULL, NULL}
 };
 
