@@ -1288,7 +1288,9 @@ boolean CP_CheckQuick(byte scancode)
 	{
 		switch (scancode)
 		{
+#if (ROTTEN_CONSOLE == 1)
 			case sc_Tilde:
+#endif
 			case sc_Escape:
 			case sc_F1:
 			case sc_F2:
@@ -1315,11 +1317,13 @@ boolean CP_CheckQuick(byte scancode)
 //******************************************************************************
 void ControlPanel(byte scancode)
 {
+#if (ROTTEN_CONSOLE == 1)
 	if (scancode == sc_Tilde)
 	{
 		CP_Console();
 		return;
 	}
+#endif
 	if (scancode == sc_Escape)
 	{
 		CP_MainMenu();

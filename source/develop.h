@@ -34,6 +34,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SHAREWARE 0
 #endif
 
+/* console */
+#ifndef ROTTEN_CONSOLE
+#define ROTTEN_CONSOLE 0
+#endif
+
 // cute little dopefish thing, only works with special patch?
 #define DOPEFISH 0
 
