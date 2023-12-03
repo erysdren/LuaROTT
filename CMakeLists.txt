@@ -20,8 +20,9 @@ target_include_directories(rotten PUBLIC ${LUA_INCLUDE_DIR})
 target_compile_definitions(rotten PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
 
-target_compile_options(rotten PUBLIC -Wall -Wextra -Wno-implicit-fallthrough)
+target_compile_options(rotten PUBLIC -Wall -Wextra)
 target_compile_options(rotten PUBLIC -Wunused-macros -Wunused-local-typedefs)
+target_compile_options(rotten PUBLIC -Wno-implicit-fallthrough -Wno-sign-compare)
 
 # copy lua scripts
 add_custom_command(
