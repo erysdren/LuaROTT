@@ -21,6 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef _rt_cvar_public
 #define _rt_cvar_public
 
+#include "rt_fixed.h"
+
 //****************************************************************************
 //
 // Public header for RT_CVAR.C

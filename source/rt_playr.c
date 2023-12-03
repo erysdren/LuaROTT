@@ -24,11 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdarg.h>
 
 #include "rt_def.h"
-#include "watcom.h"
+#include "rt_fixed.h"
 #include "rt_sound.h"
 #include "gmove.h"
 #include "states.h"
-#include "rt_sqrt.h"
 #include "rt_actor.h"
 #include "rt_main.h"
 #include "rt_playr.h"

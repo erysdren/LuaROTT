@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _rt_stat_public
 #define _rt_stat_public
 
+#include "rt_fixed.h"
 #include "rt_ted.h"
 
 #define MAXSWITCHES 64

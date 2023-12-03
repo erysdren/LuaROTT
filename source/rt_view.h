@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _rt_view_public
 
 #include "modexlib.h"
+#include "rt_fixed.h"
 
 #define HEIGHTFRACTION 6
 #define MAXVIEWSIZES 11
