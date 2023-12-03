@@ -1278,12 +1278,22 @@ void CheckRTLVersion(char *filename)
 		SafeRead(filehandle, &RTLVersion, sizeof(RTLVersion));
 		SwapIntelLong((int *)&RTLVersion);
 
-		if (RTLVersion > RXL_VERSION)
+		/*
+		 * RXL has two known versions - 1.1 and 2.0
+		 * the keen eyed among you have already noticed that 1.1 is equal
+		 * to the last version of the RTL/RTC format - i assume this is
+		 * intentional. RXL 1.1 files are included with ROTT:lE, while RXL 2.0
+		 * files are the format created by the level editor in ROTT:LE. the 2.0
+		 * format has extra features introduced in the level editor, including
+		 * beta wall tiles and a built-in method for putting a different wall
+		 * texture as the "upper" texture on a standard wall.
+		 */
+		if (RTLVersion > RTL_VERSION)
 		{
 			Error("The file '%s' is a version %d.%d %s file.\n"
 				  "The highest this version of ROTT can load is %d.%d.",
 				  filename, RTLVersion >> 8, RTLVersion & 0xff, RTLSignature,
-				  RXL_VERSION >> 8, RXL_VERSION & 0xff);
+				  RTL_VERSION >> 8, RTL_VERSION & 0xff);
 		}
 
 		close(filehandle);
@@ -1360,12 +1370,8 @@ size_t GetMapArrayOffset(int filehandle)
 			SafeRead(filehandle, &info_header_ofs, sizeof(info_header_ofs));
 			SafeRead(filehandle, &info_header_len, sizeof(info_header_len));
 
-			// MAPS info header contains reliable offset to data
-			// RXL 1.1 has "MAPSET", RXL 2.0 has "MAPS"
-			if ((RTLVersion == RXL_VERSION &&
-				 strcmp(info_header_magic, "MAPS") == 0) ||
-				(RTLVersion == RTL_VERSION &&
-				 strcmp(info_header_magic, "MAPSET") == 0))
+			// MAPS info header contains reliable offset to mapset data
+			if (strcmp(info_header_magic, "MAPSET") == 0)
 			{
 				return info_header_ofs;
 			}
@@ -1373,7 +1379,7 @@ size_t GetMapArrayOffset(int filehandle)
 
 		// fail
 		close(filehandle);
-		Error("GetMapArrayOffset: Couldn't find MAPS or MAPSET info header!");
+		Error("GetMapArrayOffset: Couldn't find MAPSET offset!");
 		return 0;
 	}
 	else
