@@ -118,7 +118,7 @@ const char ShiftedScanChars[128] = // Shifted Scan code names with single chars
 #define SCANCODE_TO_KEYS_ARRAY \
 	{ \
 		0, 0, 0, 0, sc_A, sc_B, sc_C, sc_D, sc_E, sc_F, sc_G, sc_H, sc_I, \
-			sc_J, sc_K, sc_L, sc_L, sc_N, sc_O, sc_P, sc_Q, sc_R, sc_S, sc_T, \
+			sc_J, sc_K, sc_L, sc_M, sc_N, sc_O, sc_P, sc_Q, sc_R, sc_S, sc_T, \
 			sc_U, sc_V, sc_W, sc_X, sc_Y, sc_Z, sc_1, sc_2, sc_3, sc_4, sc_5, \
 			sc_6, sc_7, sc_8, sc_9, sc_0, sc_Return, sc_Escape, sc_BackSpace, \
 			sc_Tab, sc_Space, sc_Minus, sc_Equals, sc_OpenBracket, \
