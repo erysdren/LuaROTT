@@ -304,6 +304,9 @@ void console_draw(void)
 	/* set start pos */
 	line = CONSOLE_NUM_LINES;
 
+	/* set font */
+	CurrentFont = tinyfont;
+
 	/* draw text */
 	for (i = console.num_lines; i >= 0; i--)
 	{
