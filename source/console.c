@@ -363,6 +363,9 @@ boolean console_evaluate(char *s)
 	if (!argv || !argc)
 		return false;
 
+	/* print */
+	console_printf("> %s", s);
+
 	/* check for cmd */
 	if ((cmd = cmd_retrieve(argv[0])) != NULL)
 	{
@@ -415,6 +418,6 @@ boolean console_evaluate(char *s)
 		return true;
 	}
 
-	console_printf("\"%s\" is not a valid cmd or cvar");
+	console_printf("\"%s\" is not a valid cmd or cvar", s);
 	return false;
 }
