@@ -455,7 +455,14 @@ boolean console_evaluate(char *s)
 			switch (cvar->type)
 			{
 				case CVAR_TYPE_BOOL:
-					Error("setting a bool cvar is not yet supported");
+					if (strcasecmp(argv[1], "true") == 0)
+						cvar->value.b = true;
+					else if (strcasecmp(argv[1], "false") == 0)
+						cvar->value.b = false;
+					else if (strtol(argv[1], NULL, 10))
+						cvar->value.b = true;
+					else if (!strtol(argv[1], NULL, 10))
+						cvar->value.b = false;
 					break;
 
 				case CVAR_TYPE_INT:
