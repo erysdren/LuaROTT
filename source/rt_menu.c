@@ -1407,10 +1407,7 @@ void CP_Console(void)
 {
 	/* console input buffer */
 	static char input[256];
-	cmd_t *cmd;
-	cvar_t *cvar;
-	int argc;
-	char **argv;
+	int i;
 
 	/* setup menu stuff */
 	SetupMenuBuf();
@@ -1420,78 +1417,17 @@ void CP_Console(void)
 	/* set title */
 	SetMenuTitle("Developer Console");
 
-	/* console area outline */
-	DrawTMenuBufBox(17, 13, 254, 133);
+	/* draw console */
+	console_draw();
 
-	/* get user input */
-	while (US_LineInput(CONSOLE_IN_X, CONSOLE_IN_Y, input, NULL, true, sizeof(input) - 1, CONSOLE_IN_W, 0))
+	/* process user input */
+	while (US_LineInput(CONSOLE_INPUT_X, CONSOLE_INPUT_Y, input, NULL, true, sizeof(input) - 1, CONSOLE_INPUT_W, 0))
 	{
-		/* tokenize string */
-		argv = US_Tokenize(input, &argc);
-
-		/* no valid text entered */
-		if (!argv || !argc)
-		{
-			console_printf("\n");
-			continue;
-		}
-
-		/* check for cmd */
-		if ((cmd = cmd_retrieve(argv[0])) != NULL)
-		{
-			cmd->func(argc, argv);
-			return;
-		}
-
-		/* check cvar */
-		if ((cvar = cvar_retrieve(argv[0])) != NULL)
-		{
-			/* user probably wants to set it */
-			if (argv[1])
-			{
-				/* set value */
-			}
-			else
-			{
-				/* print value */
-				switch (cvar->type)
-				{
-					case CVAR_TYPE_BOOL:
-						if (cvar->value.b)
-							console_printf("true");
-						else
-							console_printf("false");
-						break;
-
-					case CVAR_TYPE_INT:
-						console_printf("%d", cvar->value.i);
-						break;
-
-					case CVAR_TYPE_UINT:
-						console_printf("%u", cvar->value.u);
-						break;
-
-					case CVAR_TYPE_FIXED:
-						console_printf("%0.4f", cvar->value.x * (1.0f / (float)(1 << 16)));
-						break;
-
-					case CVAR_TYPE_FLOAT:
-						console_printf("%0.4f", cvar->value.f);
-						break;
-
-					case CVAR_TYPE_STRING:
-						console_printf("%s", cvar->value.s);
-						break;
-				}
-			}
-
-			return;
-		}
-
-		console_printf("unknown cmd or cvar!");
+		console_evaluate(input);
+		console_draw();
 	}
 
-	/* hopefully this helps */
+	/* clear key input buffer */
 	IN_ClearKeysDown();
 
 	/* shutdown menu stuff */

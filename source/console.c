@@ -28,6 +28,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "SDL.h"
 #include "rt_def.h"
 #include "rt_main.h"
+#include "rt_str.h"
+#include "rt_build.h"
+#include "rt_menu.h"
 #include "console.h"
 
 //****************************************************************************
@@ -82,6 +85,7 @@ void cvar_register(cvar_t *cvar)
 //
 //****************************************************************************
 
+/* cvarlib array */
 cvar_t _cvarlib[] = {
 	CVAR_BOOL("test_bool", true),
 	CVAR_INT("test_int", -3123),
@@ -91,6 +95,7 @@ cvar_t _cvarlib[] = {
 	CVAR_STRING("test_string", "stringvalue")
 };
 
+/* register standard library of cvars */
 void cvarlib_init(void)
 {
 	for (int i = 0; i < sizeof(_cvarlib) / sizeof(cvar_t); i++)
@@ -99,6 +104,7 @@ void cvarlib_init(void)
 	}
 }
 
+/* shutdown cvarlib */
 void cvarlib_quit(void)
 {
 
@@ -156,6 +162,7 @@ void cmd_register(cmd_t *cmd)
 //
 //****************************************************************************
 
+/* quit */
 int _cmd_quit(int argc, char **argv)
 {
 	ShutDown();
@@ -164,10 +171,12 @@ int _cmd_quit(int argc, char **argv)
 	return 0;
 }
 
+/* cmdlib array */
 cmd_t _cmdlib[] = {
 	CMD("quit", _cmd_quit)
 };
 
+/* register standard library of cmds */
 void cmdlib_init(void)
 {
 	for (int i = 0; i < sizeof(_cmdlib) / sizeof(cmd_t); i++)
@@ -176,6 +185,7 @@ void cmdlib_init(void)
 	}
 }
 
+/* shutdown cmdlib */
 void cmdlib_quit(void)
 {
 
@@ -187,27 +197,221 @@ void cmdlib_quit(void)
 //
 //****************************************************************************
 
+/* local constants */
+#define CONSOLE_BUFFER_SIZE (8192)
+
+/* local variables */
+static struct {
+	char buf[CONSOLE_BUFFER_SIZE];
+	char *bufptr;
+	char *lines[CONSOLE_NUM_LINES];
+	int num_lines;
+} console;
+
+/* push up console lines buffer with new pointer */
+static void console_push_line(char *ptr)
+{
+	console.lines[console.num_lines++] = ptr;
+
+	/* copy second half to first half if we're about to overflow */
+	if (console.num_lines >= CONSOLE_NUM_LINES - 1)
+	{
+		void *first;
+		void *second;
+		int len;
+
+		/* pointer to first half */
+		first = console.lines;
+
+		/* pointer to second half */
+		second = &console.lines[(CONSOLE_NUM_LINES / 2) - 1];
+
+		/* copy and set size */
+		len = sizeof(char *) * (CONSOLE_NUM_LINES / 2);
+
+		/* copy second half to first half */
+		memcpy(first, second, len);
+
+		/* zero out second half (minus one for input line) */
+		second = &console.lines[CONSOLE_NUM_LINES / 2];
+		len = sizeof(char *) * ((CONSOLE_NUM_LINES / 2) - 1);
+		memset(second, 0, len);
+
+		/* set num_lines */
+		console.num_lines = CONSOLE_NUM_LINES / 2;
+	}
+}
+
+/* push string info console */
+static void console_push(char *src)
+{
+	int i;
+	int len_src = strlen(src);
+
+	/* bounds checks */
+	if (console.bufptr + len_src + 1 > console.buf + CONSOLE_BUFFER_SIZE)
+		console.bufptr = console.buf;
+
+	/* add string to text buffer */
+	sprintf(console.bufptr, "%s", src);
+
+	/* add pointer to lines buffer */
+	console_push_line(console.bufptr);
+
+	/* advance text buffer pointer */
+	console.bufptr += len_src + 1;
+
+	/* check for newlines and push line again */
+	for (i = 0; i < len_src; i++)
+	{
+		if (console.bufptr[i] == '\n')
+		{
+			console.bufptr[i] = '\0';
+			console_push_line(&console.bufptr[i + 1]);
+		}
+	}
+}
+
+/* initialize developer console */
 boolean console_init(void)
 {
+	/* initialize all memory to zero */
+	memset(&console, 0, sizeof(console));
+
+	/* set buffer pointer */
+	console.bufptr = console.buf;
+
 	return true;
 }
 
+/* shutdown console */
 void console_quit(void)
 {
 
 }
 
+/* draw console outline and current text buffer */
+void console_draw(void)
+{
+	int i, line;
+
+	/* clear region */
+	EraseMenuBufRegion(CONSOLE_BOX_X, CONSOLE_BOX_Y, CONSOLE_BOX_W, CONSOLE_BOX_H);
+
+	/* console area outline */
+	DrawTMenuBufBox(CONSOLE_BOX_X, CONSOLE_BOX_Y, CONSOLE_BOX_W, CONSOLE_BOX_H);
+
+	/* set start pos */
+	line = CONSOLE_NUM_LINES - 1;
+
+	/* draw text */
+	for (i = console.num_lines - 1; i >= 0; i--)
+	{
+		/* handle null lines */
+		if (console.lines[i] == NULL)
+		{
+			line -= 1;
+			continue;
+		}
+		if (console.lines[i][0] == '\0')
+		{
+			line -= 1;
+			continue;
+		}
+
+		/* gone offscreen */
+		if (line < 0)
+			break;
+
+		/* draw line */
+		DrawMenuBufPropString(CONSOLE_LINE_X(line), CONSOLE_LINE_Y(line), console.lines[i]);
+
+		/* move y down */
+		line -= 1;
+	}
+}
+
 /* print to console */
 void console_printf(const char *s, ...)
 {
-	static char buffer[256];
+	static char buf[256];
 	va_list args;
 
 	/* do vargs */
 	va_start(args, s);
-	vsnprintf(buffer, 256, s, args);
+	vsnprintf(buf, sizeof(buf), s, args);
 	va_end(args);
 
 	/* print to standard output */
-	printf("%s\n", buffer);
+	printf("%s\n", buf);
+	console_push(buf);
+}
+
+/* evaluate console command */
+boolean console_evaluate(char *s)
+{
+	int argc;
+	char **argv;
+	cmd_t *cmd;
+	cvar_t *cvar;
+
+	argv = US_Tokenize(s, &argc);
+
+	if (!argv || !argc)
+		return false;
+
+	/* check for cmd */
+	if ((cmd = cmd_retrieve(argv[0])) != NULL)
+	{
+		cmd->func(argc, argv);
+		return true;
+	}
+
+	/* check cvar */
+	if ((cvar = cvar_retrieve(argv[0])) != NULL)
+	{
+		/* user probably wants to set it */
+		if (argv[1])
+		{
+			/* set value */
+		}
+		else
+		{
+			/* print value */
+			switch (cvar->type)
+			{
+				case CVAR_TYPE_BOOL:
+					if (cvar->value.b)
+						console_printf("true");
+					else
+						console_printf("false");
+					break;
+
+				case CVAR_TYPE_INT:
+					console_printf("%d", cvar->value.i);
+					break;
+
+				case CVAR_TYPE_UINT:
+					console_printf("%u", cvar->value.u);
+					break;
+
+				case CVAR_TYPE_FIXED:
+					console_printf("%0.4f", cvar->value.x * (1.0f / (float)(1 << 16)));
+					break;
+
+				case CVAR_TYPE_FLOAT:
+					console_printf("%0.4f", cvar->value.f);
+					break;
+
+				case CVAR_TYPE_STRING:
+					console_printf("\"%s\"", cvar->value.s);
+					break;
+			}
+		}
+
+		return true;
+	}
+
+	console_printf("no valid command or cvar entered");
+	return false;
 }

@@ -31,31 +31,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 //****************************************************************************
 //
-// PREPROCESSOR
-//
-//****************************************************************************
-
-/* pixel information for drawable console */
-#define CONSOLE_X (17)
-#define CONSOLE_Y (13)
-#define CONSOLE_W (254)
-#define CONSOLE_H (133)
-
-/* pixel information for drawable console font */
-#define CONSOLE_FONT_W (3)
-#define CONSOLE_FONT_H (6)
-
-/* pixel information for drawable console input line */
-#define CONSOLE_IN_X (CONSOLE_X + 1)
-#define CONSOLE_IN_Y (CONSOLE_Y + CONSOLE_H - CONSOLE_FONT_H - 1)
-#define CONSOLE_IN_W (CONSOLE_W - 2)
-#define CONSOLE_IN_H (CONSOLE_FONT_H)
-
-/* other console information */
-#define CONSOLE_NUM_LINES (CONSOLE_H / CONSOLE_FONT_H - 1)
-
-//****************************************************************************
-//
 // TYPEDEFS
 //
 //****************************************************************************
@@ -125,6 +100,29 @@ typedef struct cmd_t
 /* cmd creation macro */
 #define CMD(n, f) (cmd_t){ .name = n, .func = f, .next = NULL }
 
+/* pixel information for drawable console */
+#define CONSOLE_BOX_X (17)
+#define CONSOLE_BOX_Y (13)
+#define CONSOLE_BOX_W (254)
+#define CONSOLE_BOX_H (134)
+
+/* pixel information for drawable console font */
+#define CONSOLE_FONT_W (3)
+#define CONSOLE_FONT_H (6)
+
+/* pixel information for drawable console input line */
+#define CONSOLE_INPUT_X (CONSOLE_BOX_X + 1)
+#define CONSOLE_INPUT_Y (CONSOLE_BOX_Y + CONSOLE_BOX_H - CONSOLE_FONT_H - 1)
+#define CONSOLE_INPUT_W (CONSOLE_BOX_W - 2)
+#define CONSOLE_INPUT_H (CONSOLE_FONT_H)
+
+/* number of lines to be tracked is double the amount that can be displayed */
+#define CONSOLE_NUM_LINES (CONSOLE_BOX_H / CONSOLE_FONT_H - 1)
+
+/* helpful macros */
+#define CONSOLE_LINE_X(line) (CONSOLE_BOX_X + 1)
+#define CONSOLE_LINE_Y(line) (CONSOLE_BOX_Y + 1 + (CONSOLE_FONT_H * (line)))
+
 //****************************************************************************
 //
 // GLOBALS
@@ -167,7 +165,13 @@ boolean console_init(void);
 /* shutdown console */
 void console_quit(void);
 
+/* draw console outline and current text buffer */
+void console_draw(void);
+
 /* print to console */
 void console_printf(const char *s, ...);
+
+/* evaluate console command */
+boolean console_evaluate(char *s);
 
 #endif /* _console_public */
