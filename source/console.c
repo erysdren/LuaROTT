@@ -24,11 +24,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 //****************************************************************************
 
+#include <stdlib.h>
+#include <string.h>
 #include <stdarg.h>
 #include "SDL.h"
 #include "rt_def.h"
 #include "rt_main.h"
 #include "rt_str.h"
+#include "rt_util.h"
 #include "rt_build.h"
 #include "rt_menu.h"
 #include "console.h"
@@ -427,13 +430,13 @@ boolean console_evaluate(char *s)
 	cmd_t *cmd;
 	cvar_t *cvar;
 
+	/* print */
+	console_printf("> %s", s);
+
 	argv = US_Tokenize(s, &argc);
 
 	if (!argv || !argc)
 		return false;
-
-	/* print */
-	console_printf("> %s", s);
 
 	/* check for cmd */
 	if ((cmd = cmd_retrieve(argv[0])) != NULL)
@@ -449,6 +452,32 @@ boolean console_evaluate(char *s)
 		if (argv[1])
 		{
 			/* set value */
+			switch (cvar->type)
+			{
+				case CVAR_TYPE_BOOL:
+					Error("setting a bool cvar is not yet supported");
+					break;
+
+				case CVAR_TYPE_INT:
+					cvar->value.i = strtol(argv[1], NULL, 10);
+					break;
+
+				case CVAR_TYPE_UINT:
+					cvar->value.u = strtoul(argv[1], NULL, 10);
+					break;
+
+				case CVAR_TYPE_FIXED:
+					cvar->value.x = FIXED(strtof(argv[1], NULL));
+					break;
+
+				case CVAR_TYPE_FLOAT:
+					cvar->value.f = strtof(argv[1], NULL);
+					break;
+
+				case CVAR_TYPE_STRING:
+					Error("setting a string cvar is not yet supported");
+					break;
+			}
 		}
 		else
 		{
