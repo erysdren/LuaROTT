@@ -211,6 +211,7 @@ static struct {
 /* push up console lines buffer with new pointer */
 static void console_push_line(char *ptr)
 {
+	/* add pointer to lines buffer */
 	console.lines[console.num_lines++] = ptr;
 
 	/* copy second half to first half if we're about to overflow */
@@ -293,7 +294,7 @@ void console_quit(void)
 /* draw console outline and current text buffer */
 void console_draw(void)
 {
-	int i, line;
+	int i, x, y;
 
 	/* clear region */
 	EraseMenuBufRegion(CONSOLE_BOX_X, CONSOLE_BOX_Y, CONSOLE_BOX_W, CONSOLE_BOX_H);
@@ -301,36 +302,33 @@ void console_draw(void)
 	/* console area outline */
 	DrawTMenuBufBox(CONSOLE_BOX_X, CONSOLE_BOX_Y, CONSOLE_BOX_W, CONSOLE_BOX_H);
 
-	/* set start pos */
-	line = CONSOLE_NUM_LINES;
-
 	/* set font */
 	CurrentFont = tinyfont;
+
+	/* line start */
+	x = CONSOLE_LINE_X;
+	y = CONSOLE_LINE_Y;
 
 	/* draw text */
 	for (i = console.num_lines; i >= 0; i--)
 	{
 		/* handle null lines */
 		if (console.lines[i] == NULL)
-		{
-			line -= 1;
 			continue;
-		}
+
+		/* handle control characters */
 		if (console.lines[i][0] == '\0')
-		{
-			line -= 1;
 			continue;
-		}
 
 		/* gone offscreen */
-		if (line < 0)
+		if (y < CONSOLE_BOX_Y)
 			break;
 
 		/* draw line */
-		DrawMenuBufPropString(CONSOLE_LINE_X(line), CONSOLE_LINE_Y(line), console.lines[i]);
+		DrawMenuBufPropString(x, y, console.lines[i]);
 
-		/* move y down */
-		line -= 1;
+		/* move up */
+		y -= CONSOLE_LINE_H;
 	}
 }
 

@@ -117,11 +117,13 @@ typedef struct cmd_t
 #define CONSOLE_INPUT_H (CONSOLE_FONT_H)
 
 /* number of lines to be tracked is double the amount that can be displayed */
-#define CONSOLE_NUM_LINES (CONSOLE_BOX_H / CONSOLE_FONT_H - 1)
+#define CONSOLE_NUM_LINES ((CONSOLE_BOX_H / CONSOLE_FONT_H - 1) * 2)
 
-/* helpful macros */
-#define CONSOLE_LINE_X(line) (CONSOLE_BOX_X + 1)
-#define CONSOLE_LINE_Y(line) (CONSOLE_BOX_Y + 1 + (CONSOLE_FONT_H * (line)))
+/* line position macros */
+#define CONSOLE_LINE_X (CONSOLE_BOX_X + 1)
+#define CONSOLE_LINE_Y (CONSOLE_INPUT_Y - 1 - CONSOLE_FONT_H)
+#define CONSOLE_LINE_W (CONSOLE_BOX_W - 2)
+#define CONSOLE_LINE_H (CONSOLE_FONT_H)
 
 //****************************************************************************
 //
