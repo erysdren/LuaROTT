@@ -302,10 +302,10 @@ void console_draw(void)
 	DrawTMenuBufBox(CONSOLE_BOX_X, CONSOLE_BOX_Y, CONSOLE_BOX_W, CONSOLE_BOX_H);
 
 	/* set start pos */
-	line = CONSOLE_NUM_LINES - 1;
+	line = CONSOLE_NUM_LINES;
 
 	/* draw text */
-	for (i = console.num_lines - 1; i >= 0; i--)
+	for (i = console.num_lines; i >= 0; i--)
 	{
 		/* handle null lines */
 		if (console.lines[i] == NULL)
@@ -412,6 +412,6 @@ boolean console_evaluate(char *s)
 		return true;
 	}
 
-	console_printf("no valid command or cvar entered");
+	console_printf("\"%s\" is not a valid cmd or cvar");
 	return false;
 }
