@@ -1321,6 +1321,16 @@ void ControlPanel(byte scancode)
 	if (scancode == sc_Tilde)
 	{
 		CP_Console();
+		if (playstate == ex_stillplaying)
+		{
+			DisableScreenStretch();
+			fizzlein = false;
+		}
+		else if (loadedgame == false)
+		{
+			fizzlein = true;
+			inmenu = false;
+		}
 		return;
 	}
 #endif
@@ -1431,7 +1441,6 @@ void CP_Console(void)
 	IN_ClearKeysDown();
 
 	/* shutdown menu stuff */
-	DisableScreenStretch();
 	CleanUpControlPanel();
 	ShutdownMenuBuf();
 }

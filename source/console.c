@@ -252,6 +252,7 @@ int _cmd_quit(int argc, char **argv)
 int _cmd_map(int argc, char **argv)
 {
 	extern char *BATTMAPS, *ROTTMAPS;
+	int episode = 1, map = 0;
 
 	/* print current map */
 	if (argc < 2)
@@ -259,10 +260,18 @@ int _cmd_map(int argc, char **argv)
 		console_printf("%s: E%dA%d", ROTTMAPS, gamestate.episode, GetLevel(gamestate.episode, gamestate.mapon));
 		return 0;
 	}
-	else
+
+	/* try to figure out map */
+	map = strtol(argv[1], NULL, 10);
+	if (map >= 100 || map < 0)
 	{
-		Error("Warping to level is not supported");
+		console_printf("map %d is out of range!", map);
+		return 1;
 	}
+
+	/* do warp */
+	playstate = ex_warped;
+	gamestate.mapon = map;
 
 	return 0;
 }
