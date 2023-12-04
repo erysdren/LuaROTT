@@ -79,6 +79,79 @@ void cvar_register(cvar_t *cvar)
 	}
 }
 
+
+boolean cvar_get_bool(const char *name)
+{
+	cvar_t *cvar;
+
+	if ((cvar = cvar_retrieve(name)) == NULL)
+		return false;
+	if (cvar->type != CVAR_TYPE_BOOL)
+		return false;
+
+	return cvar->value.b;
+}
+
+int cvar_get_int(const char *name)
+{
+	cvar_t *cvar;
+
+	if ((cvar = cvar_retrieve(name)) == NULL)
+		return 0;
+	if (cvar->type != CVAR_TYPE_INT)
+		return 0;
+
+	return cvar->value.i;
+}
+
+unsigned int cvar_get_uint(const char *name)
+{
+	cvar_t *cvar;
+
+	if ((cvar = cvar_retrieve(name)) == NULL)
+		return 0;
+	if (cvar->type != CVAR_TYPE_UINT)
+		return 0;
+
+	return cvar->value.u;
+}
+
+fixed cvar_get_fixed(const char *name)
+{
+	cvar_t *cvar;
+
+	if ((cvar = cvar_retrieve(name)) == NULL)
+		return 0;
+	if (cvar->type != CVAR_TYPE_FIXED)
+		return 0;
+
+	return cvar->value.x;
+}
+
+float cvar_get_float(const char *name)
+{
+	cvar_t *cvar;
+
+	if ((cvar = cvar_retrieve(name)) == NULL)
+		return 0;
+	if (cvar->type != CVAR_TYPE_FLOAT)
+		return 0;
+
+	return cvar->value.f;
+}
+
+const char *cvar_get_string(const char *name)
+{
+	cvar_t *cvar;
+
+	if ((cvar = cvar_retrieve(name)) == NULL)
+		return NULL;
+	if (cvar->type != CVAR_TYPE_STRING)
+		return NULL;
+
+	return cvar->value.s;
+}
+
 //****************************************************************************
 //
 // CVARLIB
@@ -315,8 +388,6 @@ void console_draw(void)
 		/* handle null lines */
 		if (console.lines[i] == NULL)
 			continue;
-
-		/* handle control characters */
 		if (console.lines[i][0] == '\0')
 			continue;
 

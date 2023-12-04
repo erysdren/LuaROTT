@@ -143,6 +143,24 @@ cvar_t *cvar_retrieve(const char *name);
 /* add cvar to chain */
 void cvar_register(cvar_t *cvar);
 
+/* retrieve boolean from cvar */
+boolean cvar_get_bool(const char *name);
+
+/* retrieve int from cvar */
+int cvar_get_int(const char *name);
+
+/* retrieve unsigned int from cvar */
+unsigned int cvar_get_uint(const char *name);
+
+/* retrieve fixed from cvar */
+fixed cvar_get_fixed(const char *name);
+
+/* retrieve float from cvar */
+float cvar_get_float(const char *name);
+
+/* retrieve string from cvar */
+const char *cvar_get_string(const char *name);
+
 /* register standard library of cvars */
 void cvarlib_init(void);
 
