@@ -70,8 +70,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_scale.h"
 #include "rt_datadir.h"
 #include "rt_lua.h"
-#include "cmdlib.h"
-#include "cvarlib.h"
+#include "console.h"
 
 #include "music.h"
 #include "fx_man.h"
@@ -381,6 +380,10 @@ int main(int argc, char *argv[])
 		}
 #endif
 	}
+
+	/* shutdown cmdlib and cvarlib */
+	cmdlib_quit();
+	cvarlib_quit();
 
 	GameLoop();
 

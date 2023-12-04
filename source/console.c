@@ -27,7 +27,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <stdarg.h>
 #include "rt_def.h"
 #include "console.h"
-#include "cmdlib.h"
 
 //****************************************************************************
 //
@@ -77,6 +76,34 @@ void cvar_register(cvar_t *cvar)
 
 //****************************************************************************
 //
+// CVARLIB
+//
+//****************************************************************************
+
+cvar_t _cvarlib[] = {
+	CVAR_BOOL("test_bool", true),
+	CVAR_INT("test_int", -3123),
+	CVAR_UINT("test_uint", 62763746),
+	CVAR_FIXED("test_fixed", (fixed)(13.7f * (1 << 16))),
+	CVAR_FLOAT("test_float", 9193.64f),
+	CVAR_STRING("test_string", "stringvalue")
+};
+
+void cvarlib_init(void)
+{
+	for (int i = 0; i < sizeof(_cvarlib) / sizeof(cvar_t); i++)
+	{
+		cvar_register(&_cvarlib[i]);
+	}
+}
+
+void cvarlib_quit(void)
+{
+
+}
+
+//****************************************************************************
+//
 // CMD
 //
 //****************************************************************************
@@ -119,6 +146,37 @@ void cmd_register(cmd_t *cmd)
 		cmd->next = cmd_list;
 		cmd_list = cmd;
 	}
+}
+
+//****************************************************************************
+//
+// CMDLIB
+//
+//****************************************************************************
+
+int _cmd_quit(int argc, char **argv)
+{
+	ShutDown();
+	SDL_Quit();
+	exit(0);
+	return 0;
+}
+
+cmd_t _cmdlib[] = {
+	CMD("quit", _cmd_quit)
+};
+
+void cmdlib_init(void)
+{
+	for (int i = 0; i < sizeof(_cmdlib) / sizeof(cmd_t); i++)
+	{
+		cmd_register(&_cmdlib[i]);
+	}
+}
+
+void cmdlib_quit(void)
+{
+
 }
 
 //****************************************************************************

@@ -118,11 +118,23 @@ cvar_t *cvar_retrieve(const char *name);
 /* add cvar to chain */
 void cvar_register(cvar_t *cvar);
 
+/* register standard library of cvars */
+void cvarlib_init(void);
+
+/* shutdown cvarlib */
+void cvarlib_quit(void);
+
 /* retrieve cmd from chain */
 cmd_t *cmd_retrieve(const char *name);
 
 /* add cmd to chain */
 void cmd_register(cmd_t *cmd);
+
+/* register standard library of cmds */
+void cmdlib_init(void);
+
+/* shutdown cmdlib */
+void cmdlib_quit(void);
 
 /* print to console */
 void console_printf(const char *s, ...);
