@@ -463,6 +463,8 @@ boolean console_evaluate(char *s)
 						cvar->value.b = true;
 					else if (!strtol(argv[1], NULL, 10))
 						cvar->value.b = false;
+					else
+						cvar->value.b = false;
 					break;
 
 				case CVAR_TYPE_INT:
