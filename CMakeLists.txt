@@ -7,6 +7,8 @@ project(ROTTEN LANGUAGES C VERSION 1.1.2)
 option(ROTTEN_CONSOLE "Enable unfinished developer console" ON)
 option(ROTTEN_LUA "Enable unfinished Lua support" OFF)
 option(ROTTEN_PEDANTIC "Enable all pedantic warnings" OFF)
+option(ROTTEN_UBSAN "Enable UBSAN" OFF)
+option(ROTTEN_ASAN "Enable ASAN" OFF)
 
 # requirements
 find_package(SDL2 REQUIRED)
@@ -47,6 +49,18 @@ if(ROTTEN_PEDANTIC)
 	target_compile_options(rotten PUBLIC -Wall -Wextra -pedantic)
 	target_compile_options(rotten PUBLIC -Wunused-macros -Wunused-local-typedefs)
 	target_compile_options(rotten PUBLIC -Wno-implicit-fallthrough -Wno-sign-compare)
+endif()
+
+# ubsan
+if(ROTTEN_UBSAN)
+	target_compile_options(rotten PUBLIC -fsanitize=undefined)
+	target_link_options(rotten PUBLIC -fsanitize=undefined)
+endif()
+
+# asan
+if(ROTTEN_ASAN)
+	target_compile_options(rotten PUBLIC -fsanitize=address)
+	target_link_options(rotten PUBLIC -fsanitize=address)
 endif()
 
 # optimizations or debug symbols
