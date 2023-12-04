@@ -34,6 +34,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "rt_util.h"
 #include "rt_build.h"
 #include "rt_menu.h"
+#include "rt_game.h"
 #include "console.h"
 
 //****************************************************************************
@@ -247,9 +248,29 @@ int _cmd_quit(int argc, char **argv)
 	return 0;
 }
 
+/* map */
+int _cmd_map(int argc, char **argv)
+{
+	extern char *BATTMAPS, *ROTTMAPS;
+
+	/* print current map */
+	if (argc < 2)
+	{
+		console_printf("%s: E%dA%d", ROTTMAPS, gamestate.episode, GetLevel(gamestate.episode, gamestate.mapon));
+		return 0;
+	}
+	else
+	{
+		Error("Warping to level is not supported");
+	}
+
+	return 0;
+}
+
 /* cmdlib array */
 cmd_t _cmdlib[] = {
-	CMD("quit", _cmd_quit)
+	CMD("quit", _cmd_quit),
+	CMD("map", _cmd_map)
 };
 
 /* register standard library of cmds */
