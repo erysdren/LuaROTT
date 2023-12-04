@@ -28,7 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "rt_def.h"
 #include "rt_main.h"
-#include "rt_cvar.h"
+#include "console.h"
 #include "cmdlib.h"
 
 int _cmd_quit(int argc, char **argv)

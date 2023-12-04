@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#if (ROTTEN_LUA == 1)
 #ifndef _rt_lua_public
 #define _rt_lua_public
 
@@ -32,4 +33,5 @@ void lua_quit(void);
 void lua_module_add(const char *module);
 void lua_module_call(const char *module, const char *field);
 
-#endif
+#endif /* _rt_lua_public */
+#endif /* ROTTEN_LUA */

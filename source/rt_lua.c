@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#if (ROTTEN_LUA == 1)
+
 //****************************************************************************
 //
 // RT_LUA.C
@@ -194,3 +196,5 @@ void lua_module_call(const char *module, const char *field)
 	/* do the call */
 	lua_pcall(lua_state, 0, 0, 0);
 }
+
+#endif /* ROTTEN_LUA */

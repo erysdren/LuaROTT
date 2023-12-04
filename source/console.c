@@ -20,13 +20,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 //****************************************************************************
 //
-// RT_CVAR.C
+// CONSOLE.C
 //
 //****************************************************************************
 
 #include <stdarg.h>
 #include "rt_def.h"
-#include "rt_cvar.h"
+#include "console.h"
 #include "cmdlib.h"
 
 //****************************************************************************

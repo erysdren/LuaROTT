@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "rt_def.h"
 #include "rt_main.h"
-#include "rt_cvar.h"
+#include "console.h"
 #include "cvarlib.h"
 
 cvar_t _cvarlib[] = {

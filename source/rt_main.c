@@ -158,12 +158,14 @@ int main(int argc, char *argv[])
 
 	ApogeePath = GetPrefDir();
 
+#if (ROTTEN_LUA == 1)
 	/* initialize lua */
 	if (lua_init() == false)
 		Error("Failed to initialize Lua library!");
 
 	/* initialize main menu */
 	lua_module_add("menu_main");
+#endif
 
 	/* register cmds and cvars */
 	cmdlib_init();
@@ -384,8 +386,10 @@ int main(int argc, char *argv[])
 
 	QuitGame();
 
+#if (ROTTEN_LUA == 1)
 	/* quit lua */
 	lua_quit();
+#endif
 
 	return 0;
 }

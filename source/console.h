@@ -18,14 +18,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef _rt_cvar_public
-#define _rt_cvar_public
+#ifndef _console_public
+#define _console_public
 
 #include "rt_fixed.h"
 
 //****************************************************************************
 //
-// Public header for RT_CVAR.C
+// Public header for CONSOLE.C
 //
 //****************************************************************************
 
@@ -90,36 +90,12 @@ typedef struct cmd_t
 //****************************************************************************
 
 /* cvar creation macros */
-#define CVAR_BOOL(n, v) \
-	(cvar_t) \
-	{ \
-		.name = n, .type = CVAR_TYPE_BOOL, .value.b = v, .next = NULL \
-	}
-#define CVAR_INT(n, v) \
-	(cvar_t) \
-	{ \
-		.name = n, .type = CVAR_TYPE_INT, .value.i = v, .next = NULL \
-	}
-#define CVAR_UINT(n, v) \
-	(cvar_t) \
-	{ \
-		.name = n, .type = CVAR_TYPE_UINT, .value.u = v, .next = NULL \
-	}
-#define CVAR_FIXED(n, v) \
-	(cvar_t) \
-	{ \
-		.name = n, .type = CVAR_TYPE_FIXED, .value.x = v, .next = NULL \
-	}
-#define CVAR_FLOAT(n, v) \
-	(cvar_t) \
-	{ \
-		.name = n, .type = CVAR_TYPE_FLOAT, .value.f = v, .next = NULL \
-	}
-#define CVAR_STRING(n, v) \
-	(cvar_t) \
-	{ \
-		.name = n, .type = CVAR_TYPE_STRING, .value.s = v, .next = NULL \
-	}
+#define CVAR_BOOL(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_BOOL, .value.b = v, .next = NULL}
+#define CVAR_INT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_INT, .value.i = v, .next = NULL}
+#define CVAR_UINT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_UINT, .value.u = v, .next = NULL}
+#define CVAR_FIXED(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_FIXED, .value.x = v, .next = NULL}
+#define CVAR_FLOAT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_FLOAT, .value.f = v, .next = NULL}
+#define CVAR_STRING(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_STRING, .value.s = v, .next = NULL}
 
 /* cmd creation macro */
 #define CMD(n, f) (cmd_t){ .name = n, .func = f, .next = NULL }
@@ -151,4 +127,4 @@ void cmd_register(cmd_t *cmd);
 /* print to console */
 void console_printf(const char *s, ...);
 
-#endif
+#endif /* _console_public */
