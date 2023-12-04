@@ -187,6 +187,16 @@ void cmdlib_quit(void)
 //
 //****************************************************************************
 
+boolean console_init(void)
+{
+	return true;
+}
+
+void console_quit(void)
+{
+
+}
+
 /* print to console */
 void console_printf(const char *s, ...)
 {

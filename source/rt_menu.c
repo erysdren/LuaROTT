@@ -1406,7 +1406,7 @@ void ControlPanel(byte scancode)
 void CP_Console(void)
 {
 	/* console input buffer */
-	static char buffer[256];
+	static char input[256];
 	cmd_t *cmd;
 	cvar_t *cvar;
 	int argc;
@@ -1421,13 +1421,13 @@ void CP_Console(void)
 	SetMenuTitle("Developer Console");
 
 	/* console area outline */
-	DrawTMenuBufBox(17, 14, 253, 132);
+	DrawTMenuBufBox(17, 13, 254, 133);
 
 	/* get user input */
-	while (US_LineInput(18, 139, buffer, NULL, true, 255, 251, 0))
+	while (US_LineInput(CONSOLE_IN_X, CONSOLE_IN_Y, input, NULL, true, sizeof(input) - 1, CONSOLE_IN_W, 0))
 	{
 		/* tokenize string */
-		argv = US_Tokenize(buffer, &argc);
+		argv = US_Tokenize(input, &argc);
 
 		/* no valid text entered */
 		if (!argv || !argc)
@@ -1490,6 +1490,9 @@ void CP_Console(void)
 
 		console_printf("unknown cmd or cvar!");
 	}
+
+	/* hopefully this helps */
+	IN_ClearKeysDown();
 
 	/* shutdown menu stuff */
 	DisableScreenStretch();

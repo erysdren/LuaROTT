@@ -166,7 +166,8 @@ int main(int argc, char *argv[])
 	lua_module_add("menu_main");
 #endif
 
-	/* register cmds and cvars */
+	/* initialize console */
+	console_init();
 	cmdlib_init();
 	cvarlib_init();
 
@@ -381,13 +382,14 @@ int main(int argc, char *argv[])
 #endif
 	}
 
-	/* shutdown cmdlib and cvarlib */
-	cmdlib_quit();
-	cvarlib_quit();
-
 	GameLoop();
 
 	QuitGame();
+
+	/* shutdown console */
+	console_quit();
+	cmdlib_quit();
+	cvarlib_quit();
 
 #if (ROTTEN_LUA == 1)
 	/* quit lua */
