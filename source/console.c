@@ -25,7 +25,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //****************************************************************************
 
 #include <stdarg.h>
+#include "SDL.h"
 #include "rt_def.h"
+#include "rt_main.h"
 #include "console.h"
 
 //****************************************************************************
