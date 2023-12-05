@@ -535,12 +535,13 @@ CP_itemtype PlayerMenu[] = {
 	{ 1, "name5\0", 'I', { NULL } },
 };
 
-CP_MenuNames ControlMMenuNames[] = { "CONTROLS", "USER OPTIONS",
-									 "EXT USER OPTIONS", // bna added
-									 "MUSIC VOLUME", "SOUND FX VOLUME"
-
+CP_MenuNames ControlMMenuNames[] = {
+	"CONTROLS", "USER OPTIONS",
+	"EXT USER OPTIONS", // bna added
+	"MUSIC VOLUME", "SOUND FX VOLUME",
+	"LUDICROUS CONSOLE"
 };
-CP_iteminfo ControlMItems = { 32,		   48 - 8, 5, 0, 32, ControlMMenuNames,
+CP_iteminfo ControlMItems = { 32,		   48 - 8, 6, 0, 32, ControlMMenuNames,
 							  mn_largefont }; // bna added
 // CP_iteminfo ControlMItems = {32, 48, 4, 0, 32, ControlMMenuNames,
 // mn_largefont };
@@ -550,8 +551,8 @@ CP_itemtype ControlMMenu[] = {
 	{ 1, "uopt\0", 'U', (menuptr)CP_OptionsMenu },
 	{ 1, "euopt\0", 'E', (menuptr)CP_ExtOptionsMenu }, // bna added
 	{ 1, "muvolumn\0", 'M', (menuptr)MusicVolume },
-	{ 1, "fxvolumn\0", 'S', (menuptr)FXVolume }
-
+	{ 1, "fxvolumn\0", 'S', (menuptr)FXVolume },
+	{ 1, "console\0", 'S', (menuptr)CP_Console }
 };
 
 CP_MenuNames OptionsNames[] = {
@@ -1315,22 +1316,7 @@ boolean CP_CheckQuick(byte scancode)
 //******************************************************************************
 void ControlPanel(byte scancode)
 {
-	/* handle console on tilde */
-	if (scancode == sc_Tilde)
-	{
-		CP_Console(false);
-		if (playstate == ex_stillplaying)
-		{
-			DisableScreenStretch();
-			fizzlein = false;
-		}
-		else if (loadedgame == false)
-		{
-			fizzlein = true;
-			inmenu = false;
-		}
-		return;
-	}
+	boolean was_in_console = false;
 
 	/* handle main menu on escape */
 	if (scancode == sc_Escape)
@@ -1392,6 +1378,13 @@ void ControlPanel(byte scancode)
 			Keyboard[sc_F10] = 0;
 			CP_Quit(-1);
 			break;
+
+		case sc_Tilde:
+			LastScan = 0;
+			Keyboard[sc_Tilde] = 0;
+			CP_Console();
+			was_in_console = true;
+			break;
 	}
 
 	CleanUpControlPanel();
@@ -1404,6 +1397,13 @@ void ControlPanel(byte scancode)
 		inmenu = false;
 	}
 
+	/* check if we were in console, and player didn't warp to another map */
+	if (playstate != ex_warped && was_in_console == true)
+	{
+		fizzlein = false;
+		DisableScreenStretch();
+	}
+
 	loadsavesound = false;
 }
 
@@ -1412,25 +1412,34 @@ void ControlPanel(byte scancode)
 // CP_Console
 //
 //******************************************************************************
-void CP_Console(boolean from_menu)
+void CP_Console(void)
 {
 	/* console input buffer */
 	static char input[256];
 	int i;
 
-	/* setup menu stuff */
-	if (!from_menu)
-	{
-		SetupMenuBuf();
-		SetUpControlPanel();
-		EnableScreenStretch();
-	}
+	/* set alternate menu buf for flipping */
+	if (numdone || (!ingame) || (!inmenu))
+		SetAlternateMenuBuf();
+
+	ClearMenuBuf();
+
+	/* draw console */
+	console_draw();
+
+	/* erase input line area */
+	EraseMenuBufRegion(CONSOLE_INPUT_X, CONSOLE_INPUT_Y, CONSOLE_INPUT_W, CONSOLE_INPUT_H);
 
 	/* set title */
 	SetMenuTitle("Ludicrous Console");
 
-	/* draw console */
-	console_draw();
+	/* i don't really know what any of this does */
+	if ((!numdone) && ingame && inmenu)
+		RefreshMenuBuf(0);
+	else
+		FlipMenuBuf();
+
+	WaitKeyUp();
 
 	/* process user input */
 	while (US_LineInput(CONSOLE_INPUT_X, CONSOLE_INPUT_Y, input, NULL, true, sizeof(input) - 1, CONSOLE_INPUT_W, 0))
@@ -1447,19 +1456,12 @@ void CP_Console(boolean from_menu)
 	/* clear key input buffer */
 	IN_ClearKeysDown();
 
-	if (from_menu)
-	{
-		/* return to main menu */
-		ClearMenuBuf();
-		DrawMainMenu();
-		RefreshMenuBuf(0);
-	}
-	else
-	{
-		/* shutdown menu stuff */
-		CleanUpControlPanel();
-		ShutdownMenuBuf();
-	}
+	/* return to options menu */
+	if (numdone || (!ingame) || (!inmenu))
+		DrawControlMenu();
+
+	/* what? */
+	numdone++;
 }
 
 //******************************************************************************
@@ -1507,11 +1509,6 @@ menuitems CP_MainMenu(void)
 
 			case -1:
 				CP_Quit(0);
-				break;
-
-			/* get to console from menu */
-			case -2:
-				CP_Console(true);
 				break;
 
 			default:
@@ -1948,10 +1945,6 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 			}
 		}
 
-		/* console key pressed */
-		if (Keyboard[sc_Tilde])
-			exit = 4;
-
 		if (Keyboard[sc_CapsLock] && Keyboard[sc_X])
 		{
 			SaveScreen(true);
@@ -1992,10 +1985,6 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 
 		case 3:
 			return (handlewhich);
-
-		/* console key pressed*/
-		case 4:
-			return (-2);
 	}
 
 	return (0);
