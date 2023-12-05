@@ -1293,7 +1293,7 @@ void CheckRTLVersion(char *filename)
 			Error("The file '%s' is a version %d.%d %s file.\n"
 				  "The highest this version of ROTT can load is %d.%d.",
 				  filename, RTLVersion >> 8, RTLVersion & 0xff, RTLSignature,
-				  RTL_VERSION >> 8, RTL_VERSION & 0xff);
+				  RXL_VERSION >> 8, RXL_VERSION & 0xff);
 		}
 
 		close(filehandle);
