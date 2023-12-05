@@ -27,7 +27,7 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 
 - [Paril](https://github.com/Paril/)
 
-## Assets
+## Required Assets
 
 ### Any Campaign
 
