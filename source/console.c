@@ -357,6 +357,7 @@ int _cmd_find(int argc, char **argv)
 	int i;
 	char *ptr;
 	cmd_t *cmd;
+	cvar_t *cvar;
 
 	if (argc < 2)
 	{
@@ -374,6 +375,18 @@ int _cmd_find(int argc, char **argv)
 
 		/* next */
 		cmd = cmd->next;
+	}
+
+	/* iterate over cvars */
+	cvar = cvar_list;
+	while (cvar != NULL)
+	{
+		/* do text search */
+		if ((ptr = strstr(cvar->name, argv[1])) != NULL)
+			console_printf("%s", cvar->name);
+
+		/* next */
+		cvar = cvar->next;
 	}
 
 	return 0;
