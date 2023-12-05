@@ -165,8 +165,7 @@ const char *cvar_get_string(const char *name)
 
 /* cvarlib array */
 cvar_t _cvarlib[] = {
-	CVAR_STRING("sp_mapset", STANDARDGAMELEVELS),
-	CVAR_STRING("mp_mapset", STANDARDBATTLELEVELS)
+	CVAR_STRING("temp", "temp")
 };
 
 /* register standard library of cvars */
@@ -263,6 +262,12 @@ int _cmd_map(int argc, char **argv)
 	int episode = 0, level = 0, map = 0;
 	int i;
 
+	if (!ingame)
+	{
+		console_printf("not in a game");
+		return 0;
+	}
+
 	/* print current map */
 	if (argc < 2)
 	{
@@ -319,6 +324,70 @@ int _cmd_map(int argc, char **argv)
 	console_should_close = true;
 	playstate = ex_warped;
 	gamestate.mapon = map;
+
+	return 0;
+}
+
+/* sp_mapset */
+int _cmd_sp_mapset(int argc, char **argv)
+{
+	char *filename;
+
+	if (argc < 2)
+	{
+		console_printf("%s", ROTTMAPS);
+		return 0;
+	}
+
+	if (ingame)
+	{
+		console_printf("cannot set new mapset while in-game");
+		return 1;
+	}
+
+	filename = M_FileCaseExists(argv[1]);
+
+	if (!filename)
+	{
+		console_printf("mapset \"%s\" not found", argv[1]);
+		return 1;
+	}
+
+	ROTTMAPS = filename;
+
+	console_printf("singleplayer mapset changed to \"%s\"", ROTTMAPS);
+
+	return 0;
+}
+
+/* mp_mapset */
+int _cmd_mp_mapset(int argc, char **argv)
+{
+	char *filename;
+
+	if (argc < 2)
+	{
+		console_printf("%s", BATTMAPS);
+		return 0;
+	}
+
+	if (ingame)
+	{
+		console_printf("cannot set new mapset while in-game");
+		return 1;
+	}
+
+	filename = M_FileCaseExists(argv[1]);
+
+	if (!filename)
+	{
+		console_printf("mapset \"%s\" not found", argv[1]);
+		return 1;
+	}
+
+	BATTMAPS = filename;
+
+	console_printf("multiplayer mapset changed to \"%s\"", BATTMAPS);
 
 	return 0;
 }
@@ -403,6 +472,8 @@ int _cmd_find(int argc, char **argv)
 cmd_t _cmdlib[] = {
 	CMD("quit", "exit the game immediately", _cmd_quit),
 	CMD("map", "load map by name", _cmd_map),
+	CMD("sp_mapset", "load singleplayer mapset by name", _cmd_sp_mapset),
+	CMD("mp_mapset", "load multiplayer mapset by name", _cmd_mp_mapset),
 	CMD("help", "print help text", _cmd_help),
 	CMD("find", "find command or variable by name", _cmd_find)
 };
