@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 #include <sys/stat.h>
-#ifndef _WIN32
+#ifndef PLATFORM_WINDOWS
 #include <sys/types.h>
 #include <errno.h>
 #include <unistd.h>
@@ -171,7 +171,7 @@ void DisplayTextSplash(byte *text, int l)
 	printf("\033[m");
 }
 
-#if !defined(__CYGWIN__) && !defined(__MINGW32__) && !defined(_MSC_VER) && !defined(__HAIKU__)
+#ifdef PLATFORM_UNIX
 #include <execinfo.h>
 
 void print_stack(int level)

@@ -26,6 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string.h>
 #include "develop.h"
 
+/* detect arch */
+#include "arch_def.h"
+
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -44,7 +47,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <stdint.h>
 
-#ifdef _WIN32
+#ifdef PLATFORM_WINDOWS
 #define PATH_SEP_CHAR '\\'
 #define PATH_SEP_STR "\\"
 #define LIST_SEP_CHAR ';'
@@ -112,7 +115,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define max(a, b) (((a) > (b)) ? (a) : (b))
 #endif
 
-#ifdef _WIN32
+#ifdef PLATFORM_WINDOWS
 #define strcmpi(x, y) stricmp(x, y)
 #define _fstricmp(x, y) stricmp(x, y)
 #else

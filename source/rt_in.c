@@ -714,7 +714,7 @@ void IN_Startup(void)
 	if (IN_Started == true)
 		return;
 
-#ifdef _WIN32
+#ifdef PLATFORM_WINDOWS
 	// fixme: remove this.
 	sdl_mouse_grabbed = 1;
 #endif

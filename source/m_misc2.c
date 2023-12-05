@@ -34,7 +34,7 @@
 
 void M_MakeDirectory(const char *path)
 {
-#ifdef _WIN32
+#ifdef PLATFORM_WINDOWS
 	mkdir(path);
 #else
 	mkdir(path, 0755);
@@ -72,7 +72,7 @@ char *M_TempFile(const char *s)
 {
 	const char *tempdir;
 
-#ifdef _WIN32
+#ifdef PLATFORM_WINDOWS
 
 	// Check the TEMP environment variable to find the location.
 
@@ -173,7 +173,7 @@ char *M_DirName(const char *path)
 	const char *pf, *pb;
 
 	pf = strrchr(path, '/');
-#ifdef _WIN32
+#ifdef PLATFORM_WINDOWS
 	pb = strrchr(path, '\\');
 #else
 	pb = NULL;
@@ -200,7 +200,7 @@ const char *M_BaseName(const char *path)
 	const char *pf, *pb;
 
 	pf = strrchr(path, '/');
-#ifdef _WIN32
+#ifdef PLATFORM_WINDOWS
 	pb = strrchr(path, '\\');
 	// [FG] allow C:filename
 	if (pf == NULL && pb == NULL)

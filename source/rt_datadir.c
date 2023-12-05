@@ -52,7 +52,7 @@ char *GetPrefDir(void)
 	{
 		char *result;
 
-#ifndef _WIN32
+#ifndef PLATFORM_WINDOWS
 		result = SDL_GetPrefPath("", PACKAGE_TARNAME);
 		if (result != NULL)
 		{
@@ -94,7 +94,7 @@ static void AddDataDir(char *dir)
 	}
 }
 
-#ifndef _WIN32
+#ifndef PLATFORM_WINDOWS
 static void AddDataPath(const char *path, const char *suffix)
 {
 	char *left, *p, *dup_path;
@@ -175,7 +175,7 @@ static void BuildDataDirList(void)
 	AddDataDir(DATADIR);
 #endif
 
-#ifndef _WIN32
+#ifndef PLATFORM_WINDOWS
 	AddXdgDirs();
 #endif
 }

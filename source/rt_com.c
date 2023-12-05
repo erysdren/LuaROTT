@@ -56,7 +56,7 @@ static int transittimes[MAXPLAYERS];
 void SyncTime(int client);
 void SetTransitTime(int client, int time);
 
-#ifndef _WIN32
+#ifndef PLATFORM_WINDOWS
 
 static void ReadUDPPacket()
 {
@@ -79,7 +79,7 @@ static void WriteUDPPacket()
 
 void InitROTTNET(void)
 {
-#ifndef _WIN32
+#ifndef PLATFORM_WINDOWS
 	int netarg;
 #endif
 
@@ -87,7 +87,7 @@ void InitROTTNET(void)
 		return;
 	ComStarted = true;
 
-#ifndef _WIN32
+#ifndef PLATFORM_WINDOWS
 	/*
 	server-specific options:
 	-net: enables netplay
@@ -218,7 +218,7 @@ boolean ReadPacket(void)
 
 	// Check to see if a packet is ready
 
-#ifndef _WIN32
+#ifndef PLATFORM_WINDOWS
 	ReadUDPPacket();
 #endif
 
@@ -311,7 +311,7 @@ void WritePacket(void *buffer, int len, int destination)
 //   SoftError( "WritePacket: time=%ld size=%ld src=%ld
 //   type=%d\n",GetTicCount(),rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
 // Send It !
-#ifndef _WIN32
+#ifndef PLATFORM_WINDOWS
 	WriteUDPPacket();
 #endif
 }
