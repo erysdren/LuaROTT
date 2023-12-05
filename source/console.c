@@ -289,7 +289,7 @@ int _cmd_map(int argc, char **argv)
 	else
 	{
 		/* range checks */
-		if (episode > 4 || episode < 1 || level < 1 || (episode == 4 && level > 13) || (episode < 4 && level > 8))
+		if (episode > 4 || (episode == 4 && level > 13) || (episode < 4 && level > 8))
 		{
 			console_printf("map E%dA%d is out of range", episode, level);
 			return 1;
