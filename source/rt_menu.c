@@ -1425,7 +1425,7 @@ void CP_Console(void)
 	EnableScreenStretch();
 
 	/* set title */
-	SetMenuTitle("Developer Console");
+	SetMenuTitle("Ludicrous Console");
 
 	/* draw console */
 	console_draw();
