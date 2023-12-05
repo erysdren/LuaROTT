@@ -646,29 +646,38 @@ boolean console_evaluate(char *s)
 			{
 				case CVAR_TYPE_BOOL:
 					if (cvar->val.b)
-						console_printf("true");
+						console_printf("value: true");
 					else
-						console_printf("false");
+						console_printf("value: false");
+					if (cvar->def.b)
+						console_printf("default: true");
+					else
+						console_printf("default: false");
 					break;
 
 				case CVAR_TYPE_INT:
-					console_printf("%d", cvar->val.i);
+					console_printf("value: %d", cvar->val.i);
+					console_printf("default: %d", cvar->def.i);
 					break;
 
 				case CVAR_TYPE_UINT:
-					console_printf("%u", cvar->val.u);
+					console_printf("value: %u", cvar->val.u);
+					console_printf("default: %u", cvar->def.u);
 					break;
 
 				case CVAR_TYPE_FIXED:
-					console_printf("%0.4f", cvar->val.x * (1.0f / (float)(1 << 16)));
+					console_printf("value: %0.4f", FIXED_TO_FLOAT(cvar->val.x));
+					console_printf("default: %0.4f", FIXED_TO_FLOAT(cvar->def.x));
 					break;
 
 				case CVAR_TYPE_FLOAT:
-					console_printf("%0.4f", cvar->val.f);
+					console_printf("value: %0.4f", cvar->val.f);
+					console_printf("default: %0.4f", cvar->def.f);
 					break;
 
 				case CVAR_TYPE_STRING:
-					console_printf("\"%s\"", cvar->val.s);
+					console_printf("value: \"%s\"", cvar->val.s);
+					console_printf("default: \"%s\"", cvar->def.s);
 					break;
 			}
 		}
