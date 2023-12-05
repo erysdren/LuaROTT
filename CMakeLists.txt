@@ -9,6 +9,9 @@ option(ROTTEN_PEDANTIC "Enable all pedantic warnings" OFF)
 option(ROTTEN_UBSAN "Enable UBSAN" OFF)
 option(ROTTEN_ASAN "Enable ASAN" OFF)
 
+# add module path
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
 # requirements
 find_package(SDL2 REQUIRED)
 find_package(SDL2_mixer REQUIRED)
@@ -21,8 +24,7 @@ file(GLOB ROTTEN_SOURCES ${PROJECT_SOURCE_DIR}/source/*.c)
 
 # executable
 add_executable(rotten ${ROTTEN_SOURCES})
-target_link_libraries(rotten PUBLIC SDL2::SDL2)
-target_link_libraries(rotten PUBLIC SDL2_mixer)
+target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer)
 target_compile_definitions(rotten PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
 

@@ -31,8 +31,9 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 
 - [rottsource.zip](./misc/rottsource.zip)
 - [icculus.org/rott/](https://icculus.org/rott/)
-- [riseofthetriad.dk/](https://www.riseofthetriad.dk/)
+- [riseofthetriad.dk](https://www.riseofthetriad.dk)
 - [github.com/fabiangreffrath/rott/](https://github.com/fabiangreffrath/rott/)
+- [github.com/aminosbh/sdl2-cmake-modules/](https://github.com/aminosbh/sdl2-cmake-modules/)
 
 ## License
 
