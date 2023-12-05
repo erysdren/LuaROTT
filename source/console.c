@@ -316,10 +316,75 @@ int _cmd_map(int argc, char **argv)
 	return 0;
 }
 
+/* help */
+int _cmd_help(int argc, char **argv)
+{
+	cmd_t *cmd;
+
+	if (argc < 2)
+	{
+		cmd = cmd_list;
+
+		while (cmd != NULL)
+		{
+			/* print name and help text */
+			console_printf("%s: %s", cmd->name, cmd->help);
+
+			/* move down chain */
+			cmd = cmd->next;
+		}
+
+		return 0;
+	}
+
+	/* find specific cvar */
+	if ((cmd = cmd_retrieve(argv[1])) != NULL)
+	{
+		console_printf("%s: %s", cmd->name, cmd->help);
+	}
+	else
+	{
+		console_printf("no command named \"%s\"", argv[1]);
+		return 1;
+	}
+
+	return 0;
+}
+
+/* find */
+int _cmd_find(int argc, char **argv)
+{
+	int i;
+	char *ptr;
+	cmd_t *cmd;
+
+	if (argc < 2)
+	{
+		console_printf("must specify search string");
+		return 1;
+	}
+
+	/* iterate over cmds */
+	cmd = cmd_list;
+	while (cmd != NULL)
+	{
+		/* do text search */
+		if ((ptr = strstr(cmd->name, argv[1])) != NULL)
+			console_printf("%s: %s", cmd->name, cmd->help);
+
+		/* next */
+		cmd = cmd->next;
+	}
+
+	return 0;
+}
+
 /* cmdlib array */
 cmd_t _cmdlib[] = {
-	CMD("quit", _cmd_quit),
-	CMD("map", _cmd_map)
+	CMD("quit", "exit the game immediately", _cmd_quit),
+	CMD("map", "load map by name", _cmd_map),
+	CMD("help", "print help text", _cmd_help),
+	CMD("find", "find command by name", _cmd_find)
 };
 
 /* register standard library of cmds */

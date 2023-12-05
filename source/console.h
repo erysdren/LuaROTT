@@ -75,6 +75,9 @@ typedef struct cmd_t
 	/* name for searching */
 	const char *name;
 
+	/* help text */
+	const char *help;
+
 	/* function to call */
 	int (*func)(int, char**);
 
@@ -98,7 +101,7 @@ typedef struct cmd_t
 #define CVAR_STRING(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_STRING, .value.s = v, .next = NULL}
 
 /* cmd creation macro */
-#define CMD(n, f) (cmd_t){ .name = n, .func = f, .next = NULL }
+#define CMD(n, h, f) (cmd_t){ .name = n, .help = h, .func = f, .next = NULL }
 
 /* pixel information for drawable console */
 #define CONSOLE_BOX_X (17)
