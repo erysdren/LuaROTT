@@ -3,6 +3,19 @@
 
 An enhanced port of Rise of the Triad, based on SDL2.
 
+## Features
+
+- Developer console with a number of useful commands
+- Limited support for loading ROTT:LE levels
+- Ludicrous amounts of code cleanup and junk removal
+
+## Planned
+
+- Way more commands and cvars for the developer console
+- Lua support for game and menu scripting
+- Extended config file format
+- Campaign selection menu
+
 ## Sources
 
 - [rottsource.zip](./misc/rottsource.zip)
