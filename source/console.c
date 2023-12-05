@@ -397,7 +397,7 @@ cmd_t _cmdlib[] = {
 	CMD("quit", "exit the game immediately", _cmd_quit),
 	CMD("map", "load map by name", _cmd_map),
 	CMD("help", "print help text", _cmd_help),
-	CMD("find", "find command by name", _cmd_find)
+	CMD("find", "find command or variable by name", _cmd_find)
 };
 
 /* register standard library of cmds */
