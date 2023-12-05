@@ -1318,7 +1318,7 @@ void ControlPanel(byte scancode)
 	/* handle console on tilde */
 	if (scancode == sc_Tilde)
 	{
-		CP_Console();
+		CP_Console(false);
 		if (playstate == ex_stillplaying)
 		{
 			DisableScreenStretch();
@@ -1412,16 +1412,19 @@ void ControlPanel(byte scancode)
 // CP_Console
 //
 //******************************************************************************
-void CP_Console(void)
+void CP_Console(boolean from_menu)
 {
 	/* console input buffer */
 	static char input[256];
 	int i;
 
 	/* setup menu stuff */
-	SetupMenuBuf();
-	SetUpControlPanel();
-	EnableScreenStretch();
+	if (!from_menu)
+	{
+		SetupMenuBuf();
+		SetUpControlPanel();
+		EnableScreenStretch();
+	}
 
 	/* set title */
 	SetMenuTitle("Ludicrous Console");
@@ -1444,9 +1447,19 @@ void CP_Console(void)
 	/* clear key input buffer */
 	IN_ClearKeysDown();
 
-	/* shutdown menu stuff */
-	CleanUpControlPanel();
-	ShutdownMenuBuf();
+	if (from_menu)
+	{
+		/* return to main menu */
+		ClearMenuBuf();
+		DrawMainMenu();
+		RefreshMenuBuf(0);
+	}
+	else
+	{
+		/* shutdown menu stuff */
+		CleanUpControlPanel();
+		ShutdownMenuBuf();
+	}
 }
 
 //******************************************************************************
@@ -1494,6 +1507,11 @@ menuitems CP_MainMenu(void)
 
 			case -1:
 				CP_Quit(0);
+				break;
+
+			/* get to console from menu */
+			case -2:
+				CP_Console(true);
 				break;
 
 			default:
@@ -1555,7 +1573,6 @@ void DrawMainMenu(void)
 
 int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 {
-
 	char key;
 	int i, x, y, basey, exit, numactive, count;
 	int newpos;
@@ -1931,6 +1948,10 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 			}
 		}
 
+		/* console key pressed */
+		if (Keyboard[sc_Tilde])
+			exit = 4;
+
 		if (Keyboard[sc_CapsLock] && Keyboard[sc_X])
 		{
 			SaveScreen(true);
@@ -1971,6 +1992,10 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 
 		case 3:
 			return (handlewhich);
+
+		/* console key pressed*/
+		case 4:
+			return (-2);
 	}
 
 	return (0);

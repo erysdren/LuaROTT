@@ -85,7 +85,6 @@ void cvar_register(cvar_t *cvar)
 	}
 }
 
-
 boolean cvar_get_bool(const char *name)
 {
 	cvar_t *cvar;
@@ -166,12 +165,8 @@ const char *cvar_get_string(const char *name)
 
 /* cvarlib array */
 cvar_t _cvarlib[] = {
-	CVAR_BOOL("test_bool", true),
-	CVAR_INT("test_int", -3123),
-	CVAR_UINT("test_uint", 62763746),
-	CVAR_FIXED("test_fixed", (fixed)(13.7f * (1 << 16))),
-	CVAR_FLOAT("test_float", 9193.64f),
-	CVAR_STRING("test_string", "stringvalue")
+	CVAR_STRING("sp_mapset", STANDARDGAMELEVELS),
+	CVAR_STRING("mp_mapset", STANDARDBATTLELEVELS)
 };
 
 /* register standard library of cvars */

@@ -203,8 +203,7 @@ int main(int argc, char *argv[])
 
 		datadir = M_DirName(BATTMAPS);
 
-		filename =
-			M_StringJoin(datadir, PATH_SEP_STR, STANDARDGAMELEVELS, NULL);
+		filename = M_StringJoin(datadir, PATH_SEP_STR, STANDARDGAMELEVELS, NULL);
 		ROTTMAPS = M_FileCaseExists(filename);
 
 		if (!ROTTMAPS)
