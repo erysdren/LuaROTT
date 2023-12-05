@@ -264,7 +264,7 @@ int _cmd_map(int argc, char **argv)
 
 	if (!ingame)
 	{
-		console_printf("not in a game");
+		console_printf("can't change or query map while not in-game");
 		return 0;
 	}
 
