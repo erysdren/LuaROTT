@@ -4985,13 +4985,13 @@ void SetupGameLevel(void)
 
 	if (tedlevel)
 	{
-		GetEpisode(tedlevelnum);
+		gamestate.episode = GetEpisode(tedlevelnum);
 		LoadROTTMap(tedlevelnum);
 		gamestate.mapon = tedlevelnum;
 	}
 	else
 	{
-		GetEpisode(gamestate.mapon);
+		gamestate.episode = GetEpisode(gamestate.mapon);
 		LoadROTTMap(gamestate.mapon);
 	}
 	if (gamestate.Product == ROTT_SHAREWARE)

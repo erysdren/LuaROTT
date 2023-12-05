@@ -456,7 +456,7 @@ void DoWarp(void)
 		playstate = ex_warped;
 		gamestate.mapon = level;
 
-		GetEpisode(gamestate.mapon);
+		gamestate.episode = GetEpisode(gamestate.mapon);
 
 		VL_FadeOut(0, 255, 0, 0, 0, 20);
 	}
@@ -694,7 +694,7 @@ void RestartNormal(void)
 	gamestate.mapon = 0;
 	playstate = ex_warped;
 
-	GetEpisode(gamestate.mapon);
+	gamestate.episode = GetEpisode(gamestate.mapon);
 }
 
 /*
@@ -950,7 +950,7 @@ void RestartCurrentLevel(void)
 {
 	playstate = ex_warped;
 
-	GetEpisode(gamestate.mapon);
+	gamestate.episode = GetEpisode(gamestate.mapon);
 }
 
 /*

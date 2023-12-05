@@ -360,6 +360,26 @@ int _cmd_mapset(int argc, char **argv)
 	return 0;
 }
 
+/* maps */
+int _cmd_maps(int argc, char **argv)
+{
+	mapfileinfo_t mapinfo;
+	int i, episode, level, map;
+
+	GetMapInfo(&mapinfo);
+
+	for (i = 0; i < mapinfo.nummaps; i++)
+	{
+		map = mapinfo.maps[i].number;
+		episode = GetEpisode(map);
+		level = GetLevel(episode, map);
+
+		console_printf("E%dA%d - \"%s\"", episode, level, mapinfo.maps[i].mapname);
+	}
+
+	return 0;
+}
+
 /* help */
 int _cmd_help(int argc, char **argv)
 {
@@ -441,6 +461,7 @@ cmd_t _cmdlib[] = {
 	CMD("quit", "exit the game immediately", _cmd_quit),
 	CMD("map", "load map by name", _cmd_map),
 	CMD("mapset", "load mapset by filename", _cmd_mapset),
+	CMD("maps", "list all maps in mapset", _cmd_maps),
 	CMD("help", "print help text", _cmd_help),
 	CMD("find", "find command or variable by name", _cmd_find)
 };

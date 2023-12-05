@@ -4537,16 +4537,16 @@ void MenuFixup(void)
 //
 //******************************************************************************
 
-void GetEpisode(int level)
+int GetEpisode(int level)
 {
 	if (level < 8)
-		gamestate.episode = 1;
+		return 1;
 	else if (level < 16)
-		gamestate.episode = 2;
+		return 2;
 	else if (level < 24)
-		gamestate.episode = 3;
+		return 3;
 	else
-		gamestate.episode = 4;
+		return 4;
 }
 
 //****************************************************************************
