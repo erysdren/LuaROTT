@@ -1288,7 +1288,7 @@ void CheckRTLVersion(char *filename)
 		 * beta wall tiles and a built-in method for putting a different wall
 		 * texture as the "upper" texture on a standard wall.
 		 */
-		if (RTLVersion > RTL_VERSION)
+		if (RTLVersion > RXL_VERSION)
 		{
 			Error("The file '%s' is a version %d.%d %s file.\n"
 				  "The highest this version of ROTT can load is %d.%d.",
@@ -1371,7 +1371,8 @@ size_t GetMapArrayOffset(int filehandle)
 			SafeRead(filehandle, &info_header_len, sizeof(info_header_len));
 
 			// MAPS info header contains reliable offset to mapset data
-			if (strcmp(info_header_magic, "MAPSET") == 0)
+			if ((RTLVersion == RXL_VERSION && strcmp(info_header_magic, "MAPS") == 0) ||
+				(RTLVersion == RTL_VERSION && strcmp(info_header_magic, "MAPSET") == 0))
 			{
 				return info_header_ofs;
 			}
@@ -1379,7 +1380,7 @@ size_t GetMapArrayOffset(int filehandle)
 
 		// fail
 		close(filehandle);
-		Error("GetMapArrayOffset: Couldn't find MAPSET offset!");
+		Error("GetMapArrayOffset: Couldn't find MAPSET or MAPS offset!");
 		return 0;
 	}
 	else

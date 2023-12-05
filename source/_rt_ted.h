@@ -31,6 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define RXL_VERSION (0x0200)
 #define COMMBAT_SIGNATURE ("RTC")
 #define NORMAL_SIGNATURE ("RTL")
+#define RANDROTT_SIGNATURE ("RTR")
 #define EXTENDED_COMMBAT_SIGNATURE ("RXC")
 #define EXTENDED_SIGNATURE ("RXL")
 #define RTL_HEADER_OFFSET 8
