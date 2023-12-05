@@ -1435,7 +1435,12 @@ void CP_Console(void)
 	{
 		console_evaluate(input);
 		console_draw();
+		if (console_should_close == true)
+			break;
 	}
+
+	/* reset */
+	console_should_close = false;
 
 	/* clear key input buffer */
 	IN_ClearKeysDown();

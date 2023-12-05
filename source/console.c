@@ -27,6 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <ctype.h>
 #include "SDL.h"
 #include "rt_def.h"
 #include "rt_main.h"
@@ -35,6 +36,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "rt_build.h"
 #include "rt_menu.h"
 #include "rt_game.h"
+#include "rt_ted.h"
 #include "console.h"
 
 //****************************************************************************
@@ -251,25 +253,63 @@ int _cmd_quit(int argc, char **argv)
 /* map */
 int _cmd_map(int argc, char **argv)
 {
-	extern char *BATTMAPS, *ROTTMAPS;
-	int episode = 1, map = 0;
+	int episode = 0, level = 0, map = 0;
+	int i;
 
 	/* print current map */
 	if (argc < 2)
 	{
-		console_printf("%s: E%dA%d", ROTTMAPS, gamestate.episode, GetLevel(gamestate.episode, gamestate.mapon));
+		console_printf("%s: E%dA%d - \"%s\" (%d)",
+			ROTTMAPS,
+			gamestate.episode,
+			GetLevel(gamestate.episode, gamestate.mapon),
+			LevelName,
+			gamestate.mapon
+		);
 		return 0;
 	}
 
-	/* try to figure out map */
-	map = strtol(argv[1], NULL, 10);
-	if (map >= 100 || map < 0)
+	/* convert to lowercase */
+	for (i = 0; i < strlen(argv[1]); i++)
+		argv[1][i] = tolower(argv[1][i]);
+
+	/* try to figure out map from string */
+	sscanf(argv[1], "e%da%d", &episode, &level);
+
+	/* bruteforce string to int */
+	if (!episode || !level)
 	{
-		console_printf("map %d is out of range!", map);
+		map = strtol(argv[1], NULL, 10);
+		if (map >= 100 || map < 0)
+		{
+			console_printf("map %d is out of range", map);
+			return 1;
+		}
+	}
+	else
+	{
+		/* range checks */
+		if (episode > 4 || episode < 1 || level < 1 || (episode == 4 && level > 13) || (episode < 4 && level > 8))
+		{
+			console_printf("map E%dA%d is out of range", episode, level);
+			return 1;
+		}
+		else
+		{
+			/* get map */
+			map = ((episode - 1) * 8) + (level - 1);
+		}
+	}
+
+	/* don't do it if we're already on this map */
+	if (gamestate.mapon == map)
+	{
+		console_printf("map %d is already loaded", map);
 		return 1;
 	}
 
-	/* do warp */
+	/* force close console and do warp */
+	console_should_close = true;
 	playstate = ex_warped;
 	gamestate.mapon = map;
 
@@ -313,6 +353,9 @@ static struct {
 	char *lines[CONSOLE_NUM_LINES];
 	int num_lines;
 } console;
+
+/* global variables */
+boolean console_should_close = false;
 
 /* push up console lines buffer with new pointer */
 static void console_push_line(char *ptr)

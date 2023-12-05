@@ -141,6 +141,9 @@ extern boolean insetupgame;
 extern char LevelName[80];
 extern boolean ISRTL;
 
+extern char *ROTTMAPS;
+extern char *BATTMAPS;
+
 void PreCacheGroup(int, int, int); // added type
 void AssignTeams(void);
 void LoadTedMap(const char *extension, int mapnum);

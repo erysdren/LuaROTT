@@ -149,7 +149,6 @@ extern void RecordDemoQuery(void);
 
 int main(int argc, char *argv[])
 {
-	extern char *BATTMAPS, *ROTTMAPS;
 	_argc = argc;
 	_argv = argv;
 
