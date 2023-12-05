@@ -14,6 +14,7 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 ## Planned
 
 - Way more commands and cvars for the developer console
+- Add scrolling and history to developer console
 - Lua support for game and menu scripting
 - Extended config file format
 - Campaign selection menu
