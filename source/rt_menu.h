@@ -196,6 +196,7 @@ void MN_PlayMenuSnd(int which);
 
 int CP_LoadGame(int quick, int dieload);
 
+int CP_CampaignSelection(void);
 int CP_PlayerSelection(void);
 void BattleGamePlayerSetup(void);
 void BattleNoTeams(void);

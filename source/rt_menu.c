@@ -521,6 +521,31 @@ CP_itemtype JoyBtnMenu[] = { { 2, "\0", 'B', (menuptr)DefineJoyBtn },
 							 { 1, "\0", 'D', (menuptr)DefineJoyBtn },
 							 { 1, "\0", 'D', (menuptr)DefineJoyBtn } };
 
+CP_MenuNames CampaignMenuNames[] = {
+	"The HUNT Begins",
+	"Dark War",
+	"Extreme ROTT",
+	"The HUNT Continues"
+};
+
+char *CampaignFileNames[] = {
+	"HUNTBGIN.RTL",
+	"DARKWAR.RTL",
+	"EXTREME.RTL",
+	"huntcontEX.rtlx"
+};
+
+CP_iteminfo CampaignItems = {
+	32, 40, 4, 0, 32, CampaignMenuNames, mn_largefont
+};
+
+CP_itemtype CampaignMenu[] = {
+	{ 1, "name1\0", 'B', { NULL } },
+	{ 2, "name2\0", 'D', { NULL } },
+	{ 1, "name3\0", 'E', { NULL } },
+	{ 1, "name4\0", 'C', { NULL } }
+};
+
 CP_MenuNames PlayerMenuNames[] = { "TARADINO CASSATT", "THI BARRETT",
 								   "DOUG WENDT", "LORELEI NI",
 								   "IAN PAUL FREELEY" };
@@ -530,9 +555,11 @@ CP_iteminfo PlayerItems = {
 };
 
 CP_itemtype PlayerMenu[] = {
-	{ 2, "name1\0", 'T', { NULL } }, { 1, "name2\0", 'T', { NULL } },
-	{ 1, "name3\0", 'D', { NULL } }, { 1, "name4\0", 'L', { NULL } },
-	{ 1, "name5\0", 'I', { NULL } },
+	{ 2, "name1\0", 'T', { NULL } },
+	{ 1, "name2\0", 'T', { NULL } },
+	{ 1, "name3\0", 'D', { NULL } },
+	{ 1, "name4\0", 'L', { NULL } },
+	{ 1, "name5\0", 'I', { NULL } }
 };
 
 CP_MenuNames ControlMMenuNames[] = {
@@ -2689,6 +2716,13 @@ void CP_NewGame(void)
 		handlewhich = 100;
 	}
 
+	/* pick a campaign */
+	if (CP_CampaignSelection() == 0)
+	{
+		return;
+	}
+
+	/* pick a player */
 	if (CP_PlayerSelection() == 0)
 	{
 		return;
@@ -4457,6 +4491,44 @@ void FXVolume(void)
 			   "Sound Volume", "Low", "High");
 
 	DrawControlMenu();
+}
+
+
+//******************************************************************************
+//
+// DrawCampaignMenu ()
+//
+//******************************************************************************
+
+void DrawCampaignMenu(void)
+{
+	MenuNum = 7;
+	char *filename;
+	int i;
+
+	for (i = 0; i < 4; i++)
+	{
+		filename = M_FileCaseExists(CampaignFileNames[i]);
+		if (filename == NULL)
+			CampaignMenu[i].active = CP_Inactive;
+		else
+			free(filename);
+	}
+
+	if (numdone || (!ingame) || (!inmenu))
+		SetAlternateMenuBuf();
+
+	ClearMenuBuf();
+	SetMenuTitle("Choose Campaign");
+
+	MN_GetCursorLocation(&CampaignItems, &CampaignMenu[0]);
+	DrawMenu(&CampaignItems, &CampaignMenu[0]);
+	DisplayInfo(0);
+
+	if (ingame && inmenu && (!numdone))
+		RefreshMenuBuf(0);
+	else
+		FlipMenuBuf();
 }
 
 //****************************************************************************
@@ -6293,11 +6365,38 @@ int ColorMenu(void)
 
 //****************************************************************************
 //
+// CP_CampaignSelection ()
+//
+//****************************************************************************
+int CP_CampaignSelection(void)
+{
+	int which;
+
+	// Do Pick-A-Campaign menu
+	DrawCampaignMenu();
+
+	do
+	{
+		which = HandleMenu(&CampaignItems, &CampaignMenu[0], NULL);
+		if (which < 0)
+		{
+			handlewhich = 1;
+			return 0;
+		}
+	} while (CampaignMenu[which].active == CP_SemiActive);
+
+	/* assign ROTTMAPS to what user selected */
+	ROTTMAPS = CampaignFileNames[which];
+
+	return 1;
+}
+
+//****************************************************************************
+//
 // CP_PlayerSelection ()
 //
 //****************************************************************************
 int CP_PlayerSelection(void)
-
 {
 	int which;
 

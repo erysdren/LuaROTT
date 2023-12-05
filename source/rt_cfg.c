@@ -99,6 +99,7 @@ boolean stereoreversed = false;
 int DefaultDifficulty = 2;
 int DefaultPlayerCharacter = 0;
 int DefaultPlayerColor = 0;
+int DefaultCampaign = 1;
 byte passwordstring[20];
 
 MacroList CommbatMacros[MAXMACROS];

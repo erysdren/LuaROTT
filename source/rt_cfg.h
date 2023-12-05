@@ -60,6 +60,7 @@ extern char *ApogeePath;
 extern int DefaultDifficulty;
 extern int DefaultPlayerCharacter;
 extern int DefaultPlayerColor;
+extern int DefaultCampaign;
 extern byte passwordstring[20];
 
 typedef struct
