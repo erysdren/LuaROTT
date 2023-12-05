@@ -1301,7 +1301,8 @@ void CheckRTLVersion(char *filename)
 	}
 
 	if ((strcmp(RTLSignature, COMMBAT_SIGNATURE) != 0) &&
-		(strcmp(RTLSignature, NORMAL_SIGNATURE) != 0))
+		(strcmp(RTLSignature, NORMAL_SIGNATURE) != 0) &&
+		(strcmp(RTLSignature, RANDROTT_SIGNATURE) != 0))
 	{
 		Error("The file '%s' is not a valid level file.", filename);
 	}
