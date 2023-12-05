@@ -49,6 +49,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modexlib.h"
 #include "rt_cfg.h"
 
+#ifdef _MSC_VER
+#include <direct.h>
+#endif
+
 int egacolor[16];
 byte *origpal;
 FILE *errout;

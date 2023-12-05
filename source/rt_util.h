@@ -33,6 +33,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_misc2.h"
 #include "develop.h"
 
+#ifdef _MSC_VER
+#define __attribute__(...)
+#endif
+
 extern int egacolor[16];
 extern byte *origpal;
 extern int _argc;

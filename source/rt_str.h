@@ -74,7 +74,10 @@ void VWB_DrawPropString(const char *string);
 void VW_MeasurePropString(const char *string, int *width, int *height);
 
 void US_MeasureStr(int *width, int *height, const char *s, ...)
-	__attribute__((format(printf, 3, 4)));
+#ifndef _MSC_VER
+	__attribute__((format(printf, 3, 4)))
+#endif
+	;
 
 void VW_DrawPropString(const char *string);
 

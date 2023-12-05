@@ -26,6 +26,10 @@
 
 #include "m_misc2.h"
 
+#ifdef _MSC_VER
+#include <direct.h>
+#endif
+
 // Create a directory
 
 void M_MakeDirectory(const char *path)

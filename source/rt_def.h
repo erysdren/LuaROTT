@@ -26,10 +26,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string.h>
 #include "develop.h"
 
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #include <sys/types.h>
 #include <limits.h>
+#ifndef _MSC_VER
 #include <dirent.h>
+#else
+#include <io.h>
+
+#define R_OK 4
+#define W_OK 2
+#define F_OK 0
+#endif
 #include <ctype.h>
 
 #include <stdint.h>
@@ -121,12 +131,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define arrlen(array) (sizeof(array) / sizeof(*array))
 
+#ifndef _MSC_VER
 char *strupr(char *);
 char *itoa(int, char *, int);
 char *ltoa(long, char *, int);
 char *ultoa(unsigned long, char *, int);
 char getch(void);
 long filelength(int handle);
+#endif
 
 //***************************************************************************
 //

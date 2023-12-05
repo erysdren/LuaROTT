@@ -25,6 +25,7 @@
 int _argc;
 char **_argv;
 
+#ifndef _MSC_VER
 long filelength(int handle)
 {
 	struct stat buf;
@@ -117,6 +118,7 @@ char *ultoa(unsigned long value, char *string, int radix)
 
 	return string;
 }
+#endif
 
 char getch(void)
 {
@@ -169,7 +171,7 @@ void DisplayTextSplash(byte *text, int l)
 	printf("\033[m");
 }
 
-#if !defined(__CYGWIN__) && !defined(__MINGW32__)
+#if !defined(__CYGWIN__) && !defined(__MINGW32__) && !defined(_MSC_VER)
 #include <execinfo.h>
 
 void print_stack(int level)

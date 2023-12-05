@@ -104,7 +104,7 @@ typedef struct cmd_t {
 //****************************************************************************
 
 /* cvar creation macros */
-#define CVAR_BOOL(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_BOOL, .val.b = v, .def.b = v, .flags = f, .next = NULL}
+#define CVAR_BOOL(n, v, f) {n, CVAR_TYPE_BOOL, { .b = v }, { .b = v }, f, NULL}
 #define CVAR_INT(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_INT, .val.i = v, .def.i = v, .flags = f, .next = NULL}
 #define CVAR_UINT(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_UINT, .val.u = v, .def.u = v, .flags = f, .next = NULL}
 #define CVAR_FIXED(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_FIXED, .val.x = v, .def.x = v, .flags = f, .next = NULL}
@@ -112,7 +112,7 @@ typedef struct cmd_t {
 #define CVAR_STRING(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_STRING, .val.s = v, .def.s = v, .flags = f, .next = NULL}
 
 /* cmd creation macro */
-#define CMD(n, h, f) (cmd_t){ .name = n, .help = h, .func = f, .next = NULL }
+#define CMD(n, h, f) { n, h, f, NULL }
 
 /* pixel information for drawable console */
 #define CONSOLE_BOX_X (17)

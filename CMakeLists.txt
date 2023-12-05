@@ -45,6 +45,12 @@ if(ROTTEN_PEDANTIC)
 	target_compile_options(rotten PUBLIC -Wno-implicit-fallthrough -Wno-sign-compare)
 endif()
 
+if(MSVC)
+	set_property(TARGET rotten PROPERTY C_STANDARD 17)
+	target_compile_options(rotten PUBLIC -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -Dstrcasecmp=_stricmp -Dalloca=_alloca)
+	target_compile_options(rotten PRIVATE /wd4267 /wd4244)
+endif()
+
 # ubsan
 if(ROTTEN_UBSAN)
 	target_compile_options(rotten PUBLIC -fsanitize=undefined)
@@ -60,6 +66,6 @@ endif()
 # optimizations or debug symbols
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
 	target_compile_options(rotten PUBLIC -O3)
-else()
+elseif(!MSVC)
 	target_compile_options(rotten PUBLIC -g3)
 endif()
