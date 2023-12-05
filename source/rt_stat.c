@@ -1229,8 +1229,8 @@ void SpawnStatic(int tilex, int tiley, int mtype, int zoffset)
 		temp->areanumber = MAPSPOT(tilex, tiley, 0) - AREATILE;
 		temp->linked_to = -1;
 		if ((temp->areanumber <= 0) || (temp->areanumber > NUMAREAS))
-			Error("Sprite at x=%d y=%d type=%d has an illegal areanumber\n",
-				  tilex, tiley, mtype);
+			Error("Sprite at x=%d y=%d type=%d has an illegal areanumber of %d\n",
+				  tilex, tiley, mtype, temp->areanumber);
 		if (mtype == stat_mine)
 		{
 			temp->z = nominalheight;
