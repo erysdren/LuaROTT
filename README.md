@@ -23,6 +23,10 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 - Remove private headers
 - Cut down on copious globals usage
 
+## Contributors
+
+- [Paril](https://github.com/Paril/)
+
 ## Sources
 
 - [rottsource.zip](./misc/rottsource.zip)
