@@ -703,6 +703,6 @@ boolean console_evaluate(char *s)
 		return true;
 	}
 
-	console_printf("\"%s\" is not a valid cmd or cvar", s);
+	console_printf("\"%s\" is not a valid command or variable", s);
 	return false;
 }
