@@ -579,7 +579,7 @@ CP_itemtype ControlMMenu[] = {
 	{ 1, "euopt\0", 'E', { .vv = CP_ExtOptionsMenu } }, // bna added
 	{ 1, "muvolumn\0", 'M', { .vv = MusicVolume } },
 	{ 1, "fxvolumn\0", 'S', { .vv = FXVolume } },
-	{ 1, "console\0", 'S', { .vv = CP_Console } }
+	{ 1, "console\0", 'C', { .vv = CP_Console } }
 };
 
 CP_MenuNames OptionsNames[] = {
