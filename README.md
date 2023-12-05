@@ -3,6 +3,8 @@
 
 An enhanced port of Rise of the Triad, based on SDL2.
 
+Video updates can be found on my [YouTube channel](https://www.youtube.com/@erysdren).
+
 ## Features
 
 - Developer console with a number of useful commands
