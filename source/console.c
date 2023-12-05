@@ -95,7 +95,7 @@ boolean cvar_get_bool(const char *name)
 	if (cvar->type != CVAR_TYPE_BOOL)
 		return false;
 
-	return cvar->value.b;
+	return cvar->val.b;
 }
 
 int cvar_get_int(const char *name)
@@ -107,7 +107,7 @@ int cvar_get_int(const char *name)
 	if (cvar->type != CVAR_TYPE_INT)
 		return 0;
 
-	return cvar->value.i;
+	return cvar->val.i;
 }
 
 unsigned int cvar_get_uint(const char *name)
@@ -119,7 +119,7 @@ unsigned int cvar_get_uint(const char *name)
 	if (cvar->type != CVAR_TYPE_UINT)
 		return 0;
 
-	return cvar->value.u;
+	return cvar->val.u;
 }
 
 fixed cvar_get_fixed(const char *name)
@@ -131,7 +131,7 @@ fixed cvar_get_fixed(const char *name)
 	if (cvar->type != CVAR_TYPE_FIXED)
 		return 0;
 
-	return cvar->value.x;
+	return cvar->val.x;
 }
 
 float cvar_get_float(const char *name)
@@ -143,7 +143,7 @@ float cvar_get_float(const char *name)
 	if (cvar->type != CVAR_TYPE_FLOAT)
 		return 0;
 
-	return cvar->value.f;
+	return cvar->val.f;
 }
 
 const char *cvar_get_string(const char *name)
@@ -155,7 +155,7 @@ const char *cvar_get_string(const char *name)
 	if (cvar->type != CVAR_TYPE_STRING)
 		return NULL;
 
-	return cvar->value.s;
+	return cvar->val.s;
 }
 
 //****************************************************************************
@@ -607,31 +607,31 @@ boolean console_evaluate(char *s)
 			{
 				case CVAR_TYPE_BOOL:
 					if (strcasecmp(argv[1], "true") == 0)
-						cvar->value.b = true;
+						cvar->val.b = true;
 					else if (strcasecmp(argv[1], "false") == 0)
-						cvar->value.b = false;
+						cvar->val.b = false;
 					else if (strtol(argv[1], NULL, 10))
-						cvar->value.b = true;
+						cvar->val.b = true;
 					else if (!strtol(argv[1], NULL, 10))
-						cvar->value.b = false;
+						cvar->val.b = false;
 					else
-						cvar->value.b = false;
+						cvar->val.b = false;
 					break;
 
 				case CVAR_TYPE_INT:
-					cvar->value.i = strtol(argv[1], NULL, 10);
+					cvar->val.i = strtol(argv[1], NULL, 10);
 					break;
 
 				case CVAR_TYPE_UINT:
-					cvar->value.u = strtoul(argv[1], NULL, 10);
+					cvar->val.u = strtoul(argv[1], NULL, 10);
 					break;
 
 				case CVAR_TYPE_FIXED:
-					cvar->value.x = FIXED(strtof(argv[1], NULL));
+					cvar->val.x = FIXED(strtof(argv[1], NULL));
 					break;
 
 				case CVAR_TYPE_FLOAT:
-					cvar->value.f = strtof(argv[1], NULL);
+					cvar->val.f = strtof(argv[1], NULL);
 					break;
 
 				case CVAR_TYPE_STRING:
@@ -645,30 +645,30 @@ boolean console_evaluate(char *s)
 			switch (cvar->type)
 			{
 				case CVAR_TYPE_BOOL:
-					if (cvar->value.b)
+					if (cvar->val.b)
 						console_printf("true");
 					else
 						console_printf("false");
 					break;
 
 				case CVAR_TYPE_INT:
-					console_printf("%d", cvar->value.i);
+					console_printf("%d", cvar->val.i);
 					break;
 
 				case CVAR_TYPE_UINT:
-					console_printf("%u", cvar->value.u);
+					console_printf("%u", cvar->val.u);
 					break;
 
 				case CVAR_TYPE_FIXED:
-					console_printf("%0.4f", cvar->value.x * (1.0f / (float)(1 << 16)));
+					console_printf("%0.4f", cvar->val.x * (1.0f / (float)(1 << 16)));
 					break;
 
 				case CVAR_TYPE_FLOAT:
-					console_printf("%0.4f", cvar->value.f);
+					console_printf("%0.4f", cvar->val.f);
 					break;
 
 				case CVAR_TYPE_STRING:
-					console_printf("\"%s\"", cvar->value.s);
+					console_printf("\"%s\"", cvar->val.s);
 					break;
 			}
 		}
