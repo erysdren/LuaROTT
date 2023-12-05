@@ -105,11 +105,11 @@ typedef struct cmd_t {
 
 /* cvar creation macros */
 #define CVAR_BOOL(n, v, f) {n, CVAR_TYPE_BOOL, { .b = v }, { .b = v }, f, NULL}
-#define CVAR_INT(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_INT, .val.i = v, .def.i = v, .flags = f, .next = NULL}
-#define CVAR_UINT(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_UINT, .val.u = v, .def.u = v, .flags = f, .next = NULL}
-#define CVAR_FIXED(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_FIXED, .val.x = v, .def.x = v, .flags = f, .next = NULL}
-#define CVAR_FLOAT(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_FLOAT, .val.f = v, .def.f = v, .flags = f, .next = NULL}
-#define CVAR_STRING(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_STRING, .val.s = v, .def.s = v, .flags = f, .next = NULL}
+#define CVAR_INT(n, v, f) {n, CVAR_TYPE_INT, { .i = v }, { .i = v }, f, NULL}
+#define CVAR_UINT(n, v, f) {n, CVAR_TYPE_UINT, { .u = v }, { .u = v }, f, NULL}
+#define CVAR_FIXED(n, v, f) {n, CVAR_TYPE_FIXED, { .x = v }, { .x = v }, f, NULL}
+#define CVAR_FLOAT(n, v, f) {n, CVAR_TYPE_FLOAT, { .f = v }, { .f = v }, f, NULL}
+#define CVAR_STRING(n, v, f) {n, CVAR_TYPE_STRING, { .s = v }, { .s = v }, f, NULL}
 
 /* cmd creation macro */
 #define CMD(n, h, f) { n, h, f, NULL }
