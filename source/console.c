@@ -328,8 +328,8 @@ int _cmd_map(int argc, char **argv)
 	return 0;
 }
 
-/* sp_mapset */
-int _cmd_sp_mapset(int argc, char **argv)
+/* mapset */
+int _cmd_mapset(int argc, char **argv)
 {
 	char *filename;
 
@@ -355,39 +355,7 @@ int _cmd_sp_mapset(int argc, char **argv)
 
 	ROTTMAPS = filename;
 
-	console_printf("singleplayer mapset changed to \"%s\"", ROTTMAPS);
-
-	return 0;
-}
-
-/* mp_mapset */
-int _cmd_mp_mapset(int argc, char **argv)
-{
-	char *filename;
-
-	if (argc < 2)
-	{
-		console_printf("%s", BATTMAPS);
-		return 0;
-	}
-
-	if (ingame)
-	{
-		console_printf("cannot set new mapset while in-game");
-		return 1;
-	}
-
-	filename = M_FileCaseExists(argv[1]);
-
-	if (!filename)
-	{
-		console_printf("mapset \"%s\" not found", argv[1]);
-		return 1;
-	}
-
-	BATTMAPS = filename;
-
-	console_printf("multiplayer mapset changed to \"%s\"", BATTMAPS);
+	console_printf("mapset changed to \"%s\"", ROTTMAPS);
 
 	return 0;
 }
@@ -472,8 +440,7 @@ int _cmd_find(int argc, char **argv)
 cmd_t _cmdlib[] = {
 	CMD("quit", "exit the game immediately", _cmd_quit),
 	CMD("map", "load map by name", _cmd_map),
-	CMD("sp_mapset", "load singleplayer mapset by name", _cmd_sp_mapset),
-	CMD("mp_mapset", "load multiplayer mapset by name", _cmd_mp_mapset),
+	CMD("mapset", "load mapset by filename", _cmd_mapset),
 	CMD("help", "print help text", _cmd_help),
 	CMD("find", "find command or variable by name", _cmd_find)
 };
@@ -578,6 +545,82 @@ static void console_push(char *src)
 	}
 }
 
+/* tokenize console into provided array */
+static boolean console_tokenize(char *s, int max_argc, char **argv, int *argc)
+{
+	char *ptr, *end;
+	int _argc = 0;
+	boolean quoted = false;
+
+	/* fail */
+	if (!s || !max_argc || !argv || !argc)
+		return false;
+
+	/* set start pointer */
+	ptr = s;
+
+	/* main tokenize loop */
+	for (;;)
+	{
+		/* skip leading whitespace */
+		while (*ptr && isspace(*ptr))
+		{
+			ptr++;
+		}
+
+		/* skip leading quotes */
+		while (*ptr && *ptr == '"')
+		{
+			quoted = true;
+			ptr++;
+		}
+
+		/* reached end of string */
+		if (!*ptr)
+			break;
+
+		/* set end pointer */
+		end = ptr + 1;
+
+		/* push end pointer */
+		if (quoted)
+		{
+			/* iterate until another quote mark */
+			while (*end && *end != '"')
+				end++;
+
+			quoted = false;
+		}
+		else
+		{
+			while (*end && !isspace(*end))
+				end++;
+		}
+
+		if (_argc < max_argc - 1)
+			argv[_argc++] = ptr;
+
+		/* reached end of string */
+		if (!*end)
+			break;
+
+		/* set end of arg to null */
+		*end = 0;
+
+		/* set ptr for next iteration */
+		ptr = end + 1;
+	}
+
+	/* null out last arg */
+	argv[_argc] = 0;
+
+	/* set out argc */
+	*argc = _argc;
+
+	/* return success */
+	return true;
+}
+
 /* initialize developer console */
 boolean console_init(void)
 {
@@ -654,15 +697,16 @@ void console_printf(const char *s, ...)
 /* evaluate console command */
 boolean console_evaluate(char *s)
 {
-	int argc;
-	char **argv;
 	cmd_t *cmd;
 	cvar_t *cvar;
+	int argc;
+	char *argv[128];
 
 	/* print */
 	console_printf("> %s", s);
 
-	argv = US_Tokenize(s, &argc);
+	if (!console_tokenize(s, 128, argv, &argc))
+		Error("failed to tokenize console string");
 
 	if (!argv || !argc)
 		return false;
