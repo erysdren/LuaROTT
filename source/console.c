@@ -165,7 +165,7 @@ const char *cvar_get_string(const char *name)
 
 /* cvarlib array */
 cvar_t _cvarlib[] = {
-	CVAR_BOOL("g_dopefish", false, CVAR_FLAG_PROTECTED)
+	CVAR_BOOL("temptemp", false, CVAR_FLAG_PROTECTED)
 };
 
 /* register standard library of cvars */
@@ -456,6 +456,25 @@ int _cmd_find(int argc, char **argv)
 	return 0;
 }
 
+/* dopefish */
+int _cmd_dopefish(int argc, char **argv)
+{
+	extern boolean dopefish;
+
+	if (dopefish)
+	{
+		dopefish = false;
+		console_printf("dopefish mode DISABLED!");
+	}
+	else
+	{
+		dopefish = true;
+		console_printf("dopefish mode ENABLED!");
+	}
+
+	return 0;
+}
+
 /* cmdlib array */
 cmd_t _cmdlib[] = {
 	CMD("quit", "exit the game immediately", _cmd_quit),
@@ -463,7 +482,8 @@ cmd_t _cmdlib[] = {
 	CMD("mapset", "load mapset by filename", _cmd_mapset),
 	CMD("maps", "list all maps in mapset", _cmd_maps),
 	CMD("help", "print help text", _cmd_help),
-	CMD("find", "find command or variable by name", _cmd_find)
+	CMD("find", "find command or variable by name", _cmd_find),
+	CMD("dopefish", "?", _cmd_dopefish)
 };
 
 /* register standard library of cmds */
