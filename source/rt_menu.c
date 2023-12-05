@@ -313,7 +313,7 @@ CP_iteminfo MainItems = { MENU_X, MENU_Y + 1,	 9,			  STARTITEM,
 						  32,	  MainMenuNames, mn_largefont };
 CP_itemtype MainMenu[] = {
 	{ CP_CursorLocation, "mm_opt1\0", 'N', { .vv = CP_NewGame } },
-	{ CP_Active, "battle\0", 'C', { .vv = CP_BattleModes } },
+	{ CP_Inactive, "battle\0", 'C', { .vv = CP_BattleModes } },
 	{ CP_Active, "mm_opt2\0", 'R', { .iii = CP_LoadGame } },
 	{ CP_Inactive, "mm_opt3\0", 'S', { .iv = CP_SaveGame } },
 	{ CP_Active, "mm_opt5\0", 'O', { .vv = CP_ControlMenu } },
@@ -6386,7 +6386,7 @@ int CP_CampaignSelection(void)
 	} while (CampaignMenu[which].active == CP_SemiActive);
 
 	/* assign ROTTMAPS to what user selected */
-	ROTTMAPS = CampaignFileNames[which];
+	ROTTMAPS =  M_FileCaseExists(CampaignFileNames[which]);
 
 	return 1;
 }

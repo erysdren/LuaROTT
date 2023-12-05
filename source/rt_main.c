@@ -179,6 +179,7 @@ int main(int argc, char *argv[])
 	// Set which release version we're on
 	gamestate.Version = ROTTVERSION;
 
+#if 0
 #if (SHAREWARE == 1)
 	BATTMAPS = FindFileByName(STANDARDBATTLELEVELS);
 	gamestate.Product = ROTT_SHAREWARE;
@@ -219,6 +220,19 @@ int main(int argc, char *argv[])
 
 		free(filename);
 	}
+#endif
+
+	/* =================================== */
+	/* get datadir of main wad */
+	char *wad_filename = FindFileByName("DARKWAR.WAD");
+
+	if (!wad_filename)
+		Error("Couldn't find DARKWAR.WAD!");
+
+	datadir = M_DirName(wad_filename);
+
+	free(wad_filename);
+	/* =================================== */
 
 	DrawRottTitle();
 	gamestate.randomseed = -1;
