@@ -13,15 +13,15 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 
 ## Planned
 
-- :bangbang: Campaign selection menu
-- :bangbang: Support for ROTT:LE level files
-- :bangbang: Scrolling and history for the developer console
-- More commands and cvars for the developer console
-- Lua support for game and menu scripting
-- Extended config file format
-- Improved console string tokenization
-- Remove private headers
-- Cut down on copious globals usage
+- [x] :bangbang: Campaign selection menu
+- [ ] :bangbang: Support for ROTT:LE level files
+- [ ] :bangbang: Scrolling and history for the developer console
+- [ ] More commands and cvars for the developer console
+- [ ] Lua support for game and menu scripting
+- [ ] Extended config file format
+- [ ] Improved console string tokenization
+- [ ] Remove private headers
+- [ ] Cut down on copious globals usage
 
 ## Contributors
 
