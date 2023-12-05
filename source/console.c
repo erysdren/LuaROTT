@@ -186,7 +186,19 @@ void cvarlib_init(void)
 /* shutdown cvarlib */
 void cvarlib_quit(void)
 {
+	cvar_t *cvar = cvar_list;
 
+	while (cvar != NULL)
+	{
+		/* free value string if it's been set */
+		if (cvar->type == CVAR_TYPE_STRING && cvar->set == true)
+			free(cvar->val.s);
+
+		/* next */
+		cvar = cvar->next;
+	}
+
+	cvar_list = NULL;
 }
 
 //****************************************************************************
@@ -412,7 +424,7 @@ void cmdlib_init(void)
 /* shutdown cmdlib */
 void cmdlib_quit(void)
 {
-
+	cmd_list = NULL;
 }
 
 //****************************************************************************
@@ -635,9 +647,15 @@ boolean console_evaluate(char *s)
 					break;
 
 				case CVAR_TYPE_STRING:
-					Error("setting a string cvar is not yet supported");
+					cvar->val.s = M_StringDuplicate(argv[1]);
+					break;
+
+				default:
+					Error("unknown cvar type %d", cvar->type);
 					break;
 			}
+
+			cvar->set = true;
 		}
 		else
 		{

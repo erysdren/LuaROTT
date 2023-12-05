@@ -53,7 +53,7 @@ typedef union cvar_value_t {
 	unsigned int u;
 	fixed x;
 	float f;
-	const char *s;
+	char *s;
 } cvar_value_t;
 
 /* cvar structure */
@@ -70,6 +70,9 @@ typedef struct cvar_t
 
 	/* default value */
 	cvar_value_t def;
+
+	/* true if this cvar has been modified from the console */
+	boolean set;
 
 	/* next in chain */
 	struct cvar_t *next;
@@ -99,12 +102,12 @@ typedef struct cmd_t
 //****************************************************************************
 
 /* cvar creation macros */
-#define CVAR_BOOL(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_BOOL, .val.b = v, .def.b = v, .next = NULL}
-#define CVAR_INT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_INT, .val.i = v, .def.i = v, .next = NULL}
-#define CVAR_UINT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_UINT, .val.u = v, .def.u = v, .next = NULL}
-#define CVAR_FIXED(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_FIXED, .val.x = v, .def.x = v, .next = NULL}
-#define CVAR_FLOAT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_FLOAT, .val.f = v, .def.f = v, .next = NULL}
-#define CVAR_STRING(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_STRING, .val.s = v, .def.s = v, .next = NULL}
+#define CVAR_BOOL(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_BOOL, .val.b = v, .def.b = v, .set = false, .next = NULL}
+#define CVAR_INT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_INT, .val.i = v, .def.i = v, .set = false, .next = NULL}
+#define CVAR_UINT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_UINT, .val.u = v, .def.u = v, .set = false, .next = NULL}
+#define CVAR_FIXED(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_FIXED, .val.x = v, .def.x = v, .set = false, .next = NULL}
+#define CVAR_FLOAT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_FLOAT, .val.f = v, .def.f = v, .set = false, .next = NULL}
+#define CVAR_STRING(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_STRING, .val.s = v, .def.s = v, .set = false, .next = NULL}
 
 /* cmd creation macro */
 #define CMD(n, h, f) (cmd_t){ .name = n, .help = h, .func = f, .next = NULL }
