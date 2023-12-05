@@ -36,8 +36,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //****************************************************************************
 
 /* cvar type enum */
-enum
-{
+enum {
 	CVAR_TYPE_BOOL,
 	CVAR_TYPE_INT,
 	CVAR_TYPE_UINT,
@@ -56,9 +55,14 @@ typedef union cvar_value_t {
 	char *s;
 } cvar_value_t;
 
+enum {
+	CVAR_FLAG_NONE = 0,
+	CVAR_FLAG_SET = 1,
+	CVAR_FLAG_PROTECTED = 2
+};
+
 /* cvar structure */
-typedef struct cvar_t
-{
+typedef struct cvar_t {
 	/* name for searching */
 	const char *name;
 
@@ -71,16 +75,15 @@ typedef struct cvar_t
 	/* default value */
 	cvar_value_t def;
 
-	/* true if this cvar has been modified from the console */
-	boolean set;
+	/* flags */
+	unsigned int flags;
 
 	/* next in chain */
 	struct cvar_t *next;
 } cvar_t;
 
 /* console command structure */
-typedef struct cmd_t
-{
+typedef struct cmd_t {
 	/* name for searching */
 	const char *name;
 
@@ -92,7 +95,6 @@ typedef struct cmd_t
 
 	/* next in chain */
 	struct cmd_t *next;
-
 } cmd_t;
 
 //****************************************************************************
@@ -102,12 +104,12 @@ typedef struct cmd_t
 //****************************************************************************
 
 /* cvar creation macros */
-#define CVAR_BOOL(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_BOOL, .val.b = v, .def.b = v, .set = false, .next = NULL}
-#define CVAR_INT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_INT, .val.i = v, .def.i = v, .set = false, .next = NULL}
-#define CVAR_UINT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_UINT, .val.u = v, .def.u = v, .set = false, .next = NULL}
-#define CVAR_FIXED(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_FIXED, .val.x = v, .def.x = v, .set = false, .next = NULL}
-#define CVAR_FLOAT(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_FLOAT, .val.f = v, .def.f = v, .set = false, .next = NULL}
-#define CVAR_STRING(n, v) (cvar_t){.name = n, .type = CVAR_TYPE_STRING, .val.s = v, .def.s = v, .set = false, .next = NULL}
+#define CVAR_BOOL(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_BOOL, .val.b = v, .def.b = v, .flags = f, .next = NULL}
+#define CVAR_INT(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_INT, .val.i = v, .def.i = v, .flags = f, .next = NULL}
+#define CVAR_UINT(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_UINT, .val.u = v, .def.u = v, .flags = f, .next = NULL}
+#define CVAR_FIXED(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_FIXED, .val.x = v, .def.x = v, .flags = f, .next = NULL}
+#define CVAR_FLOAT(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_FLOAT, .val.f = v, .def.f = v, .flags = f, .next = NULL}
+#define CVAR_STRING(n, v, f) (cvar_t){.name = n, .type = CVAR_TYPE_STRING, .val.s = v, .def.s = v, .flags = f, .next = NULL}
 
 /* cmd creation macro */
 #define CMD(n, h, f) (cmd_t){ .name = n, .help = h, .func = f, .next = NULL }

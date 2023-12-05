@@ -165,7 +165,7 @@ const char *cvar_get_string(const char *name)
 
 /* cvarlib array */
 cvar_t _cvarlib[] = {
-	CVAR_STRING("temp", "temp")
+	CVAR_BOOL("g_dopefish", false, CVAR_FLAG_PROTECTED)
 };
 
 /* register standard library of cvars */
@@ -185,7 +185,7 @@ void cvarlib_quit(void)
 	while (cvar != NULL)
 	{
 		/* free value string if it's been set */
-		if (cvar->type == CVAR_TYPE_STRING && cvar->set == true)
+		if (cvar->type == CVAR_TYPE_STRING && cvar->flags & CVAR_FLAG_SET)
 			free(cvar->val.s);
 
 		/* next */
@@ -745,6 +745,12 @@ boolean console_evaluate(char *s)
 		/* user probably wants to set it */
 		if (argv[1])
 		{
+			if (cvar->flags & CVAR_FLAG_PROTECTED)
+			{
+				console_printf("\"%s\" is a protected variable and cannot be set", cvar->name);
+				return true;
+			}
+
 			/* set value */
 			switch (cvar->type)
 			{
@@ -778,6 +784,9 @@ boolean console_evaluate(char *s)
 					break;
 
 				case CVAR_TYPE_STRING:
+					/* free string if it's already been duplicated */
+					if (cvar->flags & CVAR_FLAG_SET)
+						free(cvar->val.s);
 					cvar->val.s = M_StringDuplicate(argv[1]);
 					break;
 
@@ -786,7 +795,9 @@ boolean console_evaluate(char *s)
 					break;
 			}
 
-			cvar->set = true;
+			/* add set flag */
+			cvar->flags |= CVAR_FLAG_SET;
+			return true;
 		}
 		else
 		{
@@ -829,9 +840,9 @@ boolean console_evaluate(char *s)
 					console_printf("default: \"%s\"", cvar->def.s);
 					break;
 			}
-		}
 
-		return true;
+			return true;
+		}
 	}
 
 	console_printf("\"%s\" is not a valid command or variable", s);
