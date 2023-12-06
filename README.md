@@ -26,6 +26,7 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 ## Contributors
 
 - [Paril](https://github.com/Paril/)
+- [vs49688](https://github.com/vs49688/)
 
 ## Required Assets
 
