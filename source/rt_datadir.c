@@ -170,6 +170,9 @@ static void BuildDataDirList(void)
 	// executable directory
 	AddDataDir(GetExeDir());
 
+	// preferences directory
+	AddDataDir(GetPrefDir());
+
 #ifdef DATADIR
 	// build-time data directory
 	AddDataDir(DATADIR);
