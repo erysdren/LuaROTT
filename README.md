@@ -64,7 +64,6 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 
 ## Sources
 
-- [rottsource.zip](ftp://ftp.3drealms.com/source/rottsource.zip)
 - [icculus.org/rott/](https://icculus.org/rott/)
 - [riseofthetriad.dk](https://www.riseofthetriad.dk)
 - [github.com/fabiangreffrath/rott/](https://github.com/fabiangreffrath/rott/)
