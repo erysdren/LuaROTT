@@ -35,6 +35,7 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 |--------------|------------------------------------------|
 | HUNTBGIN.RTL | 9a2bcd49a6a9710f95158edee5f3111baca0cea2 |
 | HUNTBGIN.WAD | faa232a2078c209c7d4ba125655a55213369c8de |
+| REMOTE1.RTS  | 945f1c126de553cd6e11b9c40e9dd05a103ee25a |
 
 ### Dark War
 
@@ -42,18 +43,23 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 |-------------|------------------------------------------|
 | DARKWAR.RTL | f7b7ff2ca68d2402893878d1fbfb112a664dfd10 |
 | DARKWAR.WAD | 2e9a4f9c38b166994d415959bf5b15d7273f1db2 |
+| REMOTE1.RTS | 945f1c126de553cd6e11b9c40e9dd05a103ee25a |
 
 ### Extreme ROTT
 
 | Filename    | SHA-1                                    |
 |-------------|------------------------------------------|
 | EXTREME.RTL | 098885bbd9a649d47f0792f563b6ef217e099951 |
+| DARKWAR.WAD | 2e9a4f9c38b166994d415959bf5b15d7273f1db2 |
+| REMOTE1.RTS | 945f1c126de553cd6e11b9c40e9dd05a103ee25a |
 
 ### The HUNT Continues
 
 | Filename        | SHA-1                                    |
 |-----------------|------------------------------------------|
 | huntcontEX.rtlx | 583055509c2a8f2a127e5b09819270f2e9990d47 |
+| DARKWAR.WAD     | 2e9a4f9c38b166994d415959bf5b15d7273f1db2 |
+| REMOTE1.RTS     | 945f1c126de553cd6e11b9c40e9dd05a103ee25a |
 
 ## Sources
 
