@@ -23,7 +23,7 @@ endif()
 file(GLOB ROTTEN_SOURCES ${PROJECT_SOURCE_DIR}/source/*.c)
 
 # add rc if we're on windows
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+if(WIN32)
 	set(ROTTEN_SOURCES ${ROTTEN_SOURCES} ${PROJECT_SOURCE_DIR}/misc/rott.rc)
 endif()
 
@@ -32,6 +32,9 @@ add_executable(rotten ${ROTTEN_SOURCES})
 target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer)
 target_compile_definitions(rotten PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
+
+# install setup
+include(${PROJECT_SOURCE_DIR}/cmake/install.cmake)
 
 # lua support
 if(ROTTEN_LUA)
