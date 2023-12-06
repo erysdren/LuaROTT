@@ -22,6 +22,11 @@ endif()
 # sources
 file(GLOB ROTTEN_SOURCES ${PROJECT_SOURCE_DIR}/source/*.c)
 
+# add rc if we're on windows
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+	set(ROTTEN_SOURCES ${ROTTEN_SOURCES} ${PROJECT_SOURCE_DIR}/misc/rott.rc)
+endif()
+
 # executable
 add_executable(rotten ${ROTTEN_SOURCES})
 target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer)
