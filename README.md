@@ -29,24 +29,19 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 
 ## Required Assets
 
-### Any Campaign
-
-| Filename    | SHA-1                                    |
-|-------------|------------------------------------------|
-| DARKWAR.WAD | 2e9a4f9c38b166994d415959bf5b15d7273f1db2 |
-| REMOTE1.RTS | 945f1c126de553cd6e11b9c40e9dd05a103ee25a |
-
 ### The HUNT Begins
 
 | Filename     | SHA-1                                    |
 |--------------|------------------------------------------|
 | HUNTBGIN.RTL | 9a2bcd49a6a9710f95158edee5f3111baca0cea2 |
+| HUNTBGIN.WAD | faa232a2078c209c7d4ba125655a55213369c8de |
 
 ### Dark War
 
 | Filename    | SHA-1                                    |
 |-------------|------------------------------------------|
 | DARKWAR.RTL | f7b7ff2ca68d2402893878d1fbfb112a664dfd10 |
+| DARKWAR.WAD | 2e9a4f9c38b166994d415959bf5b15d7273f1db2 |
 
 ### Extreme ROTT
 
