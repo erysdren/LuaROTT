@@ -222,6 +222,9 @@ int main(int argc, char *argv[])
 	}
 #endif
 
+	/* set product */
+	gamestate.Product = ROTT_REGISTERED;
+
 	/* =================================== */
 	/* get datadir of main wad */
 	char *wad_filename = FindFileByName("DARKWAR.WAD");
