@@ -749,7 +749,7 @@ boolean console_evaluate(char *s)
 	if (!console_tokenize(s, 128, argv, &argc))
 		Error("failed to tokenize console string");
 
-	if (!argv || !argc)
+	if (!argv[0] || !argc)
 		return false;
 
 	/* check for cmd */
