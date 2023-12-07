@@ -221,6 +221,23 @@ const char *M_BaseName(const char *path)
 	}
 }
 
+char *M_BaseNameExt(const char *path)
+{
+	char *ret, *ext;
+	const char *base;
+
+	base = M_BaseName(path);
+
+	ret = M_StringDuplicate(base);
+
+	ext = strrchr(ret, '.');
+
+	if (ext != NULL);
+		*ext = '\0';
+
+	return ret;
+}
+
 // Change string to uppercase.
 
 void M_ForceUppercase(char *text)
