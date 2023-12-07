@@ -210,4 +210,7 @@ void console_printf(const char *s, ...);
 /* evaluate console command */
 void console_evaluate(char *s);
 
+/* execute console commands from filename */
+boolean console_exec(const char *filename);
+
 #endif /* _console_public */

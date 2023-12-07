@@ -490,6 +490,25 @@ int _cmd_dopefish(int argc, char **argv)
 	return 0;
 }
 
+/* exec */
+int _cmd_exec(int argc, char **argv)
+{
+	if (argc < 2)
+	{
+		console_printf("must specify config filename");
+		return 1;
+	}
+
+	/* execute the thing */
+	if (console_exec(argv[1]) == false)
+	{
+		console_printf("failed to execute %s", argv[1]);
+		return 1;
+	}
+
+	return 0;
+}
+
 /* cmdlib array */
 cmd_t _cmdlib[] = {
 	CMD("quit", "exit the game immediately", _cmd_quit),
@@ -500,7 +519,8 @@ cmd_t _cmdlib[] = {
 	CMD("listwads", "list all available wads", _cmd_listwads),
 	CMD("help", "print help text", _cmd_help),
 	CMD("find", "find command or variable by name", _cmd_find),
-	CMD("dopefish", "?", _cmd_dopefish)
+	CMD("dopefish", "?", _cmd_dopefish),
+	CMD("exec", "execute config script", _cmd_exec)
 };
 
 /* register standard library of cmds */
@@ -814,6 +834,9 @@ static boolean console_parse_command(char *s)
 	int argc;
 	char *argv[128];
 
+	/* print command */
+	console_printf("> %s", s);
+
 	/* tokenize based on whitespace and quotes */
 	if (!console_tokenize_whitespace_quotes(s, 128, argv, &argc))
 		Error("failed to tokenize console string");
@@ -945,9 +968,6 @@ void console_evaluate(char *s)
 	char *argv[128];
 	int i;
 
-	/* print */
-	console_printf("> %s", s);
-
 	/* tokenize based on newlines and semicolons */
 	if (!console_tokenize_semicolons_newlines(s, 128, argv, &argc))
 		Error("failed to tokenize console string");
@@ -955,4 +975,36 @@ void console_evaluate(char *s)
 	/* tokenize each command segment */
 	for (i = 0; i < argc; i++)
 		console_parse_command(argv[i]);
+}
+
+/* execute console commands from filename */
+boolean console_exec(const char *filename)
+{
+	char *buffer;
+	long size;
+	int file;
+	long length;
+	char *_filename;
+
+	_filename = FindFileByName(filename);
+	if (!_filename)
+		return false;
+
+	/* read in file */
+	file = SafeOpenRead(_filename);
+	length = filelength(file);
+	buffer = SafeMalloc(length + 1);
+	SafeRead(file, buffer, length);
+	close(file);
+
+	/* add null terminator */
+	buffer[length] = '\0';
+
+	/* evaluate */
+	console_evaluate(buffer);
+
+	/* free buffers */
+	free(_filename);
+
+	return true;
 }
