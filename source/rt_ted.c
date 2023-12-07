@@ -103,8 +103,8 @@ char LevelName[80];
 static cachetype *cachelist;
 static word cacheindex;
 static boolean CachingStarted = false;
-char *ROTTMAPS;
-char *BATTMAPS;
+char *ROTTMAPS = NULL;
+char *BATTMAPS = NULL;
 
 static char NormalWeaponTiles[10] = { 46, 48, 49, 50, 51, 52, 53, 54, 55, 56 };
 static char SharewareWeaponTiles[7] = { 48, 49, 50, 51, 52, 53, 54 };
