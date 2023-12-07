@@ -602,9 +602,63 @@ static void console_push(char *src)
 		}
 	}
 }
+/* tokenize based on semicolons and newlines */
+static boolean console_tokenize_semicolons_newlines(char *s, int max_argc, char **argv, int *argc)
+{
+	char *ptr, *end;
+	int _argc = 0;
+
+	/* fail */
+	if (!s || !max_argc || !argv || !argc)
+		return false;
+
+	/* set start pointer */
+	ptr = s;
+
+	/* main tokenize loop */
+	for (;;)
+	{
+		/* skip leading semicolons and line breaks */
+		while (*ptr && (*ptr == ';' || *ptr == '\n' || *ptr == '\r'))
+			ptr++;
+
+		/* reached end of string */
+		if (!*ptr)
+			break;
+
+		/* set end pointer */
+		end = ptr + 1;
+
+		/* move end position until we hit a semicolon, a newline, or the end of the string */
+		while (*end && !(*end == ';' || *end == '\n' || *end == '\r'))
+			end++;
+
+		if (_argc < max_argc - 1)
+			argv[_argc++] = ptr;
+
+		/* reached end of string */
+		if (!*end)
+			break;
+
+		/* set end of arg to null */
+		*end = 0;
+
+		/* set ptr for next iteration */
+		ptr = end + 1;
+	}
+
+	/* null out last arg */
+	argv[_argc] = 0;
+
+	/* set out argc */
+	*argc = _argc;
+
+	/* return success */
+	return true;
+}
 
 /* tokenize console into provided array */
-static boolean console_tokenize(char *s, int max_argc, char **argv, int *argc)
+static boolean console_tokenize_whitespace_quotes(char *s, int max_argc, char **argv, int *argc)
 {
 	char *ptr, *end;
 	int _argc = 0;
@@ -752,18 +806,16 @@ void console_printf(const char *s, ...)
 	console_push(buf);
 }
 
-/* evaluate console command */
-boolean console_evaluate(char *s)
+/* parse one console command */
+static boolean console_parse_command(char *s)
 {
 	cmd_t *cmd;
 	cvar_t *cvar;
 	int argc;
 	char *argv[128];
 
-	/* print */
-	console_printf("> %s", s);
-
-	if (!console_tokenize(s, 128, argv, &argc))
+	/* tokenize based on whitespace and quotes */
+	if (!console_tokenize_whitespace_quotes(s, 128, argv, &argc))
 		Error("failed to tokenize console string");
 
 	if (!argv[0] || !argc)
@@ -884,4 +936,23 @@ boolean console_evaluate(char *s)
 
 	console_printf("\"%s\" is not a valid command or variable", s);
 	return false;
+}
+
+/* evaluate string as a console input */
+void console_evaluate(char *s)
+{
+	int argc;
+	char *argv[128];
+	int i;
+
+	/* print */
+	console_printf("> %s", s);
+
+	/* tokenize based on newlines and semicolons */
+	if (!console_tokenize_semicolons_newlines(s, 128, argv, &argc))
+		Error("failed to tokenize console string");
+
+	/* tokenize each command segment */
+	for (i = 0; i < argc; i++)
+		console_parse_command(argv[i]);
 }

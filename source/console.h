@@ -208,6 +208,6 @@ void console_draw(void);
 void console_printf(const char *s, ...);
 
 /* evaluate console command */
-boolean console_evaluate(char *s);
+void console_evaluate(char *s);
 
 #endif /* _console_public */
