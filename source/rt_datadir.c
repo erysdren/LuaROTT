@@ -83,8 +83,6 @@ char *GetPrefDir(void)
 	return dir;
 }
 
-char *datadir = NULL;
-
 #define MAX_DATADIRS 16
 static char *datadirs[MAX_DATADIRS] = { 0 };
 static int num_datadirs = 0;
@@ -218,6 +216,14 @@ char *FindFileByName(const char *name)
 	// File not found
 
 	return NULL;
+}
+
+void PrintDataDirs(void)
+{
+	BuildDataDirList();
+
+	for (int i = 0; i < num_datadirs; i++)
+		printf("Data dir %d: %s\n", i, datadirs[i]);
 }
 
 /* returns TRUE if the given file is a valid ROTT level */

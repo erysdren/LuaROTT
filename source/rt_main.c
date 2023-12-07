@@ -225,18 +225,6 @@ int main(int argc, char *argv[])
 	/* set product */
 	gamestate.Product = ROTT_REGISTERED;
 
-	/* =================================== */
-	/* get datadir of main wad */
-	char *wad_filename = FindFileByName("DARKWAR.WAD");
-
-	if (!wad_filename)
-		Error("Couldn't find DARKWAR.WAD!");
-
-	datadir = M_DirName(wad_filename);
-
-	free(wad_filename);
-	/* =================================== */
-
 	DrawRottTitle();
 	gamestate.randomseed = -1;
 
@@ -473,7 +461,7 @@ void DrawRottTitle(void)
 		UL_printf(title);
 		printf("\n");
 
-		printf("User dir: %s\nData dir: %s\n", ApogeePath, datadir);
+		PrintDataDirs();
 	}
 	else
 	{
@@ -921,12 +909,10 @@ NoRTC:;
 	// Normal ROTT wads
 
 #if (SHAREWARE)
-	filename = M_StringJoin(datadir, PATH_SEP_STR, "HUNTBGIN.WAD", NULL);
+	newargs[argnum++] = FindFileByName("HUNTBGIN.WAD");
 #else
-	filename = M_StringJoin(datadir, PATH_SEP_STR, "DARKWAR.WAD", NULL);
+	newargs[argnum++] = FindFileByName("DARKWAR.WAD");
 #endif
-	newargs[argnum++] = M_FileCaseExists(filename);
-	free(filename);
 
 	//   newargs [argnum++] = "credits.wad";
 
@@ -947,9 +933,7 @@ NoRTC:;
 	}
 	else
 	{
-		filename = M_StringJoin(datadir, PATH_SEP_STR, "REMOTE1.RTS", NULL);
-		newargs[argnum++] = M_FileCaseExists(filename);
-		free(filename);
+		newargs[argnum++] = FindFileByName("REMOTE1.RTS");
 	}
 
 	if (tempstr)

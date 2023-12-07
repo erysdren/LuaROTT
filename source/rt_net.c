@@ -2697,24 +2697,11 @@ void SetupGameMaster(void)
 
 void GetDemoFilename(int demonumber, char **filename)
 {
-	char *path, *qm;
+	char demoname[16];
 
-	path = M_StringJoin(datadir, PATH_SEP_STR, "DEMO?_?.DMO", NULL);
+	snprintf(demoname, 16, "DEMO%d_%d.DMO", demonumber, gamestate.violence);
 
-	qm = strrchr(path, '?'); // "DEMO?_?.DMO"[6]
-	if (qm)
-	{
-		*qm = (char)('0' + (byte)gamestate.violence);
-	}
-
-	qm = strrchr(path, '?'); // "DEMO?_?.DMO"[4]
-	if (qm)
-	{
-		*qm = (char)('0' + (byte)demonumber);
-	}
-
-	*filename = M_FileCaseExists(path);
-	free(path);
+	*filename = FindFileByName(demoname);
 }
 //****************************************************************************
 //
