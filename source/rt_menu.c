@@ -1542,6 +1542,7 @@ menuitems CP_MainMenu(void)
 
 		switch (which)
 		{
+			case -1:
 			case backtodemo:
 				if (!ingame)
 				{
@@ -1550,10 +1551,6 @@ menuitems CP_MainMenu(void)
 
 				StartGame = true;
 				DisableScreenStretch(); // bna++ shut off streech mode
-				break;
-
-			case -1:
-				CP_Quit(0);
 				break;
 
 			default:
