@@ -93,6 +93,11 @@ int CP_Acknowledge;
 boolean POK = false;
 char pword[13];
 
+extern int inverse_mouse;
+extern boolean usemouselook;
+extern boolean iG_aimCross;
+extern boolean sdl_fullscreen;
+
 boolean ingame = false;
 boolean inmenu = false;
 boolean pickquick = false;
@@ -289,6 +294,7 @@ static char *CursorLump = "cursor01";
 static int CursorNum = 0;
 static int CursorFrame[MAXCURSORNUM] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3,
 										 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1 };
+
 
 typedef enum
 {
@@ -1352,6 +1358,9 @@ void ControlPanel(byte scancode)
 {
 	boolean was_in_console = false;
 
+	if (!sdl_fullscreen)
+		SetShowCursor(1);
+
 	/* handle main menu on escape */
 	if (scancode == sc_Escape)
 	{
@@ -1439,6 +1448,8 @@ void ControlPanel(byte scancode)
 	}
 
 	loadsavesound = false;
+
+	SetShowCursor(0);
 }
 
 //******************************************************************************
@@ -1556,6 +1567,8 @@ menuitems CP_MainMenu(void)
 	// Deallocate everything
 	CleanUpControlPanel();
 	ShutdownMenuBuf();
+
+	SetShowCursor(0);
 
 	return (which);
 }
@@ -4718,10 +4731,6 @@ void DrawExtOptionsMenu(void)
 
 	FlipMenuBuf();
 }
-extern int inverse_mouse;
-extern boolean usemouselook;
-extern boolean iG_aimCross;
-extern boolean sdl_fullscreen;
 
 void CP_ExtOptionsMenu(void)
 {

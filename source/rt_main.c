@@ -956,6 +956,7 @@ void PlayTurboGame(void)
 	NewGame = true;
 	locplayerstate->player = DefaultPlayerCharacter;
 	playstate = ex_resetgame;
+	SetShowCursor(0);
 	GameLoop();
 }
 

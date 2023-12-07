@@ -81,7 +81,8 @@ static word sdl_mouse_button_mask = 0;
 static int sdl_total_sticks = 0;
 static word *sdl_stick_button_state = NULL;
 static word sdl_sticks_joybits = 0;
-static int sdl_mouse_grabbed = 0;
+
+boolean sdl_mouse_grabbed = false;
 extern boolean sdl_fullscreen;
 
 //   'q','w','e','r','t','y','u','i','o','p','[',']','\\', 0 ,'a','s',
@@ -219,7 +220,7 @@ static int sdl_mouse_motion_filter(SDL_Event const *event)
 	} /* if */
 	else
 	{
-		if (sdl_mouse_grabbed || sdl_fullscreen)
+		if (sdl_mouse_grabbed)
 		{
 			mouse_relative_x = event->motion.xrel;
 			mouse_relative_y = event->motion.yrel;
@@ -713,11 +714,6 @@ void IN_Startup(void)
 
 	if (IN_Started == true)
 		return;
-
-#ifdef PLATFORM_WINDOWS
-	// fixme: remove this.
-	sdl_mouse_grabbed = 1;
-#endif
 
 	checkjoys = true;
 	checkmouse = true;

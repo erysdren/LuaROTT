@@ -38,6 +38,7 @@ static void StretchMemPicture();
 boolean StretchScreen = 0; // bná++
 extern boolean iG_aimCross;
 extern boolean sdl_fullscreen;
+extern boolean sdl_mouse_grabbed;
 extern int iG_X_center;
 extern int iG_Y_center;
 byte *iG_buf_center;
@@ -89,6 +90,7 @@ void SetShowCursor(int show)
 {
 	SDL_SetRelativeMouseMode(!show);
 	SDL_GetRelativeMouseState(NULL, NULL);
+	sdl_mouse_grabbed = !show;
 }
 
 void GraphicsMode(void)
