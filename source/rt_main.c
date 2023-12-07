@@ -961,8 +961,10 @@ NoRTC:;
 }
 
 void PlayTurboGame(void)
-
 {
+	ROTTMAPS = FindFileByName(STANDARDGAMELEVELS);
+	if (!ROTTMAPS)
+		Error("Couldn't load %s!", STANDARDGAMELEVELS);
 	NewGame = true;
 	locplayerstate->player = DefaultPlayerCharacter;
 	playstate = ex_resetgame;
