@@ -70,6 +70,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_scale.h"
 #include "rt_lua.h"
 #include "console.h"
+#include "rt_datadir.h"
 
 #include "rt_battl.h"
 #include "develop.h"
@@ -4508,7 +4509,7 @@ void DrawCampaignMenu(void)
 
 	for (i = 0; i < 4; i++)
 	{
-		filename = M_FileCaseExists(CampaignFileNames[i]);
+		filename = FindFileByName(CampaignFileNames[i]);
 		if (filename == NULL)
 			CampaignMenu[i].active = CP_Inactive;
 		else
@@ -6386,7 +6387,7 @@ int CP_CampaignSelection(void)
 	} while (CampaignMenu[which].active == CP_SemiActive);
 
 	/* assign ROTTMAPS to what user selected */
-	ROTTMAPS =  M_FileCaseExists(CampaignFileNames[which]);
+	ROTTMAPS =  FindFileByName(CampaignFileNames[which]);
 
 	return 1;
 }
