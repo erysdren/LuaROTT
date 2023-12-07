@@ -20,6 +20,8 @@
 #include "m_misc2.h"
 #include "rt_util.h"
 
+#include "console.h"
+
 static char *GetExeDir(void)
 {
 	static char *dir;
@@ -216,3 +218,75 @@ char *FindFileByName(const char *name)
 
 	return NULL;
 }
+
+/* returns TRUE if the given file is a valid ROTT level */
+static boolean FileIsRTL(const char *_filename)
+{
+	boolean r = true;
+	char magic[4];
+	char *filename;
+
+	/* get full path to file */
+	filename = FindFileByName(_filename);
+	if (!filename)
+	{
+		return false;
+	}
+
+	/* open file */
+	FILE *file = fopen(filename, "rb");
+	if (!file)
+	{
+		free(filename);
+		return false;
+	}
+
+	/* read magic */
+	fread(magic, 1, 4, file);
+
+	/* test all magics */
+	if (memcmp(magic, "RTL\0", 4) != 0 && memcmp(magic, "RTC\0", 4) != 0 &&
+		memcmp(magic, "RXL\0", 4) != 0 && memcmp(magic, "RXC\0", 4) != 0 &&
+		memcmp(magic, "RXC\0", 4) != 0)
+		r = false;
+
+	fclose(file);
+	free(filename);
+
+	return r;
+}
+
+/* ListFilesInFolder */
+#ifdef PLATFORM_WINDOWS
+
+#include <windows.h>
+
+#else
+
+#include <dirent.h>
+
+void ListFilesInFolder(void)
+{
+	DIR *dir;
+	struct dirent *entry;
+	int i;
+
+	BuildDataDirList();
+
+	for (i = 0; i < num_datadirs; i++)
+	{
+		dir = opendir(datadirs[i]);
+		if (!dir)
+			continue;
+
+		while ((entry = readdir(dir)) != NULL)
+		{
+			if (FileIsRTL(entry->d_name))
+				console_printf("%s", entry->d_name);
+		}
+
+		closedir(dir);
+	}
+}
+
+#endif
