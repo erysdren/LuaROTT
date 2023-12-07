@@ -19,6 +19,7 @@
 
 #include "m_misc2.h"
 #include "rt_util.h"
+#include "rt_datadir.h"
 
 #include "console.h"
 
@@ -256,16 +257,100 @@ static boolean FileIsRTL(const char *_filename)
 	return r;
 }
 
-/* ListFilesInFolder */
+/* returns TRUE if the given file is a valid WAD file */
+static boolean FileIsWAD(const char *_filename)
+{
+	boolean r = true;
+	char magic[4];
+	char *filename;
+
+	/* get full path to file */
+	filename = FindFileByName(_filename);
+	if (!filename)
+	{
+		return false;
+	}
+
+	/* open file */
+	FILE *file = fopen(filename, "rb");
+	if (!file)
+	{
+		free(filename);
+		return false;
+	}
+
+	/* read magic */
+	fread(magic, 1, 4, file);
+
+	/* test all magics */
+	if (memcmp(magic, "IWAD", 4) != 0 && memcmp(magic, "PWAD", 4) != 0)
+		r = false;
+
+	fclose(file);
+	free(filename);
+
+	return r;
+}
+
+/* PrintFilesByType */
 #ifdef PLATFORM_WINDOWS
 
 #include <windows.h>
+
+void PrintFilesByType(int type)
+{
+	WIN32_FIND_DATA fdFile;
+	HANDLE hFind = NULL;
+	char *mask;
+	int i;
+
+	BuildDataDirList();
+
+	for (i = 0; i < num_datadirs; i++)
+	{
+		/* make file mask string */
+		mask = M_StringJoin(datadirs[i], "\\*.*", NULL);
+
+		/* error */
+		if ((hFind = FindFirstFile(mask, &fdFile)) == INVALID_HANDLE_VALUE)
+		{
+			free(mask);
+			continue;
+		}
+
+		/* loop over found files */
+		while (FindNextFile(hFind, &fdFile))
+		{
+			switch (type)
+			{
+				case FILE_TYPE_RTL:
+					if (FileIsRTL(fdFile.cFileName))
+						console_printf("%s", fdFile.cFileName);
+					break;
+
+				case FILE_TYPE_WAD:
+					if (FileIsWAD(fdFile.cFileName))
+						console_printf("%s", fdFile.cFileName);
+					break;
+
+				default:
+					break;
+			}
+
+			if (FileIsRTL(fdFile.cFileName))
+				console_printf("%s", fdFile.cFileName);
+		}
+
+		free(mask);
+		FindClose(hFind);
+	}
+}
 
 #else
 
 #include <dirent.h>
 
-void ListFilesInFolder(void)
+void PrintFilesByType(int type)
 {
 	DIR *dir;
 	struct dirent *entry;
@@ -281,8 +366,21 @@ void ListFilesInFolder(void)
 
 		while ((entry = readdir(dir)) != NULL)
 		{
-			if (FileIsRTL(entry->d_name))
-				console_printf("%s", entry->d_name);
+			switch (type)
+			{
+				case FILE_TYPE_RTL:
+					if (FileIsRTL(entry->d_name))
+						console_printf("%s", entry->d_name);
+					break;
+
+				case FILE_TYPE_WAD:
+					if (FileIsWAD(entry->d_name))
+						console_printf("%s", entry->d_name);
+					break;
+
+				default:
+					break;
+			}
 		}
 
 		closedir(dir);

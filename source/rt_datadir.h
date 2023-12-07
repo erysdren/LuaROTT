@@ -20,11 +20,16 @@
 
 #include "m_misc2.h"
 
+enum {
+	FILE_TYPE_RTL,
+	FILE_TYPE_WAD
+};
+
 extern char *datadir;
 
 char *GetPrefDir(void);
 char *FindFileByName(const char *name);
 
-void ListFilesInFolder(void);
+void PrintFilesByType(int type);
 
 #endif
