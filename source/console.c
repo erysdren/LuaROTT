@@ -627,6 +627,7 @@ static boolean console_tokenize_semicolons_newlines(char *s, int max_argc, char 
 {
 	char *ptr, *end;
 	int _argc = 0;
+	boolean comment = false;
 
 	/* fail */
 	if (!s || !max_argc || !argv || !argc)
@@ -642,6 +643,13 @@ static boolean console_tokenize_semicolons_newlines(char *s, int max_argc, char 
 		while (*ptr && (*ptr == ';' || *ptr == '\n' || *ptr == '\r'))
 			ptr++;
 
+		/* skip comment characters */
+		while (*ptr && *ptr == '#')
+		{
+			comment = true;
+			ptr++;
+		}
+
 		/* reached end of string */
 		if (!*ptr)
 			break;
@@ -650,8 +658,22 @@ static boolean console_tokenize_semicolons_newlines(char *s, int max_argc, char 
 		end = ptr + 1;
 
 		/* move end position until we hit a semicolon, a newline, or the end of the string */
-		while (*end && !(*end == ';' || *end == '\n' || *end == '\r'))
-			end++;
+		/* we handle comments too */
+		if (comment)
+		{
+			/* iterate until newline */
+			while (*end && !(*end == '\n' || *end == '\r'))
+				end++;
+
+			comment = false;
+			ptr = end + 1;
+			continue;
+		}
+		else
+		{
+			while (*end && !(*end == ';' || *end == '\n' || *end == '\r'))
+				end++;
+		}
 
 		if (_argc < max_argc - 1)
 			argv[_argc++] = ptr;
