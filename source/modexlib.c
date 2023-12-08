@@ -241,9 +241,8 @@ void VL_SetVGAPlaneMode(void)
 	iG_X_center = iGLOBAL_SCREENWIDTH / 2;
 	iG_Y_center = (iGLOBAL_SCREENHEIGHT / 2) + 10; //+10 = move aim down a bit
 
-	iG_buf_center =
-		bufferofs +
-		(screensize / 2); //(iG_Y_center*iGLOBAL_SCREENWIDTH);//+iG_X_center;
+	//(iG_Y_center*iGLOBAL_SCREENWIDTH);//+iG_X_center;
+	iG_buf_center = bufferofs + (screensize / 2);
 
 	bufofsTopLimit = bufferofs + screensize - iGLOBAL_SCREENWIDTH;
 	bufofsBottomLimit = bufferofs + iGLOBAL_SCREENWIDTH;
@@ -373,12 +372,10 @@ void EnableScreenStretch(void)
 	{
 		/* should really be just 320x200, but there is code all over the
 		   places which crashes then */
-		unstretch_sdl_surface = SDL_CreateRGBSurface(
-			0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
+		unstretch_sdl_surface = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
 	}
 
-	displayofs = (byte *) unstretch_sdl_surface->pixels +
-				 (displayofs - (byte *)sdl_surface->pixels);
+	displayofs = (byte *)unstretch_sdl_surface->pixels + (displayofs - (byte *)sdl_surface->pixels);
 	bufferofs = unstretch_sdl_surface->pixels;
 	page1start = unstretch_sdl_surface->pixels;
 	page2start = unstretch_sdl_surface->pixels;

@@ -33,7 +33,6 @@ extern int viewwidth;
 #define FINEANGLES 2048
 void SetRottScreenRes(int Width, int Height)
 {
-
 	iGLOBAL_SCREENWIDTH = Width;
 	iGLOBAL_SCREENHEIGHT = Height;
 
