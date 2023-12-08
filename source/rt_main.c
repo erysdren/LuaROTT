@@ -160,8 +160,6 @@ int main(int argc, char *argv[])
 
 	signal(11, crash_print);
 
-	ApogeePath = GetPrefDir();
-
 #if (ROTTEN_LUA == 1)
 	/* initialize lua */
 	if (lua_init() == false)
@@ -171,10 +169,22 @@ int main(int argc, char *argv[])
 	lua_module_add("menu_main");
 #endif
 
+	// Start up Memory manager
+	Z_Init();
+
 	/* initialize console */
 	console_init();
 	cmdlib_init();
 	cvarlib_init();
+
+	/* run autoexec */
+	console_exec("autoexec.cfg");
+
+	/* set preferences path */
+	ApogeePath = GetPrefDir();
+
+	if (ApogeePath == NULL)
+		Error("Couldn't determine preferences path!");
 
 	// Set which release version we're on
 	gamestate.Version = ROTTVERSION;
@@ -233,9 +243,6 @@ int main(int argc, char *argv[])
 	//   UL_ErrorStartup ();
 
 	CheckCommandLineParameters();
-
-	// Start up Memory manager
-	Z_Init();
 
 	IN_Startup();
 
@@ -460,8 +467,6 @@ void DrawRottTitle(void)
 
 		UL_printf(title);
 		printf("\n");
-
-		PrintDataDirs();
 	}
 	else
 	{

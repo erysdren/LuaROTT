@@ -86,6 +86,26 @@ void cvar_register(cvar_t *cvar)
 	}
 }
 
+boolean cvar_is_set(const char *name)
+{
+	cvar_t *cvar;
+
+	if ((cvar = cvar_retrieve(name)) == NULL)
+		return false;
+
+	return cvar->flags & CVAR_FLAG_SET;
+}
+
+boolean cvar_is_protected(const char *name)
+{
+	cvar_t *cvar;
+
+	if ((cvar = cvar_retrieve(name)) == NULL)
+		return false;
+
+	return cvar->flags & CVAR_FLAG_PROTECTED;
+}
+
 boolean cvar_get_bool(const char *name)
 {
 	cvar_t *cvar;
@@ -158,6 +178,21 @@ const char *cvar_get_string(const char *name)
 	return cvar->val.s;
 }
 
+/* set string cvar */
+boolean cvar_set_string(const char *name, const char *value)
+{
+	cvar_t *cvar;
+
+	if ((cvar = cvar_retrieve(name)) == NULL)
+		return false;
+	if (cvar->type != CVAR_TYPE_STRING)
+		return false;
+
+	if (cvar->flags & CVAR_FLAG_SET)
+		free(cvar->val.s);
+	cvar->val.s = M_StringDuplicate(value);
+}
+
 //****************************************************************************
 //
 // CVARLIB
@@ -166,7 +201,8 @@ const char *cvar_get_string(const char *name)
 
 /* cvarlib array */
 cvar_t _cvarlib[] = {
-	CVAR_BOOL("temptemp", false, CVAR_FLAG_PROTECTED)
+	CVAR_STRING("fs_datadir", NULL, CVAR_FLAG_NO_DEFAULT),
+	CVAR_STRING("fs_userdir", NULL, CVAR_FLAG_NO_DEFAULT)
 };
 
 /* register standard library of cvars */
@@ -929,12 +965,20 @@ static boolean console_parse_command(char *s)
 					break;
 			}
 
-			/* add set flag */
+			/* add set flag and remove unset flag */
 			cvar->flags |= CVAR_FLAG_SET;
 			return true;
 		}
 		else
 		{
+			/* unset by default */
+			if (!(cvar->flags & CVAR_FLAG_SET) && (cvar->flags & CVAR_FLAG_NO_DEFAULT))
+			{
+				console_printf("value: unset");
+				console_printf("default: none");
+				return true;
+			}
+
 			/* print value */
 			switch (cvar->type)
 			{
@@ -943,35 +987,53 @@ static boolean console_parse_command(char *s)
 						console_printf("value: true");
 					else
 						console_printf("value: false");
-					if (cvar->def.b)
-						console_printf("default: true");
+					if (cvar->flags & CVAR_FLAG_NO_DEFAULT)
+						console_printf("default: none");
 					else
-						console_printf("default: false");
+						if (cvar->def.b)
+							console_printf("default: true");
+						else
+							console_printf("default: false");
 					break;
 
 				case CVAR_TYPE_INT:
 					console_printf("value: %d", cvar->val.i);
-					console_printf("default: %d", cvar->def.i);
+					if (cvar->flags & CVAR_FLAG_NO_DEFAULT)
+						console_printf("default: none");
+					else
+						console_printf("default: %d", cvar->def.i);
 					break;
 
 				case CVAR_TYPE_UINT:
 					console_printf("value: %u", cvar->val.u);
-					console_printf("default: %u", cvar->def.u);
+					if (cvar->flags & CVAR_FLAG_NO_DEFAULT)
+						console_printf("default: none");
+					else
+						console_printf("default: %u", cvar->def.u);
 					break;
 
 				case CVAR_TYPE_FIXED:
 					console_printf("value: %0.4f", FIXED_TO_FLOAT(cvar->val.x));
-					console_printf("default: %0.4f", FIXED_TO_FLOAT(cvar->def.x));
+					if (cvar->flags & CVAR_FLAG_NO_DEFAULT)
+						console_printf("default: none");
+					else
+						console_printf("default: %0.4f", FIXED_TO_FLOAT(cvar->def.x));
 					break;
 
 				case CVAR_TYPE_FLOAT:
 					console_printf("value: %0.4f", cvar->val.f);
-					console_printf("default: %0.4f", cvar->def.f);
+					if (cvar->flags & CVAR_FLAG_NO_DEFAULT)
+						console_printf("default: none");
+					else
+						console_printf("default: %0.4f", cvar->def.f);
 					break;
 
 				case CVAR_TYPE_STRING:
 					console_printf("value: \"%s\"", cvar->val.s);
-					console_printf("default: \"%s\"", cvar->def.s);
+					if (cvar->flags & CVAR_FLAG_NO_DEFAULT)
+						console_printf("default: none");
+					else
+						console_printf("default: \"%s\"", cvar->def.s);
 					break;
 			}
 

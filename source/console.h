@@ -57,8 +57,9 @@ typedef union cvar_value_t {
 
 enum {
 	CVAR_FLAG_NONE = 0,
-	CVAR_FLAG_SET = 1,
-	CVAR_FLAG_PROTECTED = 2
+	CVAR_FLAG_NO_DEFAULT = 1,
+	CVAR_FLAG_SET = 2,
+	CVAR_FLAG_PROTECTED = 4
 };
 
 /* cvar structure */
@@ -159,6 +160,12 @@ cvar_t *cvar_retrieve(const char *name);
 /* add cvar to chain */
 void cvar_register(cvar_t *cvar);
 
+/* returns true if the cvar has been changed from its default value */
+boolean cvar_is_set(const char *name);
+
+/* returns true if the cvar has the protected flag */
+boolean cvar_is_protected(const char *name);
+
 /* retrieve boolean from cvar */
 boolean cvar_get_bool(const char *name);
 
@@ -176,6 +183,9 @@ float cvar_get_float(const char *name);
 
 /* retrieve string from cvar */
 const char *cvar_get_string(const char *name);
+
+/* set string cvar */
+boolean cvar_set_string(const char *name, const char *value);
 
 /* register standard library of cvars */
 void cvarlib_init(void);
