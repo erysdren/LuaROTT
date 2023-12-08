@@ -223,4 +223,7 @@ void console_evaluate(char *s);
 /* execute console commands from filename */
 boolean console_exec(const char *filename);
 
+/* write all cvars to config file */
+boolean console_write_config(const char *filename);
+
 #endif /* _console_public */

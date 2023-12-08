@@ -177,7 +177,8 @@ int main(int argc, char *argv[])
 	cmdlib_init();
 	cvarlib_init();
 
-	/* run autoexec */
+	/* run configs */
+	console_exec("config.cfg");
 	console_exec("autoexec.cfg");
 
 	/* set preferences path */
@@ -401,11 +402,6 @@ int main(int argc, char *argv[])
 	GameLoop();
 
 	QuitGame();
-
-	/* shutdown console */
-	console_quit();
-	cmdlib_quit();
-	cvarlib_quit();
 
 #if (ROTTEN_LUA == 1)
 	/* quit lua */
@@ -1587,7 +1583,6 @@ void ShutDown(void)
 	//      {
 	//      ShutdownModemGame ();
 	//      }
-
 	ShutdownClientControls();
 	I_ShutdownKeyboard();
 	ShutdownGameCommands();
@@ -1616,6 +1611,12 @@ void QuitGame(void)
 	PrintMapStats();
 	PrintTileStats();
 	SetTextMode();
+
+	/* shutdown console */
+	console_write_config("config.cfg");
+	console_quit();
+	cmdlib_quit();
+	cvarlib_quit();
 
 	exit(0);
 }

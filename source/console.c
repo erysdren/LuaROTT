@@ -1092,3 +1092,68 @@ boolean console_exec(const char *filename)
 
 	return true;
 }
+
+/* write all cvars to config file */
+boolean console_write_config(const char *filename)
+{
+	char *path;
+	int i;
+	FILE *file;
+	cvar_t *cvar;
+
+	/* make path */
+	path = M_StringJoin(ApogeePath, PATH_SEP_STR, filename, NULL);
+	if (!path)
+		return false;
+
+	/* open file */
+	file = fopen(path, "wb");
+	if (!file)
+		return false;
+
+	/* write configs */
+	cvar = cvar_list;
+	while (cvar != NULL)
+	{
+		if (cvar->flags & CVAR_FLAG_SET)
+		{
+			/* print value */
+			switch (cvar->type)
+			{
+				case CVAR_TYPE_BOOL:
+					if (cvar->val.b)
+						fprintf(file, "%s true\n");
+					else
+						fprintf(file, "%s false\n");
+					break;
+
+				case CVAR_TYPE_INT:
+					fprintf(file, "%s %d\n", cvar->name, cvar->val.i);
+					break;
+
+				case CVAR_TYPE_UINT:
+					fprintf(file, "%s %u\n", cvar->name, cvar->val.u);
+					break;
+
+				case CVAR_TYPE_FIXED:
+					fprintf(file, "%s %0.4f\n", cvar->name, FIXED_TO_FLOAT(cvar->val.x));
+					break;
+
+				case CVAR_TYPE_FLOAT:
+					fprintf(file, "%s %0.4f\n", cvar->name, cvar->val.f);
+					break;
+
+				case CVAR_TYPE_STRING:
+					fprintf(file, "%s \"%s\"\n", cvar->name, cvar->val.s);
+					break;
+			}
+		}
+
+		cvar = cvar->next;
+	}
+
+	fclose(file);
+	free(path);
+
+	return true;
+}
