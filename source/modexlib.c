@@ -111,9 +111,7 @@ void GraphicsMode(void)
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
 
-	screen =
-		SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-						 iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, flags);
+	screen = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, flags);
 	SDL_SetWindowMinimumSize(screen, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
 	SDL_SetWindowTitle(screen, PACKAGE_STRING);
 
@@ -128,21 +126,14 @@ void GraphicsMode(void)
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 
-	sdl_surface = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH,
-									   iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
+	sdl_surface = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
 	SDL_FillRect(sdl_surface, NULL, 0);
 
 	pixel_format = SDL_GetWindowPixelFormat(screen);
-	SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &rmask, &gmask, &bmask,
-							   &amask);
-	argbbuffer =
-		SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, bpp,
-							 rmask, gmask, bmask, amask);
-
+	SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &rmask, &gmask, &bmask, &amask);
+	argbbuffer = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, bpp, rmask, gmask, bmask, amask);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
-	texture =
-		SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING,
-						  iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
+	texture = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
 
 	blit_rect.w = iGLOBAL_SCREENWIDTH;
 	blit_rect.h = iGLOBAL_SCREENHEIGHT;
@@ -313,8 +304,7 @@ void VL_ClearBuffer(byte *buf, byte color)
 
 void VL_ClearVideo(byte color)
 {
-	memset(sdl_surface->pixels, color,
-		   iGLOBAL_SCREENWIDTH * iGLOBAL_SCREENHEIGHT);
+	memset(sdl_surface->pixels, color, iGLOBAL_SCREENWIDTH * iGLOBAL_SCREENHEIGHT);
 }
 
 /*
