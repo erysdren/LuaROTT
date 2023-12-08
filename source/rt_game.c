@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -1785,13 +1786,20 @@ void DrawPPic(int xpos, int ypos, int width, int height, byte *src, int num,
 				{
 					for (k = 0; k < num; k++)
 					{
-						if (bufferofsonly)
-							*(dest + bufferofs + (amt * k)) = pixel;
-						else
+						const uintptr_t max = iGLOBAL_SCREENWIDTH * iGLOBAL_SCREENHEIGHT;
+						uintptr_t ofs = dest + (amt * k);
+						if (ofs < max)
 						{
-							*(dest + page1start + (amt * k)) = pixel;
-							*(dest + page2start + (amt * k)) = pixel;
-							*(dest + page3start + (amt * k)) = pixel;
+							if (bufferofsonly)
+							{
+								*(bufferofs + ofs) = pixel;
+							}
+							else
+							{
+								*(page1start + ofs) = pixel;
+								*(page2start + ofs) = pixel;
+								*(page3start + ofs) = pixel;
+							}
 						}
 					}
 				}
