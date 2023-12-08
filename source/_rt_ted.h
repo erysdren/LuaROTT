@@ -60,14 +60,51 @@ typedef struct
 	char name[16];
 } maptype;
 
-#define ActorIsPushWall(xx, yy) \
-	((actorat[xx][yy]) && (((objtype *)actorat[xx][yy])->which == PWALL))
-#define ActorIsWall(xx, yy) \
-	((actorat[xx][yy]) && (((objtype *)actorat[xx][yy])->which == WALL))
-#define ActorIsSpring(xx, yy) \
-	((actorat[xx][yy]) && (((objtype *)actorat[xx][yy])->obclass == springobj))
-#define StaticUndefined(xx, yy) \
-	((sprites[xx][yy]) && (((statobj_t *)sprites[xx][yy])->z < -64))
+static inline boolean ActorIsPushWall(int xx, int yy)
+{
+	if (xx < 0 || xx >= MAPSIZE || yy < 0 || yy >= MAPSIZE)
+		return false;
+	if (actorat[xx][yy] == NULL)
+		return false;
+	if (((objtype *)actorat[xx][yy])->which == PWALL)
+		return true;
+	return false;
+}
+
+static inline boolean ActorIsWall(int xx, int yy)
+{
+	if (xx < 0 || xx >= MAPSIZE || yy < 0 || yy >= MAPSIZE)
+		return false;
+	if (actorat[xx][yy] == NULL)
+		return false;
+	if (((objtype *)actorat[xx][yy])->which == WALL)
+		return true;
+	return false;
+}
+
+static inline boolean ActorIsSpring(int xx, int yy)
+{
+	if (xx < 0 || xx >= MAPSIZE || yy < 0 || yy >= MAPSIZE)
+		return false;
+	if (actorat[xx][yy] == NULL)
+		return false;
+	if (((objtype *)actorat[xx][yy])->which != SPRITE && ((objtype *)actorat[xx][yy])->which != ACTOR)
+		return false;
+	if (((objtype *)actorat[xx][yy])->obclass == springobj)
+		return true;
+	return false;
+}
+
+static inline boolean StaticUndefined(int xx, int yy)
+{
+	if (xx < 0 || xx >= MAPSIZE || yy < 0 || yy >= MAPSIZE)
+		return false;
+	if (sprites[xx][yy] == NULL)
+		return false;
+	if (((statobj_t *)sprites[xx][yy])->z < -64)
+		return true;
+	return false;
+}
 
 #define PRECACHEASTRINGX 141
 #define PRECACHEASTRINGY 8

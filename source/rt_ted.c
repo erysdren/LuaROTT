@@ -31,7 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "states.h"
 #include "rt_fixed.h"
 #include "rt_ted.h"
-#include "_rt_ted.h"
 #include "w_wad.h"
 #include "z_zone.h"
 #include "rt_util.h"
@@ -58,6 +57,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_debug.h"
 #include "rt_scale.h"
 #include "rt_net.h"
+#include "_rt_ted.h"
 
 //========================================
 // GLOBAL VARIABLES
