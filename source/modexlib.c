@@ -110,6 +110,10 @@ void GraphicsMode(void)
 	{
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
+	else
+	{
+		flags |= SDL_WINDOW_MAXIMIZED;
+	}
 
 	screen = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, flags);
 	SDL_SetWindowMinimumSize(screen, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
@@ -120,7 +124,7 @@ void GraphicsMode(void)
 	{
 		renderer = SDL_CreateRenderer(screen, -1, SDL_RENDERER_SOFTWARE);
 	}
-	SDL_RenderSetLogicalSize(renderer, 640, 480);
+	SDL_RenderSetLogicalSize(renderer, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
@@ -150,6 +154,10 @@ void ToggleFullScreen(void)
 	if (sdl_fullscreen)
 	{
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+	}
+	else
+	{
+		flags |= SDL_WINDOW_MAXIMIZED;
 	}
 
 	SDL_SetWindowFullscreen(screen, flags);
