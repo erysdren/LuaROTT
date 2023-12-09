@@ -76,7 +76,7 @@ int FXvolume = 196;
 boolean mouseenabled = 1;
 boolean usemouselook = 0;
 int inverse_mouse = 1; // set  to -1 to invert mouse
-boolean sdl_fullscreen = 1;
+boolean sdl_fullscreen = false; /* not fullscreen by default */
 
 boolean joystickenabled = 0;
 boolean joypadenabled = 0;
