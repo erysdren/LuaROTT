@@ -51,10 +51,6 @@ char *GetPrefDir(void)
 {
 	static char *dir;
 
-	/* override with fs_userdir cvar */
-	if (cvar_is_set("fs_userdir") && cvar_get_string("fs_userdir"))
-		return (char *)cvar_get_string("fs_userdir");
-
 	if (dir == NULL)
 	{
 		char *result;
@@ -164,14 +160,6 @@ static void AddXdgDirs(void)
 
 static void BuildDataDirList(void)
 {
-	/* override data dirs with cvar */
-	if (cvar_is_set("fs_datadir") && cvar_get_string("fs_datadir"))
-	{
-		datadirs[0] = (char *)cvar_get_string("fs_datadir");
-		num_datadirs = 1;
-		return;
-	}
-
 	/* already been setup */
 	if (datadirs[0])
 	{
@@ -186,11 +174,6 @@ static void BuildDataDirList(void)
 
 	// preferences directory
 	AddDataDir(GetPrefDir());
-
-#ifdef DATADIR
-	// build-time data directory
-	AddDataDir(DATADIR);
-#endif
 
 #ifndef PLATFORM_WINDOWS
 	AddXdgDirs();
