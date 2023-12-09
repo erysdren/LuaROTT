@@ -1225,7 +1225,7 @@ void QueueLetterInput(void)
 
 						if (CommbatMacros[msg].avail)
 						{
-							MSG.length = strlen(CommbatMacros[msg].macro) + 1;
+							MSG.length = M_StringLength(CommbatMacros[msg].macro) + 1;
 							strcpy(Messages[MSG.textnum].text,
 								   CommbatMacros[msg].macro);
 

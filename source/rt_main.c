@@ -419,7 +419,7 @@ void DrawRottTitle(void)
 #endif
 		strcat(title, "\n");
 
-		px = (80 - strlen(title)) >> 1;
+		px = (80 - M_StringLength(title)) >> 1;
 		py = 0;
 
 		UL_printf(title);
@@ -443,7 +443,7 @@ void DrawRottTitle(void)
 		else
 			strcpy(title, "Commercial Version");
 
-		px = (80 - strlen(title)) >> 1;
+		px = (80 - M_StringLength(title)) >> 1;
 		py = 1;
 
 		UL_printf(title);
@@ -767,9 +767,9 @@ void SetupWads(void)
 		char *buf = malloc(32);
 		if (_argv[arg + 1] != 0)
 		{ // are there a filename included
-			tempstr = safe_realloc(tempstr, 129 + strlen(_argv[arg + 1]));
+			tempstr = safe_realloc(tempstr, 129 + M_StringLength(_argv[arg + 1]));
 			strcpy(tempstr, _argv[arg + 1]); // copy it to tempstr
-			if (strlen(tempstr) < MAX_PATH)
+			if (M_StringLength(tempstr) < MAX_PATH)
 			{
 				if (access(tempstr, 0) != 0)
 				{							 // try open
@@ -796,7 +796,7 @@ void SetupWads(void)
 					{
 						GameLevels.file = strdup(tempstr);
 						GameLevels.avail++;
-						buf = safe_realloc(buf, 32 + strlen(tempstr));
+						buf = safe_realloc(buf, 32 + M_StringLength(tempstr));
 						strcpy(buf, "Adding ");
 						strcat(buf, tempstr);
 						printf("%s", buf);
@@ -820,9 +820,9 @@ NoRTL:;
 		char *buf = malloc(32);
 		if (_argv[arg + 1] != 0)
 		{ // are there a filename included
-			tempstr = safe_realloc(tempstr, 129 + strlen(_argv[arg + 1]));
+			tempstr = safe_realloc(tempstr, 129 + M_StringLength(_argv[arg + 1]));
 			strcpy(tempstr, _argv[arg + 1]); // copy it to tempstr
-			if (strlen(tempstr) < MAX_PATH)
+			if (M_StringLength(tempstr) < MAX_PATH)
 			{
 				if (access(tempstr, 0) != 0)
 				{							 // try open
@@ -849,7 +849,7 @@ NoRTL:;
 					{
 						BattleLevels.file = strdup(tempstr);
 						BattleLevels.avail++;
-						buf = safe_realloc(buf, 32 + strlen(tempstr));
+						buf = safe_realloc(buf, 32 + M_StringLength(tempstr));
 						strcpy(buf, "Adding ");
 						strcat(buf, tempstr);
 						printf("%s", buf);
@@ -908,10 +908,10 @@ NoRTC:;
 	{
 		char *src;
 
-		tempstr = safe_realloc(tempstr, strlen(RemoteSounds.path) +
-											strlen(RemoteSounds.file) + 2);
+		tempstr = safe_realloc(tempstr, M_StringLength(RemoteSounds.path) +
+											M_StringLength(RemoteSounds.file) + 2);
 		strcpy(tempstr, RemoteSounds.path);
-		src = RemoteSounds.path + strlen(RemoteSounds.path) - 1;
+		src = RemoteSounds.path + M_StringLength(RemoteSounds.path) - 1;
 		if (*src != '\\')
 			strcat(tempstr, "\\\0");
 		strcat(tempstr, RemoteSounds.file);

@@ -677,7 +677,7 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok,
 
 	*olds = '\0';
 
-	cursor = strlen(s);
+	cursor = M_StringLength(s);
 	cursormoved = redraw = true;
 	cursorvis = done = false;
 
@@ -741,9 +741,9 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok,
 
 			case sc_End:
 
-				if (cursor != (int)strlen(s))
+				if (cursor != (int)M_StringLength(s))
 				{
-					cursor = strlen(s);
+					cursor = M_StringLength(s);
 					cursormoved = true;
 					MN_PlayMenuSnd(SD_MOVECURSORSND);
 				}
@@ -813,7 +813,7 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok,
 
 		if (lastkey)
 		{
-			len = strlen(s);
+			len = M_StringLength(s);
 			USL_MeasureString(s, &w, &h, CurrentFont);
 
 			if (isprint(lastkey) && (len < MaxString - 1) &&
@@ -953,7 +953,7 @@ boolean US_lineinput(int x, int y, char *buf, const char *def, boolean escok,
 
 	*olds = '\0';
 
-	cursor = strlen(s);
+	cursor = M_StringLength(s);
 	cursormoved = redraw = true;
 	cursorvis = done = false;
 
@@ -1017,9 +1017,9 @@ boolean US_lineinput(int x, int y, char *buf, const char *def, boolean escok,
 
 			case sc_End:
 
-				if (cursor != (int)strlen(s))
+				if (cursor != (int)M_StringLength(s))
 				{
-					cursor = strlen(s);
+					cursor = M_StringLength(s);
 					cursormoved = true;
 					MN_PlayMenuSnd(SD_MOVECURSORSND);
 				}
@@ -1091,7 +1091,7 @@ boolean US_lineinput(int x, int y, char *buf, const char *def, boolean escok,
 
 		if (lastkey)
 		{
-			len = strlen(s);
+			len = M_StringLength(s);
 			USL_MeasureString(xx, &w, &h, CurrentFont);
 
 			if (isprint(lastkey) && (len < MaxString - 1) &&

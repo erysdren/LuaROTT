@@ -589,7 +589,7 @@ void GetShortCodeName(char *dest, char *source, int maxwidth)
 	strcpy(dest, source);
 
 	// Shorten name to fit
-	length = strlen(dest);
+	length = M_StringLength(dest);
 	VW_MeasurePropString(dest, &width, &height);
 	while (width > maxwidth)
 	{
@@ -676,7 +676,7 @@ void DrawKills(boolean bufferofsonly)
 			}
 
 			ltoa(temp % 1000, KillStr.str, 10);
-			KillStr.length = strlen(KillStr.str);
+			KillStr.length = M_StringLength(KillStr.str);
 			DrawNumber(TRIAD_X - 6, TRIAD_Y, 3, 5, bufferofsonly);
 		}
 
@@ -692,7 +692,7 @@ void DrawKills(boolean bufferofsonly)
 				temp = -temp;
 			}
 			ltoa(temp, KillStr.str, 10);
-			KillStr.length = strlen(KillStr.str);
+			KillStr.length = M_StringLength(KillStr.str);
 
 			DrawNumber(LIVES_X - 12, LIVES_Y, 3, 4, bufferofsonly);
 		}
@@ -737,7 +737,7 @@ void DrawKills(boolean bufferofsonly)
 				temp = -temp;
 			}
 			ltoa(temp, KillStr.str, 10);
-			KillStr.length = strlen(KillStr.str);
+			KillStr.length = M_StringLength(KillStr.str);
 			DrawNumber(LEADER_NUM_X, LEADER_NUM_Y, 3, 4, bufferofsonly);
 		}
 		else
@@ -821,7 +821,7 @@ void DrawKills(boolean bufferofsonly)
 				temp = -temp;
 			}
 			ltoa(temp, KillStr.str, 10);
-			KillStr.length = strlen(KillStr.str);
+			KillStr.length = M_StringLength(KillStr.str);
 			width = 2;
 			if (temp > 99)
 			{
@@ -945,14 +945,14 @@ void DrawPlayers(void)
 					}
 
 					strcpy(KillStr.str, "00");
-					KillStr.length = strlen(KillStr.str);
+					KillStr.length = M_StringLength(KillStr.str);
 					DrawNumber(xpos + KILLS_OFFSET, PLAYERS_Y, 2, 4, true);
 
 					// Get codename
 					strcpy(codename, PLAYERSTATE[player].codename);
 
 					// Shorten name to fit into point count
-					length = strlen(codename);
+					length = M_StringLength(codename);
 					US_MeasureStr(&width, &height, "%s", codename);
 					while (width > KILLS_WIDTH)
 					{
@@ -1666,7 +1666,7 @@ void UpdateScore(unsigned int num)
 	}
 
 	ltoa(num, ScoreStr.str, 10);
-	ScoreStr.length = strlen(ScoreStr.str);
+	ScoreStr.length = M_StringLength(ScoreStr.str);
 }
 
 //******************************************************************************
@@ -1678,7 +1678,7 @@ void UpdateScore(unsigned int num)
 void UpdateLives(int num)
 {
 	ltoa(num, LivesStr.str, 10);
-	LivesStr.length = strlen(LivesStr.str);
+	LivesStr.length = M_StringLength(LivesStr.str);
 }
 
 //****************************************************************************
@@ -1690,7 +1690,7 @@ void ClearTriads(playertype *pstate)
 {
 	pstate->triads = 0;
 	ltoa(pstate->triads, TriadStr.str, 10);
-	TriadStr.length = strlen(TriadStr.str);
+	TriadStr.length = M_StringLength(TriadStr.str);
 }
 
 //****************************************************************************
@@ -1721,7 +1721,7 @@ void UpdateTriads(objtype *ob, int num)
 	if (ob == player)
 	{
 		ltoa(pstate->triads, TriadStr.str, 10);
-		TriadStr.length = strlen(TriadStr.str);
+		TriadStr.length = M_StringLength(TriadStr.str);
 	}
 }
 

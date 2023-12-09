@@ -3756,7 +3756,7 @@ void Message(char *string)
 	CurrentFont = newfont1;
 	h = CurrentFont->height;
 
-	for (i = 0; i < (int)strlen(string); i++)
+	for (i = 0; i < (int)M_StringLength(string); i++)
 		if (string[i] == '\n')
 		{
 			if (w > mw)
@@ -8060,7 +8060,7 @@ void CP_ErrorMsg(char *title, char *error, int font)
 			pos++;
 		}
 
-		length = strlen(text[line]);
+		length = M_StringLength(text[line]);
 		if (length == 0)
 		{
 			strcat(text[line], &wordtext[pos]);
@@ -8084,7 +8084,7 @@ void CP_ErrorMsg(char *title, char *error, int font)
 		}
 	}
 
-	if (strlen(text[line]) == 0)
+	if (M_StringLength(text[line]) == 0)
 	{
 		line--;
 	}

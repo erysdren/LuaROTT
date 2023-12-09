@@ -322,7 +322,7 @@ void Error(char *error, ...)
 	va_end(argptr);
 
 	scriptbuffer = &msgbuf[0];
-	size = strlen(msgbuf);
+	size = M_StringLength(msgbuf);
 
 	sptr = script_p = scriptbuffer;
 	scriptend_p = script_p + size;
@@ -622,7 +622,7 @@ void SafeWriteString(int handle, char *buffer)
 {
 	unsigned iocount;
 
-	iocount = strlen(buffer);
+	iocount = M_StringLength(buffer);
 	if (write(handle, buffer, iocount) != (int)iocount)
 		Error("File write string failure writing %s\n", buffer);
 }
@@ -742,7 +742,7 @@ void DefaultExtension(char *path, char *extension)
 	// if path doesn't have a .EXT, append extension
 	// (extension should include the .)
 	//
-	src = path + strlen(path) - 1;
+	src = path + M_StringLength(path) - 1;
 
 	while (*src != PATH_SEP_CHAR && src != path)
 	{
@@ -770,7 +770,7 @@ void ExtractFileBase(char *path, char *dest)
 	char *src;
 	int length;
 
-	src = path + strlen(path) - 1;
+	src = path + M_StringLength(path) - 1;
 
 	//
 	// back up until a \ or the start
@@ -952,7 +952,7 @@ int US_CheckParm(char *parm, char **strings)
 	int i;
 	int length;
 
-	length = strlen(parm);
+	length = M_StringLength(parm);
 	while ((!isalpha(*parm)) && (length > 0)) // Skip non-alphas
 	{
 		length--;

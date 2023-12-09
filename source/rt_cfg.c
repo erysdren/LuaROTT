@@ -1958,7 +1958,7 @@ void ReadSETUPFiles(void)
 
 			if (name[0] != '~')
 			{
-				memcpy(&CommbatMacros[i].macro[0], &name[0], strlen(name));
+				memcpy(&CommbatMacros[i].macro[0], &name[0], M_StringLength(name));
 				CommbatMacros[i].avail = 1;
 			}
 		}

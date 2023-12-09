@@ -1319,7 +1319,7 @@ void MenuBufCPrint(const char *string)
 	char c, *se, *s;
 
 	/* !!! FIXME: this is lame. */
-	if (strlen(string) >= sizeof(strbuf))
+	if (M_StringLength(string) >= sizeof(strbuf))
 	{
 		fprintf(stderr, "buffer overflow!\n");
 		return;

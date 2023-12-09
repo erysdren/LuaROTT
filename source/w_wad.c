@@ -102,8 +102,8 @@ void W_AddFile(char *_filename)
 
 	startlump = numlumps;
 
-	if ((strcmpi(filename + strlen(filename) - 3, "wad")) &&
-		(strcmpi(filename + strlen(filename) - 3, "rts")))
+	if ((strcmpi(filename + M_StringLength(filename) - 3, "wad")) &&
+		(strcmpi(filename + M_StringLength(filename) - 3, "rts")))
 	{
 		// single lump file
 		if (!quiet)

@@ -91,6 +91,23 @@ char *M_TempFile(const char *s)
 	return M_StringJoin(tempdir, PATH_SEP_STR, s, NULL);
 }
 
+size_t M_StringLength(const char *s)
+{
+	size_t ret;
+	char *p;
+
+	if (s == NULL)
+		return 0;
+
+	ret = 0;
+	p = (char *)s;
+
+	while (*(p++))
+		ret++;
+
+	return ret;
+}
+
 // Check if a file exists by probing for common case variation of its filename.
 // Returns a newly allocated string that the caller is responsible for freeing.
 
@@ -139,7 +156,7 @@ char *M_FileCaseExists(const char *path)
 	}
 
 	// 4. lowercase filename with uppercase first letter, e.g. Doom2.wad
-	if (strlen(filename) > 1)
+	if (M_StringLength(filename) > 1)
 	{
 		M_ForceLowercase(filename + 1);
 
@@ -274,7 +291,7 @@ char *M_StringDuplicate(const char *orig)
 	if (result == NULL)
 	{
 		fprintf(stderr, "Failed to duplicate string (length %ld)\n",
-				(long)strlen(orig));
+				(long)M_StringLength(orig));
 	}
 
 	return result;
@@ -287,12 +304,12 @@ char *M_StringReplace(const char *haystack, const char *needle,
 {
 	char *result, *dst;
 	const char *p;
-	size_t needle_len = strlen(needle);
+	size_t needle_len = M_StringLength(needle);
 	size_t result_len, dst_len;
 
 	// Iterate through occurrences of 'needle' and calculate the size of
 	// the new string.
-	result_len = strlen(haystack) + 1;
+	result_len = M_StringLength(haystack) + 1;
 	p = haystack;
 
 	for (;;)
@@ -304,7 +321,7 @@ char *M_StringReplace(const char *haystack, const char *needle,
 		}
 
 		p += needle_len;
-		result_len += strlen(replacement) - needle_len;
+		result_len += M_StringLength(replacement) - needle_len;
 	}
 
 	// Construct new string.
@@ -326,8 +343,8 @@ char *M_StringReplace(const char *haystack, const char *needle,
 		{
 			M_StringCopy(dst, replacement, dst_len);
 			p += needle_len;
-			dst += strlen(replacement);
-			dst_len -= strlen(replacement);
+			dst += M_StringLength(replacement);
+			dst_len -= M_StringLength(replacement);
 		}
 		else
 		{
@@ -360,7 +377,7 @@ boolean M_StringCopy(char *dest, const char *src, size_t dest_size)
 		return false;
 	}
 
-	len = strlen(dest);
+	len = M_StringLength(dest);
 	return src[len] == '\0';
 }
 
@@ -371,7 +388,7 @@ boolean M_StringConcat(char *dest, const char *src, size_t dest_size)
 {
 	size_t offset;
 
-	offset = strlen(dest);
+	offset = M_StringLength(dest);
 	if (offset > dest_size)
 	{
 		offset = dest_size;
@@ -384,14 +401,14 @@ boolean M_StringConcat(char *dest, const char *src, size_t dest_size)
 
 boolean M_StringEndsWith(const char *s, const char *suffix)
 {
-	return strlen(s) >= strlen(suffix) &&
-		   strcmp(s + strlen(s) - strlen(suffix), suffix) == 0;
+	return M_StringLength(s) >= M_StringLength(suffix) &&
+		   strcmp(s + M_StringLength(s) - M_StringLength(suffix), suffix) == 0;
 }
 
 boolean M_StringCaseEndsWith(const char *s, const char *suffix)
 {
-	return strlen(s) >= strlen(suffix) &&
-		   strcasecmp(s + strlen(s) - strlen(suffix), suffix) == 0;
+	return M_StringLength(s) >= M_StringLength(suffix) &&
+		   strcasecmp(s + M_StringLength(s) - M_StringLength(suffix), suffix) == 0;
 }
 
 // Return a newly-malloced string with all the strings given as arguments
@@ -404,7 +421,7 @@ char *M_StringJoin(const char *s, ...)
 	va_list args;
 	size_t result_len;
 
-	result_len = strlen(s) + 1;
+	result_len = M_StringLength(s) + 1;
 
 	va_start(args, s);
 	for (;;)
@@ -415,7 +432,7 @@ char *M_StringJoin(const char *s, ...)
 			break;
 		}
 
-		result_len += strlen(v);
+		result_len += M_StringLength(v);
 	}
 	va_end(args);
 

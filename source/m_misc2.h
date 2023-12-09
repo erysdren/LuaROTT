@@ -34,6 +34,7 @@ char *M_BaseNameExt(const char *path);
 void M_ForceUppercase(char *text);
 void M_ForceLowercase(char *text);
 char *M_StringDuplicate(const char *orig);
+size_t M_StringLength(const char *s);
 boolean M_StringCopy(char *dest, const char *src, size_t dest_size);
 boolean M_StringConcat(char *dest, const char *src, size_t dest_size);
 char *M_StringReplace(const char *haystack, const char *needle,
