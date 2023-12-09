@@ -11,19 +11,6 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 - Limited support for loading ROTT:LE levels
 - Ludicrous amounts of code cleanup and junk removal
 
-## Planned
-
-- [x] :bangbang: Campaign selection menu
-- [ ] :bangbang: Move engine shareware changes from build-time to runtime
-- [ ] :bangbang: Support for ROTT:LE level files
-- [ ] :bangbang: Scrolling and history for the developer console
-- [ ] More commands and cvars for the developer console
-- [ ] Lua support for game and menu scripting
-- [ ] Extended config file format
-- [ ] Improved console string tokenization
-- [ ] Remove private headers
-- [ ] Cut down on copious globals usage
-
 ## Contributors
 
 - [Paril](https://github.com/Paril/)
