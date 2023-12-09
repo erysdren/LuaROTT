@@ -4,7 +4,7 @@
 #
 
 cmake_minimum_required(VERSION 3.5)
-project(ROTTEN LANGUAGES C VERSION 1.1.2)
+project(ROTTEN LANGUAGES C VERSION 1.1.3)
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 #
