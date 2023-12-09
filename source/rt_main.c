@@ -167,6 +167,65 @@ int main(int argc, char *argv[])
 	cmdlib_init();
 	cvarlib_init();
 
+#if (SHAREWARE == 1)
+	/* set product */
+	gamestate.Product = ROTT_SHAREWARE;
+
+	/* prefer deluxe version */
+	cvar_set("fs_game", "huntbgn2");
+	ROTTMAPS = FindFileByName("HUNTBGN2.RTL");
+	BATTMAPS = FindFileByName("HUNTBGN2.RTC");
+
+	/* deluxe wasn't found */
+	if (!ROTTMAPS || !BATTMAPS)
+	{
+		if (ROTTMAPS) free(ROTTMAPS);
+		if (BATTMAPS) free(BATTMAPS);
+
+		printf("Couldn't find deluxe shareware levels, trying standard.\n");
+
+		/* try standard version */
+		cvar_set("fs_game", "huntbgin");
+		ROTTMAPS = FindFileByName("HUNTBGIN.RTL");
+		BATTMAPS = FindFileByName("HUNTBGIN.RTC");
+
+		/* standard wasn't found */
+		if (!ROTTMAPS || !BATTMAPS)
+		{
+			if (ROTTMAPS) free(ROTTMAPS);
+			if (BATTMAPS) free(BATTMAPS);
+
+			Error("Couldn't find shareware levels!");
+		}
+
+		printf("Standard shareware levels found.\n");
+	}
+	else
+	{
+		printf("Deluxe shareware levels found.\n");
+	}
+#else
+	/* set product */
+	gamestate.Product = ROTT_REGISTERED;
+
+	/* search for default levels */
+	cvar_set("fs_game", "darkwar");
+	ROTTMAPS = FindFileByName("DARKWAR.RTL");
+	BATTMAPS = FindFileByName("DARKWAR.RTC");
+
+	if (!ROTTMAPS || !BATTMAPS)
+	{
+		if (ROTTMAPS) free(ROTTMAPS);
+		if (BATTMAPS) free(BATTMAPS);
+
+		Error("Couldn't find standard levels!");
+	}
+	else
+	{
+		printf("Standard levels found.\n");
+	}
+#endif
+
 	/* run configs */
 	console_exec("config.cfg");
 	console_exec("autoexec.cfg");
@@ -179,45 +238,6 @@ int main(int argc, char *argv[])
 
 	// Set which release version we're on
 	gamestate.Version = ROTTVERSION;
-
-#if (SHAREWARE == 1)
-	/* set product */
-	gamestate.Product = ROTT_SHAREWARE;
-
-	/* prefer deluxe version */
-	ROTTMAPS = FindFileByName("HUNTBGN2.RTL");
-	BATTMAPS = FindFileByName("HUNTBGN2.RTC");
-
-	/* deluxe wasn't found */
-	if (!ROTTMAPS || !BATTMAPS)
-	{
-		if (ROTTMAPS) free(ROTTMAPS);
-		if (BATTMAPS) free(BATTMAPS);
-
-		printf("Couldn't find deluxe shareware files, trying standard.\n");
-
-		ROTTMAPS = FindFileByName("HUNTBGIN.RTL");
-		BATTMAPS = FindFileByName("HUNTBGIN.RTC");
-
-		/* standard wasn't found */
-		if (!ROTTMAPS || !BATTMAPS)
-		{
-			if (ROTTMAPS) free(ROTTMAPS);
-			if (BATTMAPS) free(BATTMAPS);
-
-			Error("Couldn't find shareware level files!");
-		}
-
-		printf("Standard shareware levels found.\n");
-	}
-	else
-	{
-		printf("Deluxe shareware levels found.\n");
-	}
-#else
-	/* set product */
-	gamestate.Product = ROTT_REGISTERED;
-#endif
 
 	DrawRottTitle();
 	gamestate.randomseed = -1;

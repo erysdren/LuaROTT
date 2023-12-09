@@ -25,6 +25,7 @@ enum {
 	FILE_TYPE_WAD
 };
 
+void BuildDataDirList(void);
 char *GetPrefDir(void);
 char *FindFileByName(const char *name);
 void PrintDataDirs(void);

@@ -18,69 +18,88 @@
 #include "SDL_filesystem.h"
 
 #include "m_misc2.h"
+#include "rt_ted.h"
+#include "rt_main.h"
 #include "rt_util.h"
 #include "rt_datadir.h"
 
 #include "console.h"
 
+static char *exe_dir = NULL;
+static char *pref_dir = NULL;
+
 static char *GetExeDir(void)
 {
-	static char *dir;
-
-	if (dir == NULL)
+	if (exe_dir == NULL)
 	{
 		char *result;
 
 		result = SDL_GetBasePath();
 		if (result != NULL)
 		{
-			dir = M_StringDuplicate(result);
+			exe_dir = M_StringDuplicate(result);
 			SDL_free(result);
 		}
 		else
 		{
 			result = M_DirName(_argv[0]);
-			dir = M_StringDuplicate(result);
+			exe_dir = M_StringDuplicate(result);
 		}
 	}
 
-	return dir;
+	return exe_dir;
 }
 
 char *GetPrefDir(void)
 {
-	static char *dir;
-
-	if (dir == NULL)
+	if (pref_dir == NULL)
 	{
-		char *result;
+		char *path = NULL;
 
-#ifndef PLATFORM_WINDOWS
-		result = SDL_GetPrefPath("", PACKAGE_TARNAME);
-		if (result != NULL)
+		/* ask sdl for pref path if user wants it */
+		if (cvar_get_bool("fs_usehomedir"))
 		{
-			dir = M_StringDuplicate(result);
-			SDL_free(result);
-		}
-		else
-#endif
-		{
-			result = GetExeDir();
-			dir = M_StringDuplicate(result);
+			path = SDL_GetPrefPath("", PACKAGE_TARNAME);
 		}
 
-		M_MakeDirectory(dir);
+		/* sdl failed, or they don't wanna use homedir */
+		if (path == NULL)
+		{
+			path = GetExeDir();
+		}
 
-#if !(SHAREWARE == 1)
-		result = dir;
-		dir = M_StringJoin(result, "darkwar", PATH_SEP_STR, NULL);
-		free(result);
+		/* fs_game cvar is not set yet */
+		if (!cvar_is_set("fs_game"))
+		{
+			char *game;
 
-		M_MakeDirectory(dir);
-#endif
+			/* TODO: this is lame */
+			if (!ROTTMAPS)
+				Error("Couldn't determine game, because no mapset is loaded!");
+
+			/* get game dir from mapset filename */
+			/* and make it lowercase */
+			game = M_BaseNameExt(ROTTMAPS);
+			M_ForceLowercase(game);
+
+			/* set cvar */
+			cvar_set("fs_game", game);
+
+			/* free tempstring */
+			free(game);
+		}
+
+		/* create path */
+		pref_dir = M_StringJoin(path, PATH_SEP_STR, cvar_get_string("fs_game"), PATH_SEP_STR, NULL);
+
+		/* free tempstring */
+		SDL_free(path);
+
+		/* create the path we found */
+		M_MakeDirectory(pref_dir);
 	}
 
-	return dir;
+	return pref_dir;
 }
 
 #define MAX_DATADIRS 16
@@ -158,7 +177,7 @@ static void AddXdgDirs(void)
 }
 #endif
 
-static void BuildDataDirList(void)
+void BuildDataDirList(void)
 {
 	/* already been setup */
 	if (datadirs[0])
