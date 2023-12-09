@@ -70,7 +70,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rottnet.h"
 #include "rt_scale.h"
 #include "rt_datadir.h"
-#include "rt_lua.h"
 #include "console.h"
 
 #include "music.h"
@@ -159,15 +158,6 @@ int main(int argc, char *argv[])
 	_argv = argv;
 
 	signal(11, crash_print);
-
-#if (ROTTEN_LUA == 1)
-	/* initialize lua */
-	if (lua_init() == false)
-		Error("Failed to initialize Lua library!");
-
-	/* initialize main menu */
-	lua_module_add("menu_main");
-#endif
 
 	// Start up Memory manager
 	Z_Init();
@@ -402,11 +392,6 @@ int main(int argc, char *argv[])
 	GameLoop();
 
 	QuitGame();
-
-#if (ROTTEN_LUA == 1)
-	/* quit lua */
-	lua_quit();
-#endif
 
 	return 0;
 }
