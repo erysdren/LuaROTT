@@ -11,6 +11,19 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 - Limited support for loading ROTT:LE levels
 - Ludicrous amounts of code cleanup and junk removal
 
+## Building
+
+### Linux
+
+Debian:
+```
+cd ROTTEN
+sudo apt-get install gcc build-essential cmake libsdl2-dev libsdl2-mixer-dev libsdl2-net-dev
+mkdir cmake-build && cd cmake-build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+sudo make install
+```
+
 ## Contributors
 
 - [Paril](https://github.com/Paril/)
