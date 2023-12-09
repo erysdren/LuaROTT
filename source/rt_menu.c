@@ -2732,11 +2732,13 @@ void CP_NewGame(void)
 		handlewhich = 100;
 	}
 
+#if (SHAREWARE == 0)
 	/* pick a campaign */
 	if (CP_CampaignSelection() == 0)
 	{
 		return;
 	}
+#endif
 
 	/* pick a player */
 	if (CP_PlayerSelection() == 0)

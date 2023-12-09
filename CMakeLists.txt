@@ -17,6 +17,7 @@ option(ROTTEN_ASAN "Enable address sanitizer" OFF)
 option(ROTTEN_LSAN "Enable leak sanitizer" OFF)
 option(ROTTEN_ANALYZER "Enable code analyzer" OFF)
 option(ROTTEN_INSTALL "Enable install target" ON)
+option(ROTTEN_SHAREWARE "Build for shareware" OFF)
 
 #
 # requirements
@@ -46,6 +47,11 @@ add_executable(rotten ${ROTTEN_SOURCES})
 target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer SDL2::Net)
 target_compile_definitions(rotten PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
+
+# shareware
+if(ROTTEN_SHAREWARE)
+	target_compile_definitions(rotten PUBLIC SHAREWARE=1)
+endif()
 
 # pedantic warnings
 if(ROTTEN_PEDANTIC)
