@@ -14,6 +14,7 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 # requirements
 find_package(SDL2 REQUIRED)
 find_package(SDL2_mixer REQUIRED)
+find_package(SDL2_net REQUIRED)
 
 # sources
 file(GLOB ROTTEN_SOURCES ${PROJECT_SOURCE_DIR}/source/*.c)
