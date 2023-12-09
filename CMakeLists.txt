@@ -17,6 +17,7 @@ option(ROTTEN_ASAN "Enable address sanitizer" OFF)
 option(ROTTEN_LSAN "Enable leak sanitizer" OFF)
 option(ROTTEN_ANALYZER "Enable code analyzer" OFF)
 option(ROTTEN_INSTALL "Enable install target" ON)
+option(ROTTEN_DEB "Enable .deb file target" OFF)
 
 #
 # requirements
@@ -110,7 +111,7 @@ endif()
 
 if(ROTTEN_INSTALL)
 
-	# use this instead of whatever cmake does by default
+	# used for direct installation
 	include(GNUInstallDirs)
 
 	# install executables
@@ -128,5 +129,15 @@ if(ROTTEN_INSTALL)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten_sw.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 	endif()
+
+	# use cpack for debian target
+	if(ROTTEN_DEB)
+		list(APPEND CPACK_GENERATOR "DEB")
+		set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+		set(CPACK_DEBIAN_PACKAGE_MAINTAINER "erysdren")
+	endif()
+
+	# include cpack
+	include(CPack)
 
 endif()
