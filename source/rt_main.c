@@ -226,10 +226,6 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	/* run configs */
-	console_exec("config.cfg");
-	console_exec("autoexec.cfg");
-
 	/* set preferences path */
 	ApogeePath = GetPrefDir();
 
@@ -1615,7 +1611,6 @@ void QuitGame(void)
 	SetTextMode();
 
 	/* shutdown console */
-	console_write_config("config.cfg");
 	console_quit();
 	cmdlib_quit();
 	cvarlib_quit();
