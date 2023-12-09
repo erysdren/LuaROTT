@@ -17,7 +17,6 @@ option(ROTTEN_ASAN "Enable address sanitizer" OFF)
 option(ROTTEN_LSAN "Enable leak sanitizer" OFF)
 option(ROTTEN_ANALYZER "Enable code analyzer" OFF)
 option(ROTTEN_INSTALL "Enable install target" ON)
-option(ROTTEN_SHAREWARE "Build for shareware" OFF)
 
 #
 # requirements
@@ -43,14 +42,27 @@ endif()
 # executable
 #
 
+# registered
 add_executable(rotten ${ROTTEN_SOURCES})
 target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer SDL2::Net)
 target_compile_definitions(rotten PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
+if(MSVC)
+	set_property(TARGET rotten PROPERTY C_STANDARD 17)
+	target_compile_options(rotten PUBLIC -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -Dstrcasecmp=_stricmp -Dalloca=_alloca)
+	target_compile_options(rotten PRIVATE /wd4267 /wd4244)
+endif()
 
 # shareware
-if(ROTTEN_SHAREWARE)
-	target_compile_definitions(rotten PUBLIC SHAREWARE=1)
+add_executable(rotten_sw  ${ROTTEN_SOURCES})
+target_compile_definitions(rotten_sw PUBLIC SHAREWARE=1)
+target_link_libraries(rotten_sw PUBLIC SDL2::Main SDL2::Mixer SDL2::Net)
+target_compile_definitions(rotten_sw PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
+target_compile_definitions(rotten_sw PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
+if(MSVC)
+set_property(TARGET rotten_sw PROPERTY C_STANDARD 17)
+	target_compile_options(rotten_sw PUBLIC -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -Dstrcasecmp=_stricmp -Dalloca=_alloca)
+	target_compile_options(rotten_sw PRIVATE /wd4267 /wd4244)
 endif()
 
 # pedantic warnings
@@ -59,13 +71,6 @@ if(ROTTEN_PEDANTIC)
 	target_compile_options(rotten PUBLIC -Wall -Wextra -pedantic)
 	target_compile_options(rotten PUBLIC -Wunused-macros -Wunused-local-typedefs)
 	target_compile_options(rotten PUBLIC -Wno-implicit-fallthrough -Wno-sign-compare)
-endif()
-
-# msvc compatibility
-if(MSVC)
-	set_property(TARGET rotten PROPERTY C_STANDARD 17)
-	target_compile_options(rotten PUBLIC -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -Dstrcasecmp=_stricmp -Dalloca=_alloca)
-	target_compile_options(rotten PRIVATE /wd4267 /wd4244)
 endif()
 
 # unefined behaviour sanitizer
@@ -108,8 +113,9 @@ if(ROTTEN_INSTALL)
 	# use this instead of whatever cmake does by default
 	include(GNUInstallDirs)
 
-	# install executable
+	# install executables
 	install(TARGETS rotten DESTINATION ${CMAKE_INSTALL_BINDIR})
+	install(TARGETS rotten_sw DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 	# unix gets supplementary files
 	if(UNIX)
@@ -120,6 +126,7 @@ if(ROTTEN_INSTALL)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_256x256.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/256x256/apps RENAME rott.png)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott.svg DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps RENAME rott.svg)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten_sw.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 	endif()
 
 endif()
