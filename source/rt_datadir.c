@@ -190,6 +190,9 @@ void BuildDataDirList(void)
 	// preferences directory
 	AddDataDir(GetPrefDir());
 
+	// root directory
+	AddDataDir((char *)cvar_get_string("fs_root"));
+
 #if 0
 #ifndef PLATFORM_WINDOWS
 	AddXdgDirs();
