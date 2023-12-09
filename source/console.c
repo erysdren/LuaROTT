@@ -178,19 +178,61 @@ const char *cvar_get_string(const char *name)
 	return cvar->val.s;
 }
 
-/* set string cvar */
-boolean cvar_set_string(const char *name, const char *value)
+/* set cvar */
+boolean cvar_set(const char *name, const char *value)
 {
 	cvar_t *cvar;
 
 	if ((cvar = cvar_retrieve(name)) == NULL)
 		return false;
-	if (cvar->type != CVAR_TYPE_STRING)
-		return false;
 
-	if (cvar->flags & CVAR_FLAG_SET)
-		free(cvar->val.s);
-	cvar->val.s = M_StringDuplicate(value);
+	/* set value */
+	switch (cvar->type)
+	{
+		case CVAR_TYPE_BOOL:
+			if (strcasecmp(value, "true") == 0)
+				cvar->val.b = true;
+			else if (strcasecmp(value, "false") == 0)
+				cvar->val.b = false;
+			else if (strtol(value, NULL, 10))
+				cvar->val.b = true;
+			else if (!strtol(value, NULL, 10))
+				cvar->val.b = false;
+			else
+				cvar->val.b = false;
+			break;
+
+		case CVAR_TYPE_INT:
+			cvar->val.i = strtol(value, NULL, 10);
+			break;
+
+		case CVAR_TYPE_UINT:
+			cvar->val.u = strtoul(value, NULL, 10);
+			break;
+
+		case CVAR_TYPE_FIXED:
+			cvar->val.x = FIXED(strtof(value, NULL));
+			break;
+
+		case CVAR_TYPE_FLOAT:
+			cvar->val.f = strtof(value, NULL);
+			break;
+
+		case CVAR_TYPE_STRING:
+			if (cvar->flags & CVAR_FLAG_SET)
+				free(cvar->val.s);
+			cvar->val.s = M_StringDuplicate(value);
+			break;
+
+		default:
+			Error("cvar %s with type %d", cvar->name, cvar->type);
+			break;
+	}
+
+	/* add set flag */
+	cvar->flags |= CVAR_FLAG_SET;
+
+	return true;
 }
 
 //****************************************************************************
@@ -319,7 +361,7 @@ int _cmd_map(int argc, char **argv)
 	}
 
 	/* convert to lowercase */
-	for (i = 0; i < strlen(argv[1]); i++)
+	for (i = 0; i < M_StringLength(argv[1]); i++)
 		argv[1][i] = tolower(argv[1][i]);
 
 	/* try to figure out map from string */
@@ -486,7 +528,7 @@ int _cmd_find(int argc, char **argv)
 	{
 		/* do text search */
 		if ((ptr = strstr(cmd->name, argv[1])) != NULL)
-			console_printf("%s: %s", cmd->name, cmd->help);
+			console_printf("command: %s: %s", cmd->name, cmd->help);
 
 		/* next */
 		cmd = cmd->next;
@@ -498,7 +540,7 @@ int _cmd_find(int argc, char **argv)
 	{
 		/* do text search */
 		if ((ptr = strstr(cvar->name, argv[1])) != NULL)
-			console_printf("%s", cvar->name);
+			console_printf("cvar: %s", cvar->name);
 
 		/* next */
 		cvar = cvar->next;
@@ -633,7 +675,7 @@ static void console_push_line(char *ptr)
 static void console_push(char *src)
 {
 	int i;
-	int len_src = strlen(src);
+	int len_src = M_StringLength(src);
 
 	/* bounds checks */
 	if (console.bufptr + len_src + 1 > console.buf + CONSOLE_BUFFER_SIZE)
@@ -915,58 +957,16 @@ static boolean console_parse_command(char *s)
 		/* user probably wants to set it */
 		if (argv[1])
 		{
+			/* block if protected */
 			if (cvar->flags & CVAR_FLAG_PROTECTED)
 			{
 				console_printf("\"%s\" is a protected variable and cannot be set", cvar->name);
 				return true;
 			}
 
-			/* set value */
-			switch (cvar->type)
-			{
-				case CVAR_TYPE_BOOL:
-					if (strcasecmp(argv[1], "true") == 0)
-						cvar->val.b = true;
-					else if (strcasecmp(argv[1], "false") == 0)
-						cvar->val.b = false;
-					else if (strtol(argv[1], NULL, 10))
-						cvar->val.b = true;
-					else if (!strtol(argv[1], NULL, 10))
-						cvar->val.b = false;
-					else
-						cvar->val.b = false;
-					break;
+			/* do set */
+			cvar_set(argv[0], argv[1]);
 
-				case CVAR_TYPE_INT:
-					cvar->val.i = strtol(argv[1], NULL, 10);
-					break;
-
-				case CVAR_TYPE_UINT:
-					cvar->val.u = strtoul(argv[1], NULL, 10);
-					break;
-
-				case CVAR_TYPE_FIXED:
-					cvar->val.x = FIXED(strtof(argv[1], NULL));
-					break;
-
-				case CVAR_TYPE_FLOAT:
-					cvar->val.f = strtof(argv[1], NULL);
-					break;
-
-				case CVAR_TYPE_STRING:
-					/* free string if it's already been duplicated */
-					if (cvar->flags & CVAR_FLAG_SET)
-						free(cvar->val.s);
-					cvar->val.s = M_StringDuplicate(argv[1]);
-					break;
-
-				default:
-					Error("unknown cvar type %d", cvar->type);
-					break;
-			}
-
-			/* add set flag and remove unset flag */
-			cvar->flags |= CVAR_FLAG_SET;
 			return true;
 		}
 		else

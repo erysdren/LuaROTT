@@ -184,8 +184,8 @@ float cvar_get_float(const char *name);
 /* retrieve string from cvar */
 const char *cvar_get_string(const char *name);
 
-/* set string cvar */
-boolean cvar_set_string(const char *name, const char *value);
+/* set cvar */
+boolean cvar_set(const char *name, const char *value);
 
 /* register standard library of cvars */
 void cvarlib_init(void);
