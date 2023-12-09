@@ -211,7 +211,7 @@ statinfo stats[NUMSTATS] = {
 	  150, 0, 0 },
 	{ 0, BULLETHOLE, stat_bullethole, FL_TRANSLUCENT, 0, 0, 0, 0, 0 },
 // MED
-#if (SHAREWARE == 1)
+#if (SHAREWARE == 1) || (DOPEFISH == 0)
 	{ 0, COLLECTOR1, stat_collector, FL_ACTIVE | FL_BONUS, 2, 8, -1, 0, 0 },
 #else
 	{ 0, DOPE1, stat_collector, FL_ACTIVE | FL_BONUS, 2, 8, -1, 0, 0 },
