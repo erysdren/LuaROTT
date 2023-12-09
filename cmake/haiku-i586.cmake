@@ -1,6 +1,6 @@
-# CMake toolchain for cross compiling to 32-bit Windows
-set(CMAKE_SYSTEM_NAME Windows)
-set(TOOLCHAIN_PREFIX i686-w64-mingw32)
+# CMake toolchain for cross compiling to 32-bit Haiku
+set(CMAKE_SYSTEM_NAME Haiku)
+set(TOOLCHAIN_PREFIX i586-pc-haiku)
 
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc)
 set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++)
