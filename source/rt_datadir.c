@@ -54,25 +54,28 @@ char *GetPrefDir(void)
 {
 	if (pref_dir == NULL)
 	{
-		char *path = NULL;
+		char *root = NULL;
+		char *game = NULL;
 
 		/* ask sdl for pref path if user wants it */
-		if (cvar_get_bool("fs_usehomedir"))
+		if (CheckParm("homedir"))
 		{
-			path = SDL_GetPrefPath("", PACKAGE_TARNAME);
+			root = SDL_GetPrefPath("", PACKAGE_TARNAME);
 		}
 
 		/* sdl failed, or they don't wanna use homedir */
-		if (path == NULL)
+		if (root == NULL)
 		{
-			path = GetExeDir();
+			root = GetExeDir();
 		}
+
+		/* set root cvar */
+		cvar_set("fs_root", root);
+		SDL_free(root);
 
 		/* fs_game cvar is not set yet */
 		if (!cvar_is_set("fs_game"))
 		{
-			char *game;
-
 			/* TODO: this is lame */
 			if (!ROTTMAPS)
 				Error("Couldn't determine game, because no mapset is loaded!");
@@ -82,20 +85,13 @@ char *GetPrefDir(void)
 			game = M_BaseNameExt(ROTTMAPS);
 			M_ForceLowercase(game);
 
-			/* set cvar */
+			/* set game cvar */
 			cvar_set("fs_game", game);
-
-			/* free tempstring */
-			free(game);
+			SDL_free(game);
 		}
 
-		/* create path */
-		pref_dir = M_StringJoin(path, PATH_SEP_STR, cvar_get_string("fs_game"), PATH_SEP_STR, NULL);
-
-		/* free tempstring */
-		SDL_free(path);
-
-		/* create the path we found */
+		/* build path and create directory */
+		pref_dir = M_StringJoin(cvar_get_string("fs_root"), PATH_SEP_STR, cvar_get_string("fs_game"), PATH_SEP_STR, NULL);
 		M_MakeDirectory(pref_dir);
 	}
 
@@ -194,8 +190,10 @@ void BuildDataDirList(void)
 	// preferences directory
 	AddDataDir(GetPrefDir());
 
+#if 0
 #ifndef PLATFORM_WINDOWS
 	AddXdgDirs();
+#endif
 #endif
 }
 

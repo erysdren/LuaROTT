@@ -243,9 +243,8 @@ boolean cvar_set(const char *name, const char *value)
 
 /* cvarlib array */
 cvar_t _cvarlib[] = {
-	CVAR_STRING("fs_root", NULL, CVAR_FLAG_NO_DEFAULT | CVAR_FLAG_PROTECTED),
-	CVAR_STRING("fs_game", NULL, CVAR_FLAG_NO_DEFAULT | CVAR_FLAG_PROTECTED),
-	CVAR_BOOL("fs_usehomedir", false, CVAR_FLAG_PROTECTED)
+	CVAR_STRING("fs_root", "./", CVAR_FLAG_PROTECTED),
+	CVAR_STRING("fs_game", "darkwar", CVAR_FLAG_PROTECTED)
 };
 
 /* register standard library of cvars */
