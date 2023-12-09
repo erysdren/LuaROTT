@@ -24,6 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <ctype.h>
 #include <stdarg.h>
 
+#include "SDL.h"
+#include "SDL_net.h"
+
 #include "rt_def.h"
 #include "_rt_com.h"
 #include "rt_com.h"
@@ -36,6 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rottnet.h"
 #include "rt_main.h"
 #include "rt_net.h"
+#include "_rt_net.h"
 #include "rt_draw.h"
 // #include "rt_ser.h"
 
@@ -53,21 +57,72 @@ int controlsynctime;
 static int ComStarted = false;
 static int transittimes[MAXPLAYERS];
 
+/* SDLNet */
+static IPaddress sdl_ip;
+static TCPsocket sdl_server_socket;
+static TCPsocket sdl_sockets[MAXPLAYERS];
+static SDLNet_SocketSet sdl_socket_set;
+
 void SyncTime(int client);
 void SetTransitTime(int client, int time);
 
-#ifndef PLATFORM_WINDOWS
-
 static void ReadUDPPacket()
 {
-	rottcom->remotenode = -1;
+	int ready;
+
+	ready = SDLNet_CheckSockets(sdl_socket_set, NETWORKTIMEOUT);
+
+	if (ready < 0)
+	{
+		Error("SDLNet_CheckSockets(): %s", SDLNet_GetError());
+	}
+	else if (ready == 0)
+	{
+		rottcom->remotenode = -1;
+	}
+	else
+	{
+		rottcom->remotenode = ready;
+	}
 }
 
 static void WriteUDPPacket()
 {
 }
 
-#endif
+/*
+===============
+=
+= QuitROTTNET
+=
+===============
+*/
+
+static void close_socket(int i)
+{
+	if (SDLNet_TCP_DelSocket(sdl_socket_set, sdl_sockets[i]) == -1)
+		Error("SDLNet_TCP_DelSocket(): %s", SDLNet_GetError());
+
+	SDLNet_TCP_Close(sdl_sockets[i]);
+}
+
+void QuitROTTNET(void)
+{
+	if (SDLNet_TCP_DelSocket(sdl_socket_set, sdl_server_socket) == -1)
+		Error("SDLNet_TCP_DelSocket(): %s", SDLNet_GetError());
+
+	SDLNet_TCP_Close(sdl_server_socket);
+
+	for (int i = 0; i < MAXPLAYERS; i++)
+	{
+		if (sdl_sockets[i] == NULL)
+			continue;
+		close_socket(i);
+	}
+
+	SDLNet_FreeSocketSet(sdl_socket_set);
+	SDLNet_Quit();
+}
 
 /*
 ===============
@@ -79,15 +134,16 @@ static void WriteUDPPacket()
 
 void InitROTTNET(void)
 {
-#ifndef PLATFORM_WINDOWS
 	int netarg;
-#endif
 
 	if (ComStarted == true)
 		return;
 	ComStarted = true;
 
-#ifndef PLATFORM_WINDOWS
+	/* init SDLNet */
+    if (SDLNet_Init() < 0)
+		Error("SDLNet_Init(): %s", SDLNet_GetError());
+
 	/*
 	server-specific options:
 	-net: enables netplay
@@ -142,6 +198,22 @@ void InitROTTNET(void)
 		}
 
 		rottcom->client = 0;
+
+		/* resolve host */
+		if (SDLNet_ResolveHost(&sdl_ip, NULL, DEFAULTPORT) == -1)
+			Error("SDLNet_ResolveHost(): %s", SDLNet_GetError());
+
+		/* open server socket */
+		sdl_server_socket = SDLNet_TCP_Open(&sdl_ip);
+		if (sdl_server_socket == NULL)
+			Error("SDLNet_TCP_Open(): %s", SDLNet_GetError());
+
+		sdl_socket_set = SDLNet_AllocSocketSet(MAXPLAYERS + 1);
+		if (sdl_socket_set == NULL)
+			Error("SDLNet_AllocSocketSet(): %s", SDLNet_GetError());
+
+		if (SDLNet_TCP_AddSocket(sdl_socket_set, sdl_server_socket) == -1)
+			Error("SDLNet_TCP_AddSocket(): %s", SDLNet_GetError());
 	}
 	else
 	{
@@ -178,8 +250,6 @@ void InitROTTNET(void)
 	  Client waits for AllDone packet.
 	  When client receives AllDone, it sends an AllDoneAck.
 	 */
-
-#endif
 
 	remoteridicule = false;
 	remoteridicule = rottcom->remoteridicule;
@@ -218,9 +288,7 @@ boolean ReadPacket(void)
 
 	// Check to see if a packet is ready
 
-#ifndef PLATFORM_WINDOWS
 	ReadUDPPacket();
-#endif
 
 	// Is it ready?
 
@@ -311,9 +379,7 @@ void WritePacket(void *buffer, int len, int destination)
 //   SoftError( "WritePacket: time=%ld size=%ld src=%ld
 //   type=%d\n",GetTicCount(),rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
 // Send It !
-#ifndef PLATFORM_WINDOWS
 	WriteUDPPacket();
-#endif
 }
 
 /*

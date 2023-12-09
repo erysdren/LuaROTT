@@ -41,6 +41,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAXPACKETSIZE 2048
 #define MAXCOMBUFFERSIZE 2048
 
+#define DEFAULTPORT 34858
+
 typedef struct
 {
 	short intnum; // ROTT executes an int to send commands
