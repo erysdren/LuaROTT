@@ -928,6 +928,10 @@ NoRTC:;
 	newargs[argnum++] = NULL;
 
 	W_InitMultipleFiles(newargs);
+
+	/* be provocative. be organized! */
+	free(newargs[argnum - 2]);
+	free(newargs[argnum - 3]);
 }
 
 void PlayTurboGame(void)
