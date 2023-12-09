@@ -318,7 +318,7 @@ CP_MenuNames MainMenuNames[] = { "NEW GAME",	 "COMM-BAT\x81 GAME",
 								 "RESTORE GAME", "SAVE GAME",
 								 "OPTIONS",		 "ORDERING INFO",
 								 "VIEW SCORES",	 //"END GAME"
-								 "BACK TO DEMO", //"BACK TO GAME"
+								 "CHOOSE GAME",
 								 "QUIT" };
 
 CP_iteminfo MainItems = { MENU_X, MENU_Y + 1,	 9,			  STARTITEM,
@@ -331,7 +331,7 @@ CP_itemtype MainMenu[] = {
 	{ CP_Active, "mm_opt5\0", 'O', { .vv = CP_ControlMenu } },
 	{ CP_Active, "ordrinfo\0", 'O', { .vv = CP_OrderInfo } },
 	{ CP_Active, "mm_opt7\0", 'V', { .vv = CP_ViewScores } },
-	{ CP_Active, "mm_opt8\0", 'B', { .vv = NULL } },
+	{ CP_Inactive, "mm_opt8\0", 'C', { .iv = CP_CampaignSelection } },
 	{ CP_Active, "mm_opt9\0", 'Q', { .vi =  CP_Quit } }
 };
 
@@ -1204,7 +1204,7 @@ void SetUpControlPanel(void)
 		// No save or load game in modem game
 		//
 		MainMenu[newgame].active = CP_Inactive;
-		MainMenu[backtodemo].active = CP_Inactive;
+		MainMenu[choosegame].active = CP_Inactive;
 		MainMenu[loadgame].active = CP_Inactive;
 		MainMenu[savegame].active = CP_Inactive;
 
@@ -1542,7 +1542,6 @@ menuitems CP_MainMenu(void)
 		switch (which)
 		{
 			case -1:
-			case backtodemo:
 				if (!ingame)
 				{
 					playstate = ex_titles;
@@ -1580,22 +1579,17 @@ void DrawMainMenu(void)
 
 	MenuNum = 1;
 	EnableScreenStretch(); // bna++ shut off streech mode
-	//
-	// CHANGE "GAME" AND "DEMO"
-	//
+
+#if (SHAREWARE == 0)
 	if (ingame)
 	{
-		MainMenu[backtodemo].texture[6] = '1';
-		MainMenu[backtodemo].texture[7] = '1';
-		MainMenu[backtodemo].texture[8] = '\0';
-		strcpy(MainMenuNames[backtodemo], "BACK TO GAME");
+		MainMenu[choosegame].active = CP_Inactive;
 	}
 	else
 	{
-		MainMenu[backtodemo].texture[6] = '8';
-		MainMenu[backtodemo].texture[7] = '\0';
-		strcpy(MainMenuNames[backtodemo], "BACK TO DEMO");
+		MainMenu[choosegame].active = CP_Active;
 	}
+#endif
 
 	MN_GetCursorLocation(&MainItems, &MainMenu[0]);
 	SetMenuTitle("Main Menu");
@@ -2731,14 +2725,6 @@ void CP_NewGame(void)
 	{
 		handlewhich = 100;
 	}
-
-#if (SHAREWARE == 0)
-	/* pick a campaign */
-	if (CP_CampaignSelection() == 0)
-	{
-		return;
-	}
-#endif
 
 	/* pick a player */
 	if (CP_PlayerSelection() == 0)
@@ -6400,7 +6386,7 @@ int CP_CampaignSelection(void)
 	} while (CampaignMenu[which].active == CP_SemiActive);
 
 	/* assign ROTTMAPS to what user selected */
-	ROTTMAPS =  FindFileByName(CampaignFileNames[which]);
+	ROTTMAPS = FindFileByName(CampaignFileNames[which]);
 
 	return 1;
 }

@@ -152,7 +152,7 @@ typedef enum
 	control,
 	orderinfo,
 	viewscores,
-	backtodemo,
+	choosegame,
 	quit
 } menuitems;
 
