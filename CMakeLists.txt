@@ -7,6 +7,7 @@ project(ROTTEN LANGUAGES C VERSION 1.1.2)
 option(ROTTEN_PEDANTIC "Enable all pedantic warnings" OFF)
 option(ROTTEN_UBSAN "Enable UBSAN" OFF)
 option(ROTTEN_ASAN "Enable ASAN" OFF)
+option(ROTTEN_ANALYZER "Enable leak analyzer" OFF)
 
 # add module path
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
@@ -26,7 +27,7 @@ endif()
 
 # executable
 add_executable(rotten ${ROTTEN_SOURCES})
-target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer)
+target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer SDL2::Net)
 target_compile_definitions(rotten PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
 
@@ -57,6 +58,12 @@ endif()
 if(ROTTEN_ASAN)
 	target_compile_options(rotten PUBLIC -fsanitize=address)
 	target_link_options(rotten PUBLIC -fsanitize=address)
+endif()
+
+# leak analyzer
+if(ROTTEN_ANALYZER)
+	target_compile_options(rotten PUBLIC -fanalyzer -fsanitize=leak)
+	target_link_options(rotten PUBLIC -fanalyzer -fsanitize=leak)
 endif()
 
 # optimizations or debug symbols
