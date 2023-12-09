@@ -5,9 +5,10 @@ project(ROTTEN LANGUAGES C VERSION 1.1.2)
 
 # options
 option(ROTTEN_PEDANTIC "Enable all pedantic warnings" OFF)
-option(ROTTEN_UBSAN "Enable UBSAN" OFF)
-option(ROTTEN_ASAN "Enable ASAN" OFF)
-option(ROTTEN_ANALYZER "Enable leak analyzer" OFF)
+option(ROTTEN_UBSAN "Enable undefined behaviour sanitizer" OFF)
+option(ROTTEN_ASAN "Enable address sanitizer" OFF)
+option(ROTTEN_LSAN "Enable leak sanitizer" OFF)
+option(ROTTEN_ANALYZER "Enable code analyzer" OFF)
 
 # add module path
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
@@ -48,22 +49,28 @@ if(MSVC)
 	target_compile_options(rotten PRIVATE /wd4267 /wd4244)
 endif()
 
-# ubsan
+# unefined behaviour sanitizer
 if(ROTTEN_UBSAN)
 	target_compile_options(rotten PUBLIC -fsanitize=undefined)
 	target_link_options(rotten PUBLIC -fsanitize=undefined)
 endif()
 
-# asan
+# address sanitizer
 if(ROTTEN_ASAN)
 	target_compile_options(rotten PUBLIC -fsanitize=address)
 	target_link_options(rotten PUBLIC -fsanitize=address)
 endif()
 
-# leak analyzer
+# leak sanitizer
+if(ROTTEN_LSAN)
+	target_compile_options(rotten PUBLIC -fsanitize=leak)
+	target_link_options(rotten PUBLIC -fsanitize=leak)
+endif()
+
+# code analyzer
 if(ROTTEN_ANALYZER)
-	target_compile_options(rotten PUBLIC -fanalyzer -fsanitize=leak)
-	target_link_options(rotten PUBLIC -fanalyzer -fsanitize=leak)
+	target_compile_options(rotten PUBLIC -fanalyzer)
+	target_link_options(rotten PUBLIC -fanalyzer)
 endif()
 
 # optimizations or debug symbols
