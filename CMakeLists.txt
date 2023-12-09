@@ -1,39 +1,51 @@
 
-# project
+#
+# cmake settings
+#
+
 cmake_minimum_required(VERSION 3.5)
 project(ROTTEN LANGUAGES C VERSION 1.1.2)
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
+#
 # options
+#
+
 option(ROTTEN_PEDANTIC "Enable all pedantic warnings" OFF)
 option(ROTTEN_UBSAN "Enable undefined behaviour sanitizer" OFF)
 option(ROTTEN_ASAN "Enable address sanitizer" OFF)
 option(ROTTEN_LSAN "Enable leak sanitizer" OFF)
 option(ROTTEN_ANALYZER "Enable code analyzer" OFF)
+option(ROTTEN_INSTALL "Enable install target" ON)
 
-# add module path
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-
+#
 # requirements
+#
+
 find_package(SDL2 REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_net REQUIRED)
 
+#
 # sources
+#
+
+# all all c files in the source folder
 file(GLOB ROTTEN_SOURCES ${PROJECT_SOURCE_DIR}/source/*.c)
 
-# add rc if we're on windows
+# add rc file if we're on windows
 if(WIN32)
 	set(ROTTEN_SOURCES ${ROTTEN_SOURCES} ${PROJECT_SOURCE_DIR}/misc/rott.rc)
 endif()
 
+#
 # executable
+#
+
 add_executable(rotten ${ROTTEN_SOURCES})
 target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer SDL2::Net)
 target_compile_definitions(rotten PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
-
-# install setup
-include(${PROJECT_SOURCE_DIR}/cmake/install.cmake)
 
 # pedantic warnings
 if(ROTTEN_PEDANTIC)
@@ -43,6 +55,7 @@ if(ROTTEN_PEDANTIC)
 	target_compile_options(rotten PUBLIC -Wno-implicit-fallthrough -Wno-sign-compare)
 endif()
 
+# msvc compatibility
 if(MSVC)
 	set_property(TARGET rotten PROPERTY C_STANDARD 17)
 	target_compile_options(rotten PUBLIC -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -Dstrcasecmp=_stricmp -Dalloca=_alloca)
@@ -78,4 +91,29 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 	target_compile_options(rotten PUBLIC -O3)
 elseif(!MSVC)
 	target_compile_options(rotten PUBLIC -g3)
+endif()
+
+#
+# install target
+#
+
+if(ROTTEN_INSTALL)
+
+	# use this instead of whatever cmake does by default
+	include(GNUInstallDirs)
+
+	# install executable
+	install(TARGETS rotten DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+	# unix gets supplementary files
+	if(UNIX)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_16x16.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/16x16/apps RENAME rott.png)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_32x32.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/32x32/apps RENAME rott.png)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_64x64.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/64x64/apps RENAME rott.png)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_128x128.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/128x128/apps RENAME rott.png)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_256x256.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/256x256/apps RENAME rott.png)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott.svg DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps RENAME rott.svg)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+	endif()
+
 endif()
