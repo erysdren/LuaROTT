@@ -27,75 +27,90 @@
 
 static char *exe_dir = NULL;
 static char *pref_dir = NULL;
+static char *root_dir = NULL;
 
-static char *GetExeDir(void)
+char *GetExeDir(void)
 {
-	if (exe_dir == NULL)
-	{
-		char *result;
-
-		result = SDL_GetBasePath();
-		if (result != NULL)
-		{
-			exe_dir = M_StringDuplicate(result);
-			SDL_free(result);
-		}
-		else
-		{
-			result = M_DirName(_argv[0]);
-			exe_dir = M_StringDuplicate(result);
-		}
-	}
-
+	if (!exe_dir)
+		BuildDirs();
 	return exe_dir;
 }
 
 char *GetPrefDir(void)
 {
-	if (pref_dir == NULL)
+	if (!pref_dir)
+		BuildDirs();
+	return pref_dir;
+}
+
+char *GetRootDir(void)
+{
+	if (!root_dir)
+		BuildDirs();
+	return root_dir;
+}
+
+void BuildDirs(void)
+{
+	char *base = NULL;
+	char *root = NULL;
+	char *game = NULL;
+
+	/* build exe dir */
+	base = SDL_GetBasePath();
+	if (base != NULL)
 	{
-		char *root = NULL;
-		char *game = NULL;
-
-		/* ask sdl for pref path if user wants it */
-		if (CheckParm("homedir"))
-		{
-			root = SDL_GetPrefPath("", PACKAGE_TARNAME);
-		}
-
-		/* sdl failed, or they don't wanna use homedir */
-		if (root == NULL)
-		{
-			root = GetExeDir();
-		}
-
-		/* set root cvar */
-		cvar_set("fs_root", root);
-		SDL_free(root);
-
-		/* fs_game cvar is not set yet */
-		if (!cvar_is_set("fs_game"))
-		{
-			/* TODO: this is lame */
-			if (!ROTTMAPS)
-				Error("Couldn't determine game, because no mapset is loaded!");
-
-			/* get game dir from mapset filename */
-			/* and make it lowercase */
-			game = M_BaseNameExt(ROTTMAPS);
-			M_ForceLowercase(game);
-
-			/* set game cvar */
-			cvar_set("fs_game", game);
-			SDL_free(game);
-		}
-
-		/* build path and create directory */
-		pref_dir = M_StringJoin(cvar_get_string("fs_root"), PATH_SEP_STR, cvar_get_string("fs_game"), PATH_SEP_STR, NULL);
-		M_MakeDirectory(pref_dir);
+		exe_dir = M_StringDuplicate(base);
+		SDL_free(base);
+	}
+	else
+	{
+		base = M_DirName(_argv[0]);
+		exe_dir = M_StringDuplicate(base);
 	}
 
-	return pref_dir;
+	/* ask sdl for pref path if user wants it */
+	if (CheckParm("homedir"))
+	{
+		root = SDL_GetPrefPath("", PACKAGE_TARNAME);
+	}
+
+	/* sdl failed, or they don't wanna use homedir */
+	if (root == NULL)
+	{
+		cvar_set("fs_root", "./");
+	}
+	else
+	{
+		/* set root cvar to pref dir */
+		cvar_set("fs_root", root);
+		SDL_free(root);
+	}
+
+	/* fs_game cvar is not set yet */
+	if (!cvar_is_set("fs_game"))
+	{
+		/* TODO: this is lame */
+		if (!ROTTMAPS)
+			Error("Couldn't determine game, because no mapset is loaded!");
+
+		/* get game dir from mapset filename */
+		/* and make it lowercase */
+		game = M_BaseNameExt(ROTTMAPS);
+		M_ForceLowercase(game);
+
+		/* set game cvar */
+		cvar_set("fs_game", game);
+		SDL_free(game);
+	}
+
+	/* build root path and create directory */
+	root_dir =  M_StringJoin(cvar_get_string("fs_root"), PATH_SEP_STR, NULL);
+	M_MakeDirectory(root_dir);
+
+	/* build pref path and create directory */
+	pref_dir = M_StringJoin(root_dir, cvar_get_string("fs_game"), PATH_SEP_STR, NULL);
+	M_MakeDirectory(pref_dir);
 }
 
 #define MAX_DATADIRS 16
@@ -181,17 +196,17 @@ void BuildDataDirList(void)
 		return;
 	}
 
+	/* build directories */
+	BuildDirs();
+
 	// current directory
 	AddDataDir(".");
 
 	// executable directory
 	AddDataDir(GetExeDir());
 
-	// preferences directory
-	AddDataDir(GetPrefDir());
-
 	// root directory
-	AddDataDir((char *)cvar_get_string("fs_root"));
+	AddDataDir(GetRootDir());
 
 #if 0
 #ifndef PLATFORM_WINDOWS
