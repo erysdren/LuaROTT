@@ -190,7 +190,8 @@ char *FX_ErrorString(int ErrorNumber)
 
 int FX_StopSound(int handle)
 {
-	if (handle >= 0 && channels[handle].sfx)
+	/* TODO: excalibat passes a handle of 72 into this function somehow, please look into that!! */
+	if (handle >= 0 && handle < MAX_CHANNELS && channels[handle].sfx)
 	{
 		Mix_HaltChannel(handle);
 
