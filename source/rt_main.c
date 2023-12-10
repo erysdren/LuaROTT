@@ -30,6 +30,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SDL_MAIN_HANDLED
 #include "SDL.h"
 
+#ifdef __HAIKU__
+#include <libgen.h>
+#include <unistd.h>
+#endif
+
 #include "rt_actor.h"
 #include "rt_stat.h"
 #include "rt_vid.h"
@@ -154,6 +159,11 @@ extern void RecordDemoQuery(void);
 
 int main(int argc, char *argv[])
 {
+	char *binpath = realpath(argv[0], NULL);
+	if (binpath != NULL) {
+		chdir(dirname(binpath));
+		free(binpath);
+	}
 	_argc = argc;
 	_argv = argv;
 
