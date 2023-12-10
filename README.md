@@ -69,6 +69,7 @@ sudo make install
 - [riseofthetriad.dk](https://www.riseofthetriad.dk)
 - [github.com/fabiangreffrath/rott/](https://github.com/fabiangreffrath/rott/)
 - [github.com/hogsy/hrotte/](https://github.com/hogsy/hrotte/)
+- [github.com/LTCHIPS/rottexpr/](https://github.com/LTCHIPS/rottexpr/)
 - [github.com/aminosbh/sdl2-cmake-modules/](https://github.com/aminosbh/sdl2-cmake-modules/)
 
 ## License
