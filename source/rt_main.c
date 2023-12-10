@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SDL_MAIN_HANDLED
 #include "SDL.h"
 
-#ifdef __HAIKU__
+#ifdef PLATFORM_HAIKU
 #include <libgen.h>
 #include <unistd.h>
 #endif
@@ -159,11 +159,14 @@ extern void RecordDemoQuery(void);
 
 int main(int argc, char *argv[])
 {
+#ifdef PLATFORM_HAIKU
 	char *binpath = realpath(argv[0], NULL);
 	if (binpath != NULL) {
 		chdir(dirname(binpath));
 		free(binpath);
 	}
+#endif
+
 	_argc = argc;
 	_argv = argv;
 
