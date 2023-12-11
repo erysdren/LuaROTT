@@ -4,7 +4,12 @@
 #
 
 cmake_minimum_required(VERSION 3.5)
-project(ROTTEN LANGUAGES C VERSION 1.1.3)
+project(ROTTEN
+	DESCRIPTION "An enhanced port of Rise of the Triad based on SDL2"
+	HOMEPAGE_URL "https://erysdren.me/rotten.html"
+	LANGUAGES C
+	VERSION 1.1.3
+)
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 #
