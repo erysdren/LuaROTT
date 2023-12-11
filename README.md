@@ -21,18 +21,27 @@ sudo apt-get install gcc build-essential cmake libsdl2-dev libsdl2-mixer-dev lib
 cd ROTTEN
 mkdir cmake-build && cd cmake-build
 cmake -DCMAKE_BUILD_TYPE=Release ..
-sudo make install
+sudo make
+```
+
+Arch:
+```
+sudo pacman -S gcc cmake sdl2 sdl2_mixer sdl2_net
+cd ROTTEN
+mkdir cmake-build && cd cmake-build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+sudo make
 ```
 
 ### Windows
 
 MSYS2 UCRT64:
 ```
-pacman -S mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-SDL2 mingw-w64-ucrt-x86_64-SDL2_net mingw-w64-ucrt-x86_64-SDL2_mixer
+pacman -S mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-SDL2  mingw-w64-ucrt-x86_64-SDL2_mixer mingw-w64-ucrt-x86_64-SDL2_net
 cd ROTTEN
 mkdir cmake-build && cd cmake-build
 cmake -DCMAKE_BUILD_TYPE=Release ..
-sudo make install
+sudo make
 ```
 
 ### Haiku
