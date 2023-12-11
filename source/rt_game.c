@@ -440,21 +440,20 @@ void DrawPlayScreen(boolean bufferofsonly)
 				// statusbar dosent cover hole screen, because its a lump
 				// picture width max 320 first write dummy shape and next over
 				// it
-				GameMemToScreen(shape, 320, (224 * 2) + 16 - ShowKillsYoffset,
-								bufferofsonly);
+				GameMemToScreen(shape, 320, iGLOBAL_SCREENHEIGHT - 16 - ShowKillsYoffset, bufferofsonly);
+
 				// copy next shape to mem
-				GameMemToScreen(shape, 0, (224 * 2) + 16 - ShowKillsYoffset,
-								bufferofsonly);
+				GameMemToScreen(shape, 0, iGLOBAL_SCREENHEIGHT - 16 - ShowKillsYoffset, bufferofsonly);
+
 				// delete bullet in middle of shape picture
-				DrawPPic(310, (224 * 2) + 17 - ShowKillsYoffset, 8 >> 2, 16,
-						 (byte *)&erase->data, 2, true, bufferofsonly);
+				DrawPPic(310, iGLOBAL_SCREENHEIGHT - 15 - ShowKillsYoffset, 8 >> 2, 16,  (byte *)&erase->data, 2, true, bufferofsonly);
+
 				// delete hart in middle of shape picture
-				DrawPPic(324, (224 * 2) + 17 - ShowKillsYoffset, 8 >> 2, 16,
-						 (byte *)&erase->data, 2, true, bufferofsonly);
+				DrawPPic(324, iGLOBAL_SCREENHEIGHT - 15 - ShowKillsYoffset, 8 >> 2, 16, (byte *)&erase->data, 2, true, bufferofsonly);
 			}
 			else
 			{
-				GameMemToScreen(shape, 0, 184, bufferofsonly);
+				GameMemToScreen(shape, 0, iGLOBAL_SCREENHEIGHT - 16 - ShowKillsYoffset, bufferofsonly);
 			}
 		}
 
