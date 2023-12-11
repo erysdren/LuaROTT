@@ -909,8 +909,7 @@ void DrawPlayers(void)
 	// Draw all the losers
 	CurrentFont = tinyfont;
 
-	xpos =
-		(iGLOBAL_SCREENWIDTH - min(numplayers, MAXKILLBOXES) * KILLS_WIDTH) / 2;
+	xpos = (320 - min(numplayers, MAXKILLBOXES) * KILLS_WIDTH) / 2;
 	// SetTextMode (  );//PLAYERSTATE
 	for (team = 0; team < BATTLE_NumberOfTeams; team++)
 	{
@@ -970,12 +969,12 @@ void DrawPlayers(void)
 					xpos += KILLS_WIDTH;
 				}
 			}
-			if (xpos >= iGLOBAL_SCREENWIDTH)
+			if (xpos >= 320)
 			{
 				break;
 			}
 		}
-		if (xpos >= iGLOBAL_SCREENWIDTH)
+		if (xpos >= 320)
 		{
 			break;
 		}
