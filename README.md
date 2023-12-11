@@ -24,6 +24,16 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 sudo make install
 ```
 
+### Haiku
+
+```
+cd ROTTEN
+pkgman install gcc cmake libsdl2_devel sdl2_mixer_devel sdl2_net_devel
+mkdir cmake-build && cd cmake-build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+```
+
 ## Contributors
 
 - [Paril](https://github.com/Paril/)
