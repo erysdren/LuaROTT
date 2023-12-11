@@ -1,5 +1,5 @@
 
-# ROTTEN
+# Rise of the Triad: Enhanced
 
 An enhanced port of Rise of the Triad, based on SDL2.
 
