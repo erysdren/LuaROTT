@@ -1905,7 +1905,7 @@ void DrawBarAmmo(boolean bufferofsonly)
 		ammo_y -= KILLS_HEIGHT;
 	}
 
-	DrawPPic(iGLOBAL_AMMO_X, ammo_y + 1, 8 >> 2, 16, (byte *)&erase->data, 10,
+	DrawPPic(iGLOBAL_AMMO_X, ammo_y, 8 >> 2, 16, (byte *)&erase->data, 10,
 			 false, bufferofsonly);
 
 	if (!ARMED(player->dirchoosetime))
@@ -1916,10 +1916,10 @@ void DrawBarAmmo(boolean bufferofsonly)
 		(locplayerstate->new_weapon == wp_godhand) ||
 		(gamestate.BattleOptions.Ammo == bo_infinite_shots))
 	{
-		DrawPPic(iGLOBAL_AMMO_X - 16, ammo_y, 24 >> 2, 16,
+		DrawPPic(iGLOBAL_AMMO_X - 16, ammo_y - 1, 24 >> 2, 16,
 				 (byte *)&ammo[0]->data, 1, true, bufferofsonly);
 
-		DrawPPic(iGLOBAL_AMMO_X - 32, ammo_y + 1, 8 >> 2, 16,
+		DrawPPic(iGLOBAL_AMMO_X - 32, ammo_y, 8 >> 2, 16,
 				 (byte *)&erase->data, 2, true, bufferofsonly);
 	}
 #if (SHAREWARE == 0)
