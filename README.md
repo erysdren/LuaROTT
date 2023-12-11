@@ -17,8 +17,19 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 
 Debian:
 ```
-cd ROTTEN
 sudo apt-get install gcc build-essential cmake libsdl2-dev libsdl2-mixer-dev libsdl2-net-dev
+cd ROTTEN
+mkdir cmake-build && cd cmake-build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+sudo make install
+```
+
+### Windows
+
+MSYS2 UCRT64:
+```
+pacman -S mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-SDL2 mingw-w64-ucrt-x86_64-SDL2_net mingw-w64-ucrt-x86_64-SDL2_mixer
+cd ROTTEN
 mkdir cmake-build && cd cmake-build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 sudo make install
@@ -27,8 +38,8 @@ sudo make install
 ### Haiku
 
 ```
-cd ROTTEN
 pkgman install gcc cmake libsdl2_devel sdl2_mixer_devel sdl2_net_devel
+cd ROTTEN
 mkdir cmake-build && cd cmake-build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make
