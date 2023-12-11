@@ -28,6 +28,7 @@ sudo make install
 
 - [Paril](https://github.com/Paril/)
 - [vs49688](https://github.com/vs49688/)
+- [Begasus](https://github.com/Begasus)
 
 ## Required Assets
 
