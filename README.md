@@ -97,7 +97,7 @@ make
 ## Sources
 
 - [icculus.org/rott/](https://icculus.org/rott/)
-- [riseofthetriad.dk](https://www.riseofthetriad.dk)
+- [riseofthetriad.dk](https://dukenukemcentral.com/mirrorsites/www.riseofthetriad.dk/)
 - [github.com/fabiangreffrath/rott/](https://github.com/fabiangreffrath/rott/)
 - [github.com/hogsy/hrotte/](https://github.com/hogsy/hrotte/)
 - [github.com/LTCHIPS/rottexpr/](https://github.com/LTCHIPS/rottexpr/)
