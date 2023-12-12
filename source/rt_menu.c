@@ -4349,12 +4349,11 @@ void ReadAnyControl(ControlInfo *ci)
 
 char *IN_GetScanName(ScanCode scan)
 {
-	char **p;
-	ScanCode *s;
-
-	for (s = ExtScanCodes, p = ExtScanNames; *s; p++, s++)
-		if (*s == scan)
-			return (*p);
+	for (int i = 0; i < sizeof(ExtScanCodes); i++)
+	{
+		if (ExtScanCodes[i] == scan)
+			return ExtScanNames[i];
+	}
 
 	return (ScanNames[scan]);
 }
