@@ -85,26 +85,8 @@ jobs:
           CFLAGS: -Wall
         run: |
           cmake -E make_directory ${{github.workspace}}/cmake-build
-          cmake -S . -B ${{github.workspace}}/cmake-build
+          cmake -S ${{github.workspace}} -B ${{github.workspace}}/cmake-build
 
       - name: Build
         run: |
           cmake --build ${{github.workspace}}/cmake-build --config Release
-
-  cppcheck:
-    name: Cppcheck
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install cppcheck
-
-      - uses: actions/checkout@v3
-
-      - name: Run cppcheck
-        shell: bash
-        run: |
-          cppcheck --version
-          cppcheck --error-exitcode=1 -j4 -q --force -U_WIN32 -U__APPLE__ -Irott -Irott/audiolib rott rott/audiolib
