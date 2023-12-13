@@ -71,6 +71,9 @@ set_property(TARGET rotten_sw PROPERTY C_STANDARD 17)
 	target_compile_options(rotten_sw PRIVATE /wd4267 /wd4244)
 endif()
 
+# copy rotten.wad
+configure_file(${PROJECT_SOURCE_DIR}/misc/wad/rotten.wad ${PROJECT_BINARY_DIR}/rotten.wad COPYONLY)
+
 # pedantic warnings
 if(ROTTEN_PEDANTIC)
 	target_compile_options(rotten PUBLIC -std=gnu99)
