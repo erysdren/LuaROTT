@@ -91,9 +91,9 @@ jobs:
         run: |
           cmake --build cmake-build --config Release
 
-      - name: Upload win64 artifact
+      - name: Upload artifacts (Windows)
         uses: actions/upload-artifact@v3
-        if: ${{ runner.os == 'Windows' && matrix.use-asan == 'NO' }}
+        if: runner.os == 'Windows'
         with:
           name: rotten-${{ github.sha }}-win64
           path: |
@@ -101,9 +101,9 @@ jobs:
             cmake-build/rotten_sw.exe
             misc/wad/rotten.wad
 
-      - name: Upload Linux artifact
+      - name: Upload artifacts (Linux)
         uses: actions/upload-artifact@v3
-        if: ${{ runner.os == 'Linux' && matrix.use-asan == 'NO' }}
+        if: runner.os == 'Linux'
         with:
           name: rotten-${{ github.sha }}-Linux
           path: |
@@ -111,9 +111,9 @@ jobs:
             cmake-build/rotten_sw
             misc/wad/rotten.wad
 
-      - name: Upload macOS artifact
+      - name: Upload artifacts (macOS)
         uses: actions/upload-artifact@v3
-        if: ${{ runner.os == 'macOS' && matrix.use-asan == 'NO' }}
+        if: runner.os == 'macOS'
         with:
           name: rotten-${{ github.sha }}-macOS
           path: |
