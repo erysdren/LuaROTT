@@ -1015,6 +1015,21 @@ void DrawPreCache(void)
 
 		US_BufPrint(&temp[0]);
 
+		char *author = GetMapAuthor(gamestate.mapon);
+
+		if (author)
+		{
+			char *author_joined = M_StringJoin("Author: ", author, NULL);
+			CurrentFont = tinyfont;
+			US_MeasureStr(&width, &height, "%s", author_joined);
+			PrintX = (320 - width) >> 1;
+			PrintY = PRECACHESTRINGY + 16;
+			VWB_TBar(PrintX - 2, PrintY - 2, width + 4, height + 4);
+			US_BufPrint(author_joined);
+			free(author);
+			free(author_joined);
+		}
+
 		VW_UpdateScreen();
 
 		MenuFadeIn();
@@ -1545,8 +1560,6 @@ void ReadROTTMap(char *filename, int mapnum)
 	if (mapinfo_json != NULL)
 		SafeFree(mapinfo_json);
 	mapinfo_json = GetMapInfoJSON(filehandle);
-
-	GetMapAuthor(0);
 
 	//
 	// Load map header
