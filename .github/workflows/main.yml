@@ -49,7 +49,7 @@ jobs:
           sudo apt-get install \
             cmake \
             libsdl2-dev \
-            libsdl2-mixer-dev
+            libsdl2-mixer-dev \
             libsdl2-net-dev
 
       - name: Install dependencies (macOS)
@@ -61,7 +61,7 @@ jobs:
           brew install \
             cmake \
             sdl2 \
-            sdl2_mixer
+            sdl2_mixer \
             sdl2_net
 
       - name: Install dependencies (MSYS2)
