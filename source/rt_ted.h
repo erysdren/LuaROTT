@@ -142,6 +142,9 @@ extern boolean insetupgame;
 extern char LevelName[80];
 extern boolean ISRTL;
 
+extern boolean mapset_is_rxl;
+extern char *mapinfo_json;
+
 extern char *ROTTMAPS;
 extern char *BATTMAPS;
 
@@ -178,6 +181,8 @@ void GetMapInfo(mapfileinfo_t *mapinfo);
 void GetMapFileName(char *filename);
 void SetBattleMapFileName(char *filename);
 word GetMapCRC(int num);
+char *GetMapInfoJSON(int filehandle);
+char *GetMapAuthor(int map);
 
 int GetNextMap(int tilex, int tiley);
 void Illuminate();

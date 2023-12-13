@@ -59,6 +59,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_net.h"
 #include "_rt_ted.h"
 
+#include "thirdp/cJSON.h"
+
 //========================================
 // GLOBAL VARIABLES
 //========================================
@@ -76,6 +78,8 @@ str_clock Clocks[MAXCLOCKS];
 int numclocks;
 int LightsInArea[NUMAREAS + 1];
 
+char *mapinfo_json = NULL;
+
 int maxheight;
 int nominalheight;
 int elevatorstart;
@@ -92,6 +96,8 @@ int lastlevelloaded = -1;
 
 boolean insetupgame;
 boolean ISRTL = false;
+
+boolean mapset_is_rxl = false;
 
 unsigned MapSpecials = 0;
 
@@ -1297,9 +1303,12 @@ void CheckRTLVersion(char *filename)
 				  RXL_VERSION >> 8, RXL_VERSION & 0xff);
 		}
 
+		mapset_is_rxl = true;
 		close(filehandle);
 		return;
 	}
+
+	mapset_is_rxl = false;
 
 	if ((strcmp(RTLSignature, COMMBAT_SIGNATURE) != 0) &&
 		(strcmp(RTLSignature, NORMAL_SIGNATURE) != 0) &&
@@ -1394,6 +1403,125 @@ size_t GetMapArrayOffset(int filehandle)
 /*
 ======================
 =
+= GetMapInfoJSON
+=
+======================
+*/
+char *GetMapInfoJSON(int filehandle)
+{
+	char RTLSignature[4];
+	uint64_t ofs_info_headers;
+	uint64_t num_info_headers;
+	int i;
+	char info_header_magic[16];
+	uint64_t info_header_ofs;
+	uint64_t info_header_len;
+	int RTLVersion;
+
+	// load signature
+	lseek(filehandle, 0, SEEK_SET);
+	SafeRead(filehandle, RTLSignature, sizeof(RTLSignature));
+
+	// check if it's from RottEX
+	if (strcmp(RTLSignature, EXTENDED_SIGNATURE) == 0 ||
+		strcmp(RTLSignature, EXTENDED_COMMBAT_SIGNATURE) == 0)
+	{
+		// check version (it matters)
+		SafeRead(filehandle, &RTLVersion, sizeof(RTLVersion));
+
+		// seek to header location
+		lseek(filehandle, 8, SEEK_SET);
+
+		// read offset and num
+		SafeRead(filehandle, &ofs_info_headers, sizeof(ofs_info_headers));
+		SafeRead(filehandle, &num_info_headers, sizeof(num_info_headers));
+
+		// seek to headers
+		lseek(filehandle, ofs_info_headers, SEEK_SET);
+
+		// read info headers
+		for (i = 0; i < num_info_headers; i++)
+		{
+			// read header
+			SafeRead(filehandle, info_header_magic, sizeof(info_header_magic));
+			SafeRead(filehandle, &info_header_ofs, sizeof(info_header_ofs));
+			SafeRead(filehandle, &info_header_len, sizeof(info_header_len));
+
+			// MAPINFO info header contains offset to json data
+			if (strcmp(info_header_magic, "MAPINFO") == 0)
+			{
+				char *jsondata = SafeMalloc(info_header_len + 1);
+				lseek(filehandle, info_header_ofs, SEEK_SET);
+				SafeRead(filehandle, jsondata, info_header_len);
+				jsondata[info_header_ofs] = '\0';
+				return jsondata;
+			}
+		}
+
+		// fail
+		close(filehandle);
+		Error("GetMapArrayOffset: Couldn't find MAPSET or MAPS offset!");
+		return 0;
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
+/*
+======================
+=
+= GetMapAuthor
+=
+======================
+*/
+char *GetMapAuthor(int mapnum)
+{
+	cJSON *root, *maps, *map;
+	char *ret = NULL;
+
+	if (mapinfo_json == NULL)
+		return ret;
+
+	/* parse mapinfo */
+	root = cJSON_Parse(mapinfo_json);
+	if (root == NULL)
+		return ret;
+
+	/* get maps array */
+	maps = cJSON_GetObjectItemCaseSensitive(root, "maps");
+	if (maps == NULL)
+		return ret;
+
+	/* iterate over maps */
+	map = maps->child;
+	while (map)
+	{
+		char *author;
+		int mapindex;
+
+		author = cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(map, "author"));
+		mapindex = cJSON_GetNumberValue(cJSON_GetObjectItemCaseSensitive(map, "mapindex"));
+
+		if (mapnum == mapindex)
+		{
+			ret = M_StringDuplicate(author);
+			break;
+		}
+
+		map = map->next;
+	}
+
+	/* clean up */
+	cJSON_Delete(root);
+
+	return ret;
+}
+
+/*
+======================
+=
 = ReadROTTMap
 =
 ======================
@@ -1414,6 +1542,11 @@ void ReadROTTMap(char *filename, int mapnum)
 	CheckRTLVersion(filename);
 	filehandle = SafeOpenRead(filename);
 	mapsoffset = GetMapArrayOffset(filehandle);
+	if (mapinfo_json != NULL)
+		SafeFree(mapinfo_json);
+	mapinfo_json = GetMapInfoJSON(filehandle);
+
+	GetMapAuthor(0);
 
 	//
 	// Load map header
