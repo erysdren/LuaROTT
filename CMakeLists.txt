@@ -136,6 +136,7 @@ if(ROTTEN_INSTALL)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott.svg DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps RENAME rott.svg)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten_sw.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/wad/rotten.wad DESTINATION ${CMAKE_INSTALL_BINDIR})
 	endif()
 
 	# use cpack for debian target
