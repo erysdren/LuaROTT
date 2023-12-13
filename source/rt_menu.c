@@ -137,12 +137,14 @@ int quicksaveslot = -1;
 //
 //******************************************************************************
 
-char order[21] = { di_west,		  di_east,		  di_north,		  di_south,
-				   bt_run,		  bt_use,		  bt_attack,	  bt_strafe,
-				   bt_strafeleft, bt_straferight, bt_lookup,	  bt_lookdown,
-				   bt_aimbutton,  bt_horizonup,	  bt_horizondown, bt_swapweapon,
-				   bt_dropweapon, bt_turnaround,  bt_autorun,	  bt_message,
-				   bt_directmsg };
+char order[21] = {
+	di_west, di_east, di_north, di_south,
+	bt_run, bt_use, bt_attack, bt_strafe,
+	bt_strafeleft, bt_straferight, bt_lookup, bt_lookdown,
+	bt_aimbutton, bt_horizonup, bt_horizondown, bt_swapweapon,
+	bt_dropweapon, bt_turnaround, bt_autorun, bt_message,
+	bt_directmsg
+};
 
 // bt_pistol, bt_dualpistol, bt_mp40, bt_missileweapon, bt_recordsound,
 
