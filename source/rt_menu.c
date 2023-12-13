@@ -96,6 +96,7 @@ extern int inverse_mouse;
 extern boolean usemouselook;
 extern boolean iG_aimCross;
 extern boolean sdl_fullscreen;
+extern boolean useautoaim;
 
 boolean ingame = false;
 boolean inmenu = false;
@@ -601,15 +602,18 @@ CP_MenuNames OptionsNames[] = {
 };
 // bna added
 CP_MenuNames ExtOptionsNames[] = { "MOUSELOOK", "INVERT MOUSE", "CROSSHAIR",
-								   "FULLSCREEN" };
-CP_iteminfo ExtOptionsItems = { 20, MENU_Y,			 4,			  0,
+								   "FULLSCREEN", "AUTOAIM" };
+CP_iteminfo ExtOptionsItems = { 20, MENU_Y,			 5,			  0,
 								43, ExtOptionsNames, mn_largefont };
 
-CP_itemtype ExtOptionsMenu[] = { { 1, "", 'M', { NULL } },
-								 { 1, "", 'I', { NULL } },
-								 { 0, "", 'C', { NULL } },
-								 { 1, "", 'J', { NULL } },
-								 { 1, "", 'F', { NULL } } };
+CP_itemtype ExtOptionsMenu[] = {
+	{ 1, "", 'M', { NULL } },
+	{ 1, "", 'I', { NULL } },
+	{ 0, "", 'C', { NULL } },
+	{ 1, "", 'J', { NULL } },
+	{ 1, "", 'F', { NULL } },
+	{ 1, "", 'A', { NULL } }
+};
 
 // bna added end
 
@@ -4746,10 +4750,14 @@ void CP_ExtOptionsMenu(void)
 				iG_aimCross ^= 1;
 				DrawExtOptionsButtons();
 				break;
-			case 3: {
+			case 3:
 				ToggleFullScreen();
 				DrawExtOptionsButtons();
-			}
+				break;
+			case 4:
+				useautoaim ^= 1;
+				DrawExtOptionsButtons();
+				break;
 			break;
 		}
 
@@ -4791,6 +4799,10 @@ void DrawExtOptionsButtons(void)
 					break;
 				case 3:
 					if (sdl_fullscreen == 1)
+						on = 1;
+					break;
+				case 4:
+					if (useautoaim == 1)
 						on = 1;
 					break;
 			}

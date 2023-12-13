@@ -3714,6 +3714,7 @@ void SetNormalHorizon(objtype *ob)
 */
 extern int iG_playerTilt;
 extern double dTopYZANGLELIMIT;
+extern boolean useautoaim;
 void PlayerTiltHead(objtype *ob)
 {
 	playertype *pstate;
@@ -3739,7 +3740,7 @@ void PlayerTiltHead(objtype *ob)
 		Fix(ob->yzangle);
 		return;
 	}
-	else if (pstate->guntarget)
+	else if (pstate->guntarget && useautoaim)
 	{
 		int dx, dy, dz;
 		int xydist;

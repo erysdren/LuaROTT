@@ -75,6 +75,7 @@ int FXvolume = 196;
 
 boolean mouseenabled = 1;
 boolean usemouselook = 0;
+boolean useautoaim = 1;
 int inverse_mouse = 1; // set  to -1 to invert mouse
 boolean sdl_fullscreen = false; /* not fullscreen by default */
 
@@ -402,10 +403,14 @@ boolean ParseConfigFile(void)
 		// Read in UseMouseLook
 		ReadBoolean("UseMouseLook", &usemouselook);
 
+		// Read in InverseMouse
 		ReadInt("InverseMouse", &inverse_mouse);
 
 		// Read in CrossHair
 		ReadBoolean("CrossHair", &iG_aimCross);
+
+		// Read in UseAutoAim
+		ReadBoolean("UseAutoAim", &useautoaim);
 
 		// Read in JoystickEnabled
 		ReadBoolean("JoystickEnabled", &joystickenabled);
@@ -1585,6 +1590,12 @@ void WriteConfig(void)
 	SafeWriteString(file, "; 1 - CrossHair Enabled\n");
 	SafeWriteString(file, "; 0 - CrossHair Disabled\n");
 	WriteParameter(file, "CrossHair        ", iG_aimCross);
+
+	// Write out UseAutoAim
+	SafeWriteString(file, "\n;\n");
+	SafeWriteString(file, "; 1 - UseAutoAim Enabled\n");
+	SafeWriteString(file, "; 0 - UseAutoAim Disabled\n");
+	WriteParameter(file, "UseAutoAim     ", useautoaim);
 
 	// Write out JoystickEnabled
 
