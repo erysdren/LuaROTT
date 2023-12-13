@@ -108,6 +108,7 @@ make
 - [github.com/hogsy/hrotte/](https://github.com/hogsy/hrotte/)
 - [github.com/LTCHIPS/rottexpr/](https://github.com/LTCHIPS/rottexpr/)
 - [github.com/aminosbh/sdl2-cmake-modules/](https://github.com/aminosbh/sdl2-cmake-modules/)
+- [github.com/DaveGamble/cJSON/](https://github.com/DaveGamble/cJSON/)
 
 ## License
 

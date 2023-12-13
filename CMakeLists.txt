@@ -37,7 +37,10 @@ find_package(SDL2_net REQUIRED)
 #
 
 # all all c files in the source folder
-file(GLOB ROTTEN_SOURCES ${PROJECT_SOURCE_DIR}/source/*.c)
+file(GLOB ROTTEN_SOURCES
+	${PROJECT_SOURCE_DIR}/source/*.c
+	${PROJECT_SOURCE_DIR}/source/thirdp/*.c
+)
 
 # add rc file if we're on windows
 if(WIN32)
