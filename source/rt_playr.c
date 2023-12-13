@@ -2187,9 +2187,6 @@ int mouse_ry_input_scale = 5000;
 int sensitivity_scalar[15] = { 0,  1,  2,  3,  4,  5,  6, 8,
 							   11, 13, 15, 18, 12, 13, 14 };
 
-/* use SDL mouse */
-#define USESDLMOUSE 1
-
 extern int inverse_mouse;
 double Y_MouseSpeed = 70;
 
@@ -2205,13 +2202,7 @@ void PollMouseMove(void)
 	// const long inverse_mouse  = 1; //set  to -1 to invert mouse
 	// inverse_mouse def moved to RT_CFG.C
 
-#ifdef USESDLMOUSE
 	INL_GetMouseDelta(&mousexmove, &mouseymove);
-#else
-	PollMouse(); // Uses DirectInput mouse in DInput.cpp
-	mousexmove = MX;
-	mouseymove = MY;
-#endif
 
 	if (abs(mousexmove) > abs(mouseymove))
 		mouseymove /= 2;
