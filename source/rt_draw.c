@@ -861,10 +861,18 @@ void DrawScaleds(void)
 		if ((visptr->shapenum = statptr->shapenum) == NOTHING)
 			continue;
 
-		visptr->shapenum += shapestart;
-		if ((visptr->shapenum <= shapestart) || (visptr->shapenum >= shapestop))
-			Error("actor shapenum %d out of range (%d-%d)", visptr->shapenum,
-				  shapestart, shapestop);
+		/* dopefish hack */
+		if (visptr->shapenum >= DOPE1 && visptr->shapenum <= DOPE8)
+		{
+			visptr->shapenum = visptr->shapenum - DOPE1 + dopestart + 1;
+		}
+		else
+		{
+			visptr->shapenum += shapestart;
+
+			if ((visptr->shapenum <= shapestart) || (visptr->shapenum >= shapestop))
+				Error("actor shapenum %d out of range (%d-%d)", visptr->shapenum, shapestart, shapestop);
+		}
 
 		visspot = statptr->visspot;
 		if (!((*(visspot - 0)) || (*(visspot - 1)) || (*(visspot + 1)) ||
@@ -964,10 +972,19 @@ void DrawScaleds(void)
 		if ((visptr->shapenum = obj->shapenum) == NOTHING)
 			continue; // no shape
 
-		visptr->shapenum += shapestart;
-		if ((visptr->shapenum <= shapestart) || (visptr->shapenum >= shapestop))
-			Error("actor shapenum %d out of range (%d-%d)", visptr->shapenum,
-				  shapestart, shapestop);
+		/* dopefish hack */
+		if (visptr->shapenum >= DOPE1 && visptr->shapenum <= DOPE8)
+		{
+			visptr->shapenum = visptr->shapenum - DOPE1 + dopestart + 1;
+		}
+		else
+		{
+			visptr->shapenum += shapestart;
+
+			if ((visptr->shapenum <= shapestart) || (visptr->shapenum >= shapestop))
+				Error("actor shapenum %d out of range (%d-%d)", visptr->shapenum, shapestart, shapestop);
+		}
+
 		visspot = &spotvis[obj->tilex][obj->tiley];
 
 		//

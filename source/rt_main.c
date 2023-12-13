@@ -944,6 +944,11 @@ NoRTC:;
 		newargs[argnum++] = FindFileByName("REMOTE1.RTS");
 	}
 
+	/* add ROTTEN.WAD */
+	tempstr = FindFileByName("ROTTEN.WAD");
+	if (tempstr)
+		newargs[argnum++] = M_StringDuplicate(tempstr);
+
 	if (tempstr)
 		free(tempstr);
 
@@ -954,6 +959,7 @@ NoRTC:;
 	/* be provocative. be organized! */
 	free(newargs[argnum - 2]);
 	free(newargs[argnum - 3]);
+	free(newargs[argnum - 4]);
 }
 
 void PlayTurboGame(void)

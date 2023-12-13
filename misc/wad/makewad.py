@@ -63,11 +63,11 @@ if __name__ == "__main__":
 		lump.write_data(wadfile)
 
 	# end marker
-	dopeend = Lump()
-	dopeend.set_name("DOPEEND")
-	dopeend.ofs = wadfile.tell()
-	dopeend.len = 0
-	lumps.append(dopeend)
+	dopestop = Lump()
+	dopestop.set_name("DOPESTOP")
+	dopestop.ofs = wadfile.tell()
+	dopestop.len = 0
+	lumps.append(dopestop)
 
 	# write header
 	num_lumps = len(lumps)

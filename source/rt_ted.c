@@ -68,6 +68,7 @@ extern boolean UseBaseMarker;
 teamtype TEAM[MAXPLAYERS];
 int numareatiles[NUMAREAS + 1];
 int shapestart, shapestop;
+int dopestart, dopestop;
 _2dvec SPAWNLOC[MAXSPAWNLOCATIONS], FIRST, SECOND;
 int NUMSPAWNLOCATIONS, numteams = 0;
 wall_t walls[MAXWALLTILES];
@@ -5013,6 +5014,8 @@ void SetupGameLevel(void)
 	shapestart = W_GetNumForName("SHAPSTRT");
 	shapestop = W_GetNumForName("SHAPSTOP");
 	gunsstart = W_GetNumForName("GUNSTART");
+	dopestart = W_GetNumForName("DOPESTRT");
+	dopestop = W_GetNumForName("DOPESTOP");
 
 	playstate = ex_stillplaying;
 	SNAKELEVEL = 0;

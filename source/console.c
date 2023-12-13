@@ -38,6 +38,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "rt_game.h"
 #include "rt_ted.h"
 #include "rt_datadir.h"
+#include "states.h"
+#include "sprites.h"
+#include "rt_stat.h"
+#include "w_wad.h"
 #include "console.h"
 
 //****************************************************************************
@@ -558,11 +562,59 @@ int _cmd_dopefish(int argc, char **argv)
 	{
 		dopefish = false;
 		console_printf("dopefish mode DISABLED!");
+
+		// 1998 dopefish patch
+		if (W_CheckNumForName("DOPESTRT") > -1)
+		{
+			s_collectorfdoor1.shapenum = COLLECTOR1;
+			s_collectorfdoor2.shapenum = COLLECTOR3;
+			s_collectorfdoor3.shapenum = COLLECTOR5;
+			s_collectorfdoor4.shapenum = COLLECTOR7;
+			s_collectorfdoor5.shapenum = COLLECTOR9;
+			s_collectorfdoor6.shapenum = COLLECTOR11;
+			s_collectorfdoor7.shapenum = COLLECTOR13;
+			s_collectorfdoor8.shapenum = COLLECTOR15;
+
+			s_collectorwander1.shapenum = COLLECTOR1;
+			s_collectorwander2.shapenum = COLLECTOR3;
+			s_collectorwander3.shapenum = COLLECTOR5;
+			s_collectorwander4.shapenum = COLLECTOR7;
+			s_collectorwander5.shapenum = COLLECTOR9;
+			s_collectorwander6.shapenum = COLLECTOR11;
+			s_collectorwander7.shapenum = COLLECTOR13;
+			s_collectorwander8.shapenum = COLLECTOR15;
+
+			stats[stat_collector].picnum = COLLECTOR1;
+		}
 	}
 	else
 	{
 		dopefish = true;
 		console_printf("dopefish mode ENABLED!");
+
+		// 1998 dopefish patch
+		if (W_CheckNumForName("DOPESTRT") > -1)
+		{
+			s_collectorfdoor1.shapenum = DOPE1;
+			s_collectorfdoor2.shapenum = DOPE2;
+			s_collectorfdoor3.shapenum = DOPE3;
+			s_collectorfdoor4.shapenum = DOPE4;
+			s_collectorfdoor5.shapenum = DOPE5;
+			s_collectorfdoor6.shapenum = DOPE6;
+			s_collectorfdoor7.shapenum = DOPE7;
+			s_collectorfdoor8.shapenum = DOPE8;
+
+			s_collectorwander1.shapenum = DOPE1;
+			s_collectorwander2.shapenum = DOPE2;
+			s_collectorwander3.shapenum = DOPE3;
+			s_collectorwander4.shapenum = DOPE4;
+			s_collectorwander5.shapenum = DOPE5;
+			s_collectorwander6.shapenum = DOPE6;
+			s_collectorwander7.shapenum = DOPE7;
+			s_collectorwander8.shapenum = DOPE8;
+
+			stats[stat_collector].picnum = DOPE1;
+		}
 	}
 
 	return 0;

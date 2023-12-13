@@ -120,6 +120,7 @@ typedef struct
 
 extern int numareatiles[NUMAREAS + 1];
 extern int shapestart, shapestop;
+extern int dopestart, dopestop;
 extern int NUMSPAWNLOCATIONS;
 extern int mapwidth;
 extern int mapheight;
