@@ -85,6 +85,7 @@ jobs:
           CFLAGS: -Wall
         run: |
           cmake -E make_directory ${{github.workspace}}/cmake-build
+          cmake -S . -B ${{github.workspace}}/cmake-build
 
       - name: Build
         run: |
