@@ -600,7 +600,7 @@ CP_MenuNames OptionsNames[] = {
 	"DETAIL LEVELS",	  "VIOLENCE LEVEL",		"SCREEN SIZE"
 };
 // bna added
-CP_MenuNames ExtOptionsNames[] = { "MOUSELOOK", "INVERSE MOUSE", "CROSSHAIR",
+CP_MenuNames ExtOptionsNames[] = { "MOUSELOOK", "INVERT MOUSE", "CROSSHAIR",
 								   "FULLSCREEN" };
 CP_iteminfo ExtOptionsItems = { 20, MENU_Y,			 4,			  0,
 								43, ExtOptionsNames, mn_largefont };
