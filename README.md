@@ -59,6 +59,8 @@ make
 - [Paril](https://github.com/Paril/)
 - [vs49688](https://github.com/vs49688/)
 - [Begasus](https://github.com/Begasus)
+- [sirbaratusii](https://github.com/sirbaratusii)
+- [ROTT Central](https://discord.gg/GaNQMFWwes)
 
 ## Required Assets
 
