@@ -2798,7 +2798,7 @@ void CheckHighScore(long score, word other, boolean INMENU)
 	}
 	else
 	{
-		IN_ClearKeysDown();
+		IN_StartAck();
 		if (INMENU)
 		{
 			while (!IN_CheckAck())
@@ -3070,6 +3070,7 @@ void DrawEndBonus(char *string, char *bonusstring, int type)
 	EndBonusStartY += 10;
 
 	// bna--VW_UpdateScreen();
+	IN_StartAck();
 	while (SD_SoundActive(EndBonusVoice) && !EndBonusSkip)
 	{
 		if (IN_CheckAck())
@@ -3235,7 +3236,7 @@ void LevelCompleted(exit_t playstate)
 	*/
 
 	EndBonusSkip = true;
-
+	IN_StartAck();
 	while (SD_SoundActive(EndBonusVoice) && !EndBonusSkip)
 	{
 
@@ -3404,11 +3405,7 @@ void LevelCompleted(exit_t playstate)
 		// DO BONUS BONUS
 		if (EndBonusNumBonuses == NUMBONUSES)
 		{
-			IN_StartAck();
-			while (!IN_CheckAck())
-			{
-				;
-			}
+			IN_Ack();
 
 			BkPic = (pic_t *)W_CacheLumpName("mmbk", PU_CACHE, Cvt_pic_t, 1);
 			VWB_DrawPic(0, 0, BkPic);
@@ -3422,11 +3419,7 @@ void LevelCompleted(exit_t playstate)
 		}
 		else if ((kr == 100) && (dobonus))
 		{
-			IN_StartAck();
-			while (!IN_CheckAck())
-			{
-				;
-			}
+			IN_Ack();
 
 			BkPic = (pic_t *)W_CacheLumpName("mmbk", PU_CACHE, Cvt_pic_t, 1);
 			VWB_DrawPic(0, 0, BkPic);
@@ -3453,11 +3446,7 @@ void LevelCompleted(exit_t playstate)
 	//    DisableScreenStretch();//bna++
 	// bna section end
 
-	IN_StartAck();
-	while (!IN_CheckAck())
-	{
-		;
-	}
+	IN_Ack();
 
 	EndLevelStuff = false;
 	CurrentFont = smallfont;
@@ -3901,7 +3890,7 @@ void BattleLevelCompleted(int localplayer)
 
 	EnableScreenStretch();
 
-	IN_ClearKeysDown();
+	IN_StartAck();
 
 	Player = localplayer;
 	Screen = 1;
