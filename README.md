@@ -11,6 +11,10 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 - Limited support for loading ROTT:LE levels
 - Ludicrous amounts of code cleanup and junk removal
 
+## Download
+
+Work-in-progress versions can be downloaded under [Tags](https://github.com/erysdren/ROTTEN/tags), and under [Actions](https://github.com/erysdren/ROTTEN/actions).
+
 ## Building
 
 ### Linux
