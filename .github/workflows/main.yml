@@ -47,9 +47,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install \
-            automake \
+            cmake \
             libsdl2-dev \
             libsdl2-mixer-dev
+            libsdl2-net-dev
 
       - name: Install dependencies (macOS)
         if: runner.os == 'macOS'
@@ -58,9 +59,10 @@ jobs:
         run: |
           brew update || true
           brew install \
-            automake \
+            cmake \
             sdl2 \
             sdl2_mixer
+            sdl2_net
 
       - name: Install dependencies (MSYS2)
         if: matrix.config.shell == 'msys2 {0}'
@@ -70,9 +72,10 @@ jobs:
           update: false
           install: >-
             ${{ matrix.config.msys-env }}-gcc
-            ${{ matrix.config.msys-env }}-autotools
+            ${{ matrix.config.msys-env }}-cmake
             ${{ matrix.config.msys-env }}-SDL2
             ${{ matrix.config.msys-env }}-SDL2_mixer
+            ${{ matrix.config.msys-env }}-SDL2_net
 
       - uses: actions/checkout@v3
 
@@ -81,11 +84,11 @@ jobs:
           CC: ${{ matrix.config.compiler }}
           CFLAGS: -Wall
         run: |
-          autoreconf -fiv
-          ./configure --enable-werror
+          cmake -E make_directory ${{github.workspace}}/cmake-build
 
       - name: Build
-        run: make
+        run: |
+          cmake --build ${{github.workspace}}/cmake-build --config Release
 
   cppcheck:
     name: Cppcheck
