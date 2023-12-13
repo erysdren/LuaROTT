@@ -380,10 +380,7 @@ static int root_sdl_event_filter(const SDL_Event *event)
 		case SDL_MOUSEBUTTONDOWN:
 			return (sdl_mouse_button_filter(event));
 		case SDL_QUIT:
-			/* !!! rcg TEMP */
-			fprintf(stderr, "\n\n\nSDL_QUIT!\n\n\n");
-			SDL_Quit();
-			exit(42);
+			QuitGame();
 	} /* switch */
 
 	return (1);
