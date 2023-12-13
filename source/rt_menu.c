@@ -1546,13 +1546,16 @@ menuitems CP_MainMenu(void)
 		switch (which)
 		{
 			case -1:
-				if (!ingame)
+				if (!modemgame)
 				{
-					playstate = ex_titles;
-				}
+					if (!ingame)
+					{
+						playstate = ex_titles;
+					}
 
-				StartGame = true;
-				DisableScreenStretch(); // bna++ shut off streech mode
+					StartGame = true;
+					DisableScreenStretch(); // bna++ shut off streech mode
+				}
 				break;
 
 			default:
