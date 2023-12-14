@@ -16,6 +16,7 @@
 */
 
 #include <stdarg.h>
+#include <ctype.h>
 
 #include "SDL_filesystem.h"
 
@@ -183,7 +184,12 @@ char *FindFileByName(const char *name)
 	return NULL;
 }
 
-FILE *FileOpen(const char *filename, int dir, int open)
+/*
+ * datadirs overhaul
+ */
+
+/* open file (case sensitive) */
+FILE *FileOpen(char *filename, int dir, int open)
 {
 	char *path = NULL;
 	FILE *file = NULL;
@@ -191,6 +197,10 @@ FILE *FileOpen(const char *filename, int dir, int open)
 	/* sanity checks */
 	if (!filename)
 		Error("FileOpen(): Tried to open NULL filename!");
+	if (dir < FILE_DIR_NONE || dir > FILE_DIR_PREF)
+		Error("FileOpen(): Invalid dir type %d", dir);
+	if (open < FILE_OPEN_READ || open > FILE_OPEN_APPEND)
+		Error("FileOpen(): Invalid open type %d", open);
 
 	/* dir type */
 	switch (dir)
@@ -214,10 +224,6 @@ FILE *FileOpen(const char *filename, int dir, int open)
 		case FILE_DIR_PREF:
 			path = M_StringJoin(GetPrefDir(), PATH_SEP_STR, filename);
 			break;
-
-		/* invalid */
-		default:
-			Error("FileOpen(): Invalid dir type %d", dir);
 	}
 
 	if (!path)
@@ -240,10 +246,6 @@ FILE *FileOpen(const char *filename, int dir, int open)
 		case FILE_OPEN_APPEND:
 			file = fopen(path, "ab");
 			break;
-
-		/* invalid */
-		default:
-			Error("FileOpen(): Invalid open type %d", open);
 	}
 
 	free(path);
@@ -251,7 +253,63 @@ FILE *FileOpen(const char *filename, int dir, int open)
 	return file;
 }
 
-bool FileExists(const char *filename, int dir)
+/* open file (case insensitive) */
+FILE *FileCaseOpen(char *filename, int dir, int open)
+{
+	char *ext;
+	FILE *file;
+
+	/* sanity checks */
+	if (!filename)
+		Error("FileCaseOpen(): Tried to open NULL filename!");
+	if (dir < FILE_DIR_NONE || dir > FILE_DIR_PREF)
+		Error("FileCaseOpen(): Invalid dir type %d", dir);
+	if (open < FILE_OPEN_READ || open > FILE_OPEN_APPEND)
+		Error("FileCaseOpen(): Invalid open type %d", open);
+
+	/* absolute path */
+	if ((file = FileOpen(filename, dir, open)) != NULL)
+		return file;
+
+	/* all lowercase */
+	/* darkwar.wad */
+	M_ForceLowercase(filename);
+	if ((file = FileOpen(filename, dir, open)) != NULL)
+		return file;
+
+	/* all uppercase */
+	/* DARKWAR.WAD */
+	M_ForceUppercase(filename);
+	if ((file = FileOpen(filename, dir, open)) != NULL)
+		return file;
+
+	/* uppercase name, lowercase extension */
+	/* DARKWAR.wad */
+	ext = strrchr(filename, '.');
+	if (ext != NULL && ext > filename)
+	{
+		M_ForceLowercase(ext + 1);
+
+		if ((file = FileOpen(filename, dir, open)) != NULL)
+			return file;
+	}
+
+	/* lowercase filename with uppercase first letter */
+	/* Darkwar.wad */
+	if (M_StringLength(filename) > 1)
+	{
+		toupper(filename[0]);
+		M_ForceLowercase(filename + 1);
+
+		if ((file = FileOpen(filename, dir, open)) != NULL)
+			return file;
+	}
+
+	return NULL;
+}
+
+/* check if file exists (case sensitive) */
+bool FileExists(char *filename, int dir)
 {
 	FILE *file;
 
@@ -270,6 +328,59 @@ bool FileExists(const char *filename, int dir)
 	return true;
 }
 
+/* check if file exists (case insensitive) */
+bool FileCaseExists(char *filename, int dir)
+{
+	char *ext;
+
+	/* sanity checks */
+	if (!filename)
+		Error("FileCaseExists(): Tried to check NULL filename!");
+	if (dir < FILE_DIR_NONE || dir > FILE_DIR_PREF)
+		Error("FileCaseExists(): Invalid dir type %d", dir);
+
+	/* absolute path */
+	if (FileExists(filename, dir))
+		return true;
+
+	/* all lowercase */
+	/* darkwar.wad */
+	M_ForceLowercase(filename);
+	if (FileExists(filename, dir))
+		return true;
+
+	/* all uppercase */
+	/* DARKWAR.WAD */
+	M_ForceUppercase(filename);
+	if (FileExists(filename, dir))
+		return true;
+
+	/* uppercase name, lowercase extension */
+	/* DARKWAR.wad */
+	ext = strrchr(filename, '.');
+	if (ext != NULL && ext > filename)
+	{
+		M_ForceLowercase(ext + 1);
+
+		if (FileExists(filename, dir))
+			return true;
+	}
+
+	/* lowercase filename with uppercase first letter */
+	/* Darkwar.wad */
+	if (M_StringLength(filename) > 1)
+	{
+		toupper(filename[0]);
+		M_ForceLowercase(filename + 1);
+
+		if (FileExists(filename, dir))
+			return true;
+	}
+
+	return false;
+}
+
+/* read size bytes from file */
 size_t FileRead(void *buffer, size_t size, FILE *file)
 {
 	/* sanity checks */
@@ -281,6 +392,7 @@ size_t FileRead(void *buffer, size_t size, FILE *file)
 	return fread(buffer, 1, size, file);
 }
 
+/* write size bytes to file */
 size_t FileWrite(void *buffer, size_t size, FILE *file)
 {
 	/* sanity checks */
@@ -292,6 +404,7 @@ size_t FileWrite(void *buffer, size_t size, FILE *file)
 	return fwrite(buffer, 1, size, file);
 }
 
+/* print string to file */
 int FilePrint(FILE *file, const char *format, ...)
 {
 	va_list args;
@@ -310,6 +423,7 @@ int FilePrint(FILE *file, const char *format, ...)
 	return r;
 }
 
+/* close file */
 void FileClose(FILE *file)
 {
 	/* sanity checks */

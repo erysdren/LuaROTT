@@ -31,6 +31,7 @@ char *GetRootDir(void);
 void BuildDirs(void);
 char *FindFileByName(const char *name);
 
+/* directory to open file from */
 enum {
 	FILE_DIR_NONE, /* absolute path */
 	FILE_DIR_EXEC, /* executable directory */
@@ -38,17 +39,35 @@ enum {
 	FILE_DIR_PREF /* preferences directory */
 };
 
+/* file open type */
 enum {
 	FILE_OPEN_READ,
 	FILE_OPEN_WRITE,
 	FILE_OPEN_APPEND
 };
 
-FILE *FileOpen(const char *filename, int dir, int open);
-bool FileExists(const char *filename, int dir);
+/* open file (case sensitive) */
+FILE *FileOpen(char *filename, int dir, int open);
+
+/* open file (case insensitive) */
+FILE *FileCaseOpen(char *filename, int dir, int open);
+
+/* check if file exists (case sensitive) */
+bool FileExists(char *filename, int dir);
+
+/* check if file exists (case insensitive) */
+bool FileCaseExists(char *filename, int dir);
+
+/* read size bytes from file */
 size_t FileRead(void *buffer, size_t size, FILE *file);
+
+/* write size bytes to file */
 size_t FileWrite(void *buffer, size_t size, FILE *file);
+
+/* print string to file */
 int FilePrint(FILE *file, const char *format, ...);
+
+/* close file */
 void FileClose(FILE *file);
 
 #endif
