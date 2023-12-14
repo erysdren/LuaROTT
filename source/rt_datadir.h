@@ -46,17 +46,11 @@ enum {
 	FILE_OPEN_APPEND
 };
 
-/* open file (case sensitive) */
+/* open file (case insensitive) */
 FILE *FileOpen(char *filename, int dir, int open);
 
-/* open file (case insensitive) */
-FILE *FileCaseOpen(char *filename, int dir, int open);
-
-/* check if file exists (case sensitive) */
-bool FileExists(char *filename, int dir);
-
 /* check if file exists (case insensitive) */
-bool FileCaseExists(char *filename, int dir);
+bool FileExists(char *filename, int dir);
 
 /* read size bytes from file */
 size_t FileRead(void *buffer, size_t size, FILE *file);

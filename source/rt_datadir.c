@@ -189,7 +189,7 @@ char *FindFileByName(const char *name)
  */
 
 /* open file (case sensitive) */
-FILE *FileOpen(char *filename, int dir, int open)
+static FILE *_FileOpen(char *filename, int dir, int open)
 {
 	char *path = NULL;
 	FILE *file = NULL;
@@ -231,34 +231,34 @@ FILE *FileOpen(char *filename, int dir, int open)
 	return file;
 }
 
-/* open file (case insensitive) */
-FILE *FileCaseOpen(char *filename, int dir, int open)
+/* open file */
+FILE *FileOpen(char *filename, int dir, int open)
 {
 	char *ext;
 	FILE *file;
 
 	/* sanity checks */
 	if (!filename)
-		Error("FileCaseOpen(): Tried to open NULL filename!");
+		Error("FileOpen(): Tried to open NULL filename!");
 	if (dir < FILE_DIR_NONE || dir > FILE_DIR_PREF)
-		Error("FileCaseOpen(): Invalid dir type %d", dir);
+		Error("FileOpen(): Invalid dir type %d", dir);
 	if (open < FILE_OPEN_READ || open > FILE_OPEN_APPEND)
-		Error("FileCaseOpen(): Invalid open type %d", open);
+		Error("FileOpen(): Invalid open type %d", open);
 
 	/* absolute path */
-	if ((file = FileOpen(filename, dir, open)) != NULL)
+	if ((file = _FileOpen(filename, dir, open)) != NULL)
 		return file;
 
 	/* all lowercase */
 	/* darkwar.wad */
 	M_ForceLowercase(filename);
-	if ((file = FileOpen(filename, dir, open)) != NULL)
+	if ((file = _FileOpen(filename, dir, open)) != NULL)
 		return file;
 
 	/* all uppercase */
 	/* DARKWAR.WAD */
 	M_ForceUppercase(filename);
-	if ((file = FileOpen(filename, dir, open)) != NULL)
+	if ((file = _FileOpen(filename, dir, open)) != NULL)
 		return file;
 
 	/* uppercase name, lowercase extension */
@@ -268,7 +268,7 @@ FILE *FileCaseOpen(char *filename, int dir, int open)
 	{
 		M_ForceLowercase(ext + 1);
 
-		if ((file = FileOpen(filename, dir, open)) != NULL)
+		if ((file = _FileOpen(filename, dir, open)) != NULL)
 			return file;
 	}
 
@@ -279,7 +279,7 @@ FILE *FileCaseOpen(char *filename, int dir, int open)
 		toupper(filename[0]);
 		M_ForceLowercase(filename + 1);
 
-		if ((file = FileOpen(filename, dir, open)) != NULL)
+		if ((file = _FileOpen(filename, dir, open)) != NULL)
 			return file;
 	}
 
@@ -306,66 +306,14 @@ bool FileExists(char *filename, int dir)
 	return true;
 }
 
-/* check if file exists (case insensitive) */
-bool FileCaseExists(char *filename, int dir)
-{
-	char *ext;
-
-	/* sanity checks */
-	if (!filename)
-		Error("FileCaseExists(): Tried to check NULL filename!");
-	if (dir < FILE_DIR_NONE || dir > FILE_DIR_PREF)
-		Error("FileCaseExists(): Invalid dir type %d", dir);
-
-	/* absolute path */
-	if (FileExists(filename, dir))
-		return true;
-
-	/* all lowercase */
-	/* darkwar.wad */
-	M_ForceLowercase(filename);
-	if (FileExists(filename, dir))
-		return true;
-
-	/* all uppercase */
-	/* DARKWAR.WAD */
-	M_ForceUppercase(filename);
-	if (FileExists(filename, dir))
-		return true;
-
-	/* uppercase name, lowercase extension */
-	/* DARKWAR.wad */
-	ext = strrchr(filename, '.');
-	if (ext != NULL && ext > filename)
-	{
-		M_ForceLowercase(ext + 1);
-
-		if (FileExists(filename, dir))
-			return true;
-	}
-
-	/* lowercase filename with uppercase first letter */
-	/* Darkwar.wad */
-	if (M_StringLength(filename) > 1)
-	{
-		toupper(filename[0]);
-		M_ForceLowercase(filename + 1);
-
-		if (FileExists(filename, dir))
-			return true;
-	}
-
-	return false;
-}
-
 /* read size bytes from file */
 size_t FileRead(void *buffer, size_t size, FILE *file)
 {
 	/* sanity checks */
 	if (!file)
-		Error("Tried to read from NULL file handle!");
+		Error("FileRead(): Tried to read from NULL file handle!");
 	if (!buffer)
-		Error("Tried to read file to NULL pointer!");
+		Error("FileRead(): Tried to read file to NULL pointer!");
 
 	return fread(buffer, 1, size, file);
 }
@@ -375,9 +323,9 @@ size_t FileWrite(void *buffer, size_t size, FILE *file)
 {
 	/* sanity checks */
 	if (!file)
-		Error("Tried to write to NULL file handle!");
+		Error("FileWrite(): Tried to write to NULL file handle!");
 	if (!buffer)
-		Error("Tried to write NULL pointer to file!");
+		Error("FileWrite(): Tried to write NULL pointer to file!");
 
 	return fwrite(buffer, 1, size, file);
 }
@@ -390,9 +338,9 @@ int FilePrint(FILE *file, const char *format, ...)
 
 	/* sanity checks */
 	if (!file)
-		Error("Tried to print to NULL file handle!");
+		Error("FilePrint(): Tried to print to NULL file handle!");
 	if (!format)
-		Error("Tried to print NULL string to file!");
+		Error("FilePrint(): Tried to print NULL string to file!");
 
 	va_start(args, format);
 	r = vfprintf(file, format, args);
@@ -406,7 +354,7 @@ void FileClose(FILE *file)
 {
 	/* sanity checks */
 	if (!file)
-		Error("Tried to close NULL file handle!");
+		Error("FileClose(): Tried to close NULL file handle!");
 
 	fclose(file);
 }
