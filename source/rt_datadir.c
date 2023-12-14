@@ -203,31 +203,9 @@ FILE *FileOpen(char *filename, int dir, int open)
 		Error("FileOpen(): Invalid open type %d", open);
 
 	/* dir type */
-	switch (dir)
-	{
-		/* absolute path */
-		case FILE_DIR_NONE:
-			path = M_StringDuplicate(filename);
-			break;
-
-		/* executable directory */
-		case FILE_DIR_EXEC:
-			path = M_StringJoin(GetExeDir(), PATH_SEP_STR, filename);
-			break;
-
-		/* root data directory */
-		case FILE_DIR_ROOT:
-			path = M_StringJoin(GetRootDir(), PATH_SEP_STR, filename);
-			break;
-
-		/* preferences directory */
-		case FILE_DIR_PREF:
-			path = M_StringJoin(GetPrefDir(), PATH_SEP_STR, filename);
-			break;
-	}
-
+	path = FileGetPath(filename, dir);
 	if (!path)
-		Error("FileOpen(): Failed to allocate path string");
+		Error("FileOpen(): Failed to get path string");
 
 	/* open type */
 	switch (open)
@@ -431,4 +409,42 @@ void FileClose(FILE *file)
 		Error("Tried to close NULL file handle!");
 
 	fclose(file);
+}
+
+/* get full path to file at the specified dir */
+char *FileGetPath(char *filename, int dir)
+{
+	char *path = NULL;
+
+	/* sanity checks */
+	if (!filename)
+		Error("FileGetPath(): Tried to use NULL filename!");
+	if (dir < FILE_DIR_NONE || dir > FILE_DIR_PREF)
+		Error("FileGetPath(): Invalid dir type %d", dir);
+
+	/* dir type */
+	switch (dir)
+	{
+		/* absolute path */
+		case FILE_DIR_NONE:
+			path = M_StringDuplicate(filename);
+			break;
+
+		/* executable directory */
+		case FILE_DIR_EXEC:
+			path = M_StringJoin(GetExeDir(), PATH_SEP_STR, filename, NULL);
+			break;
+
+		/* root data directory */
+		case FILE_DIR_ROOT:
+			path = M_StringJoin(GetRootDir(), PATH_SEP_STR, filename, NULL);
+			break;
+
+		/* preferences directory */
+		case FILE_DIR_PREF:
+			path = M_StringJoin(GetPrefDir(), PATH_SEP_STR, filename, NULL);
+			break;
+	}
+
+	return path;
 }

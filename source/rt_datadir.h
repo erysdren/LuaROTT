@@ -70,4 +70,7 @@ int FilePrint(FILE *file, const char *format, ...);
 /* close file */
 void FileClose(FILE *file);
 
+/* get full path to file at the specified dir */
+char *FileGetPath(char *filename, int dir);
+
 #endif
