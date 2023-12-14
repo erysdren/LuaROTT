@@ -24,18 +24,12 @@
 
 #include "m_misc2.h"
 
-enum {
-	FILE_TYPE_RTL,
-	FILE_TYPE_WAD
-};
-
 void BuildDataDirList(void);
 char *GetExeDir(void);
 char *GetPrefDir(void);
 char *GetRootDir(void);
 void BuildDirs(void);
 char *FindFileByName(const char *name);
-void PrintFilesByType(int type);
 
 enum {
 	FILE_DIR_NONE, /* absolute path */

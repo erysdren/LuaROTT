@@ -463,20 +463,6 @@ int _cmd_maps(int argc, char **argv)
 	return 0;
 }
 
-/* listmapsets */
-int _cmd_listmapsets(int argc, char **argv)
-{
-	PrintFilesByType(FILE_TYPE_RTL);
-	return 0;
-}
-
-/* listwads */
-int _cmd_listwads(int argc, char **argv)
-{
-	PrintFilesByType(FILE_TYPE_WAD);
-	return 0;
-}
-
 /* help */
 int _cmd_help(int argc, char **argv)
 {
@@ -645,8 +631,6 @@ cmd_t _cmdlib[] = {
 	CMD("map", "load map by name", _cmd_map),
 	CMD("mapset", "load mapset by filename", _cmd_mapset),
 	CMD("maps", "list all maps in mapset", _cmd_maps),
-	CMD("listmapsets", "list all available mapsets", _cmd_listmapsets),
-	CMD("listwads", "list all available wads", _cmd_listwads),
 	CMD("help", "print help text", _cmd_help),
 	CMD("find", "find command or variable by name", _cmd_find),
 	CMD("dopefish", "?", _cmd_dopefish),
