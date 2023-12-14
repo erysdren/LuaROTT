@@ -18,6 +18,10 @@
 #ifndef RT_DATADIR_H
 #define RT_DATADIR_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
 #include "m_misc2.h"
 
 enum {
@@ -33,5 +37,25 @@ void BuildDirs(void);
 char *FindFileByName(const char *name);
 void PrintDataDirs(void);
 void PrintFilesByType(int type);
+
+enum {
+	FILE_DIR_NONE, /* absolute path */
+	FILE_DIR_EXEC, /* executable directory */
+	FILE_DIR_ROOT, /* root data directory */
+	FILE_DIR_PREF /* preferences directory */
+};
+
+enum {
+	FILE_OPEN_READ,
+	FILE_OPEN_WRITE,
+	FILE_OPEN_APPEND
+};
+
+FILE *FileOpen(const char *filename, int dir, int open);
+bool FileExists(const char *filename, int dir);
+size_t FileRead(void *buffer, size_t size, FILE *file);
+size_t FileWrite(void *buffer, size_t size, FILE *file);
+int FilePrint(FILE *file, const char *format, ...);
+void FileClose(FILE *file);
 
 #endif

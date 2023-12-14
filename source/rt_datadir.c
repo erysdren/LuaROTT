@@ -15,6 +15,8 @@
 	See the GNU General Public License for more details.
 */
 
+#include <stdarg.h>
+
 #include "SDL_filesystem.h"
 
 #include "m_misc2.h"
@@ -357,3 +359,139 @@ void PrintFilesByType(int type)
 }
 
 #endif
+
+FILE *FileOpen(const char *filename, int dir, int open)
+{
+	char *path = NULL;
+	FILE *file = NULL;
+
+	/* sanity checks */
+	if (!filename)
+		Error("FileOpen(): Tried to open NULL filename!");
+
+	/* dir type */
+	switch (dir)
+	{
+		/* absolute path */
+		case FILE_DIR_NONE:
+			path = M_StringDuplicate(filename);
+			break;
+
+		/* executable directory */
+		case FILE_DIR_EXEC:
+			path = M_StringJoin(GetExeDir(), PATH_SEP_STR, filename);
+			break;
+
+		/* root data directory */
+		case FILE_DIR_ROOT:
+			path = M_StringJoin(GetRootDir(), PATH_SEP_STR, filename);
+			break;
+
+		/* preferences directory */
+		case FILE_DIR_PREF:
+			path = M_StringJoin(GetPrefDir(), PATH_SEP_STR, filename);
+			break;
+
+		/* invalid */
+		default:
+			Error("FileOpen(): Invalid dir type %d", dir);
+	}
+
+	if (!path)
+		Error("FileOpen(): Failed to allocate path string");
+
+	/* open type */
+	switch (open)
+	{
+		/* read */
+		case FILE_OPEN_READ:
+			file = fopen(path, "rb");
+			break;
+
+		/* write */
+		case FILE_OPEN_WRITE:
+			file = fopen(path, "wb");
+			break;
+
+		/* append */
+		case FILE_OPEN_APPEND:
+			file = fopen(path, "ab");
+			break;
+
+		/* invalid */
+		default:
+			Error("FileOpen(): Invalid open type %d", open);
+	}
+
+	free(path);
+
+	return file;
+}
+
+bool FileExists(const char *filename, int dir)
+{
+	FILE *file;
+
+	/* sanity checks */
+	if (!filename)
+		Error("FileExists(): Tried to check NULL filename!");
+	if (dir < FILE_DIR_NONE || dir > FILE_DIR_PREF)
+		Error("FileExists(): Invalid dir type %d", dir);
+
+	file = FileOpen(filename, dir, FILE_OPEN_READ);
+
+	if (file == NULL)
+		return false;
+
+	FileClose(file);
+	return true;
+}
+
+size_t FileRead(void *buffer, size_t size, FILE *file)
+{
+	/* sanity checks */
+	if (!file)
+		Error("Tried to read from NULL file handle!");
+	if (!buffer)
+		Error("Tried to read file to NULL pointer!");
+
+	return fread(buffer, 1, size, file);
+}
+
+size_t FileWrite(void *buffer, size_t size, FILE *file)
+{
+	/* sanity checks */
+	if (!file)
+		Error("Tried to write to NULL file handle!");
+	if (!buffer)
+		Error("Tried to write NULL pointer to file!");
+
+	return fwrite(buffer, 1, size, file);
+}
+
+int FilePrint(FILE *file, const char *format, ...)
+{
+	va_list args;
+	int r;
+
+	/* sanity checks */
+	if (!file)
+		Error("Tried to print to NULL file handle!");
+	if (!format)
+		Error("Tried to print NULL string to file!");
+
+	va_start(args, format);
+	r = vfprintf(file, format, args);
+	va_end(args);
+
+	return r;
+}
+
+void FileClose(FILE *file)
+{
+	/* sanity checks */
+	if (!file)
+		Error("Tried to close NULL file handle!");
+
+	fclose(file);
+}
