@@ -221,9 +221,9 @@ void console_printf(const char *s, ...);
 void console_evaluate(char *s);
 
 /* execute console commands from filename */
-boolean console_exec(const char *filename);
+boolean console_exec(char *filename);
 
 /* write all cvars to config file */
-boolean console_write_config(const char *filename);
+boolean console_write_config(char *filename);
 
 #endif /* _console_public */

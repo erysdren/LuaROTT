@@ -18,6 +18,7 @@
 #include "rt_def.h"	 // ROTT music hack
 #include "rt_cfg.h"	 // ROTT music hack
 #include "rt_util.h" // ROTT music hack
+#include "rt_datadir.h"
 
 #include "music.h"
 
@@ -290,7 +291,7 @@ int MUSIC_PlaySongROTT(unsigned char *song, int size, int loopflag)
 	MUSIC_StopSong();
 
 	// save the file somewhere, so SDL_mixer can load it
-	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, "tmpsong.mid", NULL);
+	filename = FileGetPath("tmpsong.mid", FILE_DIR_PREF);
 	handle = SafeOpenWrite(filename);
 
 	SafeWrite(handle, song, size);

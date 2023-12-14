@@ -48,6 +48,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_view.h"
 #include "modexlib.h"
 #include "rt_cfg.h"
+#include "rt_datadir.h"
 
 #ifdef _MSC_VER
 #include <direct.h>
@@ -462,7 +463,7 @@ void OpenMapDebug(void)
 
 	if (MapDebugStarted == true)
 		return;
-	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, MAPDEBUGFILE, NULL);
+	filename = FileGetPath(MAPDEBUGFILE, FILE_DIR_PREF);
 	mapdebugout = fopen(filename, "wt+");
 	free(filename);
 	MapDebugStarted = true;

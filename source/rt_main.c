@@ -239,12 +239,6 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	/* set preferences path */
-	ApogeePath = GetPrefDir();
-
-	if (ApogeePath == NULL)
-		Error("Couldn't determine preferences path!");
-
 	// Set which release version we're on
 	gamestate.Version = ROTTVERSION;
 
@@ -2452,7 +2446,8 @@ void SaveScreen(boolean inhmenu)
 			free(screenshotname);
 		}
 
-		screenshotname = M_StringJoin(ApogeePath, PATH_SEP_STR, filename, NULL);
+		screenshotname = FileGetPath(filename, FILE_DIR_PREF);
+
 	} while (!access(screenshotname, F_OK) && --tries);
 
 	if (tries)

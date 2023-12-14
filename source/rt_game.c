@@ -58,6 +58,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_msg.h"
 #include "rt_scale.h"
 #include "develop.h"
+#include "rt_datadir.h"
 
 //******************************************************************************
 //
@@ -4544,7 +4545,7 @@ boolean SaveTheGame(int num, gamestorage_t *game)
 	itoa(num, &loadname[7], 16);
 	loadname[8] = '.';
 
-	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
+	filename = FileGetPath(loadname, FILE_DIR_PREF);
 
 	// Open the savegame file
 
@@ -4817,7 +4818,7 @@ boolean LoadTheGame(int num, gamestorage_t *game)
 	itoa(num, &loadname[7], 16);
 	loadname[8] = '.';
 
-	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
+	filename = FileGetPath(loadname, FILE_DIR_PREF);
 
 	// Load the file
 
@@ -5162,7 +5163,7 @@ void GetSavedMessage(int num, char *message)
 	itoa(num, &loadname[7], 16);
 	loadname[8] = '.';
 
-	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
+	filename = FileGetPath(loadname, FILE_DIR_PREF);
 
 	// Load the file
 
@@ -5205,7 +5206,7 @@ void GetSavedHeader(int num, gamestorage_t *game)
 	itoa(num, &loadname[7], 16);
 	loadname[8] = '.';
 
-	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
+	filename = FileGetPath(loadname, FILE_DIR_PREF);
 
 	// Load the file
 

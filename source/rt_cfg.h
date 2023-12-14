@@ -55,7 +55,6 @@ extern int DetailLevel;
 extern int fandc;
 extern int blanktime;
 extern char CodeName[9];
-extern char *ApogeePath;
 
 extern int DefaultDifficulty;
 extern int DefaultPlayerCharacter;

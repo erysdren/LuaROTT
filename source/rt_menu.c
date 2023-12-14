@@ -1114,7 +1114,7 @@ void ScanForSavedGames()
 	//
 	memset(&SaveGamesAvail[0], 0, sizeof(SaveGamesAvail));
 
-	path = M_StringJoin(ApogeePath, PATH_SEP_STR, "rottgam?.rot", NULL);
+	path = FileGetPath("rottgam?.rot", FILE_DIR_PREF);
 	qm = strrchr(path, '?');
 
 	for (which = 0; which < NUMSAVEGAMES; which++)
@@ -1964,8 +1964,7 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
 					itoa(handlewhich, &loadname[7], 16);
 					loadname[8] = '.';
 
-					filename =
-						M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
+					filename = FileGetPath(loadname, FILE_DIR_PREF);
 
 					// Delete the file
 
@@ -2947,8 +2946,7 @@ int DoLoad(int which)
 				itoa(which, &loadname[7], 16);
 				loadname[8] = '.';
 
-				filename =
-					M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
+				filename = FileGetPath(loadname, FILE_DIR_PREF);
 
 				// Delete the file
 
@@ -3067,10 +3065,10 @@ void QuickSaveGame(void)
 	itoa(quicksaveslot, &loadname[7], 16);
 	loadname[8] = '.';
 
-	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
+	filename = FileGetPath(loadname, FILE_DIR_PREF);
 	length = LoadFile(filename, (void **)&buf);
 	free(filename);
-	filename = M_StringJoin(ApogeePath, PATH_SEP_STR, QUICKSAVEBACKUP, NULL);
+	filename = FileGetPath(QUICKSAVEBACKUP, FILE_DIR_PREF);
 	SaveFile(filename, buf, length);
 	free(filename);
 	SafeFree(buf);
@@ -3131,11 +3129,10 @@ void UndoQuickSaveGame(void)
 
 		itoa(quicksaveslot, &loadname[7], 16);
 		loadname[8] = '.';
-		filename =
-			M_StringJoin(ApogeePath, PATH_SEP_STR, QUICKSAVEBACKUP, NULL);
+		filename = FileGetPath(QUICKSAVEBACKUP, FILE_DIR_PREF);
 		length = LoadFile(filename, (void **)&buf);
 		free(filename);
-		filename = M_StringJoin(ApogeePath, PATH_SEP_STR, loadname, NULL);
+		filename = FileGetPath(loadname, FILE_DIR_PREF);
 		SaveFile(filename, buf, length);
 		free(filename);
 		SafeFree(buf);

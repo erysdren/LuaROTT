@@ -1098,7 +1098,7 @@ void console_evaluate(char *s)
 }
 
 /* execute console commands from filename */
-boolean console_exec(const char *filename)
+boolean console_exec(char *filename)
 {
 	char *buffer;
 	long size;
@@ -1130,7 +1130,7 @@ boolean console_exec(const char *filename)
 }
 
 /* write all cvars to config file */
-boolean console_write_config(const char *filename)
+boolean console_write_config(char *filename)
 {
 	char *path;
 	int i;
@@ -1138,7 +1138,7 @@ boolean console_write_config(const char *filename)
 	cvar_t *cvar;
 
 	/* make path */
-	path = M_StringJoin(ApogeePath, PATH_SEP_STR, filename, NULL);
+	path = FileGetPath(filename, FILE_DIR_PREF);
 	if (!path)
 		return false;
 
