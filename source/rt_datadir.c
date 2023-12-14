@@ -125,69 +125,6 @@ static void AddDataDir(char *dir)
 	}
 }
 
-#ifndef PLATFORM_WINDOWS
-static void AddDataPath(const char *path, const char *suffix)
-{
-	char *left, *p, *dup_path;
-
-	dup_path = M_StringDuplicate(path);
-
-	// Split into individual dirs within the list.
-	left = dup_path;
-
-	for (;;)
-	{
-		p = strchr(left, LIST_SEP_CHAR);
-		if (p != NULL)
-		{
-			*p = '\0';
-
-			AddDataDir(M_StringJoin(left, suffix, NULL));
-			left = p + 1;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	AddDataDir(M_StringJoin(left, suffix, NULL));
-
-	free(dup_path);
-}
-
-static void AddXdgDirs(void)
-{
-	char *env, *tmp_env;
-
-	env = getenv("XDG_DATA_HOME");
-	tmp_env = NULL;
-
-	if (env == NULL)
-	{
-		char *homedir = getenv("HOME");
-		if (homedir == NULL)
-		{
-			homedir = "/";
-		}
-
-		tmp_env = M_StringJoin(homedir, "/.local/share", NULL);
-		env = tmp_env;
-	}
-
-	AddDataDir(M_StringJoin(env, "/games/rott", NULL));
-	free(tmp_env);
-
-	env = getenv("XDG_DATA_DIRS");
-	if (env == NULL)
-	{
-		env = "/usr/local/share:/usr/share";
-	}
-
-	AddDataPath(env, "/games/rott");
-}
-#endif
-
 void BuildDataDirList(void)
 {
 	/* already been setup */
@@ -207,12 +144,6 @@ void BuildDataDirList(void)
 
 	// root directory
 	AddDataDir(GetRootDir());
-
-#if 0
-#ifndef PLATFORM_WINDOWS
-	AddXdgDirs();
-#endif
-#endif
 }
 
 char *FindFileByName(const char *name)
