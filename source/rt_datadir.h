@@ -35,7 +35,6 @@ char *GetPrefDir(void);
 char *GetRootDir(void);
 void BuildDirs(void);
 char *FindFileByName(const char *name);
-void PrintDataDirs(void);
 void PrintFilesByType(int type);
 
 enum {

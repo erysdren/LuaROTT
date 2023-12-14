@@ -183,14 +183,6 @@ char *FindFileByName(const char *name)
 	return NULL;
 }
 
-void PrintDataDirs(void)
-{
-	BuildDataDirList();
-
-	for (int i = 0; i < num_datadirs; i++)
-		printf("Data dir %d: %s\n", i, datadirs[i]);
-}
-
 /* returns TRUE if the given file is a valid ROTT level */
 static boolean FileIsRTL(const char *_filename)
 {
