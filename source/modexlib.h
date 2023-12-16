@@ -62,6 +62,10 @@ void TurnOffTextCursor(void);
 void ToggleFullScreen(void);
 void SetShowCursor(int);
 
+extern boolean is_screen_stretched;
+void ToggleScreenStretch(void);
+void SetScreenStretch(boolean to);
+
 #define VGAMAPMASK(a)
 #define VGAREADMAP(a)
 #define VGAWRITEMAP(a)

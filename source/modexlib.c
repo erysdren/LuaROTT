@@ -101,6 +101,20 @@ void GraphicsMode(void)
 	unsigned int rmask, gmask, bmask, amask;
 	int bpp;
 
+	int width, height;
+
+	/* stretch to 4:3 */
+	if (is_screen_stretched)
+	{
+		width = iGLOBAL_SCREENWIDTH * 2;
+		height = iGLOBAL_SCREENHEIGHT * 2.4f;
+	}
+	else
+	{
+		width = iGLOBAL_SCREENWIDTH * 2;
+		height = iGLOBAL_SCREENHEIGHT * 2;
+	}
+
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		Error("Could not initialize SDL\n");
@@ -111,8 +125,8 @@ void GraphicsMode(void)
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
 
-	screen = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, flags);
-	SDL_SetWindowMinimumSize(screen, 640, 480);
+	screen = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+	SDL_SetWindowMinimumSize(screen, width, height);
 	SDL_SetWindowTitle(screen, PACKAGE_STRING);
 
 	renderer = SDL_CreateRenderer(screen, -1, SDL_RENDERER_PRESENTVSYNC);
@@ -120,7 +134,7 @@ void GraphicsMode(void)
 	{
 		renderer = SDL_CreateRenderer(screen, -1, SDL_RENDERER_SOFTWARE);
 	}
-	SDL_RenderSetLogicalSize(renderer, 640, 480);
+	SDL_RenderSetLogicalSize(renderer, width, height);
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
@@ -490,3 +504,32 @@ void DrawCenterAim()
 // bna function added end
 
 // bna section -------------------------------------------
+
+boolean is_screen_stretched = true;
+
+void ToggleScreenStretch(void)
+{
+	SetScreenStretch(!is_screen_stretched);
+}
+
+void SetScreenStretch(boolean to)
+{
+	int width, height;
+
+	is_screen_stretched = to;
+
+	if (is_screen_stretched)
+	{
+		width = iGLOBAL_SCREENWIDTH * 2;
+		height = iGLOBAL_SCREENHEIGHT * 2.4f;
+	}
+	else
+	{
+		width = iGLOBAL_SCREENWIDTH * 2;
+		height = iGLOBAL_SCREENHEIGHT * 2;
+	}
+
+	SDL_RenderSetLogicalSize(renderer, width, height);
+	SDL_SetWindowMinimumSize(screen, width, height);
+	SDL_SetWindowSize(screen, width, height);
+}

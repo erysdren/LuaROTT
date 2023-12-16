@@ -603,10 +603,12 @@ CP_MenuNames OptionsNames[] = {
 	"DETAIL LEVELS",	  "VIOLENCE LEVEL",		"SCREEN SIZE"
 };
 // bna added
-CP_MenuNames ExtOptionsNames[] = { "MOUSELOOK", "INVERT MOUSE", "CROSSHAIR",
-								   "FULLSCREEN", "AUTOAIM" };
-CP_iteminfo ExtOptionsItems = { 20, MENU_Y,			 5,			  0,
-								43, ExtOptionsNames, mn_largefont };
+CP_MenuNames ExtOptionsNames[] = {
+	"MOUSELOOK", "INVERT MOUSE", "CROSSHAIR",
+	"FULLSCREEN", "AUTOAIM", "SCREEN STRETCH"
+};
+
+CP_iteminfo ExtOptionsItems = { 20, MENU_Y, 6, 0, 43, ExtOptionsNames, mn_largefont };
 
 CP_itemtype ExtOptionsMenu[] = {
 	{ 1, "", 'M', { NULL } },
@@ -614,7 +616,8 @@ CP_itemtype ExtOptionsMenu[] = {
 	{ 0, "", 'C', { NULL } },
 	{ 1, "", 'J', { NULL } },
 	{ 1, "", 'F', { NULL } },
-	{ 1, "", 'A', { NULL } }
+	{ 1, "", 'A', { NULL } },
+	{ 1, "", 'S', { NULL } }
 };
 
 // bna added end
@@ -4760,7 +4763,12 @@ void CP_ExtOptionsMenu(void)
 				useautoaim ^= 1;
 				DrawExtOptionsButtons();
 				break;
-			break;
+			case 5:
+				ToggleScreenStretch();
+				DrawExtOptionsButtons();
+				break;
+			default:
+				break;
 		}
 
 	} while (which >= 0);
@@ -4805,6 +4813,10 @@ void DrawExtOptionsButtons(void)
 					break;
 				case 4:
 					if (useautoaim == 1)
+						on = 1;
+					break;
+				case 5:
+					if (is_screen_stretched == 1)
 						on = 1;
 					break;
 			}

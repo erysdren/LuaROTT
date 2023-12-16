@@ -418,7 +418,6 @@ boolean ParseConfigFile(void)
 		ReadBoolean("JoypadEnabled", &joypadenabled);
 
 		// Read in JoystickPort
-
 		ReadInt("JoystickPort", &joystickport);
 
 		// Read in fullscreen
@@ -428,12 +427,13 @@ boolean ParseConfigFile(void)
 		ReadInt("ScreenWidth", &iGLOBAL_SCREENWIDTH);
 		ReadInt("ScreenHeight", &iGLOBAL_SCREENHEIGHT);
 
-		// Read in ViewSize
+		// Read in ScreenStretch
+		ReadBoolean("ScreenStretch", &is_screen_stretched);
 
+		// Read in ViewSize
 		ReadInt("ViewSize", &viewsize);
 
 		// Read in Weaponscale
-
 		ReadInt("Weaponscale", &G_weaponscale); // bna added
 		if ((G_weaponscale < 150) || (G_weaponscale > 600))
 		{
@@ -1630,15 +1630,19 @@ void WriteConfig(void)
 	WriteParameter(file, "ScreenWidth      ", iGLOBAL_SCREENWIDTH);
 	WriteParameter(file, "ScreenHeight     ", iGLOBAL_SCREENHEIGHT);
 
-	// Write out ViewSize
+	// Write out ScreenStretch
+	SafeWriteString(file, "\n;\n");
+	SafeWriteString(file, "; 0 - Don't stretch screen'\n");
+	SafeWriteString(file, "; 1 - Stretch screen to a 4:3 aspect ratio\n");
+	WriteParameter(file, "ScreenStretch    ", is_screen_stretched);
 
+	// Write out ViewSize
 	SafeWriteString(file, "\n;\n");
 	SafeWriteString(file, "; Size of View port.\n");
 	SafeWriteString(file, "; (smallest) 0 - 10 (largest)\n");
 	WriteParameter(file, "ViewSize         ", viewsize);
 
 	// Write out WEAPONSCALE  bna added
-
 	SafeWriteString(file, "\n;\n");
 	SafeWriteString(file, "; Size of Weaponscale.\n");
 	SafeWriteString(file, "; (smallest) 150 - 600 (largest)\n");
