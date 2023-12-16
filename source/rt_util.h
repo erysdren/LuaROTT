@@ -148,4 +148,6 @@ void Square(void);
 
 #define OUTP my_outp
 
+int RemapValue(int value, int a1, int a2, int b1, int b2);
+
 #endif

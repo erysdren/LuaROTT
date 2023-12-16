@@ -1270,3 +1270,16 @@ void AbortCheck(char *abortstring)
 	if (Keyboard[sc_Escape])
 		Error("%s\n", abortstring);
 }
+
+/*
+=============
+=
+= RemapValue
+=
+=============
+*/
+
+int RemapValue(int value, int a1, int a2, int b1, int b2)
+{
+	return b1 + (value - a1) * (b2 - b1) / (a2 - a1);
+}
