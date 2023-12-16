@@ -415,6 +415,16 @@ static void StretchMemPicture()
 
 // bna section -------------------------------------------
 
+/*
+ *
+ * erysdren
+ *
+ */
+
+/*
+ * 4:3 screen stretch
+ */
+
 void ToggleScreenStretch(void)
 {
 	SetScreenStretch(!vidconfig.ScreenStretch);

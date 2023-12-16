@@ -351,17 +351,14 @@ void SetupPlayScreen(void)
 //******************************************************************************
 
 void GameMemToScreen(pic_t *source, int x, int y, int bufferofsonly)
-
 {
 	if (bufferofsonly)
 	{
-		VL_MemToScreen((byte *)&source->data, source->width, source->height, x,
-					   y);
+		VL_MemToScreen((byte *)&source->data, source->width, source->height, x, y);
 	}
 	else
 	{
-		GM_MemToScreen((byte *)&source->data, source->width, source->height, x,
-					   y);
+		GM_MemToScreen((byte *)&source->data, source->width, source->height, x, y);
 	}
 }
 

@@ -86,7 +86,6 @@ void VL_MemToScreen(byte *source, int width, int height, int x, int y)
 	}
 }
 // bna function start
-void VL_MemToScreenClipped(byte *source, int width, int height, int x, int y);
 void VL_MemToScreenClipped(byte *source, int width, int height, int x, int y)
 {
 	byte *ptr, *destline;
