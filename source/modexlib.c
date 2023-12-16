@@ -44,8 +44,7 @@ extern int iG_Y_center;
 byte *iG_buf_center;
 
 int linewidth;
-// int    ylookup[MAXSCREENHEIGHT];
-int ylookup[600]; // just set to max res
+int ylookup[800]; // Table of row offsets
 byte *page1start;
 byte *page2start;
 byte *page3start;
