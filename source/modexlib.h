@@ -66,13 +66,13 @@ extern boolean is_screen_stretched;
 void ToggleScreenStretch(void);
 void SetScreenStretch(boolean to);
 
-typedef struct vid_t {
+typedef struct vidconfig_t {
 	int WindowWidth;
 	int WindowHeight;
-} vid_t;
+} vidconfig_t;
 
 /* global video config */
-extern vid_t vid;
+extern vidconfig_t vidconfig;
 
 #define VGAMAPMASK(a)
 #define VGAREADMAP(a)

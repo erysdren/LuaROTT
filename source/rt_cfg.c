@@ -424,13 +424,13 @@ boolean ParseConfigFile(void)
 		ReadBoolean("FullScreen", &sdl_fullscreen);
 
 		// Read in resolution
-		ReadInt("WindowWidth", &vid.WindowWidth);
-		ReadInt("WindowHeight", &vid.WindowHeight);
+		ReadInt("WindowWidth", &vidconfig.WindowWidth);
+		ReadInt("WindowHeight", &vidconfig.WindowHeight);
 
-		if (vid.WindowWidth < 320)
-			vid.WindowWidth = 320;
-		if (vid.WindowHeight < 200)
-			vid.WindowHeight = 200;
+		if (vidconfig.WindowWidth < 320)
+			vidconfig.WindowWidth = 320;
+		if (vidconfig.WindowHeight < 200)
+			vidconfig.WindowHeight = 200;
 
 		// Read in ScreenStretch
 		ReadBoolean("ScreenStretch", &is_screen_stretched);
@@ -1632,8 +1632,8 @@ void WriteConfig(void)
 	SafeWriteString(file, "\n;\n");
 	SafeWriteString(file, "; Window resolution.\n");
 	SafeWriteString(file, "; Cannot be lower than 320x200.\n");
-	WriteParameter(file, "WindowWidth      ", vid.WindowWidth);
-	WriteParameter(file, "WindowHeight     ", vid.WindowHeight);
+	WriteParameter(file, "WindowWidth      ", vidconfig.WindowWidth);
+	WriteParameter(file, "WindowHeight     ", vidconfig.WindowHeight);
 
 	// Write out ScreenStretch
 	SafeWriteString(file, "\n;\n");

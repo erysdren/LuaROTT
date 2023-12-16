@@ -59,7 +59,7 @@ byte *bufofsBottomLimit;
 void DrawCenterAim();
 
 /* global video config */
-vid_t vid = {640, 480};
+vidconfig_t vidconfig = {640, 480};
 
 #include "SDL.h"
 
@@ -114,8 +114,8 @@ void GraphicsMode(void)
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
 
-	screen = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, vid.WindowWidth, vid.WindowHeight, flags);
-	SDL_SetWindowMinimumSize(screen, vid.WindowWidth, vid.WindowHeight);
+	screen = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, vidconfig.WindowWidth, vidconfig.WindowHeight, flags);
+	SDL_SetWindowMinimumSize(screen, vidconfig.WindowWidth, vidconfig.WindowHeight);
 	SDL_SetWindowTitle(screen, PACKAGE_STRING);
 
 	renderer = SDL_CreateRenderer(screen, -1, SDL_RENDERER_PRESENTVSYNC);
@@ -338,7 +338,7 @@ void VH_UpdateScreen(void)
 	}
 
 	/* get current window size */
-	SDL_GetWindowSize(screen, &vid.WindowWidth, &vid.WindowHeight);
+	SDL_GetWindowSize(screen, &vidconfig.WindowWidth, &vidconfig.WindowHeight);
 
 	SDL_LowerBlit(VL_GetVideoSurface(), &blit_rect, argbbuffer, &blit_rect);
 	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
