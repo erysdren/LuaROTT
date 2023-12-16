@@ -62,13 +62,18 @@ void TurnOffTextCursor(void);
 void ToggleFullScreen(void);
 void SetShowCursor(int);
 
-extern boolean is_screen_stretched;
 void ToggleScreenStretch(void);
 void SetScreenStretch(boolean to);
 
 typedef struct vidconfig_t {
 	int WindowWidth;
 	int WindowHeight;
+	int RenderWidth;
+	int RenderHeight;
+	int RenderScale;
+	int HudWidth;
+	int HudHeight;
+	boolean ScreenStretch;
 } vidconfig_t;
 
 /* global video config */

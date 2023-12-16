@@ -4816,7 +4816,7 @@ void DrawExtOptionsButtons(void)
 						on = 1;
 					break;
 				case 5:
-					if (is_screen_stretched == 1)
+					if (vidconfig.ScreenStretch)
 						on = 1;
 					break;
 			}

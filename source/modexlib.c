@@ -59,7 +59,16 @@ byte *bufofsBottomLimit;
 void DrawCenterAim();
 
 /* global video config */
-vidconfig_t vidconfig = {640, 480};
+vidconfig_t vidconfig = {
+	640, /* WindowWidth */
+	480, /* WindowHeight */
+	320, /* RenderWidth */
+	200, /* RenderHeight */
+	1,   /* RenderScale */
+	320, /* HudWidth */
+	200, /* HudHeight */
+	true /* ScreenStretch */
+};
 
 #include "SDL.h"
 
@@ -125,7 +134,7 @@ void GraphicsMode(void)
 	}
 
 	/* enable screen stretch */
-	SetScreenStretch(is_screen_stretched);
+	SetScreenStretch(vidconfig.ScreenStretch);
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
@@ -500,20 +509,18 @@ void DrawCenterAim()
 
 // bna section -------------------------------------------
 
-boolean is_screen_stretched = true;
-
 void ToggleScreenStretch(void)
 {
-	SetScreenStretch(!is_screen_stretched);
+	SetScreenStretch(!vidconfig.ScreenStretch);
 }
 
 void SetScreenStretch(boolean to)
 {
 	int width, height;
 
-	is_screen_stretched = to;
+	vidconfig.ScreenStretch = to;
 
-	if (is_screen_stretched)
+	if (vidconfig.ScreenStretch)
 	{
 		width = iGLOBAL_SCREENWIDTH;
 		height = iGLOBAL_SCREENHEIGHT * 1.2f;

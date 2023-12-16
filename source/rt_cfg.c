@@ -433,7 +433,10 @@ boolean ParseConfigFile(void)
 			vidconfig.WindowHeight = 200;
 
 		// Read in ScreenStretch
-		ReadBoolean("ScreenStretch", &is_screen_stretched);
+		ReadBoolean("ScreenStretch", &vidconfig.ScreenStretch);
+
+		// Read in RenderScale
+		ReadInt("RenderScale", &vidconfig.RenderScale);
 
 		// Read in ViewSize
 		ReadInt("ViewSize", &viewsize);
@@ -1639,7 +1642,13 @@ void WriteConfig(void)
 	SafeWriteString(file, "\n;\n");
 	SafeWriteString(file, "; 0 - Don't stretch screen'\n");
 	SafeWriteString(file, "; 1 - Stretch screen to a 4:3 aspect ratio\n");
-	WriteParameter(file, "ScreenStretch    ", is_screen_stretched);
+	WriteParameter(file, "ScreenStretch    ", vidconfig.ScreenStretch);
+
+	// Write out RenderScale
+	SafeWriteString(file, "\n;\n");
+	SafeWriteString(file, "; Render scale value.\n");
+	SafeWriteString(file, "; Range: 1 - 4\n");
+	WriteParameter(file, "RenderScale      ", vidconfig.RenderScale);
 
 	// Write out ViewSize
 	SafeWriteString(file, "\n;\n");
