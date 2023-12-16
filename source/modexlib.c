@@ -58,6 +58,9 @@ byte *bufofsBottomLimit;
 
 void DrawCenterAim();
 
+/* global video config */
+vid_t vid = {640, 480};
+
 #include "SDL.h"
 
 /*
@@ -101,20 +104,6 @@ void GraphicsMode(void)
 	unsigned int rmask, gmask, bmask, amask;
 	int bpp;
 
-	int width, height;
-
-	/* stretch to 4:3 */
-	if (is_screen_stretched)
-	{
-		width = iGLOBAL_SCREENWIDTH * 2;
-		height = iGLOBAL_SCREENHEIGHT * 2.4f;
-	}
-	else
-	{
-		width = iGLOBAL_SCREENWIDTH * 2;
-		height = iGLOBAL_SCREENHEIGHT * 2;
-	}
-
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		Error("Could not initialize SDL\n");
@@ -125,8 +114,8 @@ void GraphicsMode(void)
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
 
-	screen = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
-	SDL_SetWindowMinimumSize(screen, width, height);
+	screen = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, vid.WindowWidth, vid.WindowHeight, flags);
+	SDL_SetWindowMinimumSize(screen, vid.WindowWidth, vid.WindowHeight);
 	SDL_SetWindowTitle(screen, PACKAGE_STRING);
 
 	renderer = SDL_CreateRenderer(screen, -1, SDL_RENDERER_PRESENTVSYNC);
@@ -134,7 +123,9 @@ void GraphicsMode(void)
 	{
 		renderer = SDL_CreateRenderer(screen, -1, SDL_RENDERER_SOFTWARE);
 	}
-	SDL_RenderSetLogicalSize(renderer, width, height);
+
+	/* enable screen stretch */
+	SetScreenStretch(is_screen_stretched);
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
@@ -345,6 +336,10 @@ void VH_UpdateScreen(void)
 	{
 		DrawCenterAim();
 	}
+
+	/* get current window size */
+	SDL_GetWindowSize(screen, &vid.WindowWidth, &vid.WindowHeight);
+
 	SDL_LowerBlit(VL_GetVideoSurface(), &blit_rect, argbbuffer, &blit_rect);
 	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
 	SDL_RenderClear(renderer);
@@ -520,16 +515,14 @@ void SetScreenStretch(boolean to)
 
 	if (is_screen_stretched)
 	{
-		width = iGLOBAL_SCREENWIDTH * 2;
-		height = iGLOBAL_SCREENHEIGHT * 2.4f;
+		width = iGLOBAL_SCREENWIDTH;
+		height = iGLOBAL_SCREENHEIGHT * 1.2f;
 	}
 	else
 	{
-		width = iGLOBAL_SCREENWIDTH * 2;
-		height = iGLOBAL_SCREENHEIGHT * 2;
+		width = iGLOBAL_SCREENWIDTH;
+		height = iGLOBAL_SCREENHEIGHT;
 	}
 
 	SDL_RenderSetLogicalSize(renderer, width, height);
-	SDL_SetWindowMinimumSize(screen, width, height);
-	SDL_SetWindowSize(screen, width, height);
 }
