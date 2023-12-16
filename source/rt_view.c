@@ -98,10 +98,20 @@ byte uniformcolors[MAXPLAYERCOLORS] = { 25,	 222, 29, 206, 52, 6,
 
 static char *YourComputerSucksString = "Buy a 486! :)";
 
-static int viewsizes[MAXVIEWSIZES * 2] = { 80,	48,	 128, 72,  160, 88,
-										   192, 104, 224, 120, 256, 136,
-										   288, 152, 320, 168, 320, 184,
-										   320, 200, 320, 200 };
+static boolean viewsize_calculated = false;
+static int viewsizes[MAXVIEWSIZES * 2] = {
+	80, 48,
+	128, 72,
+	160, 88,
+	192, 104,
+	224, 120,
+	256, 136,
+	288, 152,
+	320, 168,
+	320, 184,
+	320, 200,
+	320, 200
+};
 
 static int ColorMapLoaded = 0;
 
@@ -226,13 +236,13 @@ void CalcProjection(void)
 */
 
 void SetViewSize(int size)
-
 {
 	int height;
 	int maxheight;
 	int screenx;
 	int screeny;
 	int topy;
+	int i;
 
 	if ((size < 0) || (size >= MAXVIEWSIZES))
 	{ // bna added
@@ -241,10 +251,46 @@ void SetViewSize(int size)
 		viewsize = 8;
 	}
 
-	// if ((size<0) || (size>=MAXVIEWSIZES))
-	//    Error("Illegal screen size = %ld\n",size);
+	/* recalculate viewsize if necessary */
+	if (!viewsize_calculated)
+	{
+		viewsizes[0] = 80 * vidconfig.ScreenScale;
+		viewsizes[1] = 48 * vidconfig.ScreenScale;
 
-	viewwidth = viewsizes[size << 1];		 // must be divisable by 16
+		viewsizes[2] = 128 * vidconfig.ScreenScale;
+		viewsizes[3] = 72 * vidconfig.ScreenScale;
+
+		viewsizes[4] = 160 * vidconfig.ScreenScale;
+		viewsizes[5] = 88 * vidconfig.ScreenScale;
+
+		viewsizes[6] = 192 * vidconfig.ScreenScale;
+		viewsizes[7] = 104 * vidconfig.ScreenScale;
+
+		viewsizes[8] = 224 * vidconfig.ScreenScale;
+		viewsizes[9] = 120 * vidconfig.ScreenScale;
+
+		viewsizes[10] = 256 * vidconfig.ScreenScale;
+		viewsizes[11] = 136 * vidconfig.ScreenScale;
+
+		viewsizes[12] = 288 * vidconfig.ScreenScale;
+		viewsizes[13] = 152 * vidconfig.ScreenScale;
+
+		viewsizes[14] = 320 * vidconfig.ScreenScale;
+		viewsizes[15] = 200 * vidconfig.ScreenScale - 32 * vidconfig.ScreenScale;
+
+		viewsizes[16] = 320 * vidconfig.ScreenScale;
+		viewsizes[17] = 200 * vidconfig.ScreenScale - 16 * vidconfig.ScreenScale;
+
+		viewsizes[18] = 320 * vidconfig.ScreenScale;
+		viewsizes[19] = 200 * vidconfig.ScreenScale;
+
+		viewsizes[20] = 320 * vidconfig.ScreenScale;
+		viewsizes[21] = 200 * vidconfig.ScreenScale;
+
+		viewsize_calculated = true;
+	}
+
+	viewwidth = viewsizes[size << 1]; // must be divisable by 16
 	viewheight = viewsizes[(size << 1) + 1]; // must be even
 
 	maxheight = vidconfig.ScreenHeight;
@@ -256,7 +302,7 @@ void SetViewSize(int size)
 	if (SHOW_KILLS())
 	{
 		// Account for height of kill boxes
-		maxheight -= 24;
+		maxheight -= 24 * vidconfig.ScreenScale;
 	}
 
 	if (size < 9)
@@ -264,28 +310,25 @@ void SetViewSize(int size)
 		StatusBar |= TOP_STATUS_BAR;
 
 		// Account for height of top status bar
-		maxheight -= 16;
-		topy += 16;
+		maxheight -= 16 * vidconfig.ScreenScale;
+		topy += 16 * vidconfig.ScreenScale;
 	}
-
-	//   if ( size == 7 ){maxheight -= 16;}//bna++
-	//   if ( size <= 6 ){topy -= 8;}//bna++
 
 	if (size < 8)
 	{
 		// Turn on health and ammo bar
 		StatusBar |= BOTTOM_STATUS_BAR;
 
-		maxheight -= 16;
+		maxheight -= 16 * vidconfig.ScreenScale;
 	}
 	else if (size < 10)
 	{
 		// Turn on transparent health and ammo bar
 		StatusBar |= STATUS_PLAYER_STATS;
 	}
-	//   SetTextMode (  );
-	//   viewheight=viewheight;
+
 	height = viewheight;
+
 	if (height > 168 * vidconfig.ScreenHeight / 200)
 	{
 		// Prevent weapon from being scaled too big

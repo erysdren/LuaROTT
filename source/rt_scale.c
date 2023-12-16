@@ -988,55 +988,12 @@ void DrawScreenSizedSprite(int lump)
 
 	startfrac = 0;
 
+	frac = startfrac;
+	b = (byte *)bufferofs;
+
+	for (x1 = 0; x1 <= x2; x1++, frac += dc_iscale, b++)
 	{
-		frac = startfrac;
-		b = (byte *)bufferofs;
-
-		/////////////  BNA PATCH
-		/////////////////////////////////////////////////////////////
-		// gmasklump=W_GetNumForName("p_gmask"); //=783
-		// perhaps I should have painted the mask in a seperate buffer
-		// and streched it and copyet it back, but that would demand
-		// a new buffer (size=800x600) and slowed the game down so ?
-
-		// if its the gasmask, paint black patches at hires
-		if ((lump == G_gmasklump) && (vidconfig.ScreenWidth > 320))
-		{
-			src = ((p->collumnofs[frac >> SFRACBITS]) + shape);
-			offset = *(src++);
-			length = *(src++);
-			topscreen = sprtopoffset + (dc_invscale * offset);
-			bottomscreen = topscreen + (dc_invscale * length);
-			dc_yl =
-				(topscreen + SFRACUNIT - 1) >> SFRACBITS; //=41  viewheight=584
-			dc_yh =
-				((bottomscreen - 1) >> SFRACBITS); //=540      viewwidth =800
-			// paint upper black patch in gasmask
-			for (cnt = b; cnt < b + viewwidth; cnt++)
-			{
-				for (Ycnt = cnt; Ycnt < cnt + (dc_yl * vidconfig.ScreenWidth);
-					 Ycnt += vidconfig.ScreenWidth)
-				{
-					*Ycnt = 36;
-				}
-			}
-			// paint lower black patch in gasmask
-			for (cnt = b + (dc_yh * vidconfig.ScreenWidth);
-				 cnt < b + (dc_yh * vidconfig.ScreenWidth) + viewwidth; cnt++)
-			{
-				for (Ycnt = cnt; Ycnt < b + (viewheight * vidconfig.ScreenWidth);
-					 Ycnt += vidconfig.ScreenWidth)
-				{
-					*Ycnt = 36;
-				}
-			}
-		}
-		///////////////////////////////////////////////////////////////////////////////////
-		for (x1 = 0; x1 <= x2; x1++, frac += dc_iscale, b++)
-
-		{
-			ScaleClippedPost(((p->collumnofs[frac >> SFRACBITS]) + shape), b);
-		}
+		ScaleClippedPost(((p->collumnofs[frac >> SFRACBITS]) + shape), b);
 	}
 }
 
@@ -1096,12 +1053,10 @@ void DrawNormalSprite(int x, int y, int shapenum)
 	shape = W_CacheLumpNum(shapenum, PU_CACHE, Cvt_patch_t, 1);
 	p = (patch_t *)shape;
 
-#if 0
 	if (((x - p->leftoffset) < 0) || ((x - p->leftoffset + p->width) > vidconfig.ScreenWidth))
 		Error("DrawNormalSprite: x is out of range x=%d\n", x - p->leftoffset + p->width);
 	if (((y - p->topoffset) < 0) || ((y - p->topoffset + p->height) > vidconfig.ScreenHeight))
 		Error("DrawNormalSprite: y is out of range y=%d\n", y - p->topoffset + p->height);
-#endif
 
 	startx = x - p->leftoffset;
 	buffer = (byte *)bufferofs + ylookup[y - p->topoffset];

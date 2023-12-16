@@ -428,14 +428,7 @@ void UpdateMessages(void)
 void DisplayMessage(int num, int position)
 {
 	PrintX = 1;
-	if (vidconfig.ScreenWidth > 320)
-	{
-		PrintY = 2 + (position * (9 * 2));
-	}
-	else
-	{
-		PrintY = 2 + (position * (9 * 1));
-	}
+	PrintY = 2 + (position * (9 * 1));
 
 	if (SHOW_TOP_STATUS_BAR())
 	{

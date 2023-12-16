@@ -1781,23 +1781,7 @@ void PauseLoop(void)
 		CheckUnPause();
 		oldpolltime++;
 		if (GamePaused == false)
-		{
-			// bna++ section
-			if ((playstate == ex_stillplaying) && (vidconfig.ScreenWidth > 320))
-			{
-				pic_t *shape;
-				shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE,
-												 Cvt_pic_t, 1);
-				DrawTiledRegion(0, 16, vidconfig.ScreenWidth,
-								vidconfig.ScreenHeight - 32, 0, 16, shape);
-				DisableScreenStretch(); // dont strech when we go BACK TO GAME
-				DrawPlayScreen(true);	// repaint ammo and life stat
-				VW_UpdateScreen();		// update screen
-			}
-			StartupClientControls();
-			// bna section end
 			break;
-		}
 	}
 
 	CalcTics();
