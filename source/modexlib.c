@@ -336,19 +336,10 @@ void VL_DePlaneVGA(void)
 
 void VH_UpdateScreen(void)
 {
-
-	if (StretchScreen)
-	{ // bna++
-		StretchMemPicture();
-	}
-	else
-	{
-		DrawCenterAim();
-	}
-
 	/* get current window size */
 	SDL_GetWindowSize(screen, &vidconfig.WindowWidth, &vidconfig.WindowHeight);
 
+	/* blit video buffer to screen */
 	SDL_LowerBlit(VL_GetVideoSurface(), &blit_rect, argbbuffer, &blit_rect);
 	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
 	SDL_RenderClear(renderer);
@@ -366,14 +357,6 @@ void VH_UpdateScreen(void)
 
 void XFlipPage(void)
 {
-	if (StretchScreen)
-	{ // bna++
-		StretchMemPicture();
-	}
-	else
-	{
-		DrawCenterAim();
-	}
 	SDL_LowerBlit(sdl_surface, &blit_rect, argbbuffer, &blit_rect);
 	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
 	SDL_RenderClear(renderer);
@@ -383,36 +366,12 @@ void XFlipPage(void)
 
 void EnableScreenStretch(void)
 {
-	if (iGLOBAL_SCREENWIDTH <= 320 || StretchScreen)
-		return;
-
-	if (unstretch_sdl_surface == NULL)
-	{
-		/* should really be just 320x200, but there is code all over the
-		   places which crashes then */
-		unstretch_sdl_surface = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
-	}
-
-	displayofs = (byte *)unstretch_sdl_surface->pixels + (displayofs - (byte *)sdl_surface->pixels);
-	bufferofs = unstretch_sdl_surface->pixels;
-	page1start = unstretch_sdl_surface->pixels;
-	page2start = unstretch_sdl_surface->pixels;
-	page3start = unstretch_sdl_surface->pixels;
-	StretchScreen = 1;
+	/* no-op */
 }
 
 void DisableScreenStretch(void)
 {
-	if (iGLOBAL_SCREENWIDTH <= 320 || !StretchScreen)
-		return;
-
-	displayofs = (byte *) sdl_surface->pixels +
-				 (displayofs - (byte *)unstretch_sdl_surface->pixels);
-	bufferofs = sdl_surface->pixels;
-	page1start = sdl_surface->pixels;
-	page2start = sdl_surface->pixels;
-	page3start = sdl_surface->pixels;
-	StretchScreen = 0;
+	/* no-op */
 }
 
 // bna section -------------------------------------------
