@@ -1096,10 +1096,12 @@ void DrawNormalSprite(int x, int y, int shapenum)
 	shape = W_CacheLumpNum(shapenum, PU_CACHE, Cvt_patch_t, 1);
 	p = (patch_t *)shape;
 
+#if 0
 	if (((x - p->leftoffset) < 0) || ((x - p->leftoffset + p->width) > vidconfig.ScreenWidth))
 		Error("DrawNormalSprite: x is out of range x=%d\n", x - p->leftoffset + p->width);
 	if (((y - p->topoffset) < 0) || ((y - p->topoffset + p->height) > vidconfig.ScreenHeight))
 		Error("DrawNormalSprite: y is out of range y=%d\n", y - p->topoffset + p->height);
+#endif
 
 	startx = x - p->leftoffset;
 	buffer = (byte *)bufferofs + ylookup[y - p->topoffset];

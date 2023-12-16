@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdio.h>
 #include <ctype.h>
 
+#include "SDL.h"
+
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "modexlib.h"
@@ -67,7 +69,14 @@ vidconfig_t vidconfig = {
 	true /* ScreenStretch */
 };
 
-#include "SDL.h"
+/* 320x200x8 */
+static SDL_Surface *BackBuffer = NULL;
+
+/* 320x200x8 * vidconfig.ScreenScale */
+static SDL_Surface *BackBufferScaled = NULL;
+
+/* 320x200x32 * vidconfig.ScreenScale */
+static SDL_Surface *FrontSurface = NULL;
 
 /*
 ====================
@@ -336,6 +345,9 @@ void VH_UpdateScreen(void)
 	/* get current window size */
 	SDL_GetWindowSize(screen, &vidconfig.WindowWidth, &vidconfig.WindowHeight);
 
+	if (StretchScreen)
+		StretchMemPicture();
+
 	/* blit video buffer to screen */
 	SDL_LowerBlit(VL_GetVideoSurface(), &blit_rect, argbbuffer, &blit_rect);
 	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
@@ -354,6 +366,9 @@ void VH_UpdateScreen(void)
 
 void XFlipPage(void)
 {
+	if (StretchScreen)
+		StretchMemPicture();
+
 	SDL_LowerBlit(sdl_surface, &blit_rect, argbbuffer, &blit_rect);
 	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
 	SDL_RenderClear(renderer);
@@ -363,12 +378,36 @@ void XFlipPage(void)
 
 void EnableScreenStretch(void)
 {
-	/* no-op */
+	if (vidconfig.ScreenWidth <= 320 || StretchScreen)
+		return;
+
+	if (unstretch_sdl_surface == NULL)
+	{
+		/* should really be just 320x200, but there is code all over the
+		   places which crashes then */
+		unstretch_sdl_surface = SDL_CreateRGBSurface(0, vidconfig.ScreenWidth, vidconfig.ScreenHeight, 8, 0, 0, 0, 0);
+	}
+
+	displayofs = (byte *)unstretch_sdl_surface->pixels + (displayofs - (byte *)sdl_surface->pixels);
+	bufferofs = unstretch_sdl_surface->pixels;
+	page1start = unstretch_sdl_surface->pixels;
+	page2start = unstretch_sdl_surface->pixels;
+	page3start = unstretch_sdl_surface->pixels;
+	StretchScreen = 1;
 }
 
 void DisableScreenStretch(void)
 {
-	/* no-op */
+	if (vidconfig.ScreenWidth <= 320 || !StretchScreen)
+		return;
+
+	displayofs = (byte *) sdl_surface->pixels +
+				 (displayofs - (byte *)unstretch_sdl_surface->pixels);
+	bufferofs = sdl_surface->pixels;
+	page1start = sdl_surface->pixels;
+	page2start = sdl_surface->pixels;
+	page3start = sdl_surface->pixels;
+	StretchScreen = 0;
 }
 
 // bna section -------------------------------------------
