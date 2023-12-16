@@ -39,12 +39,10 @@ extern boolean StretchScreen;
 
 extern int ylookup[800]; // Table of row offsets
 extern int linewidth;
-extern byte *page1start;
-extern byte *page2start;
-extern byte *page3start;
 extern int screensize;
-extern byte *bufferofs;
 extern byte *displayofs;
+extern byte *bufferofs;
+extern byte *BackBuffer;
 extern boolean graphicsmode;
 
 void GraphicsMode(void);

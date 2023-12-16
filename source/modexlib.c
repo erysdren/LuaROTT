@@ -47,12 +47,9 @@ byte *iG_buf_center;
 
 int linewidth;
 int ylookup[800]; // Table of row offsets
-byte *page1start;
-byte *page2start;
-byte *page3start;
 int screensize;
-byte *bufferofs;
 byte *displayofs;
+byte *bufferofs;
 boolean graphicsmode = false;
 byte *bufofsTopLimit;
 byte *bufofsBottomLimit;
@@ -69,15 +66,6 @@ vidconfig_t vidconfig = {
 	true /* ScreenStretch */
 };
 
-/* 320x200x8 */
-static SDL_Surface *BackBuffer = NULL;
-
-/* 320x200x8 * vidconfig.ScreenScale */
-static SDL_Surface *BackBufferScaled = NULL;
-
-/* 320x200x32 * vidconfig.ScreenScale */
-static SDL_Surface *FrontSurface = NULL;
-
 /*
 ====================
 =
@@ -85,23 +73,27 @@ static SDL_Surface *FrontSurface = NULL;
 =
 ====================
 */
-static SDL_Surface *sdl_surface = NULL;
-static SDL_Surface *unstretch_sdl_surface = NULL;
+
+/* 320x200 */
+SDL_Surface *BackSurfaceStretched = NULL;
+
+/* 320x200 * vidconfig.ScreenScale */
+SDL_Surface *BackSurface = NULL;
+
+/* 320x200 * vidconfig.ScreenScale */
+SDL_Surface *FrontSurface = NULL;
+
+/* current pixel buffer */
+byte *BackBuffer = NULL;
 
 static SDL_Window *screen;
 static SDL_Renderer *renderer;
-static SDL_Surface *argbbuffer;
 static SDL_Texture *texture;
 static SDL_Rect blit_rect = { 0 };
 
-SDL_Surface *VL_GetVideoSurface(void)
-{
-	return sdl_surface;
-}
-
 int VL_SaveBMP(const char *file)
 {
-	return SDL_SaveBMP(sdl_surface, file);
+	return SDL_SaveBMP(BackSurface, file);
 }
 
 void SetShowCursor(int show)
@@ -146,12 +138,12 @@ void GraphicsMode(void)
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 
-	sdl_surface = SDL_CreateRGBSurface(0, vidconfig.ScreenWidth, vidconfig.ScreenHeight, 8, 0, 0, 0, 0);
-	SDL_FillRect(sdl_surface, NULL, 0);
+	BackSurface = SDL_CreateRGBSurface(0, vidconfig.ScreenWidth, vidconfig.ScreenHeight, 8, 0, 0, 0, 0);
+	SDL_FillRect(BackSurface, NULL, 0);
 
 	pixel_format = SDL_GetWindowPixelFormat(screen);
 	SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &rmask, &gmask, &bmask, &amask);
-	argbbuffer = SDL_CreateRGBSurface(0, vidconfig.ScreenWidth, vidconfig.ScreenHeight, bpp, rmask, gmask, bmask, amask);
+	FrontSurface = SDL_CreateRGBSurface(0, vidconfig.ScreenWidth, vidconfig.ScreenHeight, bpp, rmask, gmask, bmask, amask);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 	texture = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, vidconfig.ScreenWidth, vidconfig.ScreenHeight);
 
@@ -187,11 +179,11 @@ void SetTextMode(void)
 {
 	if (SDL_WasInit(SDL_INIT_VIDEO) == SDL_INIT_VIDEO)
 	{
-		if (sdl_surface != NULL)
+		if (BackSurface != NULL)
 		{
-			SDL_FreeSurface(sdl_surface);
+			SDL_FreeSurface(BackSurface);
 
-			sdl_surface = NULL;
+			BackSurface = NULL;
 		}
 
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
@@ -252,20 +244,18 @@ void VL_SetVGAPlaneMode(void)
 	//    screensize=MAXSCREENHEIGHT*MAXSCREENWIDTH;
 	screensize = vidconfig.ScreenHeight * vidconfig.ScreenWidth;
 
-	page1start = sdl_surface->pixels;
-	page2start = sdl_surface->pixels;
-	page3start = sdl_surface->pixels;
-	displayofs = page1start;
-	bufferofs = page2start;
+	BackBuffer = BackSurface->pixels;
+	displayofs = BackBuffer;
+	bufferofs = BackBuffer;
 
 	iG_X_center = vidconfig.ScreenWidth / 2;
 	iG_Y_center = (vidconfig.ScreenHeight / 2) + 10; //+10 = move aim down a bit
 
 	//(iG_Y_center*vidconfig.ScreenWidth);//+iG_X_center;
-	iG_buf_center = bufferofs + (screensize / 2);
+	iG_buf_center = BackBuffer + (screensize / 2);
 
-	bufofsTopLimit = bufferofs + screensize - vidconfig.ScreenWidth;
-	bufofsBottomLimit = bufferofs + vidconfig.ScreenWidth;
+	bufofsTopLimit = BackBuffer + screensize - vidconfig.ScreenWidth;
+	bufofsBottomLimit = BackBuffer + vidconfig.ScreenWidth;
 
 	// start stretched
 	EnableScreenStretch();
@@ -323,7 +313,7 @@ void VL_ClearBuffer(byte *buf, byte color)
 
 void VL_ClearVideo(byte color)
 {
-	memset(sdl_surface->pixels, color, vidconfig.ScreenWidth * vidconfig.ScreenHeight);
+	memset(BackSurface->pixels, color, vidconfig.ScreenWidth * vidconfig.ScreenHeight);
 }
 
 /*
@@ -349,8 +339,8 @@ void VH_UpdateScreen(void)
 		StretchMemPicture();
 
 	/* blit video buffer to screen */
-	SDL_LowerBlit(VL_GetVideoSurface(), &blit_rect, argbbuffer, &blit_rect);
-	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
+	SDL_LowerBlit(BackSurface, &blit_rect, FrontSurface, &blit_rect);
+	SDL_UpdateTexture(texture, NULL, FrontSurface->pixels, FrontSurface->pitch);
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
@@ -369,8 +359,8 @@ void XFlipPage(void)
 	if (StretchScreen)
 		StretchMemPicture();
 
-	SDL_LowerBlit(sdl_surface, &blit_rect, argbbuffer, &blit_rect);
-	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
+	SDL_LowerBlit(BackSurface, &blit_rect, FrontSurface, &blit_rect);
+	SDL_UpdateTexture(texture, NULL, FrontSurface->pixels, FrontSurface->pitch);
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
@@ -381,18 +371,16 @@ void EnableScreenStretch(void)
 	if (vidconfig.ScreenWidth <= 320 || StretchScreen)
 		return;
 
-	if (unstretch_sdl_surface == NULL)
+	if (BackSurfaceStretched == NULL)
 	{
 		/* should really be just 320x200, but there is code all over the
 		   places which crashes then */
-		unstretch_sdl_surface = SDL_CreateRGBSurface(0, vidconfig.ScreenWidth, vidconfig.ScreenHeight, 8, 0, 0, 0, 0);
+		BackSurfaceStretched = SDL_CreateRGBSurface(0, vidconfig.ScreenWidth, vidconfig.ScreenHeight, 8, 0, 0, 0, 0);
 	}
 
-	displayofs = (byte *)unstretch_sdl_surface->pixels + (displayofs - (byte *)sdl_surface->pixels);
-	bufferofs = unstretch_sdl_surface->pixels;
-	page1start = unstretch_sdl_surface->pixels;
-	page2start = unstretch_sdl_surface->pixels;
-	page3start = unstretch_sdl_surface->pixels;
+	displayofs = (byte *)BackSurfaceStretched->pixels + (displayofs - (byte *)BackSurface->pixels);
+	BackBuffer = BackSurfaceStretched->pixels;
+	bufferofs = BackBuffer;
 	StretchScreen = 1;
 }
 
@@ -401,12 +389,9 @@ void DisableScreenStretch(void)
 	if (vidconfig.ScreenWidth <= 320 || !StretchScreen)
 		return;
 
-	displayofs = (byte *) sdl_surface->pixels +
-				 (displayofs - (byte *)unstretch_sdl_surface->pixels);
-	bufferofs = sdl_surface->pixels;
-	page1start = sdl_surface->pixels;
-	page2start = sdl_surface->pixels;
-	page3start = sdl_surface->pixels;
+	displayofs = (byte *)BackSurface->pixels + (displayofs - (byte *)BackSurfaceStretched->pixels);
+	BackBuffer = BackSurface->pixels;
+	bufferofs = BackBuffer;
 	StretchScreen = 0;
 }
 
@@ -425,7 +410,7 @@ static void StretchMemPicture()
 	dest.y = 0;
 	dest.w = vidconfig.ScreenWidth;
 	dest.h = vidconfig.ScreenHeight;
-	SDL_SoftStretch(unstretch_sdl_surface, &src, sdl_surface, &dest);
+	SDL_SoftStretch(BackSurfaceStretched, &src, BackSurface, &dest);
 }
 
 // bna section -------------------------------------------

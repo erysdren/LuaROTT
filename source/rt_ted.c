@@ -1056,7 +1056,6 @@ void PreCache(void)
 	int lastmem = 0;
 	int lastcache = 0;
 	int ticdelay = 0;
-	byte *tempbuf;
 
 	double Gs = (vidconfig.ScreenWidth * 100.0 / 320.0) / 100.0;
 
@@ -1092,8 +1091,6 @@ void PreCache(void)
 		maxheapsize = Z_HeapSize();
 		total = 0;
 
-		tempbuf = bufferofs;
-		bufferofs = page1start; // fixed, was displayofs
 		ticdelay = CACHETICDELAY;
 		for (size_t i = 1; i < cacheindex; i++)
 		{
@@ -1178,7 +1175,6 @@ void PreCache(void)
 		DisableScreenStretch(); // bna++
 		VW_UpdateScreen();		// bna++
 		// I_Delay(200);
-		bufferofs = tempbuf;
 		ShutdownPreCache();
 
 		if (BATTLEMODE)

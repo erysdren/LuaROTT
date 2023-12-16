@@ -1021,15 +1021,7 @@ void DrawGameString(int x, int y, const char *str, boolean bufferofsonly)
 	px = x;
 	py = y;
 
-	if (bufferofsonly == true)
-		VW_DrawPropString(str);
-	else
-	{
-		tempbuf = bufferofs;
-		bufferofs = page1start;
-		VW_DrawPropString(str);
-		bufferofs = tempbuf;
-	}
+	VW_DrawPropString(str);
 }
 
 //******************************************************************************
@@ -1558,14 +1550,7 @@ void DrawMPPic(int xpos, int ypos, int width, int height, int heightmod,
 
 				if (pixel != 255)
 				{
-					if (bufferofsonly)
-						*(dest + bufferofs) = pixel;
-					else
-					{
-						*(dest + page1start) = pixel;
-						*(dest + page2start) = pixel;
-						*(dest + page3start) = pixel;
-					}
+					*(dest + bufferofs) = pixel;
 				}
 
 				dest += 4;
@@ -1629,14 +1614,7 @@ void DrawColoredMPPic(int xpos, int ypos, int width, int height, int heightmod,
 
 				if (pixel != 255)
 				{
-					if (bufferofsonly)
-						*(dest + bufferofs) = pixel;
-					else
-					{
-						*(dest + page1start) = pixel;
-						*(dest + page2start) = pixel;
-						*(dest + page3start) = pixel;
-					}
+					*(dest + bufferofs) = pixel;
 				}
 
 				dest += 4;
@@ -1789,16 +1767,7 @@ void DrawPPic(int xpos, int ypos, int width, int height, byte *src, int num,
 						uintptr_t ofs = dest + (amt * k);
 						if (ofs < max)
 						{
-							if (bufferofsonly)
-							{
-								*(bufferofs + ofs) = pixel;
-							}
-							else
-							{
-								*(page1start + ofs) = pixel;
-								*(page2start + ofs) = pixel;
-								*(page3start + ofs) = pixel;
-							}
+							*(bufferofs + ofs) = pixel;
 						}
 					}
 				}
@@ -2548,30 +2517,22 @@ void DrawEpisodeLevel(int x, int y)
 
 void GM_MemToScreen(byte *source, int width, int height, int x, int y)
 {
-	int dest;
-	byte *dest1, *dest2, *dest3;
-	byte *screen1, *screen2, *screen3;
+	int yofs;
+	byte *dest, *screen;
 	int plane;
 
-	dest = ylookup[y] + x;
+	yofs = ylookup[y] + x;
 
-	dest1 = (byte *)(dest + page1start);
-	dest2 = (byte *)(dest + page2start);
-	dest3 = (byte *)(dest + page3start);
+	dest = (byte *)(yofs + BackBuffer);
 
 	for (plane = 0; plane < 4; plane++)
 	{
-		screen1 = dest1;
-		screen2 = dest2;
-		screen3 = dest3;
-		for (y = 0; y < height; y++, screen1 += linewidth, screen2 += linewidth,
-			screen3 += linewidth, source += width)
+		screen = dest;
+		for (y = 0; y < height; y++, screen += linewidth)
 		{
 			for (x = 0; x < width; x++)
 			{
-				screen1[x * 4 + plane] = source[x];
-				screen2[x * 4 + plane] = source[x];
-				screen3[x * 4 + plane] = source[x];
+				screen[x * 4 + plane] = source[x];
 			}
 		}
 	}
