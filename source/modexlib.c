@@ -61,6 +61,8 @@ void DrawCenterAim();
 vidconfig_t vidconfig = {
 	640, /* WindowWidth */
 	480, /* WindowHeight */
+	320, /* ScreenBaseWidth */
+	200, /* ScreenBaseHeight */
 	320, /* ScreenWidth */
 	200, /* ScreenHeight */
 	1,   /* ScreenScale */
@@ -137,17 +139,17 @@ void GraphicsMode(void)
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 
-	sdl_surface = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
+	sdl_surface = SDL_CreateRGBSurface(0, vidconfig.ScreenWidth, vidconfig.ScreenHeight, 8, 0, 0, 0, 0);
 	SDL_FillRect(sdl_surface, NULL, 0);
 
 	pixel_format = SDL_GetWindowPixelFormat(screen);
 	SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &rmask, &gmask, &bmask, &amask);
-	argbbuffer = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, bpp, rmask, gmask, bmask, amask);
+	argbbuffer = SDL_CreateRGBSurface(0, vidconfig.ScreenWidth, vidconfig.ScreenHeight, bpp, rmask, gmask, bmask, amask);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
-	texture = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
+	texture = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, vidconfig.ScreenWidth, vidconfig.ScreenHeight);
 
-	blit_rect.w = iGLOBAL_SCREENWIDTH;
-	blit_rect.h = iGLOBAL_SCREENHEIGHT;
+	blit_rect.w = vidconfig.ScreenWidth;
+	blit_rect.h = vidconfig.ScreenHeight;
 
 	SetShowCursor(!sdl_fullscreen);
 }
@@ -230,18 +232,18 @@ void VL_SetVGAPlaneMode(void)
 	// set up lookup tables
 	//
 	// bna--   linewidth = 320;
-	linewidth = iGLOBAL_SCREENWIDTH;
+	linewidth = vidconfig.ScreenWidth;
 
 	offset = 0;
 
-	for (i = 0; i < iGLOBAL_SCREENHEIGHT; i++)
+	for (i = 0; i < vidconfig.ScreenHeight; i++)
 	{
 		ylookup[i] = offset;
 		offset += linewidth;
 	}
 
 	//    screensize=MAXSCREENHEIGHT*MAXSCREENWIDTH;
-	screensize = iGLOBAL_SCREENHEIGHT * iGLOBAL_SCREENWIDTH;
+	screensize = vidconfig.ScreenHeight * vidconfig.ScreenWidth;
 
 	page1start = sdl_surface->pixels;
 	page2start = sdl_surface->pixels;
@@ -249,14 +251,14 @@ void VL_SetVGAPlaneMode(void)
 	displayofs = page1start;
 	bufferofs = page2start;
 
-	iG_X_center = iGLOBAL_SCREENWIDTH / 2;
-	iG_Y_center = (iGLOBAL_SCREENHEIGHT / 2) + 10; //+10 = move aim down a bit
+	iG_X_center = vidconfig.ScreenWidth / 2;
+	iG_Y_center = (vidconfig.ScreenHeight / 2) + 10; //+10 = move aim down a bit
 
-	//(iG_Y_center*iGLOBAL_SCREENWIDTH);//+iG_X_center;
+	//(iG_Y_center*vidconfig.ScreenWidth);//+iG_X_center;
 	iG_buf_center = bufferofs + (screensize / 2);
 
-	bufofsTopLimit = bufferofs + screensize - iGLOBAL_SCREENWIDTH;
-	bufofsBottomLimit = bufferofs + iGLOBAL_SCREENWIDTH;
+	bufofsTopLimit = bufferofs + screensize - vidconfig.ScreenWidth;
+	bufofsBottomLimit = bufferofs + vidconfig.ScreenWidth;
 
 	// start stretched
 	EnableScreenStretch();
@@ -314,7 +316,7 @@ void VL_ClearBuffer(byte *buf, byte color)
 
 void VL_ClearVideo(byte color)
 {
-	memset(sdl_surface->pixels, color, iGLOBAL_SCREENWIDTH * iGLOBAL_SCREENHEIGHT);
+	memset(sdl_surface->pixels, color, vidconfig.ScreenWidth * vidconfig.ScreenHeight);
 }
 
 /*
@@ -384,8 +386,8 @@ static void StretchMemPicture()
 
 	dest.x = 0;
 	dest.y = 0;
-	dest.w = iGLOBAL_SCREENWIDTH;
-	dest.h = iGLOBAL_SCREENHEIGHT;
+	dest.w = vidconfig.ScreenWidth;
+	dest.h = vidconfig.ScreenHeight;
 	SDL_SoftStretch(unstretch_sdl_surface, &src, sdl_surface, &dest);
 }
 
@@ -405,20 +407,20 @@ void DrawCenterAim()
 
 	if (iG_aimCross && !GamePaused)
 	{
-		if ((ingame == true) && (iGLOBAL_SCREENWIDTH > 320))
+		if ((ingame == true) && (vidconfig.ScreenWidth > 320))
 		{
 			if ((iG_playerTilt < 0) ||
-				(iG_playerTilt > iGLOBAL_SCREENHEIGHT / 2))
+				(iG_playerTilt > vidconfig.ScreenHeight / 2))
 			{
 				iG_playerTilt = -(2048 - iG_playerTilt);
 			}
-			if (iGLOBAL_SCREENWIDTH == 640)
+			if (vidconfig.ScreenWidth == 640)
 			{
 				x = iG_playerTilt;
 				iG_playerTilt = x / 2;
 			}
 			iG_buf_center = bufferofs + ((iG_Y_center - iG_playerTilt) *
-										 iGLOBAL_SCREENWIDTH); //+iG_X_center;
+										 vidconfig.ScreenWidth); //+iG_X_center;
 
 			for (x = iG_X_center - 10; x <= iG_X_center - 4; x++)
 			{
@@ -438,23 +440,23 @@ void DrawCenterAim()
 			}
 			for (x = 10; x >= 4; x--)
 			{
-				if (((iG_buf_center - (x * iGLOBAL_SCREENWIDTH) + iG_X_center) <
+				if (((iG_buf_center - (x * vidconfig.ScreenWidth) + iG_X_center) <
 					 bufofsTopLimit) &&
-					((iG_buf_center - (x * iGLOBAL_SCREENWIDTH) + iG_X_center) >
+					((iG_buf_center - (x * vidconfig.ScreenWidth) + iG_X_center) >
 					 bufofsBottomLimit))
 				{
-					*(iG_buf_center - (x * iGLOBAL_SCREENWIDTH) + iG_X_center) =
+					*(iG_buf_center - (x * vidconfig.ScreenWidth) + iG_X_center) =
 						color;
 				}
 			}
 			for (x = 4; x <= 10; x++)
 			{
-				if (((iG_buf_center + (x * iGLOBAL_SCREENWIDTH) + iG_X_center) <
+				if (((iG_buf_center + (x * vidconfig.ScreenWidth) + iG_X_center) <
 					 bufofsTopLimit) &&
-					((iG_buf_center + (x * iGLOBAL_SCREENWIDTH) + iG_X_center) >
+					((iG_buf_center + (x * vidconfig.ScreenWidth) + iG_X_center) >
 					 bufofsBottomLimit))
 				{
-					*(iG_buf_center + (x * iGLOBAL_SCREENWIDTH) + iG_X_center) =
+					*(iG_buf_center + (x * vidconfig.ScreenWidth) + iG_X_center) =
 						color;
 				}
 			}
@@ -478,13 +480,13 @@ void SetScreenStretch(boolean to)
 
 	if (vidconfig.ScreenStretch)
 	{
-		width = iGLOBAL_SCREENWIDTH;
-		height = iGLOBAL_SCREENHEIGHT * 1.2f;
+		width = vidconfig.ScreenWidth;
+		height = vidconfig.ScreenHeight * 1.2f;
 	}
 	else
 	{
-		width = iGLOBAL_SCREENWIDTH;
-		height = iGLOBAL_SCREENHEIGHT;
+		width = vidconfig.ScreenWidth;
+		height = vidconfig.ScreenHeight;
 	}
 
 	SDL_RenderSetLogicalSize(renderer, width, height);

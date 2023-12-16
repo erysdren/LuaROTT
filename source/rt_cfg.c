@@ -438,6 +438,14 @@ boolean ParseConfigFile(void)
 		// Read in ScreenScale
 		ReadInt("ScreenScale", &vidconfig.ScreenScale);
 
+		if (vidconfig.ScreenScale < 1)
+			vidconfig.ScreenScale = 1;
+		if (vidconfig.ScreenScale > 4)
+			vidconfig.ScreenScale = 4;
+
+		vidconfig.ScreenWidth * vidconfig.ScreenBaseWidth * vidconfig.ScreenScale;
+		vidconfig.ScreenHeight * vidconfig.ScreenBaseHeight * vidconfig.ScreenScale;
+
 		// Read in ViewSize
 		ReadInt("ViewSize", &viewsize);
 

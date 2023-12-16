@@ -67,6 +67,8 @@ void SetScreenStretch(boolean to);
 typedef struct vidconfig_t {
 	int WindowWidth;
 	int WindowHeight;
+	int ScreenBaseWidth;
+	int ScreenBaseHeight;
 	int ScreenWidth;
 	int ScreenHeight;
 	int ScreenScale;
