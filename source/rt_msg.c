@@ -307,14 +307,7 @@ void SetMessage(int num, char *text, int flags)
 	int length;
 	boolean found;
 
-	if (vidconfig.ScreenWidth >= 640)
-	{
-		CurrentFont = newfont1; // smallfont;
-	}
-	else
-	{
-		CurrentFont = smallfont;
-	}
+	CurrentFont = smallfont;
 
 	length = StringLength(text);
 
@@ -483,14 +476,8 @@ void DisplayMessage(int num, int position)
 		case MSG_MODEM:
 			fontcolor = egacolor[LIGHTBLUE];
 			DrawIString(PrintX, PrintY, "Message>", Messages[num].flags);
-			if (vidconfig.ScreenWidth == 320)
-			{
-				PrintX += 8 * 8;
-			}
-			else if (vidconfig.ScreenWidth == 640)
-			{
-				PrintX += 8 * 8 * 2;
-			}
+
+			PrintX += 8 * 8;
 
 			fontcolor = egacolor[LIGHTGRAY];
 			break;

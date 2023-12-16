@@ -43,20 +43,12 @@ void SetRottScreenRes(int Width, int Height)
 	iGLOBAL_AMMO_X = vidconfig.ScreenWidth - 20;
 	iGLOBAL_AMMO_Y = vidconfig.ScreenHeight - 15;
 
-	if (vidconfig.ScreenWidth == 320)
-	{
-		iGLOBAL_FOCALWIDTH = 160;
-		dGLOBAL_FPFOCALWIDTH = 160.0;
+	/* focal width */
+	iGLOBAL_FOCALWIDTH = 160;
+	dGLOBAL_FPFOCALWIDTH = 160.0;
 
-		dTopYZANGLELIMIT = (44 * FINEANGLES / 360);
-	}
-	if (vidconfig.ScreenWidth == 640)
-	{
-		iGLOBAL_FOCALWIDTH = 180;
-		dGLOBAL_FPFOCALWIDTH = 180.0;
-
-		dTopYZANGLELIMIT = (42 * FINEANGLES / 360);
-	}
+	/* angle limit */
+	dTopYZANGLELIMIT = (44 * FINEANGLES / 360);
 }
 
 //----------------------------------------------------------------------

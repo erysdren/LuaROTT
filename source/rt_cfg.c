@@ -453,14 +453,7 @@ boolean ParseConfigFile(void)
 		ReadInt("Weaponscale", &G_weaponscale); // bna added
 		if ((G_weaponscale < 150) || (G_weaponscale > 600))
 		{
-			if (vidconfig.ScreenWidth == 320)
-			{
-				G_weaponscale = 168;
-			}
-			else if (vidconfig.ScreenWidth == 640)
-			{
-				G_weaponscale = 299;
-			}
+			G_weaponscale = 168;
 		}
 
 		// Read in MouseAdjustment
@@ -1671,16 +1664,8 @@ void WriteConfig(void)
 	G_weaponscale = (weaponscale * 168) / 65536;
 
 	if ((G_weaponscale < 150) || (G_weaponscale > 600))
-	{
-		if (vidconfig.ScreenWidth == 320)
-		{
-			G_weaponscale = 168;
-		}
-		else if (vidconfig.ScreenWidth == 640)
-		{
-			G_weaponscale = 299;
-		}
-	}
+		G_weaponscale = 168;
+
 	WriteParameter(file, "Weaponscale         ", G_weaponscale);
 
 	// Write out MouseAdjustment

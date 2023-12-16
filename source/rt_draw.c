@@ -2804,65 +2804,22 @@ void StartupRotateBuffer(int masked)
 
 	RotateBufferStarted = true;
 
-	//   RotatedImage=SafeMalloc(131072);org
-	// RotatedImage=SafeMalloc(131072*8);
-	if (vidconfig.ScreenWidth == 320)
-	{
-		RotatedImage = SafeMalloc(131072);
-	}
-	else if (vidconfig.ScreenWidth == 640)
-	{
-		RotatedImage = SafeMalloc(131072 * 4);
-	}
-	// SetupScreen(false);//used these 2 to test screen size
-	// VW_UpdateScreen ();
+	RotatedImage = SafeMalloc(131072);
+
 	if (masked == 0)
 	{
-		if (vidconfig.ScreenWidth == 320)
-		{
-			memset(RotatedImage, 0, 131072);
-		}
-		else if (vidconfig.ScreenWidth == 640)
-		{
-			memset(RotatedImage, 0, 131072 * 4);
-		}
+		memset(RotatedImage, 0, 131072);
 	}
 	else
 	{
-		if (vidconfig.ScreenWidth == 320)
-		{
-			memset(RotatedImage, 0xff, 131072);
-		}
-		else if (vidconfig.ScreenWidth == 640)
-		{
-			memset(RotatedImage, 0xff, 131072 * 4);
-		}
+		memset(RotatedImage, 0xff, 131072);
 	}
-	// memset(RotatedImage,0xff,131072);//org
-	// memset(RotatedImage,0xff,131072*8);
 
-	if ((masked == false) && (vidconfig.ScreenWidth == 640))
+	for (a = 0; a < vidconfig.ScreenHeight; a++)
 	{
-		DisableScreenStretch();
-		k = (28 * 512); // 14336;
-		for (a = 0; a < vidconfig.ScreenHeight; a++)
-		{
-			for (b = 0; b < vidconfig.ScreenWidth; b++)
-			{
-				k = ((a + 28) << 10);
-				*(RotatedImage + (k) + b) =
-					*((byte *)bufferofs + (a * linewidth) + b);
-			}
-		}
-	}
-	else if ((masked == true) || (vidconfig.ScreenWidth == 320))
-	{
-		for (a = 0; a < 200; a++)
-		{
-			for (b = 0; b < 320; b++)
-				*(RotatedImage + 99 + ((a + 28) << 9) + b) =
-					*((byte *)bufferofs + (a * linewidth) + b);
-		}
+		for (b = 0; b < vidconfig.ScreenWidth; b++)
+			*(RotatedImage + 99 + ((a + 28) << 9) + b) =
+				*((byte *)bufferofs + (a * linewidth) + b);
 	}
 }
 /* copier liner af 1024 bredde
@@ -2996,16 +2953,9 @@ void DrawRotatedScreen(int cx, int cy, byte *destscreen, int angle, int scale,
 	//   c = c/2; //these values are to rotate degres or?
 	//   s = s/2;
 	//   xst & xct= start center values ;
-	if ((vidconfig.ScreenWidth == 320) || (masked == true))
-	{
-		xst = (((-cx) * s) + (128 << 16)) - (cy * c);
-		xct = (((-cx) * c) + (256 << 16) + (1 << 18) - (1 << 16)) + (cy * s);
-	}
-	else if ((vidconfig.ScreenWidth == 640) && (masked == false))
-	{
-		xst = (((-cx) * s) + ((268) << 16)) - (cy * c);
-		xct = (((-cx) * c) + ((317) << 16) + (1 << 18) - (1 << 16)) + (cy * s);
-	} // y=268;x=317
+
+	xst = (((-cx) * s) + (128 << 16)) - (cy * c);
+	xct = (((-cx) * c) + (256 << 16) + (1 << 18) - (1 << 16)) + (cy * s);
 
 	mr_xstep = s;
 	mr_ystep = c;
@@ -3305,16 +3255,8 @@ void StartupScreenSaver(void)
 	ScreenSaver = (screensaver_t *)SafeMalloc(sizeof(screensaver_t));
 	ScreenSaver->phase = 0;
 	ScreenSaver->pausetime = PAUSETIME;
-	if (vidconfig.ScreenWidth == 320)
-	{
-		ScreenSaver->pausex = 120;
-		ScreenSaver->pausey = 84;
-	}
-	else if (vidconfig.ScreenWidth == 640)
-	{
-		ScreenSaver->pausex = 240;
-		ScreenSaver->pausey = 201;
-	}
+	ScreenSaver->pausex = 120;
+	ScreenSaver->pausey = 84;
 	ScreenSaver->pausex = 120;
 	ScreenSaver->pausey = 84;
 	SetupScreenSaverPhase();
@@ -3401,16 +3343,8 @@ void UpdateScreenSaver(void)
 	if (ScreenSaver->pausetime <= 0)
 	{
 		ScreenSaver->pausetime = PAUSETIME;
-		if (vidconfig.ScreenWidth == 320)
-		{
-			ScreenSaver->pausex = RandomNumber("pausex", 0) % 240;
-			ScreenSaver->pausey = RandomNumber("pausey", 0) % 168;
-		}
-		else if (vidconfig.ScreenWidth == 640)
-		{
-			ScreenSaver->pausex = RandomNumber("pausex", 0) % 480;
-			ScreenSaver->pausey = RandomNumber("pausey", 0) % 403;
-		}
+		ScreenSaver->pausex = RandomNumber("pausex", 0) % 240;
+		ScreenSaver->pausey = RandomNumber("pausey", 0) % 168;
 	}
 	DrawPauseXY(ScreenSaver->pausex, ScreenSaver->pausey);
 
@@ -5115,45 +5049,22 @@ void DrawRotRow(int count, byte *dest, byte *src)
 	ecx = mr_yfrac;
 	edx = mr_xfrac;
 
-	if ((vidconfig.ScreenWidth == 320) || (iG_masked == true))
+	while (count--)
 	{
-		while (count--)
+		eax = edx >> 16;
+		if (eax < 256 && (ecx >> 16) < 512)
 		{
-			eax = edx >> 16;
-			if (eax < 256 && (ecx >> 16) < 512)
-			{
-				eax = (eax << 9) | ((ecx << 7) >> (32 - 9));
-			}
-			else
-			{
-				eax = 0;
-			}
-
-			*dest++ = src[eax];
-
-			edx += mr_xstep;
-			ecx += mr_ystep;
+			eax = (eax << 9) | ((ecx << 7) >> (32 - 9));
 		}
-	}
-	else if (vidconfig.ScreenWidth == 640)
-	{
-		while (count--)
+		else
 		{
-			eax = edx >> 16;
-			if (eax < (256 * 2.0) && (ecx >> 16) < (512 * 1.8))
-			{
-				eax = (eax << 10) | ((ecx << 6) >> (32 - 10));
-			}
-			else
-			{
-				eax = 0;
-			}
-
-			*dest++ = src[eax];
-
-			edx += mr_xstep;
-			ecx += mr_ystep;
+			eax = 0;
 		}
+
+		*dest++ = src[eax];
+
+		edx += mr_xstep;
+		ecx += mr_ystep;
 	}
 }
 

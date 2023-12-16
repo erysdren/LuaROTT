@@ -378,30 +378,8 @@ void DrawPlayScreen(boolean bufferofsonly)
 
 	if (SHOW_TOP_STATUS_BAR())
 	{
-		if (vidconfig.ScreenWidth == 640)
-		{
-			// use this as dummy pic to fill out missing bar
-			shape = (pic_t *)W_CacheLumpName("bottbar", PU_CACHE, Cvt_pic_t, 1);
-			// GameMemToScreen( shape, 0, 0, bufferofsonly );
-			GameMemToScreen(shape, 320, 0, bufferofsonly);
-			// delete hart in middle of topbar
-			DrawPPic(323, 1, 8 >> 2, 16, (byte *)&erase->data, 2, true,
-					 bufferofsonly);
-			// delete bullet in end of topbar
-			DrawPPic(620, 1, 8 >> 2, 16, (byte *)&erase->data, 2, true,
-					 bufferofsonly);
-			shape =
-				(pic_t *)W_CacheLumpName("stat_bar", PU_CACHE, Cvt_pic_t, 1);
-			GameMemToScreen(shape, 0, 0, bufferofsonly);
-		}
-		else if (vidconfig.ScreenWidth == 320)
-		{
-
-			// SetTextMode (  );
-			shape =
-				(pic_t *)W_CacheLumpName("stat_bar", PU_CACHE, Cvt_pic_t, 1);
-			GameMemToScreen(shape, 0, 0, bufferofsonly);
-		}
+		shape = (pic_t *)W_CacheLumpName("stat_bar", PU_CACHE, Cvt_pic_t, 1);
+		GameMemToScreen(shape, 0, 0, bufferofsonly);
 	}
 
 	if (BATTLEMODE)
@@ -416,44 +394,9 @@ void DrawPlayScreen(boolean bufferofsonly)
 		if (SHOW_KILLS())
 		{
 			ShowKillsYoffset = KILLS_HEIGHT;
-			// shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE,
-			// Cvt_pic_t, 1 ); DrawTiledRegion( 0, 584, vidconfig.ScreenWidth,
-			// 32-16, 0, 16, shape );//bna++
-
-			//	     health_y = iGLOBAL_HEALTH_Y;
-			//  if ( SHOW_KILLS() )
-			//   {
-			// health_y -= KILLS_HEIGHT;
-			// GameMemToScreen( shape, 0, (vidconfig.ScreenHeight-40)+16,
-			// bufferofsonly );
-
-			// GameMemToScreen( shape, 0, 160, bufferofsonly );bna++
 		}
-		// else
-		{
 
-			if (vidconfig.ScreenWidth == 640)
-			{
-				// bna fix - not to good? but no one has 286 any more
-				// statusbar dosent cover hole screen, because its a lump
-				// picture width max 320 first write dummy shape and next over
-				// it
-				GameMemToScreen(shape, 320, vidconfig.ScreenHeight - 16 - ShowKillsYoffset, bufferofsonly);
-
-				// copy next shape to mem
-				GameMemToScreen(shape, 0, vidconfig.ScreenHeight - 16 - ShowKillsYoffset, bufferofsonly);
-
-				// delete bullet in middle of shape picture
-				DrawPPic(310, vidconfig.ScreenHeight - 15 - ShowKillsYoffset, 8 >> 2, 16,  (byte *)&erase->data, 2, true, bufferofsonly);
-
-				// delete hart in middle of shape picture
-				DrawPPic(324, vidconfig.ScreenHeight - 15 - ShowKillsYoffset, 8 >> 2, 16, (byte *)&erase->data, 2, true, bufferofsonly);
-			}
-			else
-			{
-				GameMemToScreen(shape, 0, vidconfig.ScreenHeight - 16 - ShowKillsYoffset, bufferofsonly);
-			}
-		}
+		GameMemToScreen(shape, 0, vidconfig.ScreenHeight - 16 - ShowKillsYoffset, bufferofsonly);
 
 		DrawBarAmmo(bufferofsonly);
 		DrawBarHealth(bufferofsonly);
@@ -461,18 +404,7 @@ void DrawPlayScreen(boolean bufferofsonly)
 		if (demoplayback)
 		{
 			shape = (pic_t *)W_CacheLumpName("demo", PU_CACHE, Cvt_pic_t, 1);
-			if (vidconfig.ScreenWidth == 640)
-			{
-				// DrawPPic( 148, 185, shape->width, shape->height,
-				//    ( byte * )&shape->data, 1, true, bufferofsonly );bna
-				DrawPPic(148 * 2, 465, shape->width, shape->height,
-						 (byte *)&shape->data, 1, true, bufferofsonly);
-			}
-			else
-			{
-				DrawPPic(148, 185, shape->width, shape->height,
-						 (byte *)&shape->data, 1, true, bufferofsonly);
-			}
+			DrawPPic(148, 185, shape->width, shape->height, (byte *)&shape->data, 1, true, bufferofsonly);
 		}
 	}
 
