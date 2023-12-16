@@ -436,7 +436,7 @@ boolean ParseConfigFile(void)
 		ReadBoolean("ScreenStretch", &vidconfig.ScreenStretch);
 
 		// Read in ScreenScale
-		// ReadInt("ScreenScale", &vidconfig.ScreenScale);
+		ReadInt("ScreenScale", &vidconfig.ScreenScale);
 
 		if (vidconfig.ScreenScale < 1)
 			vidconfig.ScreenScale = 1;
@@ -1646,10 +1646,10 @@ void WriteConfig(void)
 	WriteParameter(file, "ScreenStretch    ", vidconfig.ScreenStretch);
 
 	// Write out ScreenScale
-	// SafeWriteString(file, "\n;\n");
-	// SafeWriteString(file, "; Screen scale value.\n");
-	// SafeWriteString(file, "; Range: 1 - 4\n");
-	// WriteParameter(file, "ScreenScale      ", vidconfig.ScreenScale);
+	SafeWriteString(file, "\n;\n");
+	SafeWriteString(file, "; Screen scale value.\n");
+	SafeWriteString(file, "; Range: 1 - 4\n");
+	WriteParameter(file, "ScreenScale      ", vidconfig.ScreenScale);
 
 	// Write out ViewSize
 	SafeWriteString(file, "\n;\n");

@@ -2796,6 +2796,7 @@ void StartupRotateBuffer(int masked)
 {
 	int k; ////zxcv
 	int a, b;
+	const size_t bufsz = 131072 * vidconfig.ScreenScale;
 
 	iG_masked = masked;
 
@@ -2804,15 +2805,15 @@ void StartupRotateBuffer(int masked)
 
 	RotateBufferStarted = true;
 
-	RotatedImage = SafeMalloc(131072);
+	RotatedImage = SafeMalloc(bufsz);
 
 	if (masked == 0)
 	{
-		memset(RotatedImage, 0, 131072);
+		memset(RotatedImage, 0, bufsz);
 	}
 	else
 	{
-		memset(RotatedImage, 0xff, 131072);
+		memset(RotatedImage, 0xff, bufsz);
 	}
 
 	for (a = 0; a < vidconfig.ScreenHeight; a++)
