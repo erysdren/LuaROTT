@@ -61,11 +61,9 @@ void DrawCenterAim();
 vidconfig_t vidconfig = {
 	640, /* WindowWidth */
 	480, /* WindowHeight */
-	320, /* RenderWidth */
-	200, /* RenderHeight */
-	1,   /* RenderScale */
-	320, /* HudWidth */
-	200, /* HudHeight */
+	320, /* ScreenWidth */
+	200, /* ScreenHeight */
+	1,   /* ScreenScale */
 	true /* ScreenStretch */
 };
 

@@ -435,8 +435,8 @@ boolean ParseConfigFile(void)
 		// Read in ScreenStretch
 		ReadBoolean("ScreenStretch", &vidconfig.ScreenStretch);
 
-		// Read in RenderScale
-		ReadInt("RenderScale", &vidconfig.RenderScale);
+		// Read in ScreenScale
+		ReadInt("ScreenScale", &vidconfig.ScreenScale);
 
 		// Read in ViewSize
 		ReadInt("ViewSize", &viewsize);
@@ -1644,11 +1644,11 @@ void WriteConfig(void)
 	SafeWriteString(file, "; 1 - Stretch screen to a 4:3 aspect ratio\n");
 	WriteParameter(file, "ScreenStretch    ", vidconfig.ScreenStretch);
 
-	// Write out RenderScale
+	// Write out ScreenScale
 	SafeWriteString(file, "\n;\n");
-	SafeWriteString(file, "; Render scale value.\n");
+	SafeWriteString(file, "; Screen scale value.\n");
 	SafeWriteString(file, "; Range: 1 - 4\n");
-	WriteParameter(file, "RenderScale      ", vidconfig.RenderScale);
+	WriteParameter(file, "ScreenScale      ", vidconfig.ScreenScale);
 
 	// Write out ViewSize
 	SafeWriteString(file, "\n;\n");
