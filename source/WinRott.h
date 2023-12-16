@@ -4,8 +4,6 @@
 
 // husk at rette i winrott.c
 
-extern int iGLOBAL_SCREENWIDTH;	 // bna
-extern int iGLOBAL_SCREENHEIGHT; // bna
 extern int iGLOBAL_SCREENBWIDE;
 extern int iG_SCREENWIDTH; // default screen width in bytes
 

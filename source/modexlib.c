@@ -55,8 +55,6 @@ boolean graphicsmode = false;
 byte *bufofsTopLimit;
 byte *bufofsBottomLimit;
 
-void DrawCenterAim();
-
 /* global video config */
 vidconfig_t vidconfig = {
 	640, /* WindowWidth */
@@ -390,80 +388,6 @@ static void StretchMemPicture()
 	dest.h = vidconfig.ScreenHeight;
 	SDL_SoftStretch(unstretch_sdl_surface, &src, sdl_surface, &dest);
 }
-
-// bna function added start
-extern boolean ingame;
-int iG_playerTilt;
-
-void DrawCenterAim()
-{
-	int x;
-
-	int percenthealth = (locplayerstate->health * 10) /
-						MaxHitpointsForCharacter(locplayerstate);
-	int color = percenthealth < 3	? egacolor[RED]
-				: percenthealth < 4 ? egacolor[YELLOW]
-									: egacolor[GREEN];
-
-	if (iG_aimCross && !GamePaused)
-	{
-		if ((ingame == true) && (vidconfig.ScreenWidth > 320))
-		{
-			if ((iG_playerTilt < 0) ||
-				(iG_playerTilt > vidconfig.ScreenHeight / 2))
-			{
-				iG_playerTilt = -(2048 - iG_playerTilt);
-			}
-			if (vidconfig.ScreenWidth == 640)
-			{
-				x = iG_playerTilt;
-				iG_playerTilt = x / 2;
-			}
-			iG_buf_center = bufferofs + ((iG_Y_center - iG_playerTilt) *
-										 vidconfig.ScreenWidth); //+iG_X_center;
-
-			for (x = iG_X_center - 10; x <= iG_X_center - 4; x++)
-			{
-				if ((iG_buf_center + x < bufofsTopLimit) &&
-					(iG_buf_center + x > bufofsBottomLimit))
-				{
-					*(iG_buf_center + x) = color;
-				}
-			}
-			for (x = iG_X_center + 4; x <= iG_X_center + 10; x++)
-			{
-				if ((iG_buf_center + x < bufofsTopLimit) &&
-					(iG_buf_center + x > bufofsBottomLimit))
-				{
-					*(iG_buf_center + x) = color;
-				}
-			}
-			for (x = 10; x >= 4; x--)
-			{
-				if (((iG_buf_center - (x * vidconfig.ScreenWidth) + iG_X_center) <
-					 bufofsTopLimit) &&
-					((iG_buf_center - (x * vidconfig.ScreenWidth) + iG_X_center) >
-					 bufofsBottomLimit))
-				{
-					*(iG_buf_center - (x * vidconfig.ScreenWidth) + iG_X_center) =
-						color;
-				}
-			}
-			for (x = 4; x <= 10; x++)
-			{
-				if (((iG_buf_center + (x * vidconfig.ScreenWidth) + iG_X_center) <
-					 bufofsTopLimit) &&
-					((iG_buf_center + (x * vidconfig.ScreenWidth) + iG_X_center) >
-					 bufofsBottomLimit))
-				{
-					*(iG_buf_center + (x * vidconfig.ScreenWidth) + iG_X_center) =
-						color;
-				}
-			}
-		}
-	}
-}
-// bna function added end
 
 // bna section -------------------------------------------
 

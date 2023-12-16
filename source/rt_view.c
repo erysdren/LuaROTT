@@ -242,7 +242,7 @@ void SetViewSize(int size)
 	}
  */
 
-	if (iGLOBAL_SCREENWIDTH == 640)
+	if (vidconfig.ScreenWidth == 640)
 	{
 		height = 0; // we use height as dummy cnt
 		viewsizes[height++] = 380;
@@ -282,7 +282,7 @@ void SetViewSize(int size)
 	viewwidth = viewsizes[size << 1];		 // must be divisable by 16
 	viewheight = viewsizes[(size << 1) + 1]; // must be even
 
-	maxheight = iGLOBAL_SCREENHEIGHT;
+	maxheight = vidconfig.ScreenHeight;
 	topy = 0;
 
 	// Only keep the kills flag
@@ -321,10 +321,10 @@ void SetViewSize(int size)
 	//   SetTextMode (  );
 	//   viewheight=viewheight;
 	height = viewheight;
-	if (height > 168 * iGLOBAL_SCREENHEIGHT / 200)
+	if (height > 168 * vidconfig.ScreenHeight / 200)
 	{
 		// Prevent weapon from being scaled too big
-		height = 168 * iGLOBAL_SCREENHEIGHT / 200;
+		height = 168 * vidconfig.ScreenHeight / 200;
 	}
 
 	weaponscale = (height << 16) / 168; //( height << 16 ) = 170 * 65536
@@ -332,10 +332,10 @@ void SetViewSize(int size)
 	centerx = viewwidth >> 1;
 	centery = viewheight >> 1;
 	centeryfrac = (centery << 16);
-	yzangleconverter = (0xaf85 * viewheight) / iGLOBAL_SCREENHEIGHT;
+	yzangleconverter = (0xaf85 * viewheight) / vidconfig.ScreenHeight;
 
 	// Center the view horizontally
-	screenx = (iGLOBAL_SCREENWIDTH - viewwidth) >> 1;
+	screenx = (vidconfig.ScreenWidth - viewwidth) >> 1;
 
 	if (viewheight >= maxheight)
 	{
@@ -400,7 +400,7 @@ void SetupScreen(boolean flip)
 	{
 		shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1);
 		// DrawTiledRegion( 0, 16, 320, 200 - 32, 0, 16, shape );
-		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32,
+		DrawTiledRegion(0, 16, vidconfig.ScreenWidth, vidconfig.ScreenHeight - 32,
 						0, 16, shape); // bna++
 	}
 

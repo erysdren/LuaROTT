@@ -1454,7 +1454,7 @@ void SetSpriteLightLevel(int x, int y, visobj_t *sprite, int dir,
 
 	if (fog)
 	{
-		i = ((sprite->viewheight * 200 / iGLOBAL_SCREENHEIGHT) >> normalshade) +
+		i = ((sprite->viewheight * 200 / vidconfig.ScreenHeight) >> normalshade) +
 			minshade;
 		if (i > maxshade)
 			i = maxshade;
@@ -1519,7 +1519,7 @@ void SetColorLightLevel(int x, int y, visobj_t *sprite, int dir, int color,
 
 	if (fog)
 	{
-		i = ((height * 200 / iGLOBAL_SCREENHEIGHT) >> normalshade) + minshade;
+		i = ((height * 200 / vidconfig.ScreenHeight) >> normalshade) + minshade;
 		if (i > maxshade)
 			i = maxshade;
 		sprite->colormap = map + (i << 8);
@@ -1620,7 +1620,7 @@ void SetWallLightLevel(wallcast_t *post)
 	}
 	if (fog)
 	{
-		i = ((post->wallheight * 200 / iGLOBAL_SCREENHEIGHT) >> normalshade) +
+		i = ((post->wallheight * 200 / vidconfig.ScreenHeight) >> normalshade) +
 			minshade - lv + la;
 		if (i > maxshade + la)
 			i = maxshade + la;
@@ -2692,18 +2692,18 @@ void DrawScaledScreen(int x, int y, int step, byte *src)
 	int xsize;
 	int ysize;
 
-	xsize = (iGLOBAL_SCREENWIDTH << 16) / step;
-	if (xsize > iGLOBAL_SCREENWIDTH)
-		xsize = iGLOBAL_SCREENWIDTH;
-	ysize = (iGLOBAL_SCREENHEIGHT << 16) / step;
-	if (ysize > iGLOBAL_SCREENHEIGHT)
-		ysize = iGLOBAL_SCREENHEIGHT;
+	xsize = (vidconfig.ScreenWidth << 16) / step;
+	if (xsize > vidconfig.ScreenWidth)
+		xsize = vidconfig.ScreenWidth;
+	ysize = (vidconfig.ScreenHeight << 16) / step;
+	if (ysize > vidconfig.ScreenHeight)
+		ysize = vidconfig.ScreenHeight;
 
 	{
 		yfrac = 0;
 		for (j = y; j < y + ysize; j++)
 		{
-			p = src + (iGLOBAL_SCREENWIDTH * (yfrac >> 16));
+			p = src + (vidconfig.ScreenWidth * (yfrac >> 16));
 			buf = (byte *)bufferofs + ylookup[j] + x;
 			xfrac = 0;
 			yfrac += step;
@@ -2777,7 +2777,7 @@ void DoLoadGameSequence(void)
 	CalcTics();
 	// bna++ section
 	shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1);
-	DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0,
+	DrawTiledRegion(0, 16, vidconfig.ScreenWidth, vidconfig.ScreenHeight - 32, 0,
 					16, shape); // bna++
 	DrawPlayScreen(false);
 	DisableScreenStretch();
@@ -2806,11 +2806,11 @@ void StartupRotateBuffer(int masked)
 
 	//   RotatedImage=SafeMalloc(131072);org
 	// RotatedImage=SafeMalloc(131072*8);
-	if (iGLOBAL_SCREENWIDTH == 320)
+	if (vidconfig.ScreenWidth == 320)
 	{
 		RotatedImage = SafeMalloc(131072);
 	}
-	else if (iGLOBAL_SCREENWIDTH == 640)
+	else if (vidconfig.ScreenWidth == 640)
 	{
 		RotatedImage = SafeMalloc(131072 * 4);
 	}
@@ -2818,22 +2818,22 @@ void StartupRotateBuffer(int masked)
 	// VW_UpdateScreen ();
 	if (masked == 0)
 	{
-		if (iGLOBAL_SCREENWIDTH == 320)
+		if (vidconfig.ScreenWidth == 320)
 		{
 			memset(RotatedImage, 0, 131072);
 		}
-		else if (iGLOBAL_SCREENWIDTH == 640)
+		else if (vidconfig.ScreenWidth == 640)
 		{
 			memset(RotatedImage, 0, 131072 * 4);
 		}
 	}
 	else
 	{
-		if (iGLOBAL_SCREENWIDTH == 320)
+		if (vidconfig.ScreenWidth == 320)
 		{
 			memset(RotatedImage, 0xff, 131072);
 		}
-		else if (iGLOBAL_SCREENWIDTH == 640)
+		else if (vidconfig.ScreenWidth == 640)
 		{
 			memset(RotatedImage, 0xff, 131072 * 4);
 		}
@@ -2841,13 +2841,13 @@ void StartupRotateBuffer(int masked)
 	// memset(RotatedImage,0xff,131072);//org
 	// memset(RotatedImage,0xff,131072*8);
 
-	if ((masked == false) && (iGLOBAL_SCREENWIDTH == 640))
+	if ((masked == false) && (vidconfig.ScreenWidth == 640))
 	{
 		DisableScreenStretch();
 		k = (28 * 512); // 14336;
-		for (a = 0; a < iGLOBAL_SCREENHEIGHT; a++)
+		for (a = 0; a < vidconfig.ScreenHeight; a++)
 		{
-			for (b = 0; b < iGLOBAL_SCREENWIDTH; b++)
+			for (b = 0; b < vidconfig.ScreenWidth; b++)
 			{
 				k = ((a + 28) << 10);
 				*(RotatedImage + (k) + b) =
@@ -2855,7 +2855,7 @@ void StartupRotateBuffer(int masked)
 			}
 		}
 	}
-	else if ((masked == true) || (iGLOBAL_SCREENWIDTH == 320))
+	else if ((masked == true) || (vidconfig.ScreenWidth == 320))
 	{
 		for (a = 0; a < 200; a++)
 		{
@@ -2905,8 +2905,8 @@ void ScaleAndRotateBuffer(int startangle, int endangle, int startscale,
 	//    int Xh = 160;//org
 	//    int Yh = 100;//org
 
-	int Xh = iGLOBAL_SCREENWIDTH / 2;
-	int Yh = iGLOBAL_SCREENHEIGHT / 2;
+	int Xh = vidconfig.ScreenWidth / 2;
+	int Yh = vidconfig.ScreenHeight / 2;
 
 	DisableScreenStretch(); // bna++
 
@@ -2945,7 +2945,7 @@ void ScaleAndRotateBuffer(int startangle, int endangle, int startscale,
 	{ // bna++
 		pic_t *shape;
 		shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE, Cvt_pic_t, 1);
-		DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32,
+		DrawTiledRegion(0, 16, vidconfig.ScreenWidth, vidconfig.ScreenHeight - 32,
 						0, 16, shape); // bna++
 		DisableScreenStretch();		   // dont strech when we go BACK TO GAME
 		DrawPlayScreen(true);		   // repaint ammo and life stat
@@ -2986,8 +2986,8 @@ void DrawRotatedScreen(int cx, int cy, byte *destscreen, int angle, int scale,
 	// int Xres = 320;//old value
 	// int Yres = 200;//old val
 
-	int Xr = iGLOBAL_SCREENWIDTH;	 // 640;
-	int Yr = (iGLOBAL_SCREENHEIGHT); // 400; //bna aaaa fix
+	int Xr = vidconfig.ScreenWidth;	 // 640;
+	int Yr = (vidconfig.ScreenHeight); // 400; //bna aaaa fix
 
 	//	   SetTextMode (  );
 	c = FixedMulShift(scale, costable[angle], 11);
@@ -2996,12 +2996,12 @@ void DrawRotatedScreen(int cx, int cy, byte *destscreen, int angle, int scale,
 	//   c = c/2; //these values are to rotate degres or?
 	//   s = s/2;
 	//   xst & xct= start center values ;
-	if ((iGLOBAL_SCREENWIDTH == 320) || (masked == true))
+	if ((vidconfig.ScreenWidth == 320) || (masked == true))
 	{
 		xst = (((-cx) * s) + (128 << 16)) - (cy * c);
 		xct = (((-cx) * c) + (256 << 16) + (1 << 18) - (1 << 16)) + (cy * s);
 	}
-	else if ((iGLOBAL_SCREENWIDTH == 640) && (masked == false))
+	else if ((vidconfig.ScreenWidth == 640) && (masked == false))
 	{
 		xst = (((-cx) * s) + ((268) << 16)) - (cy * c);
 		xct = (((-cx) * c) + ((317) << 16) + (1 << 18) - (1 << 16)) + (cy * s);
@@ -3305,12 +3305,12 @@ void StartupScreenSaver(void)
 	ScreenSaver = (screensaver_t *)SafeMalloc(sizeof(screensaver_t));
 	ScreenSaver->phase = 0;
 	ScreenSaver->pausetime = PAUSETIME;
-	if (iGLOBAL_SCREENWIDTH == 320)
+	if (vidconfig.ScreenWidth == 320)
 	{
 		ScreenSaver->pausex = 120;
 		ScreenSaver->pausey = 84;
 	}
-	else if (iGLOBAL_SCREENWIDTH == 640)
+	else if (vidconfig.ScreenWidth == 640)
 	{
 		ScreenSaver->pausex = 240;
 		ScreenSaver->pausey = 201;
@@ -3369,9 +3369,9 @@ void UpdateScreenSaver(void)
 		ScreenSaver->dx = abs(ScreenSaver->dx);
 		ScreenSaver->dy += (RandomNumber("Rotate", 0) >> 6) - 2;
 	}
-	else if (ScreenSaver->x > iGLOBAL_SCREENWIDTH - SPINSIZE)
+	else if (ScreenSaver->x > vidconfig.ScreenWidth - SPINSIZE)
 	{
-		ScreenSaver->x = iGLOBAL_SCREENWIDTH - SPINSIZE;
+		ScreenSaver->x = vidconfig.ScreenWidth - SPINSIZE;
 		ScreenSaver->dx = -(abs(ScreenSaver->dx));
 		ScreenSaver->dy += (RandomNumber("Rotate", 0) >> 6) - 2;
 	}
@@ -3381,9 +3381,9 @@ void UpdateScreenSaver(void)
 		ScreenSaver->dy = abs(ScreenSaver->dy);
 		ScreenSaver->dx += (RandomNumber("Rotate", 0) >> 6) - 2;
 	}
-	else if (ScreenSaver->y > iGLOBAL_SCREENHEIGHT - SPINSIZE)
+	else if (ScreenSaver->y > vidconfig.ScreenHeight - SPINSIZE)
 	{
-		ScreenSaver->y = iGLOBAL_SCREENHEIGHT - SPINSIZE;
+		ScreenSaver->y = vidconfig.ScreenHeight - SPINSIZE;
 		ScreenSaver->dy = -(abs(ScreenSaver->dy));
 		ScreenSaver->dx += (RandomNumber("Rotate", 0) >> 6) - 2;
 	}
@@ -3401,12 +3401,12 @@ void UpdateScreenSaver(void)
 	if (ScreenSaver->pausetime <= 0)
 	{
 		ScreenSaver->pausetime = PAUSETIME;
-		if (iGLOBAL_SCREENWIDTH == 320)
+		if (vidconfig.ScreenWidth == 320)
 		{
 			ScreenSaver->pausex = RandomNumber("pausex", 0) % 240;
 			ScreenSaver->pausey = RandomNumber("pausey", 0) % 168;
 		}
-		else if (iGLOBAL_SCREENWIDTH == 640)
+		else if (vidconfig.ScreenWidth == 640)
 		{
 			ScreenSaver->pausex = RandomNumber("pausex", 0) % 480;
 			ScreenSaver->pausey = RandomNumber("pausey", 0) % 403;
@@ -5115,7 +5115,7 @@ void DrawRotRow(int count, byte *dest, byte *src)
 	ecx = mr_yfrac;
 	edx = mr_xfrac;
 
-	if ((iGLOBAL_SCREENWIDTH == 320) || (iG_masked == true))
+	if ((vidconfig.ScreenWidth == 320) || (iG_masked == true))
 	{
 		while (count--)
 		{
@@ -5135,7 +5135,7 @@ void DrawRotRow(int count, byte *dest, byte *src)
 			ecx += mr_ystep;
 		}
 	}
-	else if (iGLOBAL_SCREENWIDTH == 640)
+	else if (vidconfig.ScreenWidth == 640)
 	{
 		while (count--)
 		{
@@ -5197,7 +5197,7 @@ void DrawSkyPost(byte *buf, byte *src, int height)
 			*buf = shadingtable[*src];
 
 			buf += linewidth;
-			src = orig_src + (++i * 200 / iGLOBAL_SCREENHEIGHT);
+			src = orig_src + (++i * 200 / vidconfig.ScreenHeight);
 		}
 		//
 	}
@@ -5236,7 +5236,7 @@ void RefreshClear(void)
 
 	if (start > 0)
 	{
-		VL_Bar(0, 0, iGLOBAL_SCREENHEIGHT, start, CEILINGCOLOR);
+		VL_Bar(0, 0, vidconfig.ScreenHeight, start, CEILINGCOLOR);
 	}
 	else
 	{
@@ -5248,6 +5248,6 @@ void RefreshClear(void)
 	start = min(viewheight - start, viewheight);
 	if (start > 0)
 	{
-		VL_Bar(0, base, iGLOBAL_SCREENHEIGHT, start, FLOORCOLOR);
+		VL_Bar(0, base, vidconfig.ScreenHeight, start, FLOORCOLOR);
 	}
 }

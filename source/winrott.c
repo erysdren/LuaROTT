@@ -6,8 +6,6 @@
 
 // typedef unsigned char byte;
 
-int iGLOBAL_SCREENWIDTH = 320; // bna
-int iGLOBAL_SCREENHEIGHT = 200; // bna
 int iGLOBAL_SCREENBWIDE;
 int iG_SCREENWIDTH; // default screen width in bytes
 
@@ -33,26 +31,26 @@ extern int viewwidth;
 #define FINEANGLES 2048
 void SetRottScreenRes(int Width, int Height)
 {
-	iGLOBAL_SCREENWIDTH = Width;
-	iGLOBAL_SCREENHEIGHT = Height;
+	vidconfig.ScreenWidth = Width;
+	vidconfig.ScreenHeight = Height;
 
-	iGLOBAL_SCREENBWIDE = iGLOBAL_SCREENWIDTH * (96 / 320);
-	iG_SCREENWIDTH = iGLOBAL_SCREENWIDTH * (96 / 320); // default screen width in bytes
+	iGLOBAL_SCREENBWIDE = vidconfig.ScreenWidth * (96 / 320);
+	iG_SCREENWIDTH = vidconfig.ScreenWidth * (96 / 320); // default screen width in bytes
 
 	/* calculate based on screen resolution instead of hard-coding */
 	iGLOBAL_HEALTH_X = 20;
-	iGLOBAL_HEALTH_Y = iGLOBAL_SCREENHEIGHT - 15;
-	iGLOBAL_AMMO_X = iGLOBAL_SCREENWIDTH - 20;
-	iGLOBAL_AMMO_Y = iGLOBAL_SCREENHEIGHT - 15;
+	iGLOBAL_HEALTH_Y = vidconfig.ScreenHeight - 15;
+	iGLOBAL_AMMO_X = vidconfig.ScreenWidth - 20;
+	iGLOBAL_AMMO_Y = vidconfig.ScreenHeight - 15;
 
-	if (iGLOBAL_SCREENWIDTH == 320)
+	if (vidconfig.ScreenWidth == 320)
 	{
 		iGLOBAL_FOCALWIDTH = 160;
 		dGLOBAL_FPFOCALWIDTH = 160.0;
 
 		dTopYZANGLELIMIT = (44 * FINEANGLES / 360);
 	}
-	if (iGLOBAL_SCREENWIDTH == 640)
+	if (vidconfig.ScreenWidth == 640)
 	{
 		iGLOBAL_FOCALWIDTH = 180;
 		dGLOBAL_FPFOCALWIDTH = 180.0;
@@ -71,18 +69,18 @@ void MoveScreenUpLeft()
 	byte *Ycnt, *b;
 	//   SetTextMode (  );
 	b = (byte *)bufferofs;
-	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) +
-		 ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
+	b += (((vidconfig.ScreenHeight - viewheight) / 2) * vidconfig.ScreenWidth) +
+		 ((vidconfig.ScreenWidth - viewwidth) / 2);
 	if (viewsize == 8)
 	{
-		b += 8 * iGLOBAL_SCREENWIDTH;
+		b += 8 * vidconfig.ScreenWidth;
 	}
 	startX = 3; // take 3 pixels to the right
 	startY = 3; // take 3 lines down
-	startoffset = (startY * iGLOBAL_SCREENWIDTH) + startX;
+	startoffset = (startY * vidconfig.ScreenWidth) + startX;
 
-	for (Ycnt = b; Ycnt < b + ((viewheight - startY) * iGLOBAL_SCREENWIDTH);
-		 Ycnt += iGLOBAL_SCREENWIDTH)
+	for (Ycnt = b; Ycnt < b + ((viewheight - startY) * vidconfig.ScreenWidth);
+		 Ycnt += vidconfig.ScreenWidth)
 	{
 		memcpy(Ycnt, Ycnt + startoffset, viewwidth - startX);
 	}
@@ -94,19 +92,19 @@ void MoveScreenDownLeft()
 	byte *Ycnt, *b;
 	//   SetTextMode (  );
 	b = (byte *)bufferofs;
-	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) +
-		 ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
+	b += (((vidconfig.ScreenHeight - viewheight) / 2) * vidconfig.ScreenWidth) +
+		 ((vidconfig.ScreenWidth - viewwidth) / 2);
 	if (viewsize == 8)
 	{
-		b += 8 * iGLOBAL_SCREENWIDTH;
+		b += 8 * vidconfig.ScreenWidth;
 	}
 	startX = 3;									  // take 3 pixels to the right
 	startY = 3;									  // take 3 lines down
-	startoffset = (startY * iGLOBAL_SCREENWIDTH); //+startX;
+	startoffset = (startY * vidconfig.ScreenWidth); //+startX;
 
 	// Ycnt starts in botton of screen and copys lines upwards
-	for (Ycnt = b + ((viewheight - startY - 1) * iGLOBAL_SCREENWIDTH); Ycnt > b;
-		 Ycnt -= iGLOBAL_SCREENWIDTH)
+	for (Ycnt = b + ((viewheight - startY - 1) * vidconfig.ScreenWidth); Ycnt > b;
+		 Ycnt -= vidconfig.ScreenWidth)
 	{
 		memcpy(Ycnt + startoffset, Ycnt + startX, viewwidth - startX);
 	}
@@ -119,18 +117,18 @@ void MoveScreenUpRight()
 	//   SetTextMode (  );
 	b = (byte *)bufferofs;
 
-	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) +
-		 ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
+	b += (((vidconfig.ScreenHeight - viewheight) / 2) * vidconfig.ScreenWidth) +
+		 ((vidconfig.ScreenWidth - viewwidth) / 2);
 	if (viewsize == 8)
 	{
-		b += 8 * iGLOBAL_SCREENWIDTH;
+		b += 8 * vidconfig.ScreenWidth;
 	}
 	startX = 3;									  // take 3 pixels to the right
 	startY = 3;									  // take 3 lines down
-	startoffset = (startY * iGLOBAL_SCREENWIDTH); //+startX;
+	startoffset = (startY * vidconfig.ScreenWidth); //+startX;
 
-	for (Ycnt = b; Ycnt < b + ((viewheight - startY) * iGLOBAL_SCREENWIDTH);
-		 Ycnt += iGLOBAL_SCREENWIDTH)
+	for (Ycnt = b; Ycnt < b + ((viewheight - startY) * vidconfig.ScreenWidth);
+		 Ycnt += vidconfig.ScreenWidth)
 	{
 		memcpy(Ycnt + startX, Ycnt + startoffset, viewwidth - startX);
 	}
@@ -143,19 +141,19 @@ void MoveScreenDownRight()
 	//   SetTextMode (  );
 	b = (byte *)bufferofs;
 
-	b += (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) +
-		 ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
+	b += (((vidconfig.ScreenHeight - viewheight) / 2) * vidconfig.ScreenWidth) +
+		 ((vidconfig.ScreenWidth - viewwidth) / 2);
 	if (viewsize == 8)
 	{
-		b += 8 * iGLOBAL_SCREENWIDTH;
+		b += 8 * vidconfig.ScreenWidth;
 	}
 	startX = 3; // take 3 pixels to the right
 	startY = 3; // take 3 lines down
-	startoffset = (startY * iGLOBAL_SCREENWIDTH) + startX;
+	startoffset = (startY * vidconfig.ScreenWidth) + startX;
 
 	// Ycnt starts in botton of screen and copys lines upwards
-	for (Ycnt = b + ((viewheight - startY - 1) * iGLOBAL_SCREENWIDTH); Ycnt > b;
-		 Ycnt -= iGLOBAL_SCREENWIDTH)
+	for (Ycnt = b + ((viewheight - startY - 1) * vidconfig.ScreenWidth); Ycnt > b;
+		 Ycnt -= vidconfig.ScreenWidth)
 	{
 		memcpy(Ycnt + startoffset, Ycnt, viewwidth - startX);
 	}

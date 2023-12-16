@@ -307,7 +307,7 @@ void SetMessage(int num, char *text, int flags)
 	int length;
 	boolean found;
 
-	if (iGLOBAL_SCREENWIDTH >= 640)
+	if (vidconfig.ScreenWidth >= 640)
 	{
 		CurrentFont = newfont1; // smallfont;
 	}
@@ -435,7 +435,7 @@ void UpdateMessages(void)
 void DisplayMessage(int num, int position)
 {
 	PrintX = 1;
-	if (iGLOBAL_SCREENWIDTH > 320)
+	if (vidconfig.ScreenWidth > 320)
 	{
 		PrintY = 2 + (position * (9 * 2));
 	}
@@ -483,11 +483,11 @@ void DisplayMessage(int num, int position)
 		case MSG_MODEM:
 			fontcolor = egacolor[LIGHTBLUE];
 			DrawIString(PrintX, PrintY, "Message>", Messages[num].flags);
-			if (iGLOBAL_SCREENWIDTH == 320)
+			if (vidconfig.ScreenWidth == 320)
 			{
 				PrintX += 8 * 8;
 			}
-			else if (iGLOBAL_SCREENWIDTH == 640)
+			else if (vidconfig.ScreenWidth == 640)
 			{
 				PrintX += 8 * 8 * 2;
 			}
@@ -550,13 +550,13 @@ void RestoreMessageBackground(void)
 															 // SetTextMode ( );
 					// DrawTiledRegion( 0, y, 320, 9, 0, y, shape );KILLS_HEIGHT
 					// bna--
-					DrawTiledRegion(0, y, iGLOBAL_SCREENWIDTH, 9, 0, y, shape);
-					DrawTiledRegion(0, y + 8, iGLOBAL_SCREENWIDTH, 9, 0, y,
+					DrawTiledRegion(0, y, vidconfig.ScreenWidth, 9, 0, y, shape);
+					DrawTiledRegion(0, y + 8, vidconfig.ScreenWidth, 9, 0, y,
 									shape);
-					DrawTiledRegion(0, y + 16, iGLOBAL_SCREENWIDTH, 9, 0, y,
+					DrawTiledRegion(0, y + 16, vidconfig.ScreenWidth, 9, 0, y,
 									shape);
 
-					// DrawTiledRegion( 0, y, iGLOBAL_SCREENWIDTH, 212, 0, y,
+					// DrawTiledRegion( 0, y, vidconfig.ScreenWidth, 212, 0, y,
 					// shape );
 				}
 				if (viewsize == 0)

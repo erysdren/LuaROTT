@@ -443,8 +443,8 @@ boolean ParseConfigFile(void)
 		if (vidconfig.ScreenScale > 4)
 			vidconfig.ScreenScale = 4;
 
-		vidconfig.ScreenWidth * vidconfig.ScreenBaseWidth * vidconfig.ScreenScale;
-		vidconfig.ScreenHeight * vidconfig.ScreenBaseHeight * vidconfig.ScreenScale;
+		vidconfig.ScreenWidth = vidconfig.ScreenBaseWidth * vidconfig.ScreenScale;
+		vidconfig.ScreenHeight = vidconfig.ScreenBaseHeight * vidconfig.ScreenScale;
 
 		// Read in ViewSize
 		ReadInt("ViewSize", &viewsize);
@@ -453,11 +453,11 @@ boolean ParseConfigFile(void)
 		ReadInt("Weaponscale", &G_weaponscale); // bna added
 		if ((G_weaponscale < 150) || (G_weaponscale > 600))
 		{
-			if (iGLOBAL_SCREENWIDTH == 320)
+			if (vidconfig.ScreenWidth == 320)
 			{
 				G_weaponscale = 168;
 			}
-			else if (iGLOBAL_SCREENWIDTH == 640)
+			else if (vidconfig.ScreenWidth == 640)
 			{
 				G_weaponscale = 299;
 			}
@@ -1672,11 +1672,11 @@ void WriteConfig(void)
 
 	if ((G_weaponscale < 150) || (G_weaponscale > 600))
 	{
-		if (iGLOBAL_SCREENWIDTH == 320)
+		if (vidconfig.ScreenWidth == 320)
 		{
 			G_weaponscale = 168;
 		}
-		else if (iGLOBAL_SCREENWIDTH == 640)
+		else if (vidconfig.ScreenWidth == 640)
 		{
 			G_weaponscale = 299;
 		}

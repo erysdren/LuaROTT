@@ -1182,22 +1182,22 @@ void SetUpControlPanel(void)
 
 	s = savedscreen;
 
-	if (iGLOBAL_SCREENWIDTH == 320)
+	if (vidconfig.ScreenWidth == 320)
 	{
 		for (i = 0; i < Xres; i += 2)
 		{
 			b = (byte *)bufferofs + i;
-			for (j = 0; j < 100; j++, s++, b += (iGLOBAL_SCREENWIDTH << 1))
+			for (j = 0; j < 100; j++, s++, b += (vidconfig.ScreenWidth << 1))
 				*s = *b;
 		}
 	}
-	if (iGLOBAL_SCREENWIDTH >= 640)
+	if (vidconfig.ScreenWidth >= 640)
 	{
 		for (i = 0; i < Xres; i += 4)
 		{
 			b = (byte *)bufferofs + i; // schrink screen to 1/2 size
 			for (j = 0; j < (Yres / 4);
-				 j++, s++, b += (iGLOBAL_SCREENWIDTH << 1) * 2)
+				 j++, s++, b += (vidconfig.ScreenWidth << 1) * 2)
 				*s = *b;
 		}
 	}
@@ -3080,7 +3080,7 @@ void QuickSaveGame(void)
 	for (i = 0; i < 320; i += 2)
 	{
 		b = (byte *)bufferofs + i;
-		for (j = 0; j < 100; j++, s++, b += (iGLOBAL_SCREENWIDTH << 1))
+		for (j = 0; j < 100; j++, s++, b += (vidconfig.ScreenWidth << 1))
 			*s = *b;
 	}
 

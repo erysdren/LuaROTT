@@ -84,7 +84,7 @@ void DrawSky(void)
 	int dest;
 	//   int plane;
 	int height;
-	const int height2 = viewheight * 200 / iGLOBAL_SCREENHEIGHT;
+	const int height2 = viewheight * 200 / vidconfig.ScreenHeight;
 	int ang;
 	int angle;
 	int ofs;
@@ -97,7 +97,7 @@ void DrawSky(void)
 		shadingtable = colormap + (1 << 12);
 
 	ofs = (((maxheight) - (player->z)) >> 3) +
-		  (centery * 200 / iGLOBAL_SCREENHEIGHT - ((height2) >> 1));
+		  (centery * 200 / vidconfig.ScreenHeight - ((height2) >> 1));
 
 	if (ofs > centerskypost)
 	{
@@ -464,7 +464,7 @@ void SetFCLightLevel(int height)
 	}
 	if (fog)
 	{
-		i = ((height * 200 / iGLOBAL_SCREENHEIGHT) >> normalshade) + minshade;
+		i = ((height * 200 / vidconfig.ScreenHeight) >> normalshade) + minshade;
 		if (i > maxshade)
 			i = maxshade;
 		shadingtable = colormap + (i << 8);

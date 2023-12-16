@@ -3703,7 +3703,6 @@ void SetNormalHorizon(objtype *ob)
 =
 ===================
 */
-extern int iG_playerTilt;
 extern double dTopYZANGLELIMIT;
 extern boolean useautoaim;
 void PlayerTiltHead(objtype *ob)
@@ -3849,8 +3848,6 @@ void PlayerTiltHead(objtype *ob)
 		yzangle = HORIZONYZOFFSET - dTopYZANGLELIMIT;		// bnafix
 	ob->yzangle = yzangle - HORIZONYZOFFSET;
 	Fix(ob->yzangle);
-
-	iG_playerTilt = ob->yzangle;
 }
 
 //----------------------------------------------------------------------

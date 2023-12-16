@@ -381,7 +381,7 @@ void DrawPlayScreen(boolean bufferofsonly)
 
 	if (SHOW_TOP_STATUS_BAR())
 	{
-		if (iGLOBAL_SCREENWIDTH == 640)
+		if (vidconfig.ScreenWidth == 640)
 		{
 			// use this as dummy pic to fill out missing bar
 			shape = (pic_t *)W_CacheLumpName("bottbar", PU_CACHE, Cvt_pic_t, 1);
@@ -397,7 +397,7 @@ void DrawPlayScreen(boolean bufferofsonly)
 				(pic_t *)W_CacheLumpName("stat_bar", PU_CACHE, Cvt_pic_t, 1);
 			GameMemToScreen(shape, 0, 0, bufferofsonly);
 		}
-		else if (iGLOBAL_SCREENWIDTH == 320)
+		else if (vidconfig.ScreenWidth == 320)
 		{
 
 			// SetTextMode (  );
@@ -420,14 +420,14 @@ void DrawPlayScreen(boolean bufferofsonly)
 		{
 			ShowKillsYoffset = KILLS_HEIGHT;
 			// shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE,
-			// Cvt_pic_t, 1 ); DrawTiledRegion( 0, 584, iGLOBAL_SCREENWIDTH,
+			// Cvt_pic_t, 1 ); DrawTiledRegion( 0, 584, vidconfig.ScreenWidth,
 			// 32-16, 0, 16, shape );//bna++
 
 			//	     health_y = iGLOBAL_HEALTH_Y;
 			//  if ( SHOW_KILLS() )
 			//   {
 			// health_y -= KILLS_HEIGHT;
-			// GameMemToScreen( shape, 0, (iGLOBAL_SCREENHEIGHT-40)+16,
+			// GameMemToScreen( shape, 0, (vidconfig.ScreenHeight-40)+16,
 			// bufferofsonly );
 
 			// GameMemToScreen( shape, 0, 160, bufferofsonly );bna++
@@ -435,26 +435,26 @@ void DrawPlayScreen(boolean bufferofsonly)
 		// else
 		{
 
-			if (iGLOBAL_SCREENWIDTH == 640)
+			if (vidconfig.ScreenWidth == 640)
 			{
 				// bna fix - not to good? but no one has 286 any more
 				// statusbar dosent cover hole screen, because its a lump
 				// picture width max 320 first write dummy shape and next over
 				// it
-				GameMemToScreen(shape, 320, iGLOBAL_SCREENHEIGHT - 16 - ShowKillsYoffset, bufferofsonly);
+				GameMemToScreen(shape, 320, vidconfig.ScreenHeight - 16 - ShowKillsYoffset, bufferofsonly);
 
 				// copy next shape to mem
-				GameMemToScreen(shape, 0, iGLOBAL_SCREENHEIGHT - 16 - ShowKillsYoffset, bufferofsonly);
+				GameMemToScreen(shape, 0, vidconfig.ScreenHeight - 16 - ShowKillsYoffset, bufferofsonly);
 
 				// delete bullet in middle of shape picture
-				DrawPPic(310, iGLOBAL_SCREENHEIGHT - 15 - ShowKillsYoffset, 8 >> 2, 16,  (byte *)&erase->data, 2, true, bufferofsonly);
+				DrawPPic(310, vidconfig.ScreenHeight - 15 - ShowKillsYoffset, 8 >> 2, 16,  (byte *)&erase->data, 2, true, bufferofsonly);
 
 				// delete hart in middle of shape picture
-				DrawPPic(324, iGLOBAL_SCREENHEIGHT - 15 - ShowKillsYoffset, 8 >> 2, 16, (byte *)&erase->data, 2, true, bufferofsonly);
+				DrawPPic(324, vidconfig.ScreenHeight - 15 - ShowKillsYoffset, 8 >> 2, 16, (byte *)&erase->data, 2, true, bufferofsonly);
 			}
 			else
 			{
-				GameMemToScreen(shape, 0, iGLOBAL_SCREENHEIGHT - 16 - ShowKillsYoffset, bufferofsonly);
+				GameMemToScreen(shape, 0, vidconfig.ScreenHeight - 16 - ShowKillsYoffset, bufferofsonly);
 			}
 		}
 
@@ -464,7 +464,7 @@ void DrawPlayScreen(boolean bufferofsonly)
 		if (demoplayback)
 		{
 			shape = (pic_t *)W_CacheLumpName("demo", PU_CACHE, Cvt_pic_t, 1);
-			if (iGLOBAL_SCREENWIDTH == 640)
+			if (vidconfig.ScreenWidth == 640)
 			{
 				// DrawPPic( 148, 185, shape->width, shape->height,
 				//    ( byte * )&shape->data, 1, true, bufferofsonly );bna
@@ -772,10 +772,10 @@ void DrawKills(boolean bufferofsonly)
 	//	 SetTextMode (  );
 	// Draw all the other losers
 	// #define KILLS_Y      176
-	iKILLS_Y = iGLOBAL_SCREENHEIGHT - 24;
+	iKILLS_Y = vidconfig.ScreenHeight - 24;
 	// draw blank status  pic->width = 8;pic->height = 24
 	pic = blankfragpic;
-	for (temp = iGLOBAL_SCREENWIDTH - pic->width - 24; temp > pic->width;
+	for (temp = vidconfig.ScreenWidth - pic->width - 24; temp > pic->width;
 		 temp -= pic->width)
 	{
 		DrawPPic(temp, iKILLS_Y, pic->width, pic->height, (byte *)&pic->data, 1,
@@ -857,7 +857,7 @@ void DrawKills(boolean bufferofsonly)
 		// Advance to next position
 		xpos += KILLS_WIDTH;
 
-		if (xpos >= iGLOBAL_SCREENWIDTH)
+		if (xpos >= vidconfig.ScreenWidth)
 		{
 			break;
 		}
@@ -865,7 +865,7 @@ void DrawKills(boolean bufferofsonly)
 
 	for (rank = BATTLE_NumberOfTeams; rank <= MAXKILLBOXES; rank++)
 	{
-		if (xpos >= iGLOBAL_SCREENWIDTH)
+		if (xpos >= vidconfig.ScreenWidth)
 		{
 			break;
 		}
@@ -1785,7 +1785,7 @@ void DrawPPic(int xpos, int ypos, int width, int height, byte *src, int num,
 				{
 					for (k = 0; k < num; k++)
 					{
-						const uintptr_t max = iGLOBAL_SCREENWIDTH * iGLOBAL_SCREENHEIGHT;
+						const uintptr_t max = vidconfig.ScreenWidth * vidconfig.ScreenHeight;
 						uintptr_t ofs = dest + (amt * k);
 						if (ofs < max)
 						{
@@ -2139,24 +2139,24 @@ void DrawPause(void)
 		bufferofs = bufftemp;
 		p = (pic_t *)W_CacheLumpNum(W_GetNumForName("paused"), PU_CACHE,
 									Cvt_pic_t, 1);
-		DrawPauseXY((iGLOBAL_SCREENWIDTH - (p->width << 2)) >> 1,
-					(iGLOBAL_SCREENHEIGHT - p->height) >> 1); // bna++
+		DrawPauseXY((vidconfig.ScreenWidth - (p->width << 2)) >> 1,
+					(vidconfig.ScreenHeight - p->height) >> 1); // bna++
 		// DrawPauseXY( (320-(p->width<<2) ) >>1, (200-p->height)>>1);
 		/*
 			  //buf = (byte *) SafeMalloc (64000);
 			  w = p->width;
 			  h = p->height;
-			  x = (iGLOBAL_SCREENWIDTH-((p->width)<<2) ) >>1;
-			  y = (iGLOBAL_SCREENHEIGHT-(p->height))>>1;
+			  x = (vidconfig.ScreenWidth-((p->width)<<2) ) >>1;
+			  y = (vidconfig.ScreenHeight-(p->height))>>1;
 
-			  x1 = (iGLOBAL_SCREENWIDTH-((p->width*2)<<2) ) >>1;
-			  y1 = (iGLOBAL_SCREENHEIGHT-(p->height*2))>>1;
+			  x1 = (vidconfig.ScreenWidth-((p->width*2)<<2) ) >>1;
+			  y1 = (vidconfig.ScreenHeight-(p->height*2))>>1;
 
-			  source = bufferofs + (iGLOBAL_SCREENWIDTH*y)+x;
-			  target = bufferofs + (iGLOBAL_SCREENWIDTH*y1)+x1;
+			  source = bufferofs + (vidconfig.ScreenWidth*y)+x;
+			  target = bufferofs + (vidconfig.ScreenWidth*y1)+x1;
 
 			 //
-		memcpy(tmpPICbuf,bufftemp,iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
+		memcpy(tmpPICbuf,bufftemp,vidconfig.ScreenWidth*vidconfig.ScreenHeight);
 
 			  bufferofs = bufftemp;//(byte *)tmpPICbuf;//buf;//write picture in
 		tmpbuf VL_MemToScreen ((byte *)&p->data, p->width, p->height,x, y);
@@ -2165,8 +2165,8 @@ void DrawPause(void)
 
 
 			  //VL_MemStrechedToScreen ((byte *)&p->data, p->width,
-		p->height,(iGLOBAL_SCREENWIDTH-((p->width*2)<<2) )
-		>>1, (iGLOBAL_SCREENHEIGHT-(p->height*2))>>1);
+		p->height,(vidconfig.ScreenWidth-((p->width*2)<<2) )
+		>>1, (vidconfig.ScreenHeight-(p->height*2))>>1);
 			  //DrawEpisodeLevel (x,y);
 
 			  //VL_MemToScreen ((byte *)&p->data, p->width, p->height,0, 0);
@@ -2176,8 +2176,8 @@ void DrawPause(void)
 			  //buf = bufftemp;
 			  //b = tmpPICbuf ;
 
-			  source = bufferofs + (iGLOBAL_SCREENWIDTH*y)+x+(w*4);
-			  target = bufferofs + (iGLOBAL_SCREENWIDTH*y1)+x+(2*w*4);
+			  source = bufferofs + (vidconfig.ScreenWidth*y)+x+(w*4);
+			  target = bufferofs + (vidconfig.ScreenWidth*y1)+x+(2*w*4);
 
 			  //first strech lines in x direction
 			  for (y=0;y<h;y++){
@@ -2187,21 +2187,21 @@ void DrawPause(void)
 					*target-- = *source--;
 				}
 				target=c;source=t2;
-				target += iGLOBAL_SCREENWIDTH;
-				source += iGLOBAL_SCREENWIDTH;
+				target += vidconfig.ScreenWidth;
+				source += vidconfig.ScreenWidth;
 			  }
 			  //strech then lines in y direction
-			  source -= ((iGLOBAL_SCREENWIDTH*(y/2))+(w*4));//bufferofs +
-		(iGLOBAL_SCREENWIDTH*y)+x+(iGLOBAL_SCREENWIDTH*(y)); target =
-		(source+(iGLOBAL_SCREENWIDTH*(y))+1);//bufferofs +
-		(iGLOBAL_SCREENWIDTH*y)+x+(iGLOBAL_SCREENWIDTH*(y1));
+			  source -= ((vidconfig.ScreenWidth*(y/2))+(w*4));//bufferofs +
+		(vidconfig.ScreenWidth*y)+x+(vidconfig.ScreenWidth*(y)); target =
+		(source+(vidconfig.ScreenWidth*(y))+1);//bufferofs +
+		(vidconfig.ScreenWidth*y)+x+(vidconfig.ScreenWidth*(y1));
 
 			  for (y=0;y<h;y++){
 				memcpy(target,source,(w*4*2));
-				memcpy(target+iGLOBAL_SCREENWIDTH,source,(w*4*2));
+				memcpy(target+vidconfig.ScreenWidth,source,(w*4*2));
 
-				target -= iGLOBAL_SCREENWIDTH*2;
-				source -= iGLOBAL_SCREENWIDTH;
+				target -= vidconfig.ScreenWidth*2;
+				source -= vidconfig.ScreenWidth;
 			  }
 
 		/ *
@@ -2209,26 +2209,26 @@ void DrawPause(void)
 				c=target;t2=source;
 				for (x=0;x<w*4;x++){
 					*target = *source;
-					*(target+++iGLOBAL_SCREENWIDTH) = *source;
+					*(target+++vidconfig.ScreenWidth) = *source;
 					*target = *source;
-					*(target+++iGLOBAL_SCREENWIDTH) = *source;
+					*(target+++vidconfig.ScreenWidth) = *source;
 					source++;
 				}
 				target=c;source=t2;
-				target += iGLOBAL_SCREENWIDTH*2;
-				source += iGLOBAL_SCREENWIDTH;
+				target += vidconfig.ScreenWidth*2;
+				source += vidconfig.ScreenWidth;
 			  }
 		*/
 
 		//	  memcpy(
-		// bufftemp,tmpPICbuf,iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
+		// bufftemp,tmpPICbuf,vidconfig.ScreenWidth*vidconfig.ScreenHeight);
 	}
 	else
 	{
 		p = (pic_t *)W_CacheLumpNum(W_GetNumForName("wait"), PU_CACHE,
 									Cvt_pic_t, 1);
-		DrawPauseXY((iGLOBAL_SCREENWIDTH - (p->width << 2)) >> 1,
-					(iGLOBAL_SCREENHEIGHT - p->height) >> 1); // bna++
+		DrawPauseXY((vidconfig.ScreenWidth - (p->width << 2)) >> 1,
+					(vidconfig.ScreenHeight - p->height) >> 1); // bna++
 		// DrawPauseXY( (320-(p->width<<2) ) >>1, (200-p->height)>>1);
 	}
 	//   VH_UpdateScreen () ;

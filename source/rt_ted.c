@@ -1058,7 +1058,7 @@ void PreCache(void)
 	int ticdelay = 0;
 	byte *tempbuf;
 
-	double Gs = (iGLOBAL_SCREENWIDTH * 100.0 / 320.0) / 100.0;
+	double Gs = (vidconfig.ScreenWidth * 100.0 / 320.0) / 100.0;
 
 	// SetTextMode (  );
 
@@ -1106,14 +1106,14 @@ void PreCache(void)
 				currentmem = MAXLEDS - 1;
 			while (lastmem <= currentmem)
 			{ // SetTextMode (  );
-				if (iGLOBAL_SCREENWIDTH == 320)
+				if (vidconfig.ScreenWidth == 320)
 				{
 					DrawNormalSprite(
 						PRECACHEBARX + PRECACHELED1X + (lastmem << 2),
 						PRECACHEBARY + PRECACHELED1Y,
 						W_GetNumForName("led1")); // led1 progressbar
 				}
-				else if (iGLOBAL_SCREENWIDTH == 640)
+				else if (vidconfig.ScreenWidth == 640)
 				{
 					DrawNormalSprite(
 						72 + (Gs * (lastmem << 2)), 446,
@@ -1136,14 +1136,14 @@ void PreCache(void)
 			while (lastcache <= currentcache)
 			{
 
-				if (iGLOBAL_SCREENWIDTH == 320)
+				if (vidconfig.ScreenWidth == 320)
 				{
 					DrawNormalSprite(
 						PRECACHEBARX + PRECACHELED2X + (lastcache << 2),
 						PRECACHEBARY + PRECACHELED2Y,
 						W_GetNumForName("led2")); // led2 progressbar
 				}
-				else if (iGLOBAL_SCREENWIDTH == 640)
+				else if (vidconfig.ScreenWidth == 640)
 				{
 					DrawNormalSprite(
 						72 + (Gs * (lastcache << 2)), 458,
@@ -1187,8 +1187,8 @@ void PreCache(void)
 			int height = 0;
 			char buf[30] = { 0 }; // byte * shape;
 			double WHratio = (16200.0 / 200.0) / 100.0;
-			///	iGLOBAL_SCREENWIDTH = 640;
-			//	iGLOBAL_SCREENHEIGHT = 480;
+			///	vidconfig.ScreenWidth = 640;
+			//	vidconfig.ScreenHeight = 480;
 			DisableScreenStretch();
 
 			// Cache in fonts
@@ -1198,8 +1198,8 @@ void PreCache(void)
 
 			strcpy(buf, "Press Any Key");
 			US_MeasureStr(&width, &height, "%s", &buf[0]);
-			PrintX = (iGLOBAL_SCREENWIDTH - (width)) / 2;
-			PrintY = WHratio * iGLOBAL_SCREENHEIGHT; // 162;
+			PrintX = (vidconfig.ScreenWidth - (width)) / 2;
+			PrintY = WHratio * vidconfig.ScreenHeight; // 162;
 			// VWB_TBar (PrintX-2, PrintY-2, width+4, height+4);
 			US_BufPrint(&buf[0]);
 

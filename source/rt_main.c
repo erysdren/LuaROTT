@@ -264,7 +264,7 @@ int main(int argc, char *argv[])
 		GetMenuInfo();
 	}
 
-	SetRottScreenRes(iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
+	SetRottScreenRes(vidconfig.ScreenWidth, vidconfig.ScreenHeight);
 
 	//   if (modemgame==true)
 	//      {
@@ -762,8 +762,8 @@ void SetupWads(void)
 						(((width == 320) && (height == 200)) ||
 						 ((width == 640) && (height == 480))))
 					{
-						iGLOBAL_SCREENWIDTH = width;
-						iGLOBAL_SCREENHEIGHT = height;
+						vidconfig.ScreenWidth = width;
+						vidconfig.ScreenHeight = height;
 					}
 					else
 						printf("Invalid resolution parameter: %s\n", _argv[i]);
@@ -1788,13 +1788,13 @@ void PauseLoop(void)
 		if (GamePaused == false)
 		{
 			// bna++ section
-			if ((playstate == ex_stillplaying) && (iGLOBAL_SCREENWIDTH > 320))
+			if ((playstate == ex_stillplaying) && (vidconfig.ScreenWidth > 320))
 			{
 				pic_t *shape;
 				shape = (pic_t *)W_CacheLumpName("backtile", PU_CACHE,
 												 Cvt_pic_t, 1);
-				DrawTiledRegion(0, 16, iGLOBAL_SCREENWIDTH,
-								iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape);
+				DrawTiledRegion(0, 16, vidconfig.ScreenWidth,
+								vidconfig.ScreenHeight - 32, 0, 16, shape);
 				DisableScreenStretch(); // dont strech when we go BACK TO GAME
 				DrawPlayScreen(true);	// repaint ammo and life stat
 				VW_UpdateScreen();		// update screen
