@@ -352,14 +352,7 @@ void SetupPlayScreen(void)
 
 void GameMemToScreen(pic_t *source, int x, int y, int bufferofsonly)
 {
-	if (bufferofsonly)
-	{
-		VL_MemToScreen((byte *)&source->data, source->width, source->height, x, y);
-	}
-	else
-	{
-		GM_MemToScreen((byte *)&source->data, source->width, source->height, x, y);
-	}
+	DrawPic(source, x, y, vidconfig.ScreenScale);
 }
 
 //******************************************************************************
@@ -396,7 +389,7 @@ void DrawPlayScreen(boolean bufferofsonly)
 			ShowKillsYoffset = KILLS_HEIGHT;
 		}
 
-		GameMemToScreen(shape, 0, vidconfig.ScreenHeight - 16 - ShowKillsYoffset, bufferofsonly);
+		GameMemToScreen(shape, 0, vidconfig.ScreenHeight - (16 * vidconfig.ScreenScale) - ShowKillsYoffset, bufferofsonly);
 
 		DrawBarAmmo(bufferofsonly);
 		DrawBarHealth(bufferofsonly);

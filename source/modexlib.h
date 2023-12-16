@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "WinRott.h"
 #include "rt_def.h"
+#include "lumpy.h"
 
 //***************************************************************************
 //
@@ -61,6 +62,9 @@ void SetShowCursor(int);
 
 void ToggleScreenStretch(void);
 void SetScreenStretch(boolean to);
+
+void DrawPic(pic_t *source, int x, int y, int scale);
+void ShutdownPicCache(void);
 
 typedef struct vidconfig_t {
 	int WindowWidth;

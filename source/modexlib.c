@@ -33,6 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_util.h"
 #include "rt_net.h" // for GamePaused
 #include "myprint.h"
+#include "lumpy.h"
 
 static void StretchMemPicture();
 // GLOBAL VARIABLES
@@ -449,3 +450,106 @@ void SetScreenStretch(boolean to)
 
 	SDL_RenderSetLogicalSize(renderer, width, height);
 }
+
+/*
+ * cache pic_t to SDL_Surface
+ */
+
+/* [0] = pic_t */
+/* [1] = SDL_Surface */
+static int num_PicCache = 0;
+static void *PicCache[4096][2];
+
+SDL_Surface *GetCachedPic(pic_t *source)
+{
+	int i;
+
+	for (i = 0; i < num_PicCache; i++)
+	{
+		if (source == PicCache[i][0])
+			return PicCache[i][1];
+	}
+
+	return NULL;
+}
+
+SDL_Surface *CachePic(pic_t *source)
+{
+	SDL_Surface *surf;
+	byte *ptr, *destline;
+	int plane;
+	int x, y;
+
+	/* check if already cached */
+	if ((surf = GetCachedPic(source)) != NULL)
+		return surf;
+
+	/* create surface */
+	surf = SDL_CreateRGBSurface(0, source->width * 4, source->height, 8, 0, 0, 0, 0);
+
+	/* set palette */
+	SDL_SetPaletteColors(surf->format->palette, BackSurface->format->palette->colors, 0, 256);
+
+	/* convert planes to linear pixel data */
+	ptr = &source->data;
+	for (plane = 0; plane < 4; plane++)
+	{
+		for (y = 0; y < source->height; y++)
+		{
+			destline = (byte *)surf->pixels + (y * surf->pitch);
+
+			for (x = 0; x < source->width; x++)
+			{
+				destline[x * 4 + plane] = *ptr++;
+			}
+		}
+	}
+
+	/* add to cache */
+	PicCache[num_PicCache][0] = source;
+	PicCache[num_PicCache][1] = surf;
+	num_PicCache++;
+
+	return surf;
+}
+
+/*
+ * draw pic_t on screen
+ */
+
+void DrawPic(pic_t *source, int x, int y, int scale)
+{
+	SDL_Surface *surf;
+	SDL_Rect srcrect, dstrect;
+
+	if ((surf = CachePic(source)) == NULL)
+		Error("DrawPic(): Couldn't cache pic!");
+
+	srcrect.x = 0;
+	srcrect.y = 0;
+	srcrect.w = surf->w;
+	srcrect.h = surf->h;
+
+	dstrect.x = x;
+	dstrect.y = y;
+	dstrect.w = surf->w * scale;
+	dstrect.h = surf->h * scale;
+
+	SDL_SoftStretch(surf, &srcrect, BackSurface, &dstrect);
+}
+
+/*
+ * free pic cache
+ */
+
+void ShutdownPicCache(void)
+{
+	int i;
+
+	for (i = 0; i < num_PicCache; i++)
+		SDL_FreeSurface(PicCache[i][1]);
+
+	num_PicCache = 0;
+	memset(PicCache, 0, sizeof(PicCache));
+}
+

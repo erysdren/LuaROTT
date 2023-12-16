@@ -1623,6 +1623,9 @@ void QuitGame(void)
 	cmdlib_quit();
 	cvarlib_quit();
 
+	/* free all cached pics */
+	ShutdownPicCache();
+
 	/* shutdown SDL */
 	if (modemgame)
 		QuitROTTNET();
