@@ -80,7 +80,7 @@ byte *redmap;
 byte *greenmap;
 byte *playermaps[MAXPLAYERCOLORS];
 // short  pixelangle[MAXVIEWWIDTH];
-short pixelangle[800];
+short pixelangle[1280];
 byte gammatable[GAMMAENTRIES];
 int gammaindex;
 int focalwidth = 160;
