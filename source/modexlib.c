@@ -49,7 +49,7 @@ extern int iG_Y_center;
 byte *iG_buf_center;
 
 int linewidth;
-int ylookup[800]; // Table of row offsets
+int ylookup[1280]; // Table of row offsets
 int screensize;
 byte *displayofs;
 byte *bufferofs;

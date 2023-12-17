@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern boolean StretchScreen;
 
-extern int ylookup[800]; // Table of row offsets
+extern int ylookup[1280]; // Table of row offsets
 extern int linewidth;
 extern int screensize;
 extern byte *displayofs;
