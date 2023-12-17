@@ -352,7 +352,14 @@ void SetupPlayScreen(void)
 
 void GameMemToScreen(pic_t *source, int x, int y, int bufferofsonly)
 {
-	DrawPic(source, x, y, vidconfig.ScreenScale);
+	if (bufferofsonly)
+	{
+		VL_MemToScreen((byte *)&source->data, source->width, source->height, x, y);
+	}
+	else
+	{
+		GM_MemToScreen((byte *)&source->data, source->width, source->height, x, y);
+	}
 }
 
 //******************************************************************************
@@ -371,8 +378,7 @@ void DrawPlayScreen(boolean bufferofsonly)
 
 	if (SHOW_TOP_STATUS_BAR())
 	{
-		shape = (pic_t *)W_CacheLumpName("stat_bar", PU_CACHE, Cvt_pic_t, 1);
-		GameMemToScreen(shape, 0, 0, bufferofsonly);
+		DrawPicAligned("stat_bar", 0, 0, ALIGN_T);
 	}
 
 	if (BATTLEMODE)
@@ -389,7 +395,7 @@ void DrawPlayScreen(boolean bufferofsonly)
 			ShowKillsYoffset = KILLS_HEIGHT;
 		}
 
-		GameMemToScreen(shape, 0, vidconfig.ScreenHeight - (16 * vidconfig.ScreenScale) - ShowKillsYoffset, bufferofsonly);
+		DrawPicAligned("bottbar", 0, ShowKillsYoffset, ALIGN_B);
 
 		DrawBarAmmo(bufferofsonly);
 		DrawBarHealth(bufferofsonly);

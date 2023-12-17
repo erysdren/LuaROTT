@@ -63,7 +63,22 @@ void SetShowCursor(int);
 void ToggleScreenStretch(void);
 void SetScreenStretch(boolean to);
 
-void DrawPic(pic_t *source, int x, int y, int scale);
+enum {
+	ALIGN_TL, /* top left */
+	ALIGN_T, /* center top */
+	ALIGN_TR, /* top right */
+	ALIGN_R, /* center right */
+	ALIGN_BR, /* bottom right */
+	ALIGN_B, /* center bottom */
+	ALIGN_BL, /* bottom left */
+	ALIGN_L, /* center left */
+	ALIGN_C /* center */
+};
+
+void DrawPic(char *name, int x, int y);
+void DrawPicScaled(char *name, int x, int y, int s);
+void DrawPicSized(char *name, int x, int y, int w, int h);
+void DrawPicAligned(char *name, int x, int y, int align);
 void ShutdownPicCache(void);
 
 typedef struct vidconfig_t {

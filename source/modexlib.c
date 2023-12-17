@@ -34,6 +34,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_net.h" // for GamePaused
 #include "myprint.h"
 #include "lumpy.h"
+#include "w_wad.h"
+#include "z_zone.h"
 
 static void StretchMemPicture();
 // GLOBAL VARIABLES
@@ -455,40 +457,45 @@ void SetScreenStretch(boolean to)
  * cache pic_t to SDL_Surface
  */
 
+typedef struct pic_cache_t {
+	char name[16];
+	SDL_Surface *surface;
+} pic_cache_t;
+
 /* [0] = pic_t */
 /* [1] = SDL_Surface */
 static int num_PicCache = 0;
-static void *PicCache[4096][2];
+pic_cache_t PicCache[4096];
 
-SDL_Surface *GetCachedPic(pic_t *source)
-{
-	int i;
-
-	for (i = 0; i < num_PicCache; i++)
-	{
-		if (source == PicCache[i][0])
-			return PicCache[i][1];
-	}
-
-	return NULL;
-}
-
-SDL_Surface *CachePic(pic_t *source)
+SDL_Surface *CachePic(char *name)
 {
 	SDL_Surface *surf;
+	pic_t *source;
 	byte *ptr, *destline;
 	int plane;
 	int x, y;
+	int i;
 
 	/* check if already cached */
-	if ((surf = GetCachedPic(source)) != NULL)
-		return surf;
+	for (i = 0; i < num_PicCache; i++)
+	{
+		if (strncmp(PicCache[i].name, name, 16) == 0)
+			return PicCache[i].surface;
+	}
+
+	/* make WAD manager cache the pic */
+	source = (pic_t *)W_CacheLumpName(name, PU_CACHE, Cvt_pic_t, 1);
+	if (source == NULL)
+		Error("CachePic(): Couldn't cache lump \"%s\"!", name);
 
 	/* create surface */
 	surf = SDL_CreateRGBSurface(0, source->width * 4, source->height, 8, 0, 0, 0, 0);
 
 	/* set palette */
 	SDL_SetPaletteColors(surf->format->palette, BackSurface->format->palette->colors, 0, 256);
+
+	/* set key color */
+	SDL_SetColorKey(surf, SDL_TRUE, 255);
 
 	/* convert planes to linear pixel data */
 	ptr = &source->data;
@@ -506,8 +513,8 @@ SDL_Surface *CachePic(pic_t *source)
 	}
 
 	/* add to cache */
-	PicCache[num_PicCache][0] = source;
-	PicCache[num_PicCache][1] = surf;
+	snprintf(PicCache[num_PicCache].name, 16, "%s", name);
+	PicCache[num_PicCache].surface = surf;
 	num_PicCache++;
 
 	return surf;
@@ -517,13 +524,13 @@ SDL_Surface *CachePic(pic_t *source)
  * draw pic_t on screen
  */
 
-void DrawPic(pic_t *source, int x, int y, int scale)
+void DrawPic(char *name, int x, int y)
 {
 	SDL_Surface *surf;
 	SDL_Rect srcrect, dstrect;
 
-	if ((surf = CachePic(source)) == NULL)
-		Error("DrawPic(): Couldn't cache pic!");
+	if ((surf = CachePic(name)) == NULL)
+		Error("DrawPic(): Couldn't cache pic \"%s\"!", name);
 
 	srcrect.x = 0;
 	srcrect.y = 0;
@@ -532,8 +539,115 @@ void DrawPic(pic_t *source, int x, int y, int scale)
 
 	dstrect.x = x;
 	dstrect.y = y;
-	dstrect.w = surf->w * scale;
-	dstrect.h = surf->h * scale;
+	dstrect.w = surf->w;
+	dstrect.h = surf->h;
+
+	SDL_SoftStretch(surf, &srcrect, BackSurface, &dstrect);
+}
+
+/*
+ * draw pic_t on screen (scaled)
+ */
+
+void DrawPicScaled(char *name, int x, int y, int s)
+{
+	SDL_Surface *surf;
+	SDL_Rect srcrect, dstrect;
+
+	if ((surf = CachePic(name)) == NULL)
+		Error("DrawPicScaled(): Couldn't cache pic \"%s\"!", name);
+
+	srcrect.x = 0;
+	srcrect.y = 0;
+	srcrect.w = surf->w;
+	srcrect.h = surf->h;
+
+	dstrect.x = x;
+	dstrect.y = y;
+	dstrect.w = surf->w * s;
+	dstrect.h = surf->h * s;
+
+	SDL_SoftStretch(surf, &srcrect, BackSurface, &dstrect);
+}
+
+/*
+ * draw pic_t on screen (sized)
+ */
+
+void DrawPicSized(char *name, int x, int y, int w, int h)
+{
+	SDL_Surface *surf;
+	SDL_Rect srcrect, dstrect;
+
+	if ((surf = CachePic(name)) == NULL)
+		Error("DrawPicSized(): Couldn't cache pic \"%s\"!", name);
+
+	srcrect.x = 0;
+	srcrect.y = 0;
+	srcrect.w = surf->w;
+	srcrect.h = surf->h;
+
+	dstrect.x = x;
+	dstrect.y = y;
+	dstrect.w = w;
+	dstrect.h = h;
+
+	SDL_SoftStretch(surf, &srcrect, BackSurface, &dstrect);
+}
+
+/*
+ * draw pic_t on screen (aligned)
+ */
+
+void DrawPicAligned(char *name, int x, int y, int align)
+{
+	SDL_Surface *surf;
+	SDL_Rect srcrect, dstrect;
+
+	if ((surf = CachePic(name)) == NULL)
+		Error("DrawPicAligned(): Couldn't cache pic \"%s\"!", name);
+
+	srcrect.x = 0;
+	srcrect.y = 0;
+	srcrect.w = surf->w;
+	srcrect.h = surf->h;
+
+	/* x alignment */
+	switch (align)
+	{
+		case ALIGN_T:
+		case ALIGN_C:
+		case ALIGN_B:
+			x = (BackSurface->w / 2) + ((x - (surf->w / 2)) * vidconfig.ScreenScale);
+			break;
+
+		case ALIGN_TR:
+		case ALIGN_R:
+		case ALIGN_BR:
+			x = BackSurface->w - ((x + surf->w) * vidconfig.ScreenScale);
+			break;
+	}
+
+	/* y alignment */
+	switch (align)
+	{
+		case ALIGN_L:
+		case ALIGN_C:
+		case ALIGN_R:
+			y = (BackSurface->h / 2) + ((y - (surf->h / 2)) * vidconfig.ScreenScale);
+			break;
+
+		case ALIGN_BL:
+		case ALIGN_B:
+		case ALIGN_BR:
+			y = BackSurface->h - ((y + surf->h) * vidconfig.ScreenScale);
+			break;
+	}
+
+	dstrect.x = x;
+	dstrect.y = y;
+	dstrect.w = surf->w * vidconfig.ScreenScale;
+	dstrect.h = surf->h * vidconfig.ScreenScale;
 
 	SDL_SoftStretch(surf, &srcrect, BackSurface, &dstrect);
 }
@@ -547,7 +661,7 @@ void ShutdownPicCache(void)
 	int i;
 
 	for (i = 0; i < num_PicCache; i++)
-		SDL_FreeSurface(PicCache[i][1]);
+		SDL_FreeSurface(PicCache[i].surface);
 
 	num_PicCache = 0;
 	memset(PicCache, 0, sizeof(PicCache));
