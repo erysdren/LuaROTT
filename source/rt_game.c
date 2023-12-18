@@ -378,7 +378,8 @@ void DrawPlayScreen(boolean bufferofsonly)
 
 	if (SHOW_TOP_STATUS_BAR())
 	{
-		DrawPicAligned("stat_bar", 0, 0, ALIGN_T);
+		shape = (pic_t *)W_CacheLumpName("stat_bar", PU_CACHE, Cvt_pic_t, 1);
+		GameMemToScreen(shape, 0, 0, bufferofsonly);
 	}
 
 	if (BATTLEMODE)
@@ -395,7 +396,7 @@ void DrawPlayScreen(boolean bufferofsonly)
 			ShowKillsYoffset = KILLS_HEIGHT;
 		}
 
-		DrawPicAligned("bottbar", 0, ShowKillsYoffset, ALIGN_B);
+		GameMemToScreen(shape, 0, vidconfig.ScreenHeight - (16 * vidconfig.ScreenScale) - ShowKillsYoffset, bufferofsonly);
 
 		DrawBarAmmo(bufferofsonly);
 		DrawBarHealth(bufferofsonly);
