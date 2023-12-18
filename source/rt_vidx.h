@@ -48,10 +48,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define CANVAS_HEIGHT_MAX (CANVAS_HEIGHT * CANVAS_SCALE_MAX)
 
 /* get or set overlay canvas pixel */
-#define OverlayCanvasPixel(x, y) ((uint8_t *)OverlayCanvas->pixels)[y * OverlayCanvas->pitch + x]
+#define VX_OverlayCanvasPixel(x, y) ((uint8_t *)VX_OverlayCanvas->pixels)[y * VX_OverlayCanvas->pitch + x]
 
 /* get or set world canvas pixel */
-#define WorldCanvasPixel(x, y) ((uint8_t *)WorldCanvas->pixels)[y * WorldCanvas->pitch + x]
+#define VX_WorldCanvasPixel(x, y) ((uint8_t *)VX_WorldCanvas->pixels)[y * VX_WorldCanvas->pitch + x]
 
 //***************************************************************************
 //
@@ -72,8 +72,8 @@ typedef struct vxconfig_t {
 //
 //***************************************************************************
 
-extern SDL_Surface *WorldCanvas;
-extern SDL_Surface *OverlayCanvas;
+extern SDL_Surface *VX_WorldCanvas;
+extern SDL_Surface *VX_OverlayCanvas;
 extern vxconfig_t VX_Config;
 
 //***************************************************************************
