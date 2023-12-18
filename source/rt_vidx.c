@@ -23,6 +23,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <stdarg.h>
 #include <string.h>
 
+#include "modexlib.h"
 #include "rt_view.h"
 #include "rt_vidx.h"
 
@@ -49,16 +50,19 @@ void VX_Init(void)
 {
 	unsigned int pixel_format, rmask, gmask, bmask, amask;
 	int bpp;
+	int i, offset;
 
 	/* init sdl subsystems */
 	SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
 	/* create world canvas */
 	VX_WorldCanvas = SDL_CreateRGBSurface(0, VX_Config.CanvasWidth * VX_Config.WorldCanvasScale, VX_Config.CanvasHeight * VX_Config.WorldCanvasScale, 8, 0, 0, 0, 0);
+	SDL_FillRect(VX_WorldCanvas, NULL, 0);
 
 	/* create overlay canvas */
 	VX_OverlayCanvas = SDL_CreateRGBSurface(0, VX_Config.CanvasWidth, VX_Config.CanvasHeight, 8, 0, 0, 0, 0);
-	SDL_SetColorKey(VX_OverlayCanvas, SDL_TRUE, 255);
+	SDL_SetColorKey(VX_OverlayCanvas, SDL_TRUE, 0xFF);
+	SDL_FillRect(VX_OverlayCanvas, NULL, 0xFF);
 
 	/* create window */
 	Window = SDL_CreateWindow(PACKAGE_STRING, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, VX_WorldCanvas->w, VX_WorldCanvas->h, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
@@ -86,6 +90,20 @@ void VX_Init(void)
 
 	/* create render texture */
 	RenderTexture = SDL_CreateTexture(Renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, VX_WorldCanvas->w, VX_WorldCanvas->h);
+
+	/* set up lookup tables */
+	linewidth = VX_WorldCanvas->w;
+	offset = 0;
+	for (i = 0; i < VX_WorldCanvas->h; i++)
+	{
+		ylookup[i] = offset;
+		offset += linewidth;
+	}
+
+	/* bleck */
+	BackBuffer = VX_WorldCanvas->pixels;
+	displayofs = BackBuffer;
+	bufferofs = BackBuffer;
 }
 
 /* shutdown video subsystem */
@@ -135,4 +153,42 @@ void VX_SetPalette(uint8_t *palette)
 
 	SDL_SetPaletteColors(VX_OverlayCanvas->format->palette, colors, 0, 256);
 	SDL_SetPaletteColors(VX_WorldCanvas->format->palette, colors, 0, 256);
+}
+
+/* retrieve current video palette */
+void VX_GetPalette(uint8_t *palette)
+{
+	int i;
+	SDL_Color *colors = VX_WorldCanvas->format->palette->colors;
+
+	for (i = 0; i < 256; i++)
+	{
+		palette[i * 3] = colors[i].r >> 2;
+		palette[i * 3 + 1] = colors[i].g >> 2;
+		palette[i * 3 + 2] = colors[i].b >> 2;
+	}
+}
+
+/* fill video palette with color */
+void VX_FillPalette(int red, int green, int blue)
+{
+	SDL_Color colors[256];
+	int i;
+
+	for (i = 0; i < 256; i++)
+	{
+		colors[i].r = red << 2;
+		colors[i].g = green << 2;
+		colors[i].b = blue << 2;
+	}
+
+	SDL_SetPaletteColors(VX_OverlayCanvas->format->palette, colors, 0, 256);
+	SDL_SetPaletteColors(VX_WorldCanvas->format->palette, colors, 0, 256);
+}
+
+/* clear video */
+void VX_ClearVideo(uint8_t color)
+{
+	SDL_FillRect(VX_WorldCanvas, NULL, color);
+	SDL_FillRect(VX_OverlayCanvas, NULL, 0xFF);
 }

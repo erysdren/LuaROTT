@@ -550,7 +550,7 @@ void DrawPalette(paletteevent *event)
 	byte *pal;
 
 	pal = W_CacheLumpName(event->name, PU_CACHE, CvtNull, 1);
-	XFlipPage();
+	VX_Flip();
 	CinematicSetPalette(pal);
 }
 
@@ -593,7 +593,7 @@ void DrawFadeout(void)
 		CinematicSetPalette(&newpal[0]);
 		CinematicDelay();
 	}
-	VL_ClearVideo(0);
+	VX_ClearVideo(0);
 	GetCinematicTics();
 	GetCinematicTics();
 }
@@ -607,7 +607,7 @@ void DrawFadeout(void)
 */
 void DrawBlankScreen(void)
 {
-	VL_ClearVideo(0);
+	VX_ClearVideo(0);
 }
 
 /*

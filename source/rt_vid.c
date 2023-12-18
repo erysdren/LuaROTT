@@ -528,7 +528,7 @@ int VW_MarkUpdateBlock(int x1, int y1, int x2, int y2)
 
 void VW_UpdateScreen(void)
 {
-	VH_UpdateScreen();
+	VX_Flip();
 }
 
 //===========================================================================
@@ -551,9 +551,9 @@ void VL_FadeOut(int start, int end, int red, int green, int blue, int steps)
 	if (screenfaded)
 		return;
 
-	VH_UpdateScreen();
+	VX_Flip();
 	WaitVBL();
-	VL_GetPalette(&palette1[0][0]);
+	VX_GetPalette(&palette1[0][0]);
 	memcpy(palette2, palette1, 768);
 
 	//
@@ -577,16 +577,16 @@ void VL_FadeOut(int start, int end, int red, int green, int blue, int steps)
 			*newptr++ = orig + delta * i / steps;
 		}
 
-		VH_UpdateScreen();
+		VX_Flip();
 		WaitVBL();
-		VL_SetPalette(&palette2[0][0]);
+		VX_SetPalette(&palette2[0][0]);
 	}
 
 	//
 	// final color
 	//
-	VL_FillPalette(red, green, blue);
-	VH_UpdateScreen();
+	VX_FillPalette(red, green, blue);
+	VX_Flip();
 
 	screenfaded = true;
 }
@@ -610,9 +610,9 @@ void VL_FadeToColor(int time, int red, int green, int blue)
 	if (screenfaded)
 		return;
 
-	VH_UpdateScreen();
+	VX_Flip();
 	WaitVBL();
-	VL_GetPalette(&palette1[0][0]);
+	VX_GetPalette(&palette1[0][0]);
 	memcpy(palette2, palette1, 768);
 
 	dmax = (maxshade << 16) / time;
@@ -640,9 +640,9 @@ void VL_FadeToColor(int time, int red, int green, int blue)
 
 		maxshade = (dmax * (time - i)) >> 16;
 		minshade = (dmin * (time - i)) >> 16;
-		VH_UpdateScreen();
+		VX_Flip();
 		WaitVBL();
-		VL_SetPalette(&palette2[0][0]);
+		VX_SetPalette(&palette2[0][0]);
 		ThreeDRefresh();
 		CalcTics();
 	}
@@ -650,8 +650,8 @@ void VL_FadeToColor(int time, int red, int green, int blue)
 	//
 	// final color
 	//
-	VL_FillPalette(red >> 2, green >> 2, blue >> 2);
-	VH_UpdateScreen();
+	VX_FillPalette(red >> 2, green >> 2, blue >> 2);
+	VX_Flip();
 
 	screenfaded = true;
 }
@@ -668,9 +668,9 @@ void VL_FadeIn(int start, int end, byte *palette, int steps)
 {
 	int i, j, delta;
 
-	VH_UpdateScreen();
+	VX_Flip();
 	WaitVBL();
-	VL_GetPalette(&palette1[0][0]);
+	VX_GetPalette(&palette1[0][0]);
 
 	memcpy(&palette2[0][0], &palette1[0][0], sizeof(palette1));
 
@@ -688,16 +688,16 @@ void VL_FadeIn(int start, int end, byte *palette, int steps)
 			(&palette2[0][0])[j] = (&palette1[0][0])[j] + delta * i / steps;
 		}
 
-		VH_UpdateScreen();
+		VX_Flip();
 		WaitVBL();
-		VL_SetPalette(&palette2[0][0]);
+		VX_SetPalette(&palette2[0][0]);
 	}
 
 	//
 	// final color
 	//
-	VL_SetPalette(palette);
-	VH_UpdateScreen();
+	VX_SetPalette(palette);
+	VX_Flip();
 
 	screenfaded = false;
 }

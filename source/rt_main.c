@@ -76,6 +76,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_scale.h"
 #include "rt_datadir.h"
 #include "console.h"
+#include "rt_vidx.h"
 
 #include "music.h"
 #include "fx_man.h"
@@ -344,15 +345,9 @@ int main(int argc, char *argv[])
 	if (standalone == true)
 		ServerLoop();
 
-	VL_SetVGAPlaneMode();
-	VL_SetPalette(origpal);
+	VX_Init();
+	VX_SetPalette(origpal);
 
-	//   SetTextMode();
-	//   GraphicsMode();
-	//   SetTextMode();
-	//   VL_SetVGAPlaneMode();
-	//   VL_SetPalette(origpal);
-	//   SetBorderColor(155);
 	SetViewSize(8);
 
 	playstate = ex_titles;
@@ -384,7 +379,7 @@ int main(int argc, char *argv[])
 		}
 		else if (NoWait == false)
 		{
-			ApogeeTitle();
+			// ApogeeTitle();
 		}
 #else
 		if (NoWait == false)
@@ -393,8 +388,7 @@ int main(int argc, char *argv[])
 			{
 				lbm_t *LBM;
 
-				LBM =
-					(lbm_t *)W_CacheLumpName("svendor", PU_CACHE, Cvt_lbm_t, 1);
+				LBM = (lbm_t *)W_CacheLumpName("svendor", PU_CACHE, Cvt_lbm_t, 1);
 				VL_DecompressLBM(LBM, true);
 				I_Delay(40);
 				MenuFadeOut();
@@ -2293,7 +2287,7 @@ void PollKeyboard(void)
 			{
 				gammaindex = 0;
 			}
-			VL_SetPalette(origpal);
+			VX_SetPalette(origpal);
 			itoa(gammaindex, str2, 10);
 			strcat(str, str2);
 			AddMessage(str, MSG_SYSTEM);

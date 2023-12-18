@@ -294,7 +294,7 @@ void DrawCinematicActors(void)
 		}
 	}
 	if (flippage == true)
-		XFlipPage();
+		VX_Flip();
 #if DUMP
 	printf("Total actors drawn=%ld\n", numactors);
 #endif

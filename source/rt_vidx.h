@@ -94,4 +94,13 @@ void VX_Flip(void);
 /* set video palette */
 void VX_SetPalette(uint8_t *palette);
 
+/* retrieve current video palette */
+void VX_GetPalette(uint8_t *palette);
+
+/* fill video palette with color */
+void VX_FillPalette(int red, int green, int blue);
+
+/* clear video */
+void VX_ClearVideo(uint8_t color);
+
 #endif /* _rt_vidx_public */

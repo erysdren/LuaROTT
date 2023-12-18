@@ -276,7 +276,7 @@ byte BestColor(int r, int g, int b, byte *palette)
 
 void ClearGraphicsScreen(void)
 {
-	VL_ClearVideo(0);
+	VX_ClearVideo(0);
 }
 
 void ClearBuffer(char *buf, int size)
@@ -936,7 +936,7 @@ void GetPalette(char *palette)
 
 void SetPalette(byte *pal)
 {
-	VL_SetPalette(pal);
+	VX_SetPalette(pal);
 }
 
 //******************************************************************************
