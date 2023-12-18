@@ -625,6 +625,44 @@ int _cmd_exec(int argc, char **argv)
 	return 0;
 }
 
+/* debug mode */
+int _cmd_debug(int argc, char **argv)
+{
+
+    cmd_t *cmd;
+    
+    if (argc < 2)
+    {
+        DebugOk = 0;
+        console_printf("Debug Mode DISABLED!");
+    }
+    else
+    {
+        DebugOk = 1;
+        console_printf("Debug Mode ENABLED!");
+    }
+
+    return 0;
+}
+
+/* EKG command */
+int _cmd_ekg(int argc, char **argv)
+{
+
+    cmd_t *cmd;
+    
+    if (argc < 2)
+    {
+        ludicrousgibs ^= 1;
+        if (ludicrousgibs)
+            console_printf("EKG mode on!");
+        else
+            console_printf("EKG mode off!");
+    }
+    return 0;
+}
+
+
 /* cmdlib array */
 cmd_t _cmdlib[] = {
 	CMD("quit", "exit the game immediately", _cmd_quit),
@@ -634,7 +672,9 @@ cmd_t _cmdlib[] = {
 	CMD("help", "print help text", _cmd_help),
 	CMD("find", "find command or variable by name", _cmd_find),
 	CMD("dopefish", "?", _cmd_dopefish),
-	CMD("exec", "execute config script", _cmd_exec)
+	CMD("exec", "execute config script", _cmd_exec),
+	CMD("debug", "enables debug mode", _cmd_debug),
+	CMD("ekg", "enables Engine Killing Gibs", _cmd_ekg)
 };
 
 /* register standard library of cmds */
