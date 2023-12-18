@@ -48,10 +48,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define CANVAS_HEIGHT_MAX (CANVAS_HEIGHT * CANVAS_SCALE_MAX)
 
 /* get or set overlay canvas pixel */
-#define VX_OverlayCanvasPixel(x, y) ((uint8_t *)VX_OverlayCanvas->pixels)[y * VX_OverlayCanvas->pitch + x]
+#define VX_OverlayCanvasPixel(x, y) ((uint8_t *)VX_OverlayCanvas->pixels)[(y) * VX_OverlayCanvas->pitch + (x)]
 
 /* get or set world canvas pixel */
-#define VX_WorldCanvasPixel(x, y) ((uint8_t *)VX_WorldCanvas->pixels)[y * VX_WorldCanvas->pitch + x]
+#define VX_WorldCanvasPixel(x, y) ((uint8_t *)VX_WorldCanvas->pixels)[(y) * VX_WorldCanvas->pitch + (x)]
 
 //***************************************************************************
 //
@@ -101,6 +101,12 @@ void VX_GetPalette(uint8_t *palette);
 void VX_FillPalette(int red, int green, int blue);
 
 /* clear video */
-void VX_ClearVideo(uint8_t color);
+void VX_Clear(uint8_t color);
+
+/* clear world canvas */
+void VX_ClearWorldCanvas(uint8_t color);
+
+/* clear overlay canvas */
+void VX_ClearOverlayCanvas(uint8_t color);
 
 #endif /* _rt_vidx_public */

@@ -120,18 +120,35 @@ void VX_Shutdown(void)
 /* flip all canvas changes to visible screen */
 void VX_Flip(void)
 {
-	WorldCanvasRect.x = 0;
-	WorldCanvasRect.y = 0;
-	WorldCanvasRect.w = VX_WorldCanvas->w;
-	WorldCanvasRect.h = VX_WorldCanvas->h;
+	SDL_Rect src, dst;
 
-	OverlayCanvasRect.x = 0;
-	OverlayCanvasRect.y = 0;
-	OverlayCanvasRect.w = VX_OverlayCanvas->w;
-	OverlayCanvasRect.h = VX_OverlayCanvas->h;
+	/* world canvas */
+	src.x = 0;
+	src.y = 0;
+	src.w = VX_WorldCanvas->w;
+	src.h = VX_WorldCanvas->h;
 
-	SDL_LowerBlit(VX_WorldCanvas, &WorldCanvasRect, RenderSurface, &WorldCanvasRect);
-	SDL_LowerBlit(VX_OverlayCanvas, &OverlayCanvasRect, RenderSurface, &OverlayCanvasRect);
+	dst.x = 0;
+	dst.y = 0;
+	dst.w = VX_WorldCanvas->w;
+	dst.h = VX_WorldCanvas->h;
+
+	SDL_LowerBlit(VX_WorldCanvas, &src, RenderSurface, &dst);
+
+	/* overlay canvas */
+	src.x = 0;
+	src.y = 0;
+	src.w = VX_OverlayCanvas->w;
+	src.h = VX_OverlayCanvas->h;
+
+	dst.x = 0;
+	dst.y = 0;
+	dst.w = VX_WorldCanvas->w;
+	dst.h = VX_WorldCanvas->h;
+
+	SDL_LowerBlit(VX_OverlayCanvas, &src, RenderSurface, &dst);
+
+	/* update screen */
 	SDL_UpdateTexture(RenderTexture, NULL, RenderSurface->pixels, RenderSurface->pitch);
 	SDL_RenderClear(Renderer);
 	SDL_RenderCopy(Renderer, RenderTexture, NULL, NULL);
@@ -187,8 +204,20 @@ void VX_FillPalette(int red, int green, int blue)
 }
 
 /* clear video */
-void VX_ClearVideo(uint8_t color)
+void VX_Clear(uint8_t color)
+{
+	VX_ClearWorldCanvas(color);
+	VX_ClearOverlayCanvas(0xFF);
+}
+
+/* clear world canvas */
+void VX_ClearWorldCanvas(uint8_t color)
 {
 	SDL_FillRect(VX_WorldCanvas, NULL, color);
-	SDL_FillRect(VX_OverlayCanvas, NULL, 0xFF);
+}
+
+/* clear overlay canvas */
+void VX_ClearOverlayCanvas(uint8_t color)
+{
+	SDL_FillRect(VX_OverlayCanvas, NULL, color);
 }

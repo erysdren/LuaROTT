@@ -59,6 +59,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_scale.h"
 #include "develop.h"
 #include "rt_datadir.h"
+#include "rt_vidx.h"
 
 //******************************************************************************
 //
@@ -373,8 +374,6 @@ void DrawPlayScreen(boolean bufferofsonly)
 	pic_t *shape;
 	int shapenum = 0;
 	int ShowKillsYoffset = 0; // bna++
-
-	// return;
 
 	if (SHOW_TOP_STATUS_BAR())
 	{
@@ -2452,7 +2451,7 @@ void GM_MemToScreen(byte *source, int width, int height, int x, int y)
 
 	yofs = ylookup[y] + x;
 
-	dest = (byte *)(yofs + BackBuffer);
+	dest = &VX_OverlayCanvasPixel(x, y);
 
 	for (plane = 0; plane < 4; plane++)
 	{

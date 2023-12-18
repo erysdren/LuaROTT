@@ -40,6 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_view.h"
 #include "cin_efct.h"
 #include "w_wad.h"
+#include "rt_vidx.h"
 
 //******************************************************************************
 //
@@ -74,7 +75,7 @@ void VL_MemToScreen(byte *source, int width, int height, int x, int y)
 	{
 		for (j = 0; j < height; j++)
 		{
-			destline = (byte *)(bufferofs + ylookup[y + j] + x);
+			destline = &VX_OverlayCanvasPixel(x, y + j);
 
 			for (i = 0; i < width; i++)
 			{

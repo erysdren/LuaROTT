@@ -593,7 +593,7 @@ void DrawFadeout(void)
 		CinematicSetPalette(&newpal[0]);
 		CinematicDelay();
 	}
-	VX_ClearVideo(0);
+	VX_Clear(0);
 	GetCinematicTics();
 	GetCinematicTics();
 }
@@ -607,7 +607,7 @@ void DrawFadeout(void)
 */
 void DrawBlankScreen(void)
 {
-	VX_ClearVideo(0);
+	VX_Clear(0);
 }
 
 /*
