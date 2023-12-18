@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdarg.h>
 
 #include "SDL.h"
-#include "SDL_net.h"
 
 #include "rt_def.h"
 #include "_rt_com.h"
@@ -57,48 +56,17 @@ int controlsynctime;
 static int ComStarted = false;
 static int transittimes[MAXPLAYERS];
 
-/* SDLNet */
-static UDPsocket udp_socket;
-static UDPpacket **udp_packets;
-static UDPpacket *udp_client_packet;
-static IPaddress udp_server_address;
-
 void SyncTime(int client);
 void SetTransitTime(int client, int time);
 
 static void ReadUDPPacket()
 {
-	int ready;
 
-	ready = SDLNet_UDP_RecvV(udp_socket, udp_packets);
-
-	if (ready < 0)
-	{
-		Error("SDLNet_UDP_RecvV(): %s", SDLNet_GetError());
-	}
-	else if (ready == 0)
-	{
-		rottcom->remotenode = -1;
-	}
-	else
-	{
-		rottcom->remotenode = ready;
-		printf("\tAddress: %x %x\n", udp_packets[0]->address.host, udp_packets[0]->address.port);
-	}
 }
 
 static void WriteUDPPacket()
 {
-	/* copy data */
-	memcpy(udp_client_packet->data, rottcom->data, rottcom->datalength);
-	udp_client_packet->len = rottcom->datalength;
 
-	/* set address and port */
-	udp_client_packet->address.host = udp_server_address.host;
-	udp_client_packet->address.port = udp_server_address.port;
-
-	/* send packet */
-	SDLNet_UDP_Send(udp_socket, -1, udp_client_packet);
 }
 
 /*
@@ -111,9 +79,7 @@ static void WriteUDPPacket()
 
 void QuitROTTNET(void)
 {
-	SDLNet_FreePacketV(udp_packets);
-	SDLNet_FreePacket(udp_client_packet);
-	SDLNet_Quit();
+
 }
 
 /*
@@ -131,10 +97,6 @@ void InitROTTNET(void)
 	if (ComStarted == true)
 		return;
 	ComStarted = true;
-
-	/* init SDLNet */
-    if (SDLNet_Init() < 0)
-		Error("SDLNet_Init(): %s", SDLNet_GetError());
 
 	/*
 	server-specific options:
@@ -191,34 +153,10 @@ void InitROTTNET(void)
 		}
 
 		rottcom->client = 0;
-
-		/* open socket */
-		udp_socket = SDLNet_UDP_Open(DEFAULTPORT);
-		if (udp_socket == NULL)
-			Error("SDLNet_UDP_Open(): %s", SDLNet_GetError());
-
-		/* allocate packets */
-		udp_packets = SDLNet_AllocPacketV(MAXPACKET, MAXPACKETSIZE);
-		if (udp_packets == NULL)
-			Error("SDLNet_AllocPacketV(): %s", SDLNet_GetError());
 	}
 	else
 	{
 		rottcom->client = 1;
-
-		/* open socket */
-		udp_socket = SDLNet_UDP_Open(0);
-		if (udp_socket == NULL)
-			Error("SDLNet_UDP_Open(): %s", SDLNet_GetError());
-
-		/* resolve server name */
-		if (SDLNet_ResolveHost(&udp_server_address, "192.168.0.141", DEFAULTPORT) < 0)
-			Error("SDLNet_ResolveHost(): %s", SDLNet_GetError());
-
-		/* open a connection with the provided IP */
-		udp_client_packet = SDLNet_AllocPacket(MAXPACKETSIZE);
-		if (udp_client_packet == NULL)
-			Error("SDLNet_AllocPacket(): %s", SDLNet_GetError());
 
 		/* consoleplayer will be initialized after connecting */
 		/* numplayers will be initialized after connecting */

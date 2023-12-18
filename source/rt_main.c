@@ -476,7 +476,7 @@ void CheckCommandLineParameters(void)
 	char *PStrings[] = {
 		"TEDLEVEL", "NOWAIT",	   "NOSOUND",	"NOW",			"TRANSPORT",
 		"DOPEFISH", "SCREENSHOTS", "MONO",		"MAPSTATS",		"TILESTATS",
-		"VER",		"net",		   "PAUSE",		"SOUNDSETUP",	"WARP",
+		"VER",		"NET",		   "PAUSE",		"SOUNDSETUP",	"WARP",
 		"IS8250",	"ENABLEVR",	   "TIMELIMIT", "MAXTIMELIMIT", "NOECHO",
 		"DEMOEXIT", "QUIET",	   NULL
 	};
@@ -674,6 +674,7 @@ void CheckCommandLineParameters(void)
 				exit(0);
 				break;
 			case 11:
+#if (ENABLE_COMMBAT == 1)
 				InitROTTNET();
 				numplayers = rottcom->numplayers;
 				if (numplayers > MAXPLAYERS)
@@ -693,6 +694,10 @@ void CheckCommandLineParameters(void)
 						printf("MODEM GAME\n");
 				}
 				break;
+#else
+				printf("WARNING: Network play is not currently supported.\n");
+				break;
+#endif
 			case 12:
 				infopause = true;
 				break;

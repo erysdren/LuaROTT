@@ -49,8 +49,7 @@ jobs:
           sudo apt-get install \
             cmake \
             libsdl2-dev \
-            libsdl2-mixer-dev \
-            libsdl2-net-dev
+            libsdl2-mixer-dev
 
       - name: Install dependencies (macOS)
         if: runner.os == 'macOS'
@@ -61,8 +60,7 @@ jobs:
           brew install \
             cmake \
             sdl2 \
-            sdl2_mixer \
-            sdl2_net
+            sdl2_mixer
 
       - name: Install dependencies (MSYS2)
         if: matrix.config.shell == 'msys2 {0}'
@@ -75,7 +73,6 @@ jobs:
             ${{ matrix.config.msys-env }}-cmake
             ${{ matrix.config.msys-env }}-SDL2
             ${{ matrix.config.msys-env }}-SDL2_mixer
-            ${{ matrix.config.msys-env }}-SDL2_net
 
       - uses: actions/checkout@v3
 

@@ -30,7 +30,6 @@ option(ROTTEN_DEB "Enable .deb file target" OFF)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_mixer REQUIRED)
-find_package(SDL2_net REQUIRED)
 
 #
 # sources
@@ -53,7 +52,7 @@ endif()
 
 # registered
 add_executable(rotten ${ROTTEN_SOURCES})
-target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer SDL2::Net)
+target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer)
 target_compile_definitions(rotten PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
 if(MSVC)
@@ -65,7 +64,7 @@ endif()
 # shareware
 add_executable(rotten_sw  ${ROTTEN_SOURCES})
 target_compile_definitions(rotten_sw PUBLIC SHAREWARE=1)
-target_link_libraries(rotten_sw PUBLIC SDL2::Main SDL2::Mixer SDL2::Net)
+target_link_libraries(rotten_sw PUBLIC SDL2::Main SDL2::Mixer)
 target_compile_definitions(rotten_sw PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten_sw PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
 if(MSVC)
