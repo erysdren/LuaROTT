@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "cin_actr.h"
 #include "cin_efct.h"
 #include "modexlib.h"
+#include "rt_vidx.h"
 
 actortype *firstcinematicactor;
 actortype *lastcinematicactor;
@@ -294,7 +295,7 @@ void DrawCinematicActors(void)
 		}
 	}
 	if (flippage == true)
-		XFlipPage();
+		VX_UpdateScreen();
 #if DUMP
 	printf("Total actors drawn=%ld\n", numactors);
 #endif

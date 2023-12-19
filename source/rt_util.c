@@ -49,6 +49,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modexlib.h"
 #include "rt_cfg.h"
 #include "rt_datadir.h"
+#include "rt_vidx.h"
 
 #ifdef _MSC_VER
 #include <direct.h>
@@ -276,7 +277,7 @@ byte BestColor(int r, int g, int b, byte *palette)
 
 void ClearGraphicsScreen(void)
 {
-	VL_ClearVideo(0);
+	VX_Clear(0);
 }
 
 void ClearBuffer(char *buf, int size)
@@ -315,7 +316,7 @@ void Error(char *error, ...)
 	if (inerror > 1)
 		abort();
 
-	SetTextMode();
+	VX_Shutdown();
 	memset(msgbuf, 0, 300);
 
 	va_start(argptr, error);
@@ -936,7 +937,7 @@ void GetPalette(char *palette)
 
 void SetPalette(byte *pal)
 {
-	VL_SetPalette(pal);
+	VX_SetPalette(pal);
 }
 
 //******************************************************************************

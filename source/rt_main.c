@@ -76,6 +76,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_scale.h"
 #include "rt_datadir.h"
 #include "console.h"
+#include "rt_vidx.h"
 
 #include "music.h"
 #include "fx_man.h"
@@ -344,20 +345,12 @@ int main(int argc, char *argv[])
 	if (standalone == true)
 		ServerLoop();
 
-	VL_SetVGAPlaneMode();
-	VL_SetPalette(origpal);
+	VX_Init();
+	VX_SetPalette(origpal);
 
-	//   SetTextMode();
-	//   GraphicsMode();
-	//   SetTextMode();
-	//   VL_SetVGAPlaneMode();
-	//   VL_SetPalette(origpal);
-	//   SetBorderColor(155);
 	SetViewSize(8);
 
 	playstate = ex_titles;
-
-	//   I_SetKeyboardLEDs( caps_lock, 0 );
 
 	gamestate.battlemode = battle_StandAloneGame;
 
@@ -417,12 +410,12 @@ void DrawRottTitle(void)
 	char title[80];
 	char buf[5];
 
-	SetTextMode();
+	VX_Shutdown();
 	TurnOffTextCursor();
 
 	if (CheckParm("QUIET") == 0)
 	{
-		SetTextMode();
+		VX_Shutdown();
 		TurnOffTextCursor();
 		strcpy(title, "Rise of the Triad Startup  Version ");
 		strcat(title, itoa(ROTTMAJORVERSION, &buf[0], 10));
@@ -509,7 +502,7 @@ void CheckCommandLineParameters(void)
 	if ((CheckParm("?\0")) || (CheckParm("HELP")) ||
 		((_argc > 1) && (_argv[1][0] == '?')))
 	{
-		SetTextMode();
+		VX_Shutdown();
 		printf("Rise of the Triad  (c) 1995 Apogee Software\n\n");
 		printf("COMMAND LINE PARAMETERS\n");
 		printf("   AIM        - Give Aim Crosshair.\n");
@@ -651,7 +644,7 @@ void CheckCommandLineParameters(void)
 				TILESTATS = true;
 				break;
 			case 10:
-				SetTextMode();
+				VX_Shutdown();
 				printf("Rise of the Triad  (c) 1995 Apogee Software\n");
 				// MED
 				if (gamestate.Product == ROTT_SHAREWARE)
@@ -1083,7 +1076,7 @@ void GameLoop(void)
 			else
 				MU_StartSong(song_endlevel);
 
-			VL_FillPalette(255, 255, 255);
+			VX_FillPalette(255, 255, 255);
 			VL_FadeIn(0, 255, origpal, 10);
 
 			BattleLevelCompleted(consoleplayer);
@@ -1207,7 +1200,7 @@ void GameLoop(void)
 
 			case ex_resetgame:
 
-				// SetTextMode (  ); //12345678
+				// VX_Shutdown (  ); //12345678
 				EnableScreenStretch(); // bna++ shut on streech mode
 				InitCharacter();
 
@@ -1626,7 +1619,7 @@ void QuitGame(void)
 
 	PrintMapStats();
 	PrintTileStats();
-	SetTextMode();
+	VX_Shutdown();
 
 	/* shutdown console */
 	console_quit();
@@ -2316,7 +2309,7 @@ void PollKeyboard(void)
 			{
 				gammaindex = 0;
 			}
-			VL_SetPalette(origpal);
+			VX_SetPalette(origpal);
 			itoa(gammaindex, str2, 10);
 			strcat(str, str2);
 			AddMessage(str, MSG_SYSTEM);

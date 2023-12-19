@@ -58,8 +58,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_rand.h"
 #include "rt_net.h"
 #include "rt_sc_a.h"
-
-extern void VH_UpdateScreen(void);
+#include "rt_vidx.h"
 
 // int testval;
 /*
@@ -2654,8 +2653,8 @@ void FlipPage(void)
 
 	/* TODO some shake thing */
 
-	/* just call the one in modexlib.c */
-	XFlipPage();
+	/* just call the one in rt_vidx.c */
+	VX_UpdateScreen();
 }
 
 //******************************************************************************
@@ -3144,7 +3143,7 @@ apogeeexit:
 
 	VL_ClearBuffer(bufferofs, 0); // bna added
 	MenuFadeOut();				  // bna added
-	VH_UpdateScreen();			  // bna added
+	VX_UpdateScreen();			  // bna added
 	ShutdownRotateBuffer();
 }
 

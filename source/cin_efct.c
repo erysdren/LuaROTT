@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "w_wad.h"
 #include "z_zone.h"
 #include <string.h>
+#include "rt_vidx.h"
 
 #include "modexlib.h"
 #include "fli_glob.h"
@@ -550,7 +551,7 @@ void DrawPalette(paletteevent *event)
 	byte *pal;
 
 	pal = W_CacheLumpName(event->name, PU_CACHE, CvtNull, 1);
-	XFlipPage();
+	VX_UpdateScreen();
 	CinematicSetPalette(pal);
 }
 
