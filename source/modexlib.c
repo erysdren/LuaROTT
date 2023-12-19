@@ -46,9 +46,7 @@ byte *iG_buf_center;
 int linewidth;
 // int    ylookup[MAXSCREENHEIGHT];
 int ylookup[600]; // just set to max res
-byte *page1start;
-byte *page2start;
-byte *page3start;
+byte *pagestart;
 int screensize;
 byte *bufferofs;
 byte *displayofs;
@@ -232,11 +230,9 @@ void VL_SetVGAPlaneMode(void)
 	//    screensize=MAXSCREENHEIGHT*MAXSCREENWIDTH;
 	screensize = iGLOBAL_SCREENHEIGHT * iGLOBAL_SCREENWIDTH;
 
-	page1start = sdl_surface->pixels;
-	page2start = sdl_surface->pixels;
-	page3start = sdl_surface->pixels;
-	displayofs = page1start;
-	bufferofs = page2start;
+	pagestart = sdl_surface->pixels;
+	displayofs = pagestart;
+	bufferofs = pagestart;
 
 	iG_X_center = iGLOBAL_SCREENWIDTH / 2;
 	iG_Y_center = (iGLOBAL_SCREENHEIGHT / 2) + 10; //+10 = move aim down a bit
@@ -377,9 +373,7 @@ void EnableScreenStretch(void)
 
 	displayofs = (byte *)unstretch_sdl_surface->pixels + (displayofs - (byte *)sdl_surface->pixels);
 	bufferofs = unstretch_sdl_surface->pixels;
-	page1start = unstretch_sdl_surface->pixels;
-	page2start = unstretch_sdl_surface->pixels;
-	page3start = unstretch_sdl_surface->pixels;
+	pagestart = unstretch_sdl_surface->pixels;
 	StretchScreen = 1;
 }
 
@@ -391,9 +385,7 @@ void DisableScreenStretch(void)
 	displayofs = (byte *) sdl_surface->pixels +
 				 (displayofs - (byte *)unstretch_sdl_surface->pixels);
 	bufferofs = sdl_surface->pixels;
-	page1start = sdl_surface->pixels;
-	page2start = sdl_surface->pixels;
-	page3start = sdl_surface->pixels;
+	pagestart = sdl_surface->pixels;
 	StretchScreen = 0;
 }
 
