@@ -37,11 +37,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 //***************************************************************************
 
-/* get or set overlay canvas pixel */
-#define VX_OverlayCanvasPixel(x, y) ((uint8_t *)VX_OverlayCanvas->pixels)[(y) * VX_OverlayCanvas->pitch + (x)]
-
 /* get or set world canvas pixel */
 #define VX_WorldCanvasPixel(x, y) ((uint8_t *)VX_WorldCanvas->pixels)[(y) * VX_WorldCanvas->pitch + (x)]
+
+/* get or set hud canvas pixel */
+#define VX_HudCanvasPixel(x, y) ((uint8_t *)VX_HudCanvas->pixels)[(y) * VX_HudCanvas->pitch + (x)]
+
+/* get or set menu canvas pixel */
+#define VX_MenuCanvasPixel(x, y) ((uint8_t *)VX_MenuCanvas->pixels)[(y) * VX_HudCanvas->pitch + (x)]
 
 //***************************************************************************
 //
@@ -50,7 +53,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //***************************************************************************
 
 extern SDL_Surface *VX_WorldCanvas;
-extern SDL_Surface *VX_OverlayCanvas;
+extern SDL_Surface *VX_HudCanvas;
+extern SDL_Surface *VX_MenuCanvas;
 
 //***************************************************************************
 //
@@ -85,7 +89,10 @@ void VX_Clear(uint8_t color);
 /* clear world canvas */
 void VX_ClearWorldCanvas(uint8_t color);
 
-/* clear overlay canvas */
-void VX_ClearOverlayCanvas(uint8_t color);
+/* clear hud canvas */
+void VX_ClearHudCanvas(uint8_t color);
+
+/* clear menu canvas */
+void VX_ClearMenuCanvas(uint8_t color);
 
 #endif /* _rt_vidx_public */

@@ -29,7 +29,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 /* global variables */
 SDL_Surface *VX_WorldCanvas = NULL;
-SDL_Surface *VX_OverlayCanvas = NULL;
+SDL_Surface *VX_HudCanvas = NULL;
+SDL_Surface *VX_MenuCanvas = NULL;
 
 /* local variables */
 static const int BaseWidth = 320;
@@ -40,8 +41,6 @@ static SDL_Window *Window = NULL;
 static SDL_Renderer *Renderer = NULL;
 static SDL_Texture *RenderTexture = NULL;
 static SDL_Surface *RenderSurface = NULL;
-static SDL_Rect WorldCanvasRect = {0, 0, 0, 0};
-static SDL_Rect OverlayCanvasRect = {0, 0, 0, 0};
 static SDL_Color PaletteColors[256];
 
 /* initialize video subsystem */
@@ -58,10 +57,15 @@ void VX_Init(void)
 	VX_WorldCanvas = SDL_CreateRGBSurface(0, BaseWidth * RenderScale, BaseHeight * RenderScale, 8, 0, 0, 0, 0);
 	SDL_FillRect(VX_WorldCanvas, NULL, 0);
 
-	/* create overlay canvas */
-	VX_OverlayCanvas = SDL_CreateRGBSurface(0, BaseWidth, BaseWidth, 8, 0, 0, 0, 0);
-	SDL_SetColorKey(VX_OverlayCanvas, SDL_TRUE, 0xFF);
-	SDL_FillRect(VX_OverlayCanvas, NULL, 0xFF);
+	/* create hud canvas */
+	VX_HudCanvas = SDL_CreateRGBSurface(0, BaseWidth, BaseWidth, 8, 0, 0, 0, 0);
+	SDL_SetColorKey(VX_HudCanvas, SDL_TRUE, 0xFF);
+	SDL_FillRect(VX_HudCanvas, NULL, 0xFF);
+
+	/* create menu canvas */
+	VX_MenuCanvas = SDL_CreateRGBSurface(0, BaseWidth, BaseWidth, 8, 0, 0, 0, 0);
+	SDL_SetColorKey(VX_MenuCanvas, SDL_TRUE, 0xFF);
+	SDL_FillRect(VX_MenuCanvas, NULL, 0xFF);
 
 	/* create window */
 	Window = SDL_CreateWindow(PACKAGE_STRING, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, VX_WorldCanvas->w * 2, VX_WorldCanvas->h * 2 * 1.2f, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
@@ -110,7 +114,8 @@ void VX_Shutdown(void)
 	if (RenderTexture) SDL_DestroyTexture(RenderTexture);
 	if (RenderSurface) SDL_FreeSurface(RenderSurface);
 	if (VX_WorldCanvas) SDL_FreeSurface(VX_WorldCanvas);
-	if (VX_OverlayCanvas) SDL_FreeSurface(VX_OverlayCanvas);
+	if (VX_HudCanvas) SDL_FreeSurface(VX_HudCanvas);
+	if (VX_MenuCanvas) SDL_FreeSurface(VX_MenuCanvas);
 }
 
 /* restart video subsystem */
@@ -138,12 +143,19 @@ void VX_UpdateScreen(void)
 	src.h = VX_WorldCanvas->h;
 	SDL_BlitSurface(VX_WorldCanvas, &src, RenderSurface, &dst);
 
-	/* blit overlay canvas */
+	/* blit hud canvas */
 	src.x = 0;
 	src.y = 0;
-	src.w = VX_OverlayCanvas->w;
-	src.h = VX_OverlayCanvas->h;
-	SDL_BlitSurface(VX_OverlayCanvas, &src, RenderSurface, &dst);
+	src.w = VX_HudCanvas->w;
+	src.h = VX_HudCanvas->h;
+	SDL_BlitSurface(VX_HudCanvas, &src, RenderSurface, &dst);
+
+	/* blit menu canvas */
+	src.x = 0;
+	src.y = 0;
+	src.w = VX_MenuCanvas->w;
+	src.h = VX_MenuCanvas->h;
+	SDL_BlitSurface(VX_MenuCanvas, &src, RenderSurface, &dst);
 
 	/* update screen */
 	SDL_UpdateTexture(RenderTexture, NULL, RenderSurface->pixels, RenderSurface->pitch);
@@ -164,8 +176,9 @@ void VX_SetPalette(uint8_t *palette)
 		PaletteColors[i].b = gammatable[(gammaindex << 6) + (*palette++)] << 2;
 	}
 
-	SDL_SetPaletteColors(VX_OverlayCanvas->format->palette, PaletteColors, 0, 256);
 	SDL_SetPaletteColors(VX_WorldCanvas->format->palette, PaletteColors, 0, 256);
+	SDL_SetPaletteColors(VX_HudCanvas->format->palette, PaletteColors, 0, 256);
+	SDL_SetPaletteColors(VX_MenuCanvas->format->palette, PaletteColors, 0, 256);
 }
 
 /* retrieve current video palette */
@@ -193,15 +206,17 @@ void VX_FillPalette(int red, int green, int blue)
 		PaletteColors[i].b = blue << 2;
 	}
 
-	SDL_SetPaletteColors(VX_OverlayCanvas->format->palette, PaletteColors, 0, 256);
 	SDL_SetPaletteColors(VX_WorldCanvas->format->palette, PaletteColors, 0, 256);
+	SDL_SetPaletteColors(VX_HudCanvas->format->palette, PaletteColors, 0, 256);
+	SDL_SetPaletteColors(VX_MenuCanvas->format->palette, PaletteColors, 0, 256);
 }
 
 /* clear video */
 void VX_Clear(uint8_t color)
 {
 	VX_ClearWorldCanvas(color);
-	VX_ClearOverlayCanvas(0xFF);
+	VX_ClearHudCanvas(0xFF);
+	VX_ClearMenuCanvas(0xFF);
 }
 
 /* clear world canvas */
@@ -210,8 +225,14 @@ void VX_ClearWorldCanvas(uint8_t color)
 	SDL_FillRect(VX_WorldCanvas, NULL, color);
 }
 
-/* clear overlay canvas */
-void VX_ClearOverlayCanvas(uint8_t color)
+/* clear hud canvas */
+void VX_ClearHudCanvas(uint8_t color)
 {
-	SDL_FillRect(VX_OverlayCanvas, NULL, color);
+	SDL_FillRect(VX_HudCanvas, NULL, color);
+}
+
+/* clear menu canvas */
+void VX_ClearMenuCanvas(uint8_t color)
+{
+	SDL_FillRect(VX_MenuCanvas, NULL, color);
 }
