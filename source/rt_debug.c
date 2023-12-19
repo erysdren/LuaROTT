@@ -1468,18 +1468,22 @@ int DoCheatCodeString(char *which)
 	int i, l, c;
 	char code[15];
 
+	/* reverse string into temp buffer */
+	c = 0;
+	for (l = strlen(which) - 1; l >= 0; l--)
+	{
+		if (l >= 15 || c >= 15)
+			return 0;
+
+		code[c++] = toupper(which[l]);
+	}
+
 	/* iterate over all codes */
 	for (i = 0; i < MAXCODES; i++)
 	{
-		/* reverse string into temp buffer */
-		c = 0;
-		for (l = strlen(which) - 1; l >= 0; l--)
-		{
-			if (l >= 15 || c >= 15)
-				return 0;
-
-			code[c++] = toupper(which[l]);
-		}
+		/* only check the first four, if we're not in debug mode */
+		if (DebugOk == false && i >= 4)
+			return 0;
 
 		/* check string */
 		if (strncasecmp(code, Codes[i].code, 15) == 0)
