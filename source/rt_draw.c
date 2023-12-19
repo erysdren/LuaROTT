@@ -3812,7 +3812,7 @@ fadeworld:
 finalfade:
 
 	MenuFadeOut();
-	VL_ClearVideo(0);
+	VX_Clear(0);
 	I_Delay(10);
 
 	if (LastScan == 0)
@@ -3829,7 +3829,7 @@ finalfade:
 		VL_FadeIn(0, 255, origpal, 150);
 		I_Delay(50);
 		VL_FadeOut(0, 255, 0, 0, 0, 150);
-		VL_ClearVideo(0);
+		VX_Clear(0);
 		I_Delay(10);
 	}
 
@@ -4019,7 +4019,7 @@ void DoTransmitterExplosion(void)
 	byte *back;
 	int i;
 
-	VL_ClearVideo(0);
+	VX_Clear(0);
 	back = SafeMalloc(800 * linewidth);
 
 	CalcTics();
@@ -4173,7 +4173,7 @@ void DoBurningCastle(void)
 	byte *back;
 
 	LastScan = 0;
-	VL_ClearVideo(0);
+	VX_Clear(0);
 	back = SafeMalloc(800 * linewidth);
 
 	DrawNormalSprite(0, 0, W_GetNumForName("finale"));
@@ -4259,7 +4259,7 @@ void DestroyEarth(void)
 	byte *back;
 	int i;
 
-	VL_ClearVideo(0);
+	VX_Clear(0);
 	back = SafeMalloc(800 * linewidth);
 
 	CalcTics();
@@ -4307,7 +4307,7 @@ void DoSanNicolas(void)
 	byte pal[768];
 
 	LastScan = 0;
-	VL_ClearVideo(0);
+	VX_Clear(0);
 	DrawNormalSprite(0, 16, W_GetNumForName("nicolas"));
 	DrawNormalSprite(10, 200 - 58, W_GetNumForName("budgcut"));
 	FlipPage();
@@ -4371,7 +4371,7 @@ void DoYouWin(void)
 
 	back = SafeMalloc(800 * linewidth);
 	LastScan = 0;
-	VL_ClearVideo(0);
+	VX_Clear(0);
 	pic = (pic_t *)W_CacheLumpNum(W_GetNumForName("mmbk"), PU_CACHE, Cvt_pic_t,
 								  1);
 	VWB_DrawPic(0, 0, pic);
@@ -4393,7 +4393,7 @@ void DoFinalEnd(void)
 
 	back = SafeMalloc(800 * linewidth);
 	LastScan = 0;
-	VL_ClearVideo(0);
+	VX_Clear(0);
 	pic = (pic_t *)W_CacheLumpNum(W_GetNumForName("mmbk"), PU_CACHE, Cvt_pic_t,
 								  1);
 	VWB_DrawPic(0, 0, pic);
@@ -4411,7 +4411,7 @@ void DoFinalEnd(void)
 	W_CacheLumpName("newfnt1", PU_CACHE, Cvt_font_t, 1);
 	VL_FadeOut(0, 255, 0, 0, 0, 80);
 	SafeFree(back);
-	VL_ClearVideo(0);
+	VX_Clear(0);
 }
 
 static char dipMsg[] = "The Developers of Incredible Power!\n"
@@ -5021,7 +5021,7 @@ void DoCreditScreen(void)
 
 	I_Delay(40);
 	MenuFadeOut();
-	VL_ClearVideo(0);
+	VX_Clear(0);
 
 	SafeFree(bkgnd);
 	CurrentFont = oldfont;

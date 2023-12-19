@@ -49,6 +49,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_net.h"
 #include "rt_str.h"
 #include "rt_fixed.h"
+#include "rt_vidx.h"
 
 //===========================================================================
 
@@ -821,7 +822,7 @@ void SetupMapper(void)
 */
 void ShutdownMapper(void)
 {
-	VL_ClearVideo(0);
+	VX_Clear(0);
 	viewwidth = oldw;
 	viewheight = oldh;
 	SetupScreen(true);
