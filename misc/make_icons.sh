@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # root name
-SRC=rott
+SRC=rotten
 
 # make ico
 convert -background transparent -define 'icon:auto-resize=16,24,32,64' ${SRC}.svg ${SRC}.ico
