@@ -157,6 +157,79 @@ extern void RottConsole(void);
 extern void ReadDelay(long delay);
 extern void RecordDemoQuery(void);
 
+void DetectGameType(void)
+{
+	/* by default, set product to registered */
+	gamestate.Product = ROTT_REGISTERED;
+
+	/* search for stanadrd  levels */
+	cvar_set("fs_game", "darkwar");
+	ROTTMAPS = FindFileByName("DARKWAR.RTL");
+	BATTMAPS = FindFileByName("DARKWAR.RTC");
+
+	/* registered levels weren't found */
+	if (!ROTTMAPS || !BATTMAPS)
+	{
+		if (ROTTMAPS) free(ROTTMAPS);
+		if (BATTMAPS) free(BATTMAPS);
+
+		/* talk to user */
+		printf("Couldn't find standard registered levels, trying deluxe shareware.\n");
+
+		/* set product to deluxe shareware */
+		gamestate.Product = ROTT_SHAREWARE_DELUXE;
+
+		/* prefer deluxe shareware */
+		cvar_set("fs_game", "huntbgn2");
+		ROTTMAPS = FindFileByName("HUNTBGN2.RTL");
+		BATTMAPS = FindFileByName("HUNTBGN2.RTC");
+
+		/* deluxe shareware wasn't found */
+		if (!ROTTMAPS || !BATTMAPS)
+		{
+			if (ROTTMAPS) free(ROTTMAPS);
+			if (BATTMAPS) free(BATTMAPS);
+
+			/* talk to user */
+			printf("Couldn't find deluxe shareware levels, trying standard shareware.\n");
+
+			/* set product to deluxe shareware */
+			gamestate.Product = ROTT_SHAREWARE;
+
+			/* try standard shareware */
+			cvar_set("fs_game", "huntbgin");
+			ROTTMAPS = FindFileByName("HUNTBGIN.RTL");
+			BATTMAPS = FindFileByName("HUNTBGIN.RTC");
+
+			/* standard shareware wasn't found */
+			if (!ROTTMAPS || !BATTMAPS)
+			{
+				if (ROTTMAPS) free(ROTTMAPS);
+				if (BATTMAPS) free(BATTMAPS);
+
+				/* no dice */
+				Error("Couldn't find any valid level files!");
+			}
+
+			/* talk to user */
+			printf("Standard shareware levels found.\n");
+		}
+		else
+		{
+			/* talk to user */
+			printf("Deluxe shareware levels found.\n");
+		}
+	}
+	else
+	{
+		/* talk to user */
+		printf("Standard registered levels found.\n");
+	}
+
+	// Set which release version we're on
+	gamestate.Version = ROTTVERSION;
+}
+
 int main(int argc, char *argv[])
 {
 #ifdef PLATFORM_HAIKU
@@ -180,67 +253,8 @@ int main(int argc, char *argv[])
 	cmdlib_init();
 	cvarlib_init();
 
-#if (SHAREWARE == 1)
-	/* set product */
-	gamestate.Product = ROTT_SHAREWARE;
-
-	/* prefer deluxe version */
-	cvar_set("fs_game", "huntbgn2");
-	ROTTMAPS = FindFileByName("HUNTBGN2.RTL");
-	BATTMAPS = FindFileByName("HUNTBGN2.RTC");
-
-	/* deluxe wasn't found */
-	if (!ROTTMAPS || !BATTMAPS)
-	{
-		if (ROTTMAPS) free(ROTTMAPS);
-		if (BATTMAPS) free(BATTMAPS);
-
-		printf("Couldn't find deluxe shareware levels, trying standard.\n");
-
-		/* try standard version */
-		cvar_set("fs_game", "huntbgin");
-		ROTTMAPS = FindFileByName("HUNTBGIN.RTL");
-		BATTMAPS = FindFileByName("HUNTBGIN.RTC");
-
-		/* standard wasn't found */
-		if (!ROTTMAPS || !BATTMAPS)
-		{
-			if (ROTTMAPS) free(ROTTMAPS);
-			if (BATTMAPS) free(BATTMAPS);
-
-			Error("Couldn't find shareware levels!");
-		}
-
-		printf("Standard shareware levels found.\n");
-	}
-	else
-	{
-		printf("Deluxe shareware levels found.\n");
-	}
-#else
-	/* set product */
-	gamestate.Product = ROTT_REGISTERED;
-
-	/* search for default levels */
-	cvar_set("fs_game", "darkwar");
-	ROTTMAPS = FindFileByName("DARKWAR.RTL");
-	BATTMAPS = FindFileByName("DARKWAR.RTC");
-
-	if (!ROTTMAPS || !BATTMAPS)
-	{
-		if (ROTTMAPS) free(ROTTMAPS);
-		if (BATTMAPS) free(BATTMAPS);
-
-		Error("Couldn't find standard levels!");
-	}
-	else
-	{
-		printf("Standard levels found.\n");
-	}
-#endif
-
-	// Set which release version we're on
-	gamestate.Version = ROTTVERSION;
+	/* detect game type */
+	DetectGameType();
 
 	DrawRottTitle();
 	gamestate.randomseed = -1;
@@ -377,7 +391,6 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-#if (SHAREWARE == 0)
 		if (dopefish == true)
 		{
 			DopefishTitle();
@@ -386,23 +399,6 @@ int main(int argc, char *argv[])
 		{
 			ApogeeTitle();
 		}
-#else
-		if (NoWait == false)
-		{
-			if (W_CheckNumForName("svendor") != -1)
-			{
-				lbm_t *LBM;
-
-				LBM =
-					(lbm_t *)W_CacheLumpName("svendor", PU_CACHE, Cvt_lbm_t, 1);
-				VL_DecompressLBM(LBM, true);
-				I_Delay(40);
-				MenuFadeOut();
-			}
-			//         ParticleIntro ();
-			ApogeeTitle();
-		}
-#endif
 	}
 
 	GameLoop();
@@ -427,12 +423,7 @@ void DrawRottTitle(void)
 		strcpy(title, "Rise of the Triad Startup  Version ");
 		strcat(title, itoa(ROTTMAJORVERSION, &buf[0], 10));
 		strcat(title, ".");
-// MED
-#if (SHAREWARE == 1) || (DOPEFISH == 0)
 		strcat(title, itoa(ROTTMINORVERSION, &buf[0], 10));
-#else
-		strcat(title, "DFISH");
-#endif
 		strcat(title, "\n");
 
 		px = (80 - M_StringLength(title)) >> 1;
@@ -442,22 +433,36 @@ void DrawRottTitle(void)
 
 		memset(title, 0, sizeof(title));
 
-		if (gamestate.Product == ROTT_SHAREWARE)
+		switch (gamestate.Product)
 		{
-#if (DELUXE == 1)
-			strcpy(title, "Lasersoft Deluxe Version");
-#elif (LOWCOST == 1)
-			strcpy(title, "Episode One");
-#else
-			strcpy(title, "Shareware Version");
-#endif
+			case ROTT_SHAREWARE;
+				strcpy(title, "Shareware Version");
+				break;
+
+			case ROTT_SHAREWARE_DELUXE;
+				strcpy(title, "Lasersoft Deluxe Version");
+				break;
+
+			case ROTT_SHAREWARE_LOWCOST;
+				strcpy(title, "Episode One");
+				break;
+
+			case ROTT_REGISTERED;
+				strcpy(title, "Commercial Version");
+				break;
+
+			case ROTT_SUPERCD;
+				strcpy(title, "CD Version");
+				break;
+
+			case ROTT_SITELICENSE;
+				strcpy(title, "Site License CD Version");
+				break;
+
+			default:
+				strcpy(title, "Unknown Version");
+				break;
 		}
-		else if (gamestate.Product == ROTT_SUPERCD)
-			strcpy(title, "CD Version");
-		else if (gamestate.Product == ROTT_SITELICENSE)
-			strcpy(title, "Site License CD Version");
-		else
-			strcpy(title, "Commercial Version");
 
 		px = (80 - M_StringLength(title)) >> 1;
 		py = 1;
@@ -506,8 +511,7 @@ void CheckCommandLineParameters(void)
 	noecho = false;
 	quiet = false;
 
-	if ((CheckParm("?\0")) || (CheckParm("HELP")) ||
-		((_argc > 1) && (_argv[1][0] == '?')))
+	if ((CheckParm("?\0")) || (CheckParm("HELP")) || ((_argc > 1) && (_argv[1][0] == '?')))
 	{
 		SetTextMode();
 		printf("Rise of the Triad  (c) 1995 Apogee Software\n\n");
@@ -519,14 +523,15 @@ void CheckCommandLineParameters(void)
 		printf("              - next param is <widthxheight>, valid "
 			   "resolutions are:\n");
 		printf("              - 320x200 and 640x480\n");
-#if (SHAREWARE == 0)
-		printf("   FILERTL    - used to load Userlevels (RTL files)\n");
-		printf("              - next parameter is RTL filename\n");
-		printf("   FILERTC    - used to load Battlelevels (RTC files)\n");
-		printf("              - next parameter is RTC filename\n");
-		printf("   FILE       - used to load Extern WAD files\n");
-		printf("              - next parameter is WAD filename\n");
-#endif
+		if (!SHAREWARE)
+		{
+			printf("   FILERTL    - used to load Userlevels (RTL files)\n");
+			printf("              - next parameter is RTL filename\n");
+			printf("   FILERTC    - used to load Battlelevels (RTC files)\n");
+			printf("              - next parameter is RTC filename\n");
+			printf("   FILE       - used to load Extern WAD files\n");
+			printf("              - next parameter is WAD filename\n");
+		}
 		printf("   NOJOYS     - Disable check for joystick.\n");
 		printf("   NOMOUSE    - Disable check for mouse.\n");
 		printf("   VER        - Version number.\n");
@@ -653,23 +658,38 @@ void CheckCommandLineParameters(void)
 			case 10:
 				SetTextMode();
 				printf("Rise of the Triad  (c) 1995 Apogee Software\n");
-				// MED
-				if (gamestate.Product == ROTT_SHAREWARE)
+
+				switch (gamestate.Product)
 				{
-#if (DELUXE == 1)
-					printf("Lasersoft Deluxe ");
-#elif (LOWCOST == 1)
-					printf("Episode One ");
-#else
-					printf("Shareware ");
-#endif
+					case ROTT_SHAREWARE:
+						printf("Shareware ");
+						break;
+
+					case ROTT_SHAREWARE_DELUXE:
+						printf("Lasersoft Deluxe ");
+						break;
+
+					case ROTT_SHAREWARE_LOWCOST:
+						printf("Episode One ");
+						break;
+
+					case ROTT_SUPERCD:
+						printf("CD ");
+						break;
+
+					case ROTT_SITELICENSE:
+						printf("Site License ");
+						break;
+
+					case ROTT_REGISTERED:
+						printf("Commercial ");
+						break;
+
+					default:
+						printf("Unknown ");
+						break;
 				}
-				else if (gamestate.Product == ROTT_SUPERCD)
-					printf("CD ");
-				else if (gamestate.Product == ROTT_SITELICENSE)
-					printf("Site License ");
-				else
-					printf("Commercial ");
+
 				printf("Version %d.%d\n", ROTTMAJORVERSION, ROTTMINORVERSION);
 				exit(0);
 				break;
@@ -779,152 +799,149 @@ void SetupWads(void)
 		}
 	}
 
-#if (SHAREWARE == 0)
-	// Check for rtl files
-	arg = CheckParm("filertl");
-	if (arg != 0)
+/* shrug */
+#if 0
+	if (!SHAREWARE)
 	{
-		FILE *f;
-		char *buf = malloc(32);
-		if (_argv[arg + 1] != 0)
-		{ // are there a filename included
-			tempstr = safe_realloc(tempstr, 129 + M_StringLength(_argv[arg + 1]));
-			strcpy(tempstr, _argv[arg + 1]); // copy it to tempstr
-			if (M_StringLength(tempstr) < MAX_PATH)
-			{
-				if (access(tempstr, 0) != 0)
-				{							 // try open
-					strcat(tempstr, ".rtc"); // non exists, try add .rtc
+		// Check for rtl files
+		arg = CheckParm("filertl");
+		if (arg != 0)
+		{
+			FILE *f;
+			char *buf = malloc(32);
+			if (_argv[arg + 1] != 0)
+			{ // are there a filename included
+				tempstr = safe_realloc(tempstr, 129 + M_StringLength(_argv[arg + 1]));
+				strcpy(tempstr, _argv[arg + 1]); // copy it to tempstr
+				if (M_StringLength(tempstr) < MAX_PATH)
+				{
 					if (access(tempstr, 0) != 0)
-					{ // try open again
-						// stil no useful filename
-						strcat(tempstr, " not found, skipping RTL file ");
+					{							 // try open
+						strcat(tempstr, ".rtc"); // non exists, try add .rtc
+						if (access(tempstr, 0) != 0)
+						{ // try open again
+							// stil no useful filename
+							strcat(tempstr, " not found, skipping RTL file ");
+							printf("%s", tempstr);
+							goto NoRTL;
+						}
+					}
+					if ((f = fopen(tempstr, "r")) == NULL)
+					{ // try opnong file
+						strcat(tempstr,
+							" not could not be opened, skipping RTL file ");
 						printf("%s", tempstr);
 						goto NoRTL;
 					}
-				}
-				if ((f = fopen(tempstr, "r")) == NULL)
-				{ // try opnong file
-					strcat(tempstr,
-						   " not could not be opened, skipping RTL file ");
-					printf("%s", tempstr);
-					goto NoRTL;
-				}
-				else
-				{
-					fread(buf, 3, 3, f); // is the 3 first letters RTL (RTC)
-					if (((strstr(buf, "RTL") != 0) || strstr(buf, "RTC") != 0))
+					else
 					{
-						GameLevels.file = strdup(tempstr);
-						GameLevels.avail++;
-						buf = safe_realloc(buf, 32 + M_StringLength(tempstr));
-						strcpy(buf, "Adding ");
-						strcat(buf, tempstr);
-						printf("%s", buf);
+						fread(buf, 3, 3, f); // is the 3 first letters RTL (RTC)
+						if (((strstr(buf, "RTL") != 0) || strstr(buf, "RTC") != 0))
+						{
+							GameLevels.file = strdup(tempstr);
+							GameLevels.avail++;
+							buf = safe_realloc(buf, 32 + M_StringLength(tempstr));
+							strcpy(buf, "Adding ");
+							strcat(buf, tempstr);
+							printf("%s", buf);
+						}
+						fclose(f);
 					}
-					fclose(f);
 				}
 			}
-		}
-		else
-		{
-			printf("Missing RTL filename");
-		}
-		free(buf);
-	}
-NoRTL:;
-	// Check for rtc files
-	arg = CheckParm("filertc");
-	if (arg != 0)
-	{
-		FILE *f;
-		char *buf = malloc(32);
-		if (_argv[arg + 1] != 0)
-		{ // are there a filename included
-			tempstr = safe_realloc(tempstr, 129 + M_StringLength(_argv[arg + 1]));
-			strcpy(tempstr, _argv[arg + 1]); // copy it to tempstr
-			if (M_StringLength(tempstr) < MAX_PATH)
+			else
 			{
-				if (access(tempstr, 0) != 0)
-				{							 // try open
-					strcat(tempstr, ".rtc"); // non exists, try add .rtc
+				printf("Missing RTL filename");
+			}
+			free(buf);
+		}
+NoRTL:;
+		// Check for rtc files
+		arg = CheckParm("filertc");
+		if (arg != 0)
+		{
+			FILE *f;
+			char *buf = malloc(32);
+			if (_argv[arg + 1] != 0)
+			{ // are there a filename included
+				tempstr = safe_realloc(tempstr, 129 + M_StringLength(_argv[arg + 1]));
+				strcpy(tempstr, _argv[arg + 1]); // copy it to tempstr
+				if (M_StringLength(tempstr) < MAX_PATH)
+				{
 					if (access(tempstr, 0) != 0)
-					{ // try open again
-						// stil no useful filename
-						strcat(tempstr, " not found, skipping RTC file ");
+					{							 // try open
+						strcat(tempstr, ".rtc"); // non exists, try add .rtc
+						if (access(tempstr, 0) != 0)
+						{ // try open again
+							// stil no useful filename
+							strcat(tempstr, " not found, skipping RTC file ");
+							printf("%s", tempstr);
+							goto NoRTC;
+						}
+					}
+					if ((f = fopen(tempstr, "r")) == NULL)
+					{ // try opening file
+						strcat(tempstr,
+							" not could not be opened, skipping RTC file ");
 						printf("%s", tempstr);
 						goto NoRTC;
 					}
-				}
-				if ((f = fopen(tempstr, "r")) == NULL)
-				{ // try opening file
-					strcat(tempstr,
-						   " not could not be opened, skipping RTC file ");
-					printf("%s", tempstr);
-					goto NoRTC;
-				}
-				else
-				{
-					fread(buf, 3, 3, f); // is the 3 first letters RTL (RTC)
-					if (((strstr(buf, "RTL") != 0) || strstr(buf, "RTC") != 0))
+					else
 					{
-						BattleLevels.file = strdup(tempstr);
-						BattleLevels.avail++;
-						buf = safe_realloc(buf, 32 + M_StringLength(tempstr));
-						strcpy(buf, "Adding ");
-						strcat(buf, tempstr);
-						printf("%s", buf);
+						fread(buf, 3, 3, f); // is the 3 first letters RTL (RTC)
+						if (((strstr(buf, "RTL") != 0) || strstr(buf, "RTC") != 0))
+						{
+							BattleLevels.file = strdup(tempstr);
+							BattleLevels.avail++;
+							buf = safe_realloc(buf, 32 + M_StringLength(tempstr));
+							strcpy(buf, "Adding ");
+							strcat(buf, tempstr);
+							printf("%s", buf);
+						}
+						fclose(f);
 					}
-					fclose(f);
 				}
 			}
+			else
+			{
+				printf("Missing RTC filename");
+			}
+			free(buf);
 		}
-		else
-		{
-			printf("Missing RTC filename");
-		}
-		free(buf);
-	}
 NoRTC:;
+		// Check for User wads
+		arg = CheckParm("file");
+		if (arg != 0)
+		{
+			newargs[argnum++] = _argv[arg + 1];
+		}
 
-	// Check for User wads
-	arg = CheckParm("file");
-	if (arg != 0)
-	{
-		newargs[argnum++] = _argv[arg + 1];
+		arg = CheckParm("file1");
+		if (arg != 0)
+		{
+			newargs[argnum++] = _argv[arg + 1];
+		}
+
+		arg = CheckParm("file2");
+		if (arg != 0)
+		{
+			newargs[argnum++] = _argv[arg + 1];
+		}
 	}
-
-	arg = CheckParm("file1");
-	if (arg != 0)
+	else
 	{
-		newargs[argnum++] = _argv[arg + 1];
+		if ((CheckParm("file") > 0) || (CheckParm("file1") > 0) || (CheckParm("file2") > 0))
+			printf("External wads ignored.\n");
 	}
-
-	arg = CheckParm("file2");
-	if (arg != 0)
-	{
-		newargs[argnum++] = _argv[arg + 1];
-	}
-
-#else
-	if ((CheckParm("file") > 0) || (CheckParm("file1") > 0) ||
-		(CheckParm("file2") > 0))
-		printf("External wads ignored.\n");
-
 #endif
 
 	// Normal ROTT wads
-
-#if (SHAREWARE)
-	newargs[argnum++] = FindFileByName("HUNTBGIN.WAD");
-#else
-	newargs[argnum++] = FindFileByName("DARKWAR.WAD");
-#endif
-
-	//   newargs [argnum++] = "credits.wad";
+	if (SHAREWARE)
+		newargs[argnum++] = FindFileByName("HUNTBGIN.WAD");
+	else
+		newargs[argnum++] = FindFileByName("DARKWAR.WAD");
 
 	// Check for Remote Ridicule WAD
-
 	if (RemoteSounds.avail == true)
 	{
 		char *src;
@@ -963,13 +980,10 @@ NoRTC:;
 
 void PlayTurboGame(void)
 {
-	if (!ROTTMAPS)
-	{
-		ROTTMAPS = FindFileByName(STANDARDGAMELEVELS);
-		if (!ROTTMAPS)
-			Error("Couldn't load %s!", STANDARDGAMELEVELS);
-	}
+	/* detect game type */
+	DetectGameType();
 
+	/* run game */
 	NewGame = true;
 	locplayerstate->player = DefaultPlayerCharacter;
 	playstate = ex_resetgame;
@@ -1166,12 +1180,10 @@ void GameLoop(void)
 						DoCreditScreen();
 						if ((!LastScan) && (!IN_GetMouseButtons()))
 							CheckHighScore(0, 0, false);
-#if (SHAREWARE == 0)
-						if ((!LastScan) && (!IN_GetMouseButtons()))
+						if ((!LastScan) && (!IN_GetMouseButtons()) && !SHAREWARE)
 						{
 							DoMicroStoryScreen();
 						}
-#endif
 						if ((!LastScan) && (!IN_GetMouseButtons()) &&
 							(GameLevels.avail == false))
 						{
@@ -1405,9 +1417,10 @@ void GameLoop(void)
 					gamestate.TimeCount = 0;
 					gamestate.frame = 0;
 				}
+
 				StopWind();
-#if (SHAREWARE == 0)
-				if ((playstate == ex_bossdied) && (gamestate.mapon != 30))
+
+				if ((playstate == ex_bossdied) && (gamestate.mapon != 30) && !SHAREWARE)
 				{
 					int shape;
 					lbm_t *LBM;
@@ -1473,7 +1486,7 @@ void GameLoop(void)
 						IN_UpdateKeyboard(); // Thanks again DrLex
 					LastScan = 0;
 				}
-#endif
+
 				LevelCompleted(playstate);
 
 				NextLevel = GetNextMap(player->tilex, player->tiley);
@@ -2489,13 +2502,11 @@ void SaveScreen(boolean inhmenu)
 
 void PlayCinematic(void)
 {
-
-	if ((tedlevel == true) || (turbo == true))
+	if ((tedlevel == true) || (turbo == true) || SHAREWARE)
 		return;
 
 	switch (gamestate.mapon)
 	{
-#if (SHAREWARE == 0)
 		byte pal[768];
 		case 0: // Start of EPISODE 1
 
@@ -2585,6 +2596,5 @@ void PlayCinematic(void)
 			IN_UpdateKeyboard();
 			LastScan = 0;
 			break;
-#endif
 	}
 }

@@ -31,16 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rottnet.h"
 #include "rt_battl.h"
 
-#if (SHAREWARE == 0)
-#define STANDARDGAMELEVELS "DARKWAR.RTL"
-#define STANDARDBATTLELEVELS "DARKWAR.RTC"
-#define SUPERROTTBATTLELEVELS "ROTTCD.RTC"
-#define SITELICENSEBATTLELEVELS "ROTTSITE.RTC"
-#else
-#define STANDARDGAMELEVELS "HUNTBGIN.RTL"
-#define STANDARDBATTLELEVELS "HUNTBGIN.RTC"
-#endif
-
 enum
 {
 	vl_low,
@@ -53,10 +43,15 @@ enum
 typedef enum
 {
 	ROTT_SHAREWARE,
+	ROTT_SHAREWARE_DELUXE,
+	ROTT_SHAREWARE_LOWCOST,
 	ROTT_REGISTERED,
 	ROTT_SUPERCD,
 	ROTT_SITELICENSE
 } version_type;
+
+/* new shareware check */
+#define SHAREWARE (gamestate.Product < ROTT_REGISTERED)
 
 typedef struct
 {
