@@ -43,7 +43,7 @@ file(GLOB ROTTEN_SOURCES
 
 # add rc file if we're on windows
 if(WIN32)
-	set(ROTTEN_SOURCES ${ROTTEN_SOURCES} ${PROJECT_SOURCE_DIR}/misc/rott.rc)
+	set(ROTTEN_SOURCES ${ROTTEN_SOURCES} ${PROJECT_SOURCE_DIR}/misc/rotten.rc)
 endif()
 
 #
@@ -130,12 +130,12 @@ if(ROTTEN_INSTALL)
 
 	# unix gets supplementary files
 	if(UNIX)
-		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_16x16.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/16x16/apps RENAME rott.png)
-		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_32x32.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/32x32/apps RENAME rott.png)
-		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_64x64.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/64x64/apps RENAME rott.png)
-		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_128x128.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/128x128/apps RENAME rott.png)
-		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott_256x256.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/256x256/apps RENAME rott.png)
-		install(FILES ${PROJECT_SOURCE_DIR}/misc/rott.svg DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps RENAME rott.svg)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten_16x16.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/16x16/apps RENAME rotten.png)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten_32x32.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/32x32/apps RENAME rotten.png)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten_64x64.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/64x64/apps RENAME rotten.png)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten_128x128.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/128x128/apps RENAME rotten.png)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten_256x256.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/256x256/apps RENAME rotten.png)
+		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten.svg DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps RENAME rotten.svg)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/rotten_sw.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 		install(FILES ${PROJECT_SOURCE_DIR}/misc/wad/rotten.wad DESTINATION ${CMAKE_INSTALL_BINDIR})
