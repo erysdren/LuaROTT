@@ -1,4 +1,6 @@
 
+![Rise of the Triad: Enhanced](./.github/logo.png "Rise of the Triad: Enhanced")
+
 # Rise of the Triad: Enhanced
 
 An enhanced port of Rise of the Triad, based on SDL2.
