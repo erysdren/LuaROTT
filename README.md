@@ -23,7 +23,7 @@ Work-in-progress versions can be downloaded under [Tags](https://github.com/erys
 
 Debian:
 ```
-sudo apt-get install gcc build-essential cmake libsdl2-dev libsdl2-mixer-dev libsdl2-net-dev
+sudo apt-get install gcc build-essential cmake libsdl2-dev libsdl2-mixer-dev
 cd ROTTEN
 mkdir cmake-build && cd cmake-build
 cmake -DCMAKE_BUILD_TYPE=Release ..
@@ -32,7 +32,7 @@ sudo make
 
 Arch:
 ```
-sudo pacman -S gcc cmake sdl2 sdl2_mixer sdl2_net
+sudo pacman -S gcc cmake sdl2 sdl2_mixer
 cd ROTTEN
 mkdir cmake-build && cd cmake-build
 cmake -DCMAKE_BUILD_TYPE=Release ..
@@ -43,7 +43,7 @@ sudo make
 
 MSYS2 UCRT64:
 ```
-pacman -S mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-SDL2  mingw-w64-ucrt-x86_64-SDL2_mixer mingw-w64-ucrt-x86_64-SDL2_net
+pacman -S mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-SDL2  mingw-w64-ucrt-x86_64-SDL2_mixer
 cd ROTTEN
 mkdir cmake-build && cd cmake-build
 cmake -DCMAKE_BUILD_TYPE=Release ..
@@ -53,7 +53,7 @@ sudo make
 ### Haiku
 
 ```
-pkgman install gcc cmake libsdl2_devel sdl2_mixer_devel sdl2_net_devel
+pkgman install gcc cmake libsdl2_devel sdl2_mixer_devel
 cd ROTTEN
 mkdir cmake-build && cd cmake-build
 cmake -DCMAKE_BUILD_TYPE=Release ..
