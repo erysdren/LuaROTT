@@ -95,4 +95,7 @@ void VX_ClearHudCanvas(uint8_t color);
 /* clear menu canvas */
 void VX_ClearMenuCanvas(uint8_t color);
 
+/* set current draw target for legacy functions */
+void VX_SetLegacyDrawTarget(SDL_Surface *surface);
+
 #endif /* _rt_vidx_public */

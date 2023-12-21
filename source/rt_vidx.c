@@ -37,11 +37,15 @@ static const int BaseWidth = 320;
 static const int BaseHeight = 200;
 static int RenderScale = 1;
 static bool WindowStretchAspect = true;
+static bool DrawWorldCanvas = true;
+static bool DrawHudCanvas = false;
+static bool DrawMenuCanvas = false;
 static SDL_Window *Window = NULL;
 static SDL_Renderer *Renderer = NULL;
 static SDL_Texture *RenderTexture = NULL;
 static SDL_Surface *RenderSurface = NULL;
 static SDL_Color PaletteColors[256];
+static SDL_Surface *CurrentCanvas = NULL;
 
 /* initialize video subsystem */
 void VX_Init(void)
@@ -91,19 +95,8 @@ void VX_Init(void)
 	/* create render texture */
 	RenderTexture = SDL_CreateTexture(Renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, VX_WorldCanvas->w, VX_WorldCanvas->h);
 
-	/* set up lookup tables */
-	linewidth = VX_WorldCanvas->w;
-	offset = 0;
-	for (i = 0; i < VX_WorldCanvas->h; i++)
-	{
-		ylookup[i] = offset;
-		offset += linewidth;
-	}
-
-	/* compatibility */
-	pagestart = VX_WorldCanvas->pixels;
-	displayofs = pagestart;
-	bufferofs = pagestart;
+	/* set menu canvas as main */
+	VX_SetLegacyDrawTarget(VX_WorldCanvas);
 }
 
 /* shutdown video subsystem */
@@ -136,26 +129,38 @@ void VX_UpdateScreen(void)
 	dst.w = RenderSurface->w;
 	dst.h = RenderSurface->h;
 
+	/* clear rendersurface */
+	SDL_FillRect(RenderSurface, NULL, 0);
+
 	/* blit world canvas */
-	src.x = 0;
-	src.y = 0;
-	src.w = VX_WorldCanvas->w;
-	src.h = VX_WorldCanvas->h;
-	SDL_BlitSurface(VX_WorldCanvas, &src, RenderSurface, &dst);
+	if (DrawWorldCanvas)
+	{
+		src.x = 0;
+		src.y = 0;
+		src.w = VX_WorldCanvas->w;
+		src.h = VX_WorldCanvas->h;
+		SDL_BlitSurface(VX_WorldCanvas, &src, RenderSurface, &dst);
+	}
 
 	/* blit hud canvas */
-	src.x = 0;
-	src.y = 0;
-	src.w = VX_HudCanvas->w;
-	src.h = VX_HudCanvas->h;
-	SDL_BlitSurface(VX_HudCanvas, &src, RenderSurface, &dst);
+	if (DrawHudCanvas)
+	{
+		src.x = 0;
+		src.y = 0;
+		src.w = VX_HudCanvas->w;
+		src.h = VX_HudCanvas->h;
+		SDL_BlitSurface(VX_HudCanvas, &src, RenderSurface, &dst);
+	}
 
 	/* blit menu canvas */
-	src.x = 0;
-	src.y = 0;
-	src.w = VX_MenuCanvas->w;
-	src.h = VX_MenuCanvas->h;
-	SDL_BlitSurface(VX_MenuCanvas, &src, RenderSurface, &dst);
+	if (DrawMenuCanvas)
+	{
+		src.x = 0;
+		src.y = 0;
+		src.w = VX_MenuCanvas->w;
+		src.h = VX_MenuCanvas->h;
+		SDL_BlitSurface(VX_MenuCanvas, &src, RenderSurface, &dst);
+	}
 
 	/* update screen */
 	SDL_UpdateTexture(RenderTexture, NULL, RenderSurface->pixels, RenderSurface->pitch);
@@ -235,4 +240,29 @@ void VX_ClearHudCanvas(uint8_t color)
 void VX_ClearMenuCanvas(uint8_t color)
 {
 	SDL_FillRect(VX_MenuCanvas, NULL, color);
+}
+
+/* set current draw target for legacy functions */
+void VX_SetLegacyDrawTarget(SDL_Surface *surface)
+{
+	int i, offset;
+
+	/* set surface */
+	CurrentCanvas = surface;
+
+	/* set up lookup tables */
+	linewidth = CurrentCanvas->pitch;
+	viewwidth = CurrentCanvas->w;
+	viewheight = CurrentCanvas->h;
+	offset = 0;
+	for (i = 0; i < CurrentCanvas->h; i++)
+	{
+		ylookup[i] = offset;
+		offset += linewidth;
+	}
+
+	/* compatibility */
+	pagestart = CurrentCanvas->pixels;
+	displayofs = pagestart;
+	bufferofs = pagestart;
 }
