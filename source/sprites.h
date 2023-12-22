@@ -3449,8 +3449,6 @@ typedef enum
 {
 	GUNSTART_LABEL,
 
-#if (SHAREWARE == 0)
-
 	W_KNIFE,
 	WK2,
 	WK3,
@@ -3471,7 +3469,6 @@ typedef enum
 	W_BMLEFTPISTOL1,
 	xij,
 	xkl,
-#endif
 
 	W_MALEPISTOL1,
 	x5,
@@ -3483,7 +3480,6 @@ typedef enum
 	x9,
 	x10,
 
-#if (SHAREWARE == 0)
 	W_FEMALEPISTOL1,
 	x11,
 	x12,
@@ -3493,7 +3489,6 @@ typedef enum
 	W_FLEFTPISTOL1,
 	x15,
 	x16,
-#endif
 
 	W_MP40,
 	FN7,
@@ -3526,8 +3521,6 @@ typedef enum
 	ded6,
 	ded7,
 
-#if (SHAREWARE == 0)
-
 	W_SPLIT,
 	FN69,
 	FN70,
@@ -3557,7 +3550,6 @@ typedef enum
 	paw2,
 	paw3,
 	paw4
-#endif
 } weaponsprites;
 
 #define SPR_DDOG_FIRE1 SPR_DDOG_JUMP1
