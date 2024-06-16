@@ -18,8 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "SDL.h"
-#include "SDL_mixer.h"
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include "rt_def.h"
 #include "w_wad.h"
@@ -206,65 +206,39 @@ int FX_StopSound(int handle)
 	return FX_Ok;
 }
 
-// Calculate slice size, the result must be a power of two.
-
-static int snd_samplerate = 44100;
-
-static int GetSliceSize(void)
-{
-	int limit;
-	int n;
-
-	limit = snd_samplerate / 35; // VBLCOUNTER
-
-	// Try all powers of two, not exceeding the limit.
-
-	for (n = 0;; ++n)
-	{
-		// 2^n <= limit < 2^n+1 ?
-
-		if ((1 << (n + 1)) > limit)
-		{
-			return (1 << n);
-		}
-	}
-
-	// Should never happen?
-
-	return 1024;
-}
+// static vars
+static int mixer_frequency = 44100;
+static int mixer_channels = 2;
+static Uint16 mixer_format = SDL_AUDIO_S16;
+static const SDL_AudioSpec audio_spec = {
+	SDL_AUDIO_S16,
+	2,
+	44100
+};
 
 int FX_SetupCard(int SoundCard, fx_device *device)
 {
-	Uint16 mix_format;
-	int mix_channels;
-
 	if (SDL_Init(SDL_INIT_AUDIO) < 0)
 	{
 		fprintf(stderr, "\n Couldn't initialize SDL audio: %s", SDL_GetError());
 		return FX_Error;
 	}
 
-	if (Mix_OpenAudioDevice(snd_samplerate, AUDIO_S16SYS, 2, GetSliceSize(),
-							NULL, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
+	if (Mix_OpenAudio(0, &audio_spec) != 0)
 	{
 		fprintf(stderr, "\n Couldn't open audio with desired format.");
 		return FX_Error;
 	}
 
 	// [FG] feed actual sample frequency back into config variable
-	Mix_QuerySpec(&snd_samplerate, &mix_format, &mix_channels);
+	Mix_QuerySpec(&mixer_frequency, &mixer_format, &mixer_channels);
 
 	printf("\n Configured audio device with %.1f kHz (%s%d%s), %d channels.",
-		   (float)snd_samplerate / 1000,
-		   SDL_AUDIO_ISFLOAT(mix_format)	? "F"
-		   : SDL_AUDIO_ISSIGNED(mix_format) ? "S"
-											: "U",
-		   (int)SDL_AUDIO_BITSIZE(mix_format),
-		   SDL_AUDIO_BITSIZE(mix_format) > 8
-			   ? (SDL_AUDIO_ISBIGENDIAN(mix_format) ? "MSB" : "LSB")
-			   : "",
-		   mix_channels);
+		(float)mixer_frequency / 1000,
+		SDL_AUDIO_ISFLOAT(mixer_format) ? "F" : SDL_AUDIO_ISSIGNED(mixer_format) ? "S" : "U",
+		(int)SDL_AUDIO_BITSIZE(mixer_format),
+		SDL_AUDIO_BITSIZE(mixer_format) > 8 ? (SDL_AUDIO_ISBIGENDIAN(mixer_format) ? "MSB" : "LSB") : "",
+		mixer_channels);
 
 	// [FG] let SDL_Mixer do the actual sound mixing
 	Mix_AllocateChannels(MAX_CHANNELS);
@@ -301,14 +275,14 @@ int FX_Init(int SoundCard, int numvoices, int numchannels, int samplebits,
 		{
 			char *data;
 			int size;
-			SDL_RWops *rw;
+			SDL_IOStream *rw;
 
 			data = W_CacheLumpNum(snd, PU_STATIC, CvtNull, 1);
 			size = W_LumpLength(snd);
 
-			rw = SDL_RWFromMem(data, size);
+			rw = SDL_IOFromMem(data, size);
 
-			if (!(sounds[i].chunk = Mix_LoadWAV_RW(rw, 1)))
+			if (!(sounds[i].chunk = Mix_LoadWAV_IO(rw, SDL_TRUE)))
 			{
 				fprintf(stderr, "FX_Init: %s (%s)\n", SDL_GetError(),
 						W_GetNameForNum(snd));

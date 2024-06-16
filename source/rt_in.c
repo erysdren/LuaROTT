@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <string.h>
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 #include "modexlib.h"
 
 #include "rt_main.h"
@@ -211,7 +211,7 @@ static int sdl_mouse_motion_filter(SDL_Event const *event)
 	int mouse_relative_x = 0;
 	int mouse_relative_y = 0;
 
-	if (event->type == SDL_JOYBALLMOTION)
+	if (event->type == SDL_EVENT_JOYSTICK_BALL_MOTION)
 	{
 		mouse_relative_x = event->jball.xrel / 100;
 		mouse_relative_y = event->jball.yrel / 100;
@@ -259,7 +259,7 @@ static int handle_keypad_enter_hack(const SDL_Event *event)
 	{
 		if (event->key.state == SDL_PRESSED)
 		{
-			if (event->key.keysym.mod & KMOD_SHIFT)
+			if (event->key.keysym.mod & SDL_KMOD_SHIFT)
 			{
 				kp_enter_hack = 1;
 				retval = GetScancode(SDL_SCANCODE_KP_ENTER);
@@ -289,7 +289,7 @@ static int sdl_key_filter(const SDL_Event *event)
 
 	if ((event->key.keysym.sym == SDLK_g) &&
 		(event->key.state == SDL_PRESSED) &&
-		(event->key.keysym.mod & KMOD_CTRL))
+		(event->key.keysym.mod & SDL_KMOD_CTRL))
 	{
 		if (!sdl_fullscreen)
 		{
@@ -304,7 +304,7 @@ static int sdl_key_filter(const SDL_Event *event)
 	else if (((event->key.keysym.sym == SDLK_RETURN) ||
 			  (event->key.keysym.sym == SDLK_KP_ENTER)) &&
 			 (event->key.state == SDL_PRESSED) &&
-			 (event->key.keysym.mod & KMOD_ALT))
+			 (event->key.keysym.mod & SDL_KMOD_ALT))
 	{
 		ToggleFullScreen();
 		return (0);
@@ -370,16 +370,16 @@ static int root_sdl_event_filter(const SDL_Event *event)
 {
 	switch (event->type)
 	{
-		case SDL_KEYUP:
-		case SDL_KEYDOWN:
+		case SDL_EVENT_KEY_UP:
+		case SDL_EVENT_KEY_DOWN:
 			return (sdl_key_filter(event));
-		case SDL_JOYBALLMOTION:
-		case SDL_MOUSEMOTION:
+		case SDL_EVENT_JOYSTICK_BALL_MOTION:
+		case SDL_EVENT_MOUSE_MOTION:
 			return (sdl_mouse_motion_filter(event));
-		case SDL_MOUSEBUTTONUP:
-		case SDL_MOUSEBUTTONDOWN:
+		case SDL_EVENT_MOUSE_BUTTON_UP:
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
 			return (sdl_mouse_button_filter(event));
-		case SDL_QUIT:
+		case SDL_EVENT_QUIT:
 			QuitGame();
 	} /* switch */
 
@@ -476,8 +476,8 @@ void IN_GetJoyAbs(word joy, word *xp, word *yp)
 
 	if (joy < sdl_total_sticks)
 	{
-		Joy_x = SDL_JoystickGetAxis(sdl_joysticks[joy], 0);
-		Joy_y = SDL_JoystickGetAxis(sdl_joysticks[joy], 1);
+		Joy_x = SDL_GetJoystickAxis(sdl_joysticks[joy], 0);
+		Joy_y = SDL_GetJoystickAxis(sdl_joysticks[joy], 1);
 	}
 	else
 	{
@@ -651,7 +651,7 @@ boolean INL_StartJoy(word joy)
 	if (!SDL_WasInit(SDL_INIT_JOYSTICK))
 	{
 		SDL_Init(SDL_INIT_JOYSTICK);
-		sdl_total_sticks = SDL_NumJoysticks();
+		SDL_GetJoysticks(&sdl_total_sticks);
 		if (sdl_total_sticks > MaxJoys)
 			sdl_total_sticks = MaxJoys;
 
@@ -665,12 +665,12 @@ boolean INL_StartJoy(word joy)
 				memset(sdl_stick_button_state, '\0',
 					   sizeof(word) * sdl_total_sticks);
 		}
-		SDL_JoystickEventState(SDL_ENABLE);
+		SDL_SetJoystickEventsEnabled(SDL_TRUE);
 	}
 
 	if (joy >= sdl_total_sticks)
 		return (false);
-	sdl_joysticks[joy] = SDL_JoystickOpen(joy);
+	sdl_joysticks[joy] = SDL_OpenJoystick(joy);
 
 	IN_GetJoyAbs(joy, &x, &y);
 
@@ -694,7 +694,7 @@ void INL_ShutJoy(word joy)
 {
 	JoysPresent[joy] = false;
 	if (joy < sdl_total_sticks)
-		SDL_JoystickClose(sdl_joysticks[joy]);
+		SDL_CloseJoystick(sdl_joysticks[joy]);
 }
 
 //******************************************************************************

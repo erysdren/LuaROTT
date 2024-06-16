@@ -58,7 +58,7 @@ byte *bufofsBottomLimit;
 
 void DrawCenterAim();
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 /*
 ====================
@@ -70,11 +70,21 @@ void DrawCenterAim();
 static SDL_Surface *sdl_surface = NULL;
 static SDL_Surface *unstretch_sdl_surface = NULL;
 
-static SDL_Window *screen;
-static SDL_Renderer *renderer;
-static SDL_Surface *argbbuffer;
-static SDL_Texture *texture;
+static SDL_Window *screen = NULL;
+static SDL_Renderer *renderer = NULL;
+static SDL_Surface *argbbuffer = NULL;
+static SDL_Texture *texture = NULL;
 static SDL_Rect blit_rect = { 0 };
+
+void VL_Quit(void)
+{
+	if (screen) SDL_DestroyWindow(screen);
+	if (renderer) SDL_DestroyRenderer(renderer);
+	if (argbbuffer) SDL_DestroySurface(argbbuffer);
+	if (texture) SDL_DestroyTexture(texture);
+	if (sdl_surface) SDL_DestroySurface(sdl_surface);
+	if (unstretch_sdl_surface) SDL_DestroySurface(unstretch_sdl_surface);
+}
 
 SDL_Surface *VL_GetVideoSurface(void)
 {
@@ -95,44 +105,30 @@ void SetShowCursor(int show)
 
 void GraphicsMode(void)
 {
-	uint32_t flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
+	uint32_t flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY;
 	uint32_t pixel_format;
-
-	unsigned int rmask, gmask, bmask, amask;
-	int bpp;
 
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		Error("Could not initialize SDL\n");
 	}
 
-	if (sdl_fullscreen)
-	{
-		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-	}
-
-	screen = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, flags);
+	screen = SDL_CreateWindow(PACKAGE_STRING, 640, 480, flags);
 	SDL_SetWindowMinimumSize(screen, 640, 480);
-	SDL_SetWindowTitle(screen, PACKAGE_STRING);
 
-	renderer = SDL_CreateRenderer(screen, -1, SDL_RENDERER_PRESENTVSYNC);
-	if (!renderer)
-	{
-		renderer = SDL_CreateRenderer(screen, -1, SDL_RENDERER_SOFTWARE);
-	}
-	SDL_RenderSetLogicalSize(renderer, 640, 480);
+	SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1");
+	renderer = SDL_CreateRenderer(screen, NULL);
+	SDL_SetRenderLogicalPresentation(renderer, 640, 480, SDL_LOGICAL_PRESENTATION_LETTERBOX, SDL_SCALEMODE_NEAREST);
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 
-	sdl_surface = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
-	SDL_FillRect(sdl_surface, NULL, 0);
+	sdl_surface = SDL_CreateSurface(iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, SDL_PIXELFORMAT_INDEX8);
+	SDL_FillSurfaceRect(sdl_surface, NULL, 0);
 
 	pixel_format = SDL_GetWindowPixelFormat(screen);
-	SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &rmask, &gmask, &bmask, &amask);
-	argbbuffer = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, bpp, rmask, gmask, bmask, amask);
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+	argbbuffer = SDL_CreateSurface(iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, pixel_format);
 	texture = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
 
 	blit_rect.w = iGLOBAL_SCREENWIDTH;
@@ -143,16 +139,9 @@ void GraphicsMode(void)
 
 void ToggleFullScreen(void)
 {
-	unsigned int flags = 0;
-
 	sdl_fullscreen = !sdl_fullscreen;
 
-	if (sdl_fullscreen)
-	{
-		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-	}
-
-	SDL_SetWindowFullscreen(screen, flags);
+	SDL_SetWindowFullscreen(screen, sdl_fullscreen);
 	SetShowCursor(!sdl_fullscreen);
 }
 
@@ -169,7 +158,7 @@ void SetTextMode(void)
 	{
 		if (sdl_surface != NULL)
 		{
-			SDL_FreeSurface(sdl_surface);
+			SDL_DestroySurface(sdl_surface);
 
 			sdl_surface = NULL;
 		}
@@ -331,10 +320,10 @@ void VH_UpdateScreen(void)
 	{
 		DrawCenterAim();
 	}
-	SDL_LowerBlit(VL_GetVideoSurface(), &blit_rect, argbbuffer, &blit_rect);
+	SDL_BlitSurfaceUnchecked(VL_GetVideoSurface(), &blit_rect, argbbuffer, &blit_rect);
 	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, texture, NULL, NULL);
+	SDL_RenderTexture(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
 
@@ -356,10 +345,10 @@ void XFlipPage(void)
 	{
 		DrawCenterAim();
 	}
-	SDL_LowerBlit(sdl_surface, &blit_rect, argbbuffer, &blit_rect);
+	SDL_BlitSurfaceUnchecked(sdl_surface, &blit_rect, argbbuffer, &blit_rect);
 	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, texture, NULL, NULL);
+	SDL_RenderTexture(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
 
@@ -372,7 +361,7 @@ void EnableScreenStretch(void)
 	{
 		/* should really be just 320x200, but there is code all over the
 		   places which crashes then */
-		unstretch_sdl_surface = SDL_CreateRGBSurface(0, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
+		unstretch_sdl_surface = SDL_CreateSurface(iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, SDL_PIXELFORMAT_INDEX8);
 	}
 
 	displayofs = (byte *)unstretch_sdl_surface->pixels + (displayofs - (byte *)sdl_surface->pixels);
@@ -412,7 +401,7 @@ static void StretchMemPicture()
 	dest.y = 0;
 	dest.w = iGLOBAL_SCREENWIDTH;
 	dest.h = iGLOBAL_SCREENHEIGHT;
-	SDL_SoftStretch(unstretch_sdl_surface, &src, sdl_surface, &dest);
+	SDL_SoftStretch(unstretch_sdl_surface, &src, sdl_surface, &dest, SDL_SCALEMODE_NEAREST);
 }
 
 // bna function added start

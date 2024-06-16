@@ -18,7 +18,7 @@
 #include <stdarg.h>
 #include <ctype.h>
 
-#include "SDL_filesystem.h"
+#include <SDL3/SDL.h>
 
 #include "m_misc2.h"
 #include "rt_ted.h"

@@ -5,12 +5,11 @@
 
 cmake_minimum_required(VERSION 3.5)
 project(ROTTEN
-	DESCRIPTION "An enhanced port of Rise of the Triad based on SDL2"
-	HOMEPAGE_URL "https://erysdren.me/rotten.html"
+	DESCRIPTION "An enhanced port of Rise of the Triad based on SDL3"
+	HOMEPAGE_URL "https://github.com/erysdren/ROTTEN/"
 	LANGUAGES C
 	VERSION 1.1.3
 )
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 #
 # options
@@ -28,8 +27,10 @@ option(ROTTEN_DEB "Enable .deb file target" OFF)
 # requirements
 #
 
-find_package(SDL2 REQUIRED)
-find_package(SDL2_mixer REQUIRED)
+include(FindPkgConfig)
+pkg_search_module(SDL3 REQUIRED sdl3)
+pkg_search_module(SDL3_MIXER REQUIRED sdl3-mixer)
+pkg_search_module(SDL3_NET REQUIRED sdl3-net)
 
 #
 # sources
@@ -52,7 +53,8 @@ endif()
 
 # registered
 add_executable(rotten ${ROTTEN_SOURCES})
-target_link_libraries(rotten PUBLIC SDL2::Main SDL2::Mixer)
+target_link_libraries(rotten PUBLIC ${SDL3_LIBRARIES} ${SDL3_MIXER_LIBRARIES} ${SDL3_NET_LIBRARIES})
+target_include_directories(rotten PUBLIC ${SDL3_INCLUDE_DIRS} ${SDL3_MIXER_INCLUDE_DIRS} ${SDL3_NET_INCLUDE_DIRS})
 target_compile_definitions(rotten PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
 if(MSVC)
@@ -64,7 +66,8 @@ endif()
 # shareware
 add_executable(rotten_sw  ${ROTTEN_SOURCES})
 target_compile_definitions(rotten_sw PUBLIC SHAREWARE=1)
-target_link_libraries(rotten_sw PUBLIC SDL2::Main SDL2::Mixer)
+target_link_libraries(rotten_sw PUBLIC ${SDL3_LIBRARIES} ${SDL3_MIXER_LIBRARIES} ${SDL3_NET_LIBRARIES})
+target_include_directories(rotten_sw PUBLIC ${SDL3_INCLUDE_DIRS} ${SDL3_MIXER_INCLUDE_DIRS} ${SDL3_NET_INCLUDE_DIRS})
 target_compile_definitions(rotten_sw PUBLIC PACKAGE_STRING="${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION}")
 target_compile_definitions(rotten_sw PUBLIC PACKAGE_TARNAME="${CMAKE_PROJECT_NAME}")
 if(MSVC)

@@ -28,7 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <string.h>
 #include <stdarg.h>
 #include <ctype.h>
-#include "SDL.h"
+#include <SDL3/SDL.h>
 #include "rt_def.h"
 #include "rt_main.h"
 #include "rt_str.h"

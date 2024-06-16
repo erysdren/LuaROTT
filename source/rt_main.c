@@ -27,8 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <signal.h>
 
-#define SDL_MAIN_HANDLED
-#include "SDL.h"
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
 
 #ifdef PLATFORM_HAIKU
 #include <libgen.h>
@@ -1636,6 +1636,7 @@ void QuitGame(void)
 	/* shutdown SDL */
 	if (modemgame)
 		QuitROTTNET();
+	VL_Quit();
 	SDL_Quit();
 
 	exit(0);

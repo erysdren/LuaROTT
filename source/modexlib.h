@@ -62,6 +62,8 @@ void TurnOffTextCursor(void);
 void ToggleFullScreen(void);
 void SetShowCursor(int);
 
+void VL_Quit(void);
+
 #define VGAMAPMASK(a)
 #define VGAREADMAP(a)
 #define VGAWRITEMAP(a)
