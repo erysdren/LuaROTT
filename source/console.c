@@ -334,7 +334,7 @@ void cmd_register(cmd_t *cmd)
 /* quit */
 int _cmd_quit(int argc, char **argv)
 {
-	ShutDown();
+	QuitGame();
 	SDL_Quit();
 	exit(0);
 	return 0;
