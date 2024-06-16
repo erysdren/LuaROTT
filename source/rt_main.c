@@ -1633,6 +1633,8 @@ void QuitGame(void)
 	cmdlib_quit();
 	cvarlib_quit();
 
+	ShutDown();
+
 	/* shutdown SDL */
 	if (modemgame)
 		QuitROTTNET();
