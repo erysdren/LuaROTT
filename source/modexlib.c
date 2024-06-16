@@ -45,7 +45,7 @@ byte *iG_buf_center;
 
 int linewidth;
 // int    ylookup[MAXSCREENHEIGHT];
-int ylookup[600]; // just set to max res
+int ylookup[640]; // just set to max res
 byte *page1start;
 byte *page2start;
 byte *page3start;
@@ -130,6 +130,8 @@ void GraphicsMode(void)
 	pixel_format = SDL_GetWindowPixelFormat(screen);
 	argbbuffer = SDL_CreateSurface(iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, pixel_format);
 	texture = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
+
+	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 
 	blit_rect.w = iGLOBAL_SCREENWIDTH;
 	blit_rect.h = iGLOBAL_SCREENHEIGHT;
