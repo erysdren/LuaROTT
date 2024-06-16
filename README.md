@@ -30,6 +30,11 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 ```
 
+## Notes
+
+- If sounds play but music doesn't, you may have to set the environment variable
+`SDL_SOUNDFONTS` to the absolute path to an SF2 soundfont file, i.e. `/usr/share/soundfonts/default.sf2`.
+
 ## Contributors
 
 - [Paril](https://github.com/Paril/)
