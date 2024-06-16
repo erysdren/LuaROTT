@@ -166,6 +166,18 @@ int MUSIC_Init(int SoundCard, int Address)
 		return (MUSIC_Error);
 	} // if
 
+	// add sound fonts
+	const char *soundfonts = Mix_GetSoundFonts();
+	if (soundfonts)
+	{
+		printf("Using soundfonts path string \"%s\"\n", soundfonts);
+		Mix_SetSoundFonts(soundfonts);
+	}
+	else
+	{
+		fprintf(stderr, "Couldn't find any soundfonts\n");
+	}
+
 	music_initialized = 1;
 	return (MUSIC_Ok);
 } // MUSIC_Init
