@@ -3,7 +3,7 @@
 
 # Rise of the Triad: Enhanced
 
-An enhanced port of Rise of the Triad, based on SDL2.
+An enhanced port of Rise of the Triad, based on SDL3.
 
 Video updates can be found on my [YouTube channel](https://www.youtube.com/@erysdren).
 
@@ -19,42 +19,12 @@ Work-in-progress versions can be downloaded under [Tags](https://github.com/erys
 
 ## Building
 
-### Linux
+Building requires [SDL3](https://github.com/libsdl-org/SDL), [SDL3_Net](https://github.com/libsdl-org/SDL_net), and [SDL3_Mixer](https://github.com/libsdl-org/SDL_mixer).
+At the time of writing, these are still under active development are not likely
+to be packaged in your distro (if using Linux). Otherwise, the normal command
+is:
 
-Debian:
-```
-sudo apt-get install gcc build-essential cmake libsdl2-dev libsdl2-mixer-dev
-cd ROTTEN
-mkdir cmake-build && cd cmake-build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-sudo make
-```
-
-Arch:
-```
-sudo pacman -S gcc cmake sdl2 sdl2_mixer
-cd ROTTEN
-mkdir cmake-build && cd cmake-build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-sudo make
-```
-
-### Windows
-
-MSYS2 UCRT64:
-```
-pacman -S mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-SDL2  mingw-w64-ucrt-x86_64-SDL2_mixer
-cd ROTTEN
-mkdir cmake-build && cd cmake-build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-sudo make
-```
-
-### Haiku
-
-```
-pkgman install gcc cmake libsdl2_devel sdl2_mixer_devel
-cd ROTTEN
+```bash
 mkdir cmake-build && cd cmake-build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make
@@ -109,7 +79,6 @@ make
 - [github.com/fabiangreffrath/rott/](https://github.com/fabiangreffrath/rott/)
 - [github.com/hogsy/hrotte/](https://github.com/hogsy/hrotte/)
 - [github.com/LTCHIPS/rottexpr/](https://github.com/LTCHIPS/rottexpr/)
-- [github.com/aminosbh/sdl2-cmake-modules/](https://github.com/aminosbh/sdl2-cmake-modules/)
 - [github.com/DaveGamble/cJSON/](https://github.com/DaveGamble/cJSON/)
 
 ## License
@@ -118,11 +87,9 @@ GNU GPL v3
 
 Copyright (C) 1994-1995 Apogee Software, Ltd.
 
-Copyright (C) 2002-2015 Steven Fuller, Ryan C. Gordon, John Hall, Dan Olson
+Copyright (C) 2002-2024 Steven Fuller, Ryan C. Gordon, John Hall, Dan Olson, Fabian Greffrath
 
-Copyright (C) 2023 Fabian Greffrath
-
-Copyright (C) 2023 erysdren (it/she/they)
+Copyright (C) 2023-2024 erysdren (it/she/they)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
