@@ -1773,7 +1773,7 @@ void DrawWalls(void)
 	{
 		{
 			VGAMAPMASK((1 << plane) + (1 << (plane + 1)));
-			buf = (byte *)(bufferofs);
+			buf = vid_dynamic_ofs;
 			for (post = &posts[plane]; post < &posts[viewwidth];
 				 post += 2, buf += 2)
 			{
@@ -1789,7 +1789,7 @@ void DrawWalls(void)
 	{
 		{
 			VGAWRITEMAP(plane);
-			buf = (byte *)(bufferofs);
+			buf = vid_dynamic_ofs;
 			for (post = &posts[plane]; post < &posts[viewwidth]; post++, buf++)
 			{
 				SetWallLightLevel(post);
@@ -2532,6 +2532,9 @@ void ThreeDRefresh(void)
 
 	whereami = 21;
 	tempptr = player;
+
+	// clear screen
+	VL_ClearVideo_Static(255);
 
 	//
 	// Erase old messages

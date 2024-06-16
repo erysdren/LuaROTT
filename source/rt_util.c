@@ -64,8 +64,6 @@ static boolean SoftErrorStarted = false;
 static boolean DebugStarted = false;
 static boolean MapDebugStarted = false;
 
-extern SDL_Surface *VL_GetVideoSurface(void);
-
 static unsigned char egargb[48] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0xab, 0x00, 0xab, 0x00, 0x00, 0xab, 0xab,
 	0xab, 0x00, 0x00, 0xab, 0x00, 0xab, 0xab, 0x57, 0x00, 0xab, 0xab, 0xab,
@@ -81,6 +79,10 @@ extern const byte *ROTT_ERR;
 		b = (a) ^ (b); \
 		a = (a) ^ (b); \
 	}
+
+extern SDL_Surface *vid_static;
+extern SDL_Surface *vid_dynamic;
+extern SDL_Surface *vid_final;
 
 //******************************************************************************
 //
@@ -922,7 +924,7 @@ void SwapIntelShortArray(short *s, int num)
 void GetPalette(char *palette)
 {
 	int i;
-	SDL_Palette *pal = VL_GetVideoSurface()->format->palette;
+	SDL_Palette *pal = vid_static->format->palette;
 
 	for (i = 0; i < 256; i++)
 	{
@@ -1008,7 +1010,8 @@ void VL_FillPalette(int red, int green, int blue)
 		cmap[i].b = blue << 2;
 	}
 
-	SDL_SetPaletteColors(VL_GetVideoSurface()->format->palette, cmap, 0, 256);
+	SDL_SetPaletteColors(vid_static->format->palette, cmap, 0, 256);
+	SDL_SetPaletteColors(vid_dynamic->format->palette, cmap, 0, 256);
 }
 
 //===========================================================================
@@ -1052,7 +1055,8 @@ void VL_SetPalette(byte *palette)
 		cmap[i].b = gammatable[(gammaindex << 6) + (*palette++)] << 2;
 	}
 
-	SDL_SetPaletteColors(VL_GetVideoSurface()->format->palette, cmap, 0, 256);
+	SDL_SetPaletteColors(vid_static->format->palette, cmap, 0, 256);
+	SDL_SetPaletteColors(vid_dynamic->format->palette, cmap, 0, 256);
 }
 
 //===========================================================================
@@ -1071,7 +1075,7 @@ void VL_SetPalette(byte *palette)
 void VL_GetPalette(byte *palette)
 {
 	int i;
-	SDL_Palette *pal = VL_GetVideoSurface()->format->palette;
+	SDL_Palette *pal = vid_static->format->palette;
 
 	for (i = 0; i < 256; i++)
 	{

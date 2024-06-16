@@ -37,6 +37,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern boolean StretchScreen;
 
+//
+// -----
+//
+
+// static screen (320x200)
+extern size_t vid_static_stride;
+extern size_t vid_static_size;
+extern byte *vid_static_ofs;
+
+// dynamic screen (640x400 or higher)
+extern size_t vid_dynamic_stride;
+extern size_t vid_dynamic_size;
+extern byte *vid_dynamic_ofs;
+
+// final screen
+extern size_t vid_final_stride;
+extern size_t vid_final_size;
+extern byte *vid_final_ofs;
+
+//
+// -----
+//
+
 // extern  int      ylookup[MAXSCREENHEIGHT];      // Table of row offsets
 extern int ylookup[640]; // just set to max res
 extern int linewidth;
@@ -53,6 +76,7 @@ void SetTextMode(void);
 void VL_SetVGAPlaneMode(void);
 void VL_ClearBuffer(byte *buf, byte color);
 void VL_ClearVideo(byte color);
+void VL_ClearVideo_Static(byte color);
 void VL_DePlaneVGA(void);
 void VL_CopyPlanarPage(byte *src, byte *dest);
 void VL_CopyPlanarPageToMemory(byte *src, byte *dest);

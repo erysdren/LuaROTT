@@ -1785,20 +1785,11 @@ void DrawPPic(int xpos, int ypos, int width, int height, byte *src, int num,
 				{
 					for (k = 0; k < num; k++)
 					{
-						const uintptr_t max = iGLOBAL_SCREENWIDTH * iGLOBAL_SCREENHEIGHT;
+						const uintptr_t max = vid_static_size;
 						uintptr_t ofs = dest + (amt * k);
 						if (ofs < max)
 						{
-							if (bufferofsonly)
-							{
-								*(bufferofs + ofs) = pixel;
-							}
-							else
-							{
-								*(page1start + ofs) = pixel;
-								*(page2start + ofs) = pixel;
-								*(page3start + ofs) = pixel;
-							}
+							*(vid_static_ofs + ofs) = pixel;
 						}
 					}
 				}

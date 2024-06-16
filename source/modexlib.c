@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdio.h>
 #include <ctype.h>
 
+#include <SDL3/SDL.h>
+
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "modexlib.h"
@@ -43,6 +45,32 @@ extern int iG_X_center;
 extern int iG_Y_center;
 byte *iG_buf_center;
 
+//
+// -----
+//
+
+// static screen (320x200)
+SDL_Surface *vid_static = NULL;
+size_t vid_static_stride = 0;
+size_t vid_static_size = 0;
+byte *vid_static_ofs = NULL;
+
+// dynamic screen (640x400 or higher)
+SDL_Surface *vid_dynamic = NULL;
+size_t vid_dynamic_stride = 0;
+size_t vid_dynamic_size = 0;
+byte *vid_dynamic_ofs = NULL;
+
+// final screen
+SDL_Surface *vid_final = NULL;
+size_t vid_final_stride = 0;
+size_t vid_final_size = 0;
+byte *vid_final_ofs = NULL;
+
+//
+// -----
+//
+
 int linewidth;
 // int    ylookup[MAXSCREENHEIGHT];
 int ylookup[640]; // just set to max res
@@ -58,8 +86,6 @@ byte *bufofsBottomLimit;
 
 void DrawCenterAim();
 
-#include <SDL3/SDL.h>
-
 /*
 ====================
 =
@@ -74,7 +100,7 @@ static SDL_Window *screen = NULL;
 static SDL_Renderer *renderer = NULL;
 static SDL_Surface *argbbuffer = NULL;
 static SDL_Texture *texture = NULL;
-static SDL_Rect blit_rect = { 0 };
+static SDL_Rect blit_rect;
 
 void VL_Quit(void)
 {
@@ -84,11 +110,9 @@ void VL_Quit(void)
 	if (texture) SDL_DestroyTexture(texture);
 	if (sdl_surface) SDL_DestroySurface(sdl_surface);
 	if (unstretch_sdl_surface) SDL_DestroySurface(unstretch_sdl_surface);
-}
-
-SDL_Surface *VL_GetVideoSurface(void)
-{
-	return sdl_surface;
+	if (vid_static) SDL_DestroySurface(vid_static);
+	if (vid_dynamic) SDL_DestroySurface(vid_dynamic);
+	if (vid_final) SDL_DestroySurface(vid_final);
 }
 
 int VL_SaveBMP(const char *file)
@@ -105,8 +129,8 @@ void SetShowCursor(int show)
 
 void GraphicsMode(void)
 {
-	uint32_t flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY;
-	uint32_t pixel_format;
+	Uint32 flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY;
+	Uint32 pixel_format;
 
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
@@ -124,6 +148,48 @@ void GraphicsMode(void)
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 
+#if 1
+	//
+	// new video mode stuff
+	//
+
+	// static screen
+	vid_static = SDL_CreateSurface(320, 200, SDL_PIXELFORMAT_INDEX8);
+	SDL_SetSurfaceColorKey(vid_static, SDL_TRUE, 255);
+	SDL_FillSurfaceRect(vid_static, NULL, 255);
+
+	vid_static_ofs = vid_static->pixels;
+	vid_static_stride = vid_static->pitch;
+	vid_static_size = vid_static->h * vid_static->pitch;
+
+	// dynamic screen
+	vid_dynamic = SDL_CreateSurface(640, 400, SDL_PIXELFORMAT_INDEX8);
+	SDL_FillSurfaceRect(vid_dynamic, NULL, 0);
+
+	vid_dynamic_ofs = vid_dynamic->pixels;
+	vid_dynamic_stride = vid_dynamic->pitch;
+	vid_dynamic_size = vid_dynamic->h * vid_dynamic->pitch;
+
+	// final screen
+	pixel_format = SDL_GetWindowPixelFormat(screen);
+	vid_final = SDL_CreateSurface(640, 400, pixel_format);
+	SDL_FillSurfaceRect(vid_final, NULL, 0);
+
+	vid_final_ofs = vid_final->pixels;
+	vid_final_stride = vid_final->pitch;
+	vid_final_size = vid_final->h * vid_final->pitch;
+
+	// render texture
+	texture = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, 640, 400);
+	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
+	blit_rect.x = 0;
+	blit_rect.y = 0;
+	blit_rect.w = 640;
+	blit_rect.h = 400;
+
+	// cursor mode
+	SetShowCursor(!sdl_fullscreen);
+#else
 	sdl_surface = SDL_CreateSurface(iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, SDL_PIXELFORMAT_INDEX8);
 	SDL_FillSurfaceRect(sdl_surface, NULL, 0);
 
@@ -137,6 +203,7 @@ void GraphicsMode(void)
 	blit_rect.h = iGLOBAL_SCREENHEIGHT;
 
 	SetShowCursor(!sdl_fullscreen);
+#endif
 }
 
 void ToggleFullScreen(void)
@@ -220,6 +287,16 @@ void VL_SetVGAPlaneMode(void)
 		offset += linewidth;
 	}
 
+	// new vidmode stuff
+	page1start = vid_static_ofs;
+	page2start = vid_static_ofs;
+	page3start = vid_static_ofs;
+	displayofs = vid_static_ofs;
+	bufferofs = vid_static_ofs;
+
+	XFlipPage();
+
+#if 0
 	//    screensize=MAXSCREENHEIGHT*MAXSCREENWIDTH;
 	screensize = iGLOBAL_SCREENHEIGHT * iGLOBAL_SCREENWIDTH;
 
@@ -241,6 +318,7 @@ void VL_SetVGAPlaneMode(void)
 	// start stretched
 	EnableScreenStretch();
 	XFlipPage();
+#endif
 }
 
 /*
@@ -294,7 +372,12 @@ void VL_ClearBuffer(byte *buf, byte color)
 
 void VL_ClearVideo(byte color)
 {
-	memset(sdl_surface->pixels, color, iGLOBAL_SCREENWIDTH * iGLOBAL_SCREENHEIGHT);
+	SDL_FillSurfaceRect(vid_dynamic, NULL, color);
+}
+
+void VL_ClearVideo_Static(byte color)
+{
+	SDL_FillSurfaceRect(vid_static, NULL, color);
 }
 
 /*
@@ -313,7 +396,11 @@ void VL_DePlaneVGA(void)
 
 void VH_UpdateScreen(void)
 {
+	static SDL_Rect vid_static_rect = {0, 0, 320, 200};
+	static SDL_Rect vid_dynamic_rect = {0, 0, 640, 400};
+	static SDL_Rect vid_final_rect = {0, 0, 640, 400};
 
+#if 0
 	if (StretchScreen)
 	{ // bna++
 		StretchMemPicture();
@@ -322,8 +409,18 @@ void VH_UpdateScreen(void)
 	{
 		DrawCenterAim();
 	}
-	SDL_BlitSurfaceUnchecked(VL_GetVideoSurface(), &blit_rect, argbbuffer, &blit_rect);
-	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
+#endif
+
+	// copy static screen to dynamic
+	if (SDL_BlitSurfaceUncheckedScaled(vid_static, &vid_static_rect, vid_dynamic, &vid_dynamic_rect, SDL_SCALEMODE_NEAREST) != 0)
+		printf("1: %s\n", SDL_GetError());
+
+	// copy dynamic screen to final
+	if (SDL_BlitSurfaceUnchecked(vid_dynamic, &vid_dynamic_rect, vid_final, &vid_final_rect) != 0)
+		printf("2: %s\n", SDL_GetError());
+
+	// push to screen
+	SDL_UpdateTexture(texture, NULL, vid_final->pixels, vid_final->pitch);
 	SDL_RenderClear(renderer);
 	SDL_RenderTexture(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
@@ -339,6 +436,8 @@ void VH_UpdateScreen(void)
 
 void XFlipPage(void)
 {
+	VH_UpdateScreen();
+#if 0
 	if (StretchScreen)
 	{ // bna++
 		StretchMemPicture();
@@ -352,6 +451,7 @@ void XFlipPage(void)
 	SDL_RenderClear(renderer);
 	SDL_RenderTexture(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
+#endif
 }
 
 void EnableScreenStretch(void)
