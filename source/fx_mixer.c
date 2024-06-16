@@ -233,7 +233,7 @@ int FX_SetupCard(int SoundCard, fx_device *device)
 	// [FG] feed actual sample frequency back into config variable
 	Mix_QuerySpec(&mixer_frequency, &mixer_format, &mixer_channels);
 
-	printf("\n Configured audio device with %.1f kHz (%s%d%s), %d channels.",
+	printf("\n Configured audio device with %.1f kHz (%s%d%s), %d channels.\n",
 		(float)mixer_frequency / 1000,
 		SDL_AUDIO_ISFLOAT(mixer_format) ? "F" : SDL_AUDIO_ISSIGNED(mixer_format) ? "S" : "U",
 		(int)SDL_AUDIO_BITSIZE(mixer_format),
