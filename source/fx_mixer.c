@@ -171,16 +171,7 @@ void FX_SetReverb(int reverb)
 
 void FX_SetVolume(int volume)
 {
-#if SDL_MIXER_VERSION_ATLEAST(2, 6, 0)
 	Mix_MasterVolume(volume >> 1);
-#else
-	int i;
-
-	for (i = 0; i < MAX_CHANNELS; i++)
-	{
-		Mix_Volume(i, volume >> 1);
-	}
-#endif
 }
 
 char *FX_ErrorString(int ErrorNumber)
@@ -210,7 +201,7 @@ int FX_StopSound(int handle)
 static int mixer_frequency = 44100;
 static int mixer_channels = 2;
 static Uint16 mixer_format = SDL_AUDIO_S16;
-static const SDL_AudioSpec audio_spec = {
+static const SDL_AudioSpec mixer_spec = {
 	SDL_AUDIO_S16,
 	2,
 	44100
@@ -224,7 +215,7 @@ int FX_SetupCard(int SoundCard, fx_device *device)
 		return FX_Error;
 	}
 
-	if (Mix_OpenAudio(0, &audio_spec) != 0)
+	if (Mix_OpenAudio(0, &mixer_spec) != 0)
 	{
 		fprintf(stderr, "\n Couldn't open audio with desired format.");
 		return FX_Error;
@@ -261,8 +252,7 @@ int FX_Shutdown(void)
 
 extern int SoundNumber(int x);
 
-int FX_Init(int SoundCard, int numvoices, int numchannels, int samplebits,
-			unsigned mixrate)
+int FX_Init(int SoundCard, int numvoices, int numchannels, int samplebits, unsigned mixrate)
 {
 	int i;
 
