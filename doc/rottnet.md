@@ -6,6 +6,8 @@ between the client and server, both for COMM-BAT and demos. This information is
 sourced from the GPLv2 source code provided by Apogee Software on December 20th
 2002. All values shown are assumed to be in little-endian byte order.
 
+-- erysdren (it/she/they).
+
 ## Types
 
 - [U8] - Unsigned 8-bit integer (unsigned char)
