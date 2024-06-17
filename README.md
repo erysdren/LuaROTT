@@ -5,7 +5,8 @@
 
 An enhanced port of Rise of the Triad, based on SDL3.
 
-Video updates can be found on my [YouTube channel](https://www.youtube.com/@erysdren).
+Video updates can be found on my
+[YouTube channel](https://www.youtube.com/@erysdren).
 
 ## Features
 
@@ -15,14 +16,17 @@ Video updates can be found on my [YouTube channel](https://www.youtube.com/@erys
 
 ## Download
 
-Work-in-progress versions can be downloaded under [Tags](https://github.com/erysdren/ROTTEN/tags), and under [Actions](https://github.com/erysdren/ROTTEN/actions).
+Work-in-progress versions can be downloaded under
+[Tags](https://github.com/erysdren/ROTTEN/tags), and under
+[Actions](https://github.com/erysdren/ROTTEN/actions).
 
 ## Building
 
-Building requires [SDL3](https://github.com/libsdl-org/SDL), [SDL3_Net](https://github.com/libsdl-org/SDL_net), and [SDL3_Mixer](https://github.com/libsdl-org/SDL_mixer).
-At the time of writing, these are still under active development are not likely
-to be packaged in your distro (if using Linux). Otherwise, the normal command
-is:
+Building requires [SDL3](https://github.com/libsdl-org/SDL),
+[SDL3_Net](https://github.com/libsdl-org/SDL_net), and
+[SDL3_Mixer](https://github.com/libsdl-org/SDL_mixer). At the time of writing,
+these are still under active development are not likely to be packaged in your
+distro (if using Linux). Otherwise, the normal command is:
 
 ```bash
 mkdir cmake-build && cd cmake-build
@@ -32,8 +36,9 @@ make
 
 ## Notes
 
-- If sounds play but music doesn't, you may have to set the environment variable
-`SDL_SOUNDFONTS` to the absolute path to an SF2 soundfont file, i.e. `/usr/share/soundfonts/default.sf2`.
+- If sounds play but music doesn't, you may have to set the environment
+variable `SDL_SOUNDFONTS` to the absolute path to an SF2 soundfont file, i.e.
+`/usr/share/soundfonts/default.sf2`.
 
 ## Contributors
 
@@ -42,6 +47,11 @@ make
 - [Begasus](https://github.com/Begasus)
 - [sirbaratusii](https://github.com/sirbaratusii)
 - [ROTT Central](https://discord.gg/GaNQMFWwes)
+
+## Documentation
+
+- [Unofficial ROTT Network Protocol Spec](./doc/rottnet.md)
+- [ROTT Demo File Format Spec For ImHex](./doc/rott_dmo.hexpat)
 
 ## Required Assets
 
@@ -92,7 +102,8 @@ GNU GPL v3
 
 Copyright (C) 1994-1995 Apogee Software, Ltd.
 
-Copyright (C) 2002-2024 Steven Fuller, Ryan C. Gordon, John Hall, Dan Olson, Fabian Greffrath
+Copyright (C) 2002-2024 Steven Fuller, Ryan C. Gordon, John Hall, Dan Olson,
+Fabian Greffrath
 
 Copyright (C) 2023-2024 erysdren (it/she/they)
 

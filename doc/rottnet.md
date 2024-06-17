@@ -16,7 +16,6 @@ values shown are assumed to be in little-endian byte order.
 - [U32] - Unsigned 32-bit integer (unsigned int)
 - [I32] - Signed 32-bit integer (signed int)
 - [STR] - String with ASCII encoding (char)
-- [STRZ] - Null-terminated string with ASCII encoding (char)
 
 ## Complex Types
 
