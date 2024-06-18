@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=ROTTEN (Shareware)
-Comment=An enhanced port of Rise of the Triad based on SDL2 (Shareware version)
+Comment=An enhanced port of Rise of the Triad based on SDL3 (Shareware version)
 Icon=rotten
 TryExec=rotten_sw -homedir
 Exec=rotten_sw -homedir
