@@ -364,11 +364,12 @@ void Error(char *error, ...)
 
 	printf("Area         = %ld\n", (long int)level);
 
-	ShutDown(); // DDOI - moved this so that it doesn't try to access player
-				// which is freed by this function.
-
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, PACKAGE_STRING, msgbuf,
 							 NULL);
+
+	QuitGame(); // DDOI - moved this so that it doesn't try to access player
+				// which is freed by this function.
+
 	SDL_Quit();
 
 	exit(1);
