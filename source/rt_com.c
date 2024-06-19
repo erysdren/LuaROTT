@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdarg.h>
 
 #include <SDL3/SDL.h>
+#include <SDL3_net/SDL_net.h>
 
 #include "rt_def.h"
 #include "_rt_com.h"
@@ -56,17 +57,42 @@ int controlsynctime;
 static int ComStarted = false;
 static int transittimes[MAXPLAYERS];
 
+static SDLNet_DatagramSocket *datagram_socket = NULL;
+static SDLNet_Address *server_address = NULL;
+static Uint16 server_port = 34858;
+static const char *hostname = NULL;
+
 void SyncTime(int client);
 void SetTransitTime(int client, int time);
 
+SDLNet_Address *clients[MAXPLAYERS];
+
 static void ReadUDPPacket()
 {
+	int rc;
+	SDLNet_Datagram *datagram = NULL;
 
+	if (((rc = SDLNet_ReceiveDatagram(datagram_socket, &datagram)) == 0) && (datagram != NULL))
+	{
+		SDL_Log("%s: got %d-byte datagram from %s:%d", rottcom->client ? "CLIENT" : "SERVER", (int) datagram->buflen, SDLNet_GetAddressString(datagram->addr), (int) datagram->port);
+		rottcom->remotenode = 1;
+		SDL_Log("rottcom->remotenode: %d\n", rottcom->remotenode);
+	}
+
+	SDLNet_DestroyDatagram(datagram);
 }
 
 static void WriteUDPPacket()
 {
+	SDLNet_Address *dest;
 
+	if (rottcom->client)
+		dest = server_address;
+	else
+		dest = clients[rottcom->remotenode];
+
+	SDL_Log("%s: writing %d-byte datagram to %s:%d", rottcom->client ? "CLIENT" : "SERVER", rottcom->datalength, SDLNet_GetAddressString(dest), server_port);
+	SDLNet_SendDatagram(datagram_socket, dest, server_port, rottcom->data, rottcom->datalength);
 }
 
 /*
@@ -79,7 +105,16 @@ static void WriteUDPPacket()
 
 void QuitROTTNET(void)
 {
+	if (ComStarted == false)
+		return;
 
+	SDLNet_UnrefAddress(server_address);
+	SDLNet_DestroyDatagramSocket(datagram_socket);
+
+	server_address = NULL;
+	datagram_socket = NULL;
+
+	SDLNet_Quit();
 }
 
 /*
@@ -96,7 +131,13 @@ void InitROTTNET(void)
 
 	if (ComStarted == true)
 		return;
+	if (SDLNet_Init() < 0)
+	{
+		fprintf(stderr, "SDL error: %s\n", SDL_GetError());
+		return;
+	}
 	ComStarted = true;
+
 
 	/*
 	server-specific options:
@@ -121,6 +162,10 @@ void InitROTTNET(void)
 	rottcom->gametype = 1;
 	rottcom->remotenode = -1;
 	rottcom->gametype = NETWORK_GAME;
+
+	netarg = CheckParm("port");
+	if (netarg && netarg < _argc - 1)
+		server_port = atoi(_argv[netarg + 1]);
 
 	if (CheckParm("server"))
 	{
@@ -152,11 +197,37 @@ void InitROTTNET(void)
 			rottcom->numplayers = 2;
 		}
 
+		SDL_Log("Server listening on %d\n", server_port);
+
 		rottcom->client = 0;
 	}
 	else
 	{
 		rottcom->client = 1;
+
+		netarg = CheckParm("net");
+		if (netarg && netarg < _argc - 1)
+			hostname = _argv[netarg + 1];
+
+		server_address = SDLNet_ResolveHostname(hostname);
+		if (server_address)
+		{
+			if (SDLNet_WaitUntilResolved(server_address, -1) < 0)
+			{
+				SDLNet_UnrefAddress(server_address);
+				server_address = NULL;
+			}
+		}
+
+		if (!server_address)
+		{
+			SDL_Log("Client failed to connect to %s with error: %s\n", hostname, SDL_GetError());
+			return;
+		}
+		else
+		{
+			SDL_Log("Server is at %s:%d.", SDLNet_GetAddressString(server_address), (int)server_port);
+		}
 
 		/* consoleplayer will be initialized after connecting */
 		/* numplayers will be initialized after connecting */
@@ -189,6 +260,8 @@ void InitROTTNET(void)
 	  Client waits for AllDone packet.
 	  When client receives AllDone, it sends an AllDoneAck.
 	 */
+
+	datagram_socket = SDLNet_CreateDatagramSocket(NULL, rottcom->client ? 0 : server_port);
 
 	remoteridicule = false;
 	remoteridicule = rottcom->remoteridicule;
@@ -258,9 +331,8 @@ boolean ReadPacket(void)
 		}
 		memcpy(&ROTTpacket[0], &rottcom->data[0], rottcom->datalength);
 
-		//      SoftError( "ReadPacket: time=%ld size=%ld src=%ld
-		//      type=%d\n",GetTicCount(),
-		//      rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
+		SDL_Log("ReadPacket: time=%ld size=%ld src=%ld type=%d\n",
+			GetTicCount(), rottcom->datalength, rottcom->remotenode, rottcom->data[0]);
 
 		return true;
 	}
@@ -315,8 +387,8 @@ void WritePacket(void *buffer, int len, int destination)
 			rottcom->remotenode++; // server fix-up
 	}
 
-//   SoftError( "WritePacket: time=%ld size=%ld src=%ld
-//   type=%d\n",GetTicCount(),rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
+	SDL_Log("WritePacket: time=%ld size=%ld src=%ld type=%d\n",
+		GetTicCount(), rottcom->datalength, rottcom->remotenode, rottcom->data[0]);
 // Send It !
 	WriteUDPPacket();
 }
