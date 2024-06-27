@@ -255,11 +255,11 @@ static int handle_keypad_enter_hack(const SDL_Event *event)
 	static int kp_enter_hack = 0;
 	int retval = 0;
 
-	if (event->key.keysym.scancode == SDL_SCANCODE_RETURN)
+	if (event->key.scancode == SDL_SCANCODE_RETURN)
 	{
 		if (event->key.state == SDL_PRESSED)
 		{
-			if (event->key.keysym.mod & SDL_KMOD_SHIFT)
+			if (event->key.mod & SDL_KMOD_SHIFT)
 			{
 				kp_enter_hack = 1;
 				retval = GetScancode(SDL_SCANCODE_KP_ENTER);
@@ -287,9 +287,9 @@ static int sdl_key_filter(const SDL_Event *event)
 	int grab_mode = 0;
 	int extended;
 
-	if ((event->key.keysym.sym == SDLK_g) &&
+	if ((event->key.key == SDLK_g) &&
 		(event->key.state == SDL_PRESSED) &&
-		(event->key.keysym.mod & SDL_KMOD_CTRL))
+		(event->key.mod & SDL_KMOD_CTRL))
 	{
 		if (!sdl_fullscreen)
 		{
@@ -301,17 +301,17 @@ static int sdl_key_filter(const SDL_Event *event)
 		return (0);
 	} /* if */
 
-	else if (((event->key.keysym.sym == SDLK_RETURN) ||
-			  (event->key.keysym.sym == SDLK_KP_ENTER)) &&
+	else if (((event->key.key == SDLK_RETURN) ||
+			  (event->key.key == SDLK_KP_ENTER)) &&
 			 (event->key.state == SDL_PRESSED) &&
-			 (event->key.keysym.mod & SDL_KMOD_ALT))
+			 (event->key.mod & SDL_KMOD_ALT))
 	{
 		ToggleFullScreen();
 		return (0);
 	} /* if */
 
 	/* HDG: put this above the scancode lookup otherwise it is never reached */
-	if ((event->key.keysym.sym == SDLK_PAUSE) &&
+	if ((event->key.key == SDLK_PAUSE) &&
 		(event->key.state == SDL_PRESSED))
 	{
 		PausePressed = true;
@@ -321,18 +321,18 @@ static int sdl_key_filter(const SDL_Event *event)
 	k = handle_keypad_enter_hack(event);
 	if (!k)
 	{
-		k = GetScancode(event->key.keysym.scancode);
+		k = GetScancode(event->key.scancode);
 		if (!k) /* No DOS equivalent defined. */
 			return (0);
 	} /* if */
 
 	/* Fix elweirdo SDL capslock/numlock handling, always treat as press */
-	if ((event->key.keysym.sym != SDLK_CAPSLOCK) &&
-		(event->key.keysym.sym != SDLK_NUMLOCKCLEAR) &&
+	if ((event->key.key != SDLK_CAPSLOCK) &&
+		(event->key.key != SDLK_NUMLOCKCLEAR) &&
 		(event->key.state == SDL_RELEASED))
 		k += 128; /* +128 signifies that the key is released in DOS. */
 
-	if (event->key.keysym.sym == SDLK_SCROLLLOCK)
+	if (event->key.key == SDLK_SCROLLLOCK)
 		PanicPressed = true;
 
 	else
@@ -346,7 +346,7 @@ static int sdl_key_filter(const SDL_Event *event)
 		{
 			KeyboardQueue[Keytail] = extended;
 			Keytail = (Keytail + 1) & (KEYQMAX - 1);
-			k = GetScancode(event->key.keysym.scancode) & 0xFF;
+			k = GetScancode(event->key.scancode) & 0xFF;
 			if (event->key.state == SDL_RELEASED)
 				k += 128; /* +128 signifies that the key is released in DOS. */
 		}

@@ -131,13 +131,11 @@ void InitROTTNET(void)
 
 	if (ComStarted == true)
 		return;
-	if (SDLNet_Init() < 0)
-	{
-		fprintf(stderr, "SDL error: %s\n", SDL_GetError());
-		return;
-	}
-	ComStarted = true;
 
+	if (SDLNet_Init() != 0)
+		Error((char *)SDL_GetError());
+
+	ComStarted = true;
 
 	/*
 	server-specific options:
