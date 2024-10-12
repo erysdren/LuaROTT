@@ -126,7 +126,7 @@ void InitializeMessages(void)
 		}
 	}
 
-	MSG.messageon = false;
+	MMSG.messageon = false;
 
 	LastMessageTime = 0;
 	UpdateMessageBackground = 0;
@@ -610,9 +610,9 @@ void UpdateModemMessage(int num, char c)
 {
 	int i;
 
-	Messages[num].text[MSG.length - 1] = (byte)c;
-	Messages[num].text[MSG.length] = (byte)'_';
-	MSG.length++;
+	Messages[num].text[MMSG.length - 1] = (byte)c;
+	Messages[num].text[MMSG.length] = (byte)'_';
+	MMSG.length++;
 
 	for (i = 0; i < TotalMessages; i++)
 	{
@@ -638,9 +638,9 @@ void ModemMessageDeleteChar(int num)
 {
 	int i;
 
-	MSG.length--;
-	Messages[num].text[MSG.length] = (byte)0;
-	Messages[num].text[MSG.length - 1] = (byte)'_';
+	MMSG.length--;
+	Messages[num].text[MMSG.length] = (byte)0;
+	Messages[num].text[MMSG.length - 1] = (byte)'_';
 
 	for (i = 0; i < TotalMessages; i++)
 	{
@@ -717,35 +717,35 @@ void DrawPlayerSelectionMenu(void)
 */
 void FinishModemMessage(int num, boolean send)
 {
-	if ((!MSG.inmenu) && (MSG.length > 0))
+	if ((!MMSG.inmenu) && (MMSG.length > 0))
 	{
-		Messages[num].text[MSG.length - 1] = (byte)0;
-		MSG.length--;
+		Messages[num].text[MMSG.length - 1] = (byte)0;
+		MMSG.length--;
 	}
 
-	if ((send == true) && ((MSG.length > 0) || (MSG.remoteridicule != -1)))
+	if ((send == true) && ((MMSG.length > 0) || (MMSG.remoteridicule != -1)))
 	{
-		if ((MSG.directed) && (!MSG.inmenu))
+		if ((MMSG.directed) && (!MMSG.inmenu))
 		{
 			DrawPlayerSelectionMenu();
-			MSG.messageon = true;
-			MSG.inmenu = true;
+			MMSG.messageon = true;
+			MMSG.inmenu = true;
 			return;
 		}
 
-		MSG.messageon = false;
-		if (MSG.remoteridicule != -1)
+		MMSG.messageon = false;
+		if (MMSG.remoteridicule != -1)
 		{
-			AddRemoteRidiculeCommand(consoleplayer, MSG.towho,
-									 MSG.remoteridicule);
+			AddRemoteRidiculeCommand(consoleplayer, MMSG.towho,
+									 MMSG.remoteridicule);
 		}
-		if (MSG.length > 0)
+		if (MMSG.length > 0)
 		{
-			AddTextMessage(Messages[num].text, MSG.length, MSG.towho);
+			AddTextMessage(Messages[num].text, MMSG.length, MMSG.towho);
 		}
 	}
 
-	if (MSG.inmenu)
+	if (MMSG.inmenu)
 	{
 		DeletePriorityMessage(MSG_NAMEMENU);
 	}

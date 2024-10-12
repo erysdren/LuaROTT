@@ -1905,7 +1905,7 @@ fromloadedgame:
 		SyncToServer();
 
 		// Don't allow player to quit if entering message
-		canquit = !MSG.messageon;
+		canquit = !MMSG.messageon;
 
 		PollKeyboard();
 
@@ -1994,7 +1994,7 @@ fromloadedgame:
 
 		if (BATTLEMODE)
 		{
-			if (MSG.messageon == false)
+			if (MMSG.messageon == false)
 			{
 				CheckRemoteRidicule(LastScan);
 			}
@@ -2154,30 +2154,30 @@ void PollKeyboard(void)
 		autopressed = false;
 	}
 
-	if ((MSG.messageon == false) && (!quitactive))
+	if ((MMSG.messageon == false) && (!quitactive))
 	{
 		if ((Keyboard[buttonscan[bt_message]]) && (BATTLEMODE))
 		{
 			// Send message to all
-			MSG.messageon = true;
-			MSG.directed = false;
-			MSG.inmenu = false;
-			MSG.remoteridicule = -1;
-			MSG.towho = MSG_DIRECTED_TO_ALL;
-			MSG.textnum = AddMessage("_", MSG_MODEM);
-			MSG.length = 1;
+			MMSG.messageon = true;
+			MMSG.directed = false;
+			MMSG.inmenu = false;
+			MMSG.remoteridicule = -1;
+			MMSG.towho = MSG_DIRECTED_TO_ALL;
+			MMSG.textnum = AddMessage("_", MSG_MODEM);
+			MMSG.length = 1;
 			DeletePriorityMessage(MSG_MACRO);
 		}
 		else if ((Keyboard[buttonscan[bt_directmsg]]) && (BATTLEMODE))
 		{
 			// Send directed message
-			MSG.messageon = true;
-			MSG.directed = true;
-			MSG.inmenu = false;
-			MSG.remoteridicule = -1;
-			MSG.towho = 0;
-			MSG.textnum = AddMessage("_", MSG_MODEM);
-			MSG.length = 1;
+			MMSG.messageon = true;
+			MMSG.directed = true;
+			MMSG.inmenu = false;
+			MMSG.remoteridicule = -1;
+			MMSG.towho = 0;
+			MMSG.textnum = AddMessage("_", MSG_MODEM);
+			MMSG.length = 1;
 			DeletePriorityMessage(MSG_MACRO);
 		}
 		if (buttonpoll[bt_map])

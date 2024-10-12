@@ -72,7 +72,7 @@ word Joy_x, Joy_y;
 
 int LastLetter = 0;
 char LetterQueue[MAXLETTERS];
-ModemMessage MSG;
+ModemMessage MMSG;
 
 static SDL_Joystick *sdl_joysticks[MaxJoys];
 static int sdl_mouse_delta_x = 0;
@@ -1160,21 +1160,21 @@ void QueueLetterInput(void)
 
 				// If typing a message, update the text with 'c'
 
-				if (MSG.messageon)
+				if (MMSG.messageon)
 				{
 					Keystate[scancode] = 0;
 					KeyboardQueue[head] = 0;
-					if (MSG.inmenu)
+					if (MMSG.inmenu)
 					{
 						if ((c == 'A') || (c == 'a'))
 						{
-							MSG.towho = MSG_DIRECTED_TO_ALL;
+							MMSG.towho = MSG_DIRECTED_TO_ALL;
 							send = true;
 						}
 
 						if ((gamestate.teamplay) && ((c == 'T') || (c == 't')))
 						{
-							MSG.towho = MSG_DIRECTED_TO_TEAM;
+							MMSG.towho = MSG_DIRECTED_TO_TEAM;
 							send = true;
 						}
 
@@ -1199,18 +1199,18 @@ void QueueLetterInput(void)
 
 							if (who < numplayers)
 							{
-								MSG.towho = who;
+								MMSG.towho = who;
 								send = true;
 							}
 						}
 
 						if (send)
 						{
-							MSG.messageon = false;
+							MMSG.messageon = false;
 							KeyboardQueue[head] = 0;
 							Keyboard[scancode] = 0;
 							LastScan = 0;
-							FinishModemMessage(MSG.textnum, true);
+							FinishModemMessage(MMSG.textnum, true);
 						}
 					}
 					else if ((scancode >= sc_1) && (scancode <= sc_0) &&
@@ -1222,12 +1222,12 @@ void QueueLetterInput(void)
 
 						if (CommbatMacros[msg].avail)
 						{
-							MSG.length = M_StringLength(CommbatMacros[msg].macro) + 1;
-							strcpy(Messages[MSG.textnum].text,
+							MMSG.length = M_StringLength(CommbatMacros[msg].macro) + 1;
+							strcpy(Messages[MMSG.textnum].text,
 								   CommbatMacros[msg].macro);
 
-							MSG.messageon = false;
-							FinishModemMessage(MSG.textnum, true);
+							MMSG.messageon = false;
+							FinishModemMessage(MMSG.textnum, true);
 							KeyboardQueue[head] = 0;
 							Keyboard[sc_Enter] = 0;
 							Keyboard[sc_Escape] = 0;
@@ -1235,10 +1235,10 @@ void QueueLetterInput(void)
 						}
 						else
 						{
-							MSG.messageon = false;
-							MSG.directed = false;
+							MMSG.messageon = false;
+							MMSG.directed = false;
 
-							FinishModemMessage(MSG.textnum, false);
+							FinishModemMessage(MMSG.textnum, false);
 							AddMessage("No macro.", MSG_MACRO);
 							KeyboardQueue[head] = 0;
 							Keyboard[sc_Enter] = 0;
@@ -1246,9 +1246,9 @@ void QueueLetterInput(void)
 							LastScan = 0;
 						}
 					}
-					else if (MSG.length < MAXMESSAGELENGTH)
+					else if (MMSG.length < MAXMESSAGELENGTH)
 					{
-						UpdateModemMessage(MSG.textnum, c);
+						UpdateModemMessage(MMSG.textnum, c);
 					}
 				}
 			}
@@ -1256,26 +1256,26 @@ void QueueLetterInput(void)
 			{
 				// If typing a message, check for special characters
 
-				if (MSG.messageon && MSG.inmenu)
+				if (MMSG.messageon && MMSG.inmenu)
 				{
 					if (scancode == sc_Escape)
 					{
-						MSG.messageon = false;
-						MSG.directed = false;
-						FinishModemMessage(MSG.textnum, false);
+						MMSG.messageon = false;
+						MMSG.directed = false;
+						FinishModemMessage(MMSG.textnum, false);
 						KeyboardQueue[head] = 0;
 						Keyboard[sc_Enter] = 0;
 						Keyboard[sc_Escape] = 0;
 						LastScan = 0;
 					}
 				}
-				else if (MSG.messageon && !MSG.inmenu)
+				else if (MMSG.messageon && !MMSG.inmenu)
 				{
 					if ((scancode >= sc_F1) && (scancode <= sc_F10))
 					{
-						MSG.remoteridicule = scancode - sc_F1;
-						MSG.messageon = false;
-						FinishModemMessage(MSG.textnum, true);
+						MMSG.remoteridicule = scancode - sc_F1;
+						MMSG.messageon = false;
+						FinishModemMessage(MMSG.textnum, true);
 						KeyboardQueue[head] = 0;
 						Keyboard[sc_Enter] = 0;
 						Keyboard[sc_Escape] = 0;
@@ -1286,16 +1286,16 @@ void QueueLetterInput(void)
 					{
 						case sc_BackSpace:
 							KeyboardQueue[head] = 0;
-							if (MSG.length > 1)
+							if (MMSG.length > 1)
 							{
-								ModemMessageDeleteChar(MSG.textnum);
+								ModemMessageDeleteChar(MMSG.textnum);
 							}
 							Keystate[scancode] = 0;
 							break;
 
 						case sc_Enter:
-							MSG.messageon = false;
-							FinishModemMessage(MSG.textnum, true);
+							MMSG.messageon = false;
+							FinishModemMessage(MMSG.textnum, true);
 							KeyboardQueue[head] = 0;
 							Keyboard[sc_Enter] = 0;
 							Keyboard[sc_Escape] = 0;
@@ -1304,9 +1304,9 @@ void QueueLetterInput(void)
 							break;
 
 						case sc_Escape:
-							MSG.messageon = false;
-							MSG.directed = false;
-							FinishModemMessage(MSG.textnum, false);
+							MMSG.messageon = false;
+							MMSG.directed = false;
+							FinishModemMessage(MMSG.textnum, false);
 							KeyboardQueue[head] = 0;
 							Keyboard[sc_Enter] = 0;
 							Keyboard[sc_Escape] = 0;
