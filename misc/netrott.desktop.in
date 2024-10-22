@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=@NETROTT_TITLE@
+Comment=SDL3 multiplayer-focused port of Rise of the Triad
+Icon=@NETROTT_EXEC@
+TryExec=@NETROTT_EXEC@
+Exec=@NETROTT_EXEC@
+Categories=Game;ActionGame;
+Keywords=first;person;shooter;fps;3d;rott;rise;of;the;triad;
