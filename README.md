@@ -5,7 +5,7 @@ Rise of the Triad sourceport targeted towards multiplayer and based on SDL3.
 
 ## Building
 
-Building Taradino requires GCC, CMake, and the development packages for SDL3,
+Building NetROTT requires GCC, CMake, and the development packages for SDL3,
 SDL3_Mixer, and SDL3_Net. After installing, you can run the following commands
 to build:
 
