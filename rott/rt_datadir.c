@@ -17,7 +17,7 @@
 
 #include <sys/stat.h>
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 #include "m_misc2.h"
 #include "rt_util.h"

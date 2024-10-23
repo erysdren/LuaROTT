@@ -58,7 +58,7 @@ byte  *bufofsBottomLimit;
 
 void DrawCenterAim ();
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 /* rt_def.h isn't included, so I just put this here... */
 #ifndef STUB_FUNCTION

@@ -76,7 +76,7 @@ const int ShiftNames[] =              // Shifted ASCII for scan codes
 		  0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0           // 7
 };
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 static int ticoffset;    /* offset for SDL_GetTicks() */
 static int ticbase;      /* game-supplied base */
