@@ -36,7 +36,7 @@ static const Uint8 palette[16][3] = {
 	{0xff, 0x57, 0x57}, {0xff, 0x57, 0xff}, {0xff, 0xff, 0x57}, {0xff, 0xff, 0xff}
 };
 
-static void render_cell(Uint8 *image, int pitch, Uint16 cell, SDL_bool noblink)
+static void render_cell(Uint8 *image, int pitch, Uint16 cell, bool noblink)
 {
 	// get components
 	Uint8 code = (Uint8)(cell & 0xFF);
@@ -60,7 +60,7 @@ static void render_cell(Uint8 *image, int pitch, Uint16 cell, SDL_bool noblink)
 			// write fgcolor
 			Uint8 *bitmap = &VGA_FONT_CP437[code * 16];
 
-			if (bitmap[y] & 1 << abs(x - 7))
+			if (bitmap[y] & 1 << SDL_abs(x - 7))
 				image[y * pitch + x] = fgcolor;
 		}
 	}
@@ -70,8 +70,7 @@ int vgatext_main(SDL_Window *window, Uint16 *screen)
 {
 	Uint8 image0[400][640];
 	Uint8 image1[400][640];
-	Uint32 format, rmask, gmask, bmask, amask;
-	int bpp;
+	Uint32 format;
 	SDL_Renderer *renderer;
 	SDL_Texture *texture;
 	SDL_Surface *surface8;
@@ -80,6 +79,7 @@ int vgatext_main(SDL_Window *window, Uint16 *screen)
 	SDL_Surface *windowsurface1;
 	SDL_Color colors[16];
 	SDL_Rect rect;
+	SDL_Palette *pal;
 
 	if (!window || !screen)
 		return -1;
@@ -89,14 +89,14 @@ int vgatext_main(SDL_Window *window, Uint16 *screen)
 	if (!renderer)
 		return -1;
 
-	SDL_RenderSetLogicalSize(renderer, 640, 400);
+	SDL_SetRenderLogicalPresentation(renderer, 640, 400, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 	SDL_SetWindowMinimumSize(window, 640, 400);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 
 	// setup render surface
-	surface8 = SDL_CreateRGBSurface(0, 640, 400, 8, 0, 0, 0, 0);
+	surface8 = SDL_CreateSurface(640, 400, SDL_PIXELFORMAT_INDEX8);
 	if (!surface8)
 		return -1;
 
@@ -107,14 +107,15 @@ int vgatext_main(SDL_Window *window, Uint16 *screen)
 		colors[i].b = palette[i][2];
 	}
 
-	SDL_SetPaletteColors(surface8->format->palette, colors, 0, 16);
-	SDL_FillRect(surface8, NULL, 0);
+	pal = SDL_CreateSurfacePalette(surface8);
+
+	SDL_SetPaletteColors(pal, colors, 0, 16);
+	SDL_FillSurfaceRect(surface8, NULL, 0);
 
 	// setup display surfaces
 	format = SDL_GetWindowPixelFormat(window);
-	SDL_PixelFormatEnumToMasks(format, &bpp, &rmask, &gmask, &bmask, &amask);
-	windowsurface0 = SDL_CreateRGBSurface(0, 640, 400, bpp, rmask, gmask, bmask, amask);
-	windowsurface1 = SDL_CreateRGBSurface(0, 640, 400, bpp, rmask, gmask, bmask, amask);
+	windowsurface0 = SDL_CreateSurface(640, 400, format);
+	windowsurface1 = SDL_CreateSurface(640, 400, format);
 	if (!windowsurface0 || !windowsurface1)
 		return -1;
 
@@ -122,6 +123,7 @@ int vgatext_main(SDL_Window *window, Uint16 *screen)
 	texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STREAMING, 640, 400);
 	if (!texture)
 		return -1;
+	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 
 	// setup blit rect
 	rect.x = 0;
@@ -138,8 +140,8 @@ int vgatext_main(SDL_Window *window, Uint16 *screen)
 			uint8_t *imgpos0 = &image0[y * 16][x * 8];
 			uint8_t *imgpos1 = &image1[y * 16][x * 8];
 
-			render_cell(imgpos0, 640, cell, SDL_FALSE);
-			render_cell(imgpos1, 640, cell, SDL_TRUE);
+			render_cell(imgpos0, 640, cell, false);
+			render_cell(imgpos1, 640, cell, true);
 		}
 	}
 
@@ -157,19 +159,19 @@ int vgatext_main(SDL_Window *window, Uint16 *screen)
 	windowsurface = &windowsurface0;
 
 	// start counting time
-	Uint64 next = SDL_GetTicks64() + BLINK_HZ;
+	Uint64 next = SDL_GetTicks() + BLINK_HZ;
 
 	// main loop
-	while (!SDL_QuitRequested())
+	while (true)
 	{
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
-			if (event.type == SDL_KEYDOWN || event.type == SDL_MOUSEBUTTONDOWN)
+			if (event.type == SDL_EVENT_QUIT || event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
 				goto done;
 		}
 
-		Uint64 now = SDL_GetTicks64();
+		Uint64 now = SDL_GetTicks();
 		if (next <= now)
 		{
 			if (windowsurface == &windowsurface0)
@@ -182,15 +184,15 @@ int vgatext_main(SDL_Window *window, Uint16 *screen)
 
 		SDL_UpdateTexture(texture, NULL, (*windowsurface)->pixels, (*windowsurface)->pitch);
 		SDL_RenderClear(renderer);
-		SDL_RenderCopy(renderer, texture, NULL, NULL);
+		SDL_RenderTexture(renderer, texture, NULL, NULL);
 		SDL_RenderPresent(renderer);
 	}
 
 done:
 
-	SDL_FreeSurface(surface8);
-	SDL_FreeSurface(windowsurface0);
-	SDL_FreeSurface(windowsurface1);
+	SDL_DestroySurface(surface8);
+	SDL_DestroySurface(windowsurface0);
+	SDL_DestroySurface(windowsurface1);
 	SDL_DestroyTexture(texture);
 	SDL_DestroyRenderer(renderer);
 

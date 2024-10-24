@@ -935,7 +935,7 @@ void SwapIntelShortArray(short *s, int num)
 void GetPalette(char * palette)
 {
 	int i;
-	SDL_Palette *pal = VL_GetVideoSurface()->format->palette;
+	SDL_Palette *pal = SDL_GetSurfacePalette(VL_GetVideoSurface());
 	
 	for (i = 0; i < 256; i++) {
 		palette[0] = pal->colors[i].r;
@@ -1015,6 +1015,7 @@ int US_CheckParm (char *parm, char **strings)
 void VL_FillPalette (int red, int green, int blue)
 {
    SDL_Color cmap[256];
+   SDL_Palette *pal;
    int i;
 
    for (i = 0; i < 256; i++)
@@ -1024,7 +1025,11 @@ void VL_FillPalette (int red, int green, int blue)
            cmap[i].b = blue << 2;
    }
 
-   SDL_SetPaletteColors (VL_GetVideoSurface()->format->palette, cmap, 0, 256);
+   pal = SDL_GetSurfacePalette(VL_GetVideoSurface());
+   if (!pal)
+	   pal = SDL_CreateSurfacePalette(VL_GetVideoSurface());
+
+	SDL_SetPaletteColors (pal, cmap, 0, 256);
 }
 
 //===========================================================================
@@ -1090,6 +1095,7 @@ void VL_NormalizePalette (byte *palette)
 void VL_SetPalette (byte *palette)
 {
    SDL_Color cmap[256];
+   SDL_Palette *pal;
    int i;
 
    for (i = 0; i < 256; i++)
@@ -1099,7 +1105,11 @@ void VL_SetPalette (byte *palette)
 	   cmap[i].b = gammatable[(gammaindex<<6)+(*palette++)] << 2;
    }
 
-   SDL_SetPaletteColors (VL_GetVideoSurface()->format->palette, cmap, 0, 256);
+   pal = SDL_GetSurfacePalette(VL_GetVideoSurface());
+   if (!pal)
+	   pal = SDL_CreateSurfacePalette(VL_GetVideoSurface());
+
+   SDL_SetPaletteColors (pal, cmap, 0, 256);
 }
 
 
@@ -1119,7 +1129,7 @@ void VL_SetPalette (byte *palette)
 void VL_GetPalette (byte *palette)
 {
 	int i;
-	SDL_Palette *pal = VL_GetVideoSurface()->format->palette;
+	SDL_Palette *pal = SDL_GetSurfacePalette(VL_GetVideoSurface());
 	
 	for (i = 0; i < 256; i++) {
 		palette[0] = pal->colors[i].r >> 2;

@@ -246,17 +246,22 @@ static int GetSliceSize(void)
 
 int FX_SetupCard(int SoundCard, fx_device *device)
 {
-    Uint16 mix_format;
+    SDL_AudioFormat mix_format;
     int mix_channels;
 
-    if (SDL_Init(SDL_INIT_AUDIO) < 0)
+	SDL_AudioSpec spec = {
+		SDL_AUDIO_S16,
+		2,
+		snd_samplerate
+	};
+
+    if (!SDL_Init(SDL_INIT_AUDIO))
     {
         fprintf(stderr, "\n Couldn't initialize SDL audio: %s", SDL_GetError());
         return FX_Error;
     }
 
-    if (Mix_OpenAudioDevice(snd_samplerate, AUDIO_S16SYS, 2, GetSliceSize(),
-                            NULL, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
+    if (!SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec))
     {
         fprintf(stderr, "\n Couldn't open audio with desired format.");
         return FX_Error;
@@ -311,14 +316,14 @@ int FX_Init(int SoundCard, int numvoices, int numchannels, int samplebits,
         {
             char *data;
             int size;
-            SDL_RWops *rw;
+            SDL_IOStream *io;
 
             data = W_CacheLumpNum(snd, PU_STATIC, CvtNull, 1);
             size = W_LumpLength(snd);
 
-            rw = SDL_RWFromMem(data, size);
+            io = SDL_IOFromMem(data, size);
 
-            if (!(sounds[i].chunk = Mix_LoadWAV_RW(rw, 1)))
+            if (!(sounds[i].chunk = Mix_LoadWAV_IO(io, true)))
             {
                 fprintf(stderr, "FX_Init: %s (%s)\n", SDL_GetError(),
                         W_GetNameForNum(snd));

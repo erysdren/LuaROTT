@@ -295,14 +295,14 @@ int MUSIC_PlaySong(unsigned char *song, int size, int loopflag)
 		return MUSIC_Error;
 	}
 
-	// create rw
-	SDL_RWops *rw = SDL_RWFromConstMem(song, size);
-	if (rw == NULL) {
+	// create io
+	SDL_IOStream *io = SDL_IOFromConstMem(song, size);
+	if (io == NULL) {
 		return MUSIC_Error;
 	}
 
     // load with SDL_mixer
-    music_musicchunk = Mix_LoadMUS_RW(rw, SDL_TRUE);
+    music_musicchunk = Mix_LoadMUS_IO(io, true);
     if (music_musicchunk == NULL) {
         return MUSIC_Error;
     }
