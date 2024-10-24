@@ -158,14 +158,46 @@ boolean RefreshPause = true;
 
 boolean  buttonpoll[NUMBUTTONS];
 
-int      buttonscan[NUMBUTTONS] = {sc_Control, sc_Alt, sc_RShift, sc_Space,
-											  sc_PgUp,sc_PgDn,sc_Enter,sc_Delete,
-                                   sc_Home,sc_End,sc_1,sc_2,sc_3,sc_4,
-                                   sc_CapsLock, sc_F12,
-                                   sc_Comma,sc_Period,sc_BackSpace,sc_A,
-                                   sc_UpArrow, sc_RightArrow,
-                                   sc_DownArrow, sc_LeftArrow,
-                                   sc_Tab, sc_T, sc_Z };
+int buttonscan[NUMBUTTONS] = {
+	[bt_attack] = sc_Control,
+	[bt_strafe] = sc_Alt,
+	[bt_run] = sc_LShift,
+	[bt_use] = sc_E,
+	[bt_lookup] = sc_PgUp,
+	[bt_lookdown] = sc_PgDn,
+	[bt_swapweapon] = sc_Enter,
+	[bt_dropweapon] = sc_Delete,
+	[bt_horizonup] = sc_Home,
+	[bt_horizondown] = sc_End,
+	[bt_pistol] = sc_1,
+	[bt_dualpistol] = sc_2,
+	[bt_mp40] = sc_3,
+	[bt_missileweapon] = sc_4,
+	[bt_autorun] = sc_CapsLock,
+	[bt_recordsound] = sc_F12,
+	[bt_strafeleft] = sc_A,
+	[bt_straferight] = sc_D,
+	[bt_turnaround] = sc_BackSpace,
+	[bt_aimbutton] = sc_Insert,
+	[di_north] = sc_W,
+	[di_east] = sc_RightArrow,
+	[di_south] = sc_S,
+	[di_west] = sc_LeftArrow,
+	[bt_map] = sc_Tab,
+	[bt_message] = sc_T,
+	[bt_directmsg] = sc_Z
+
+#if 0
+	sc_Control, sc_Alt, sc_RShift, sc_Space,
+	sc_PgUp,sc_PgDn,sc_Enter,sc_Delete,
+	sc_Home,sc_End,sc_1,sc_2,sc_3,sc_4,
+	sc_CapsLock, sc_F12,
+	sc_Comma,sc_Period,sc_BackSpace,sc_A,
+	sc_UpArrow, sc_RightArrow,
+	sc_DownArrow, sc_LeftArrow,
+	sc_Tab, sc_T, sc_Z
+#endif
+};
 
 int      joyxmax = 0, joyymax = 0, joyxmin = 0, joyymin = 0;
 
