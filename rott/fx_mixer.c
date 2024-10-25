@@ -247,11 +247,11 @@ static int GetSliceSize(void)
 int FX_SetupCard(int SoundCard, fx_device *device)
 {
     SDL_AudioFormat mix_format;
-    int mix_channels;
+    int mix_channels = 2;
 
 	SDL_AudioSpec spec = {
 		SDL_AUDIO_S16,
-		2,
+		mix_channels,
 		snd_samplerate
 	};
 
@@ -261,7 +261,7 @@ int FX_SetupCard(int SoundCard, fx_device *device)
         return FX_Error;
     }
 
-    if (!SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec))
+    if (!Mix_OpenAudio(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec))
     {
         fprintf(stderr, "\n Couldn't open audio with desired format.");
         return FX_Error;
