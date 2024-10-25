@@ -111,6 +111,12 @@ if(${NETROTT_DATADIR})
 	target_compile_definitions(${NETROTT_EXEC} PRIVATE DATADIR="${NETROTT_DATADIR}")
 endif()
 
+add_executable(rottded)
+target_sources(rottded PRIVATE
+	${PROJECT_SOURCE_DIR}/rottded/rottded.c
+)
+target_link_libraries(rottded PRIVATE SDL3::SDL3 SDL3_net::SDL3_net)
+
 include(GNUInstallDirs)
 if(UNIX)
 	configure_file(${PROJECT_SOURCE_DIR}/misc/netrott.desktop.in ${PROJECT_BINARY_DIR}/${NETROTT_EXEC}.desktop @ONLY)
