@@ -40,15 +40,15 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
 		return SDL_APP_FAILURE;
 	}
 
-	SDL_Log("SDL initialized");
+	SDL_Log("SDL: Initialized");
 
-	if (SDLNet_Init() != 0)
+	if (!SDLNet_Init())
 	{
 		SDL_Log("SDLNet: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
 	}
 
-	SDL_Log("SDLNet initialized");
+	SDL_Log("SDLNet: Initialized");
 
 	return SDL_APP_CONTINUE;
 }
