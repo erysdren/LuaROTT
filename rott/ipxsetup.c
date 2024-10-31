@@ -90,7 +90,7 @@ void NetISR (void)
    if (rottcom->command == CMD_SEND)
       {
       ipxlocaltime++;
-      SendPacket (rottcom->remotenode);
+      WritePacket (rottcom->data, rottcom->datalength, rottcom->remotenode);
       }
    else if (rottcom->command == CMD_GET)
       {
@@ -135,7 +135,7 @@ void SetupRandomMessages ( void )
 */
 void PrintRandomMessage (int message, int player)
 {
-   printf(NetStrings[message],player);
+   SDL_Log(NetStrings[message],player);
 }
 
 /*
@@ -202,7 +202,7 @@ void ResetNodeAddresses ( void )
       rottcom->consoleplayer=playernumber;
       memcpy (&nodeadr[playernumber], &nodeadr[0], //copy in local address
               sizeof(nodeadr[playernumber]) );
-      printf ("\nServer is Player %d\n",playernumber);
+      SDL_Log ("\nServer is Player %d\n",playernumber);
       playernumber++;
       }
 }
@@ -253,9 +253,9 @@ void LookForNodes (void)
    if (server==true)
       {
 
-      printf("SERVER MODE:\n");
-      printf("============\n");
-      printf("Attempting to find all clients for %i player NETROTT\n",
+      SDL_Log("SERVER MODE:\n");
+      SDL_Log("============\n");
+      SDL_Log("Attempting to find all clients for %i player NETROTT\n",
              rottcom->numplayers);
 
       nodesetup.client=0;
@@ -268,9 +268,9 @@ void LookForNodes (void)
       }
    else
       {
-      printf("CLIENT MODE:\n");
-      printf("============\n");
-      printf("Attempting to find server\n");
+      SDL_Log("CLIENT MODE:\n");
+      SDL_Log("============\n");
+      SDL_Log("Attempting to find server\n");
 
       rottcom->numplayers=MAXPLAYERS;
       nodesetup.client=1;
@@ -296,7 +296,7 @@ void LookForNodes (void)
       //
       while ( SDL_PollEvent(&event) )
          {
-         if ( event.type == SDL_EVENT_KEY_DOWN && event.key.scancode == SDL_SCANCODE_ESCAPE)
+         if (event.type == SDL_EVENT_KEY_DOWN)
             Error ("\n\nNetwork game synchronization aborted.");
          }
       if (server==false) // Client code
@@ -309,6 +309,7 @@ void LookForNodes (void)
             extra      = setup->extra;
             numplayers = setup->numplayers;
 
+		  SDL_Log("CLIENT PACKET");
             if (remotetime != -1)
                {    // an early game packet, not a setup packet
                if (rottcom->remotenode == -1)
@@ -335,19 +336,19 @@ void LookForNodes (void)
                      memcpy (&rottcom->data,
                              &nodesetup,sizeof(*setup));
                      rottcom->datalength = sizeof(*setup);
-                     SendPacket (1);     // send to server
-                     printf (".");
+                     WritePacket (rottcom->data, rottcom->datalength, 1);     // send to server
+                     SDL_Log (".");
                      break;
                   case cmd_Info:
                      if (showednum==false)
                         {
-                        printf("\nServer is looking for %d players\n",numplayers);
+                        SDL_Log("\nServer is looking for %d players\n",numplayers);
                         showednum = true;
                         }
                      if ((extra>>8)!=0)
                         {
                         if ((extra>>8)==100)
-                           printf("\nServer found player %d\n",extra&0xff);
+                           SDL_Log("\nServer found player %d\n",extra&0xff);
                         else
                            PrintRandomMessage((extra>>8)-1,extra&0xff);
                         }
@@ -359,14 +360,14 @@ void LookForNodes (void)
                      memcpy (&rottcom->data,
                              &nodesetup,sizeof(*setup));
                      rottcom->datalength = sizeof(*setup);
-                     SendPacket (1);     // send to server
-                     printf (".");
-                     printf ("\nI am player %d\n",setup->playernumber);
+                     WritePacket (rottcom->data, rottcom->datalength, 1);     // send to server
+                     SDL_Log (".");
+                     SDL_Log ("\nI am player %d\n",setup->playernumber);
                      break;
                   case cmd_AllDone:
                      rottcom->numplayers=setup->playernumber;
                      done=true;
-                     printf ("!");
+                     SDL_Log ("!");
                      break;
                   }
                }
@@ -379,6 +380,7 @@ void LookForNodes (void)
          //
          while (ReadPacket ())
             {
+		  SDL_Log("SERVER PACKET");
             extra      = setup->extra;
             if (remotetime != -1)
                {    // an early game packet, not a setup packet
@@ -404,7 +406,7 @@ void LookForNodes (void)
                      if (rottcom->remotenode==-1) // only set if it is an unknown pkt
                         {
                         // copy the client's address
-                        printf ("\nFound Player %d\n",pnum);
+                        SDL_Log ("\nFound Player %d\n",pnum);
                         memcpy (&nodeadr[playernumber], &remoteadr,
                                sizeof(nodeadr[playernumber]) );
                         nodesetup.extra=(short)(100<<8);
@@ -413,7 +415,7 @@ void LookForNodes (void)
                         nodesetup.numplayers=rottcom->numplayers;
                         rottcom->datalength = sizeof(*setup);
                         memcpy (&rottcom->data, &nodesetup,sizeof(*setup));
-                        SendPacket (MAXNETNODES);     // send to all
+                        WritePacket (rottcom->data, rottcom->datalength, MAXNETNODES);     // send to all
                         }
                      else
                         pnum=rottcom->remotenode;
@@ -423,7 +425,7 @@ void LookForNodes (void)
                      nodesetup.playernumber=pnum;
                      memcpy (&rottcom->data,
                              &nodesetup,sizeof(*setup));
-                     SendPacket (pnum);   // send back to client
+                     WritePacket (rottcom->data, rottcom->datalength, pnum);   // send back to client
                      clientstate[pnum]=client_Echoed;
                      playernumber++;
                      }
@@ -434,7 +436,7 @@ void LookForNodes (void)
 //                      Error("\n\nReceived Identity packet before identification\n");
                      if (rottcom->remotenode!=setup->playernumber)
                         Error("\n\nReceived Incorrect player number\n");
-                     printf ("Finished Player %d\n",rottcom->remotenode);
+                     SDL_Log ("Finished Player %d\n",rottcom->remotenode);
                      clientstate[rottcom->remotenode]=client_Done;
                      break;
                   }
@@ -449,7 +451,7 @@ void LookForNodes (void)
                      if (((extra>>8)!=0) && (standalone==false))
                         {
                         if ((extra>>8)==100)
-                           printf("\nServer found player %d\n",extra&0xff);
+                           SDL_Log("\nServer found player %d\n",extra&0xff);
                         else
                            PrintRandomMessage((extra>>8)-1,extra&0xff);
                         }
@@ -488,11 +490,11 @@ void LookForNodes (void)
                rottcom->datalength = sizeof(*setup);
                memcpy (&rottcom->data, &nodesetup,sizeof(*setup));
 
-               SendPacket (MAXNETNODES);     // send to all
+               WritePacket (rottcom->data, rottcom->datalength, MAXNETNODES);     // send to all
                }
 
             oldsec = tm.tm_sec;
-            printf (".");
+            SDL_Log (".");
 
             // Make a general inquiry for any potential ROTT players
             nodesetup.extra=0;
@@ -501,7 +503,7 @@ void LookForNodes (void)
             rottcom->datalength = sizeof(*setup);
             memcpy (&rottcom->data, &nodesetup,sizeof(*setup));
 
-            SendPacket (MAXNETNODES);     // send to all
+            WritePacket (rottcom->data, rottcom->datalength, MAXNETNODES);     // send to all
          }
 
       } while (done==false);
@@ -529,19 +531,19 @@ void LookForNodes (void)
          rottcom->datalength = sizeof(*setup);
          memcpy (&rottcom->data, &nodesetup,sizeof(*setup));
 
-         SendPacket (MAXNETNODES);     // send to all
+         WritePacket (rottcom->data, rottcom->datalength, MAXNETNODES);     // send to all
          }
       }
 
    if (server==true)
       {
       if (standalone == false)
-         printf ("Server is player %i of %i\n", rottcom->consoleplayer, rottcom->numplayers);
+         SDL_Log ("Server is player %i of %i\n", rottcom->consoleplayer, rottcom->numplayers);
       else
-         printf ("Server is standalone\n");
+         SDL_Log ("Server is standalone\n");
       }
    else
-      printf ("\nConsole is player %i of %i\n", rottcom->consoleplayer, rottcom->numplayers);
+      SDL_Log ("\nConsole is player %i of %i\n", rottcom->consoleplayer, rottcom->numplayers);
    while (ReadPacket ()) {}
 }
 
@@ -568,9 +570,9 @@ void main (void)
    rottcom->remoteridicule = 0;
 
 
-	printf("\n\n                     -----------------------------------\n");
-   printf("                       ROTT NETWORK DEVICE DRIVER V%s \n",VERSION);
-   printf("                     -----------------------------------\n");
+	SDL_Log("\n\n                     -----------------------------------\n");
+   SDL_Log("                       ROTT NETWORK DEVICE DRIVER V%s \n",VERSION);
+   SDL_Log("                     -----------------------------------\n");
 
 	i = CheckParm ("-nodes");
 	if (i && i < _argc-1)

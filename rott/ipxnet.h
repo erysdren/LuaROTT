@@ -81,7 +81,8 @@ typedef struct
 
 typedef struct
 {
-	BYTE    node[6];                /* high-low */
+	SDLNet_Address *addr;
+	Uint16 port;
 } nodeadr_t;
 
 typedef struct ECBStructure
@@ -127,5 +128,3 @@ extern	nodeadr_t	remoteadr;
 void LookForNodes (void);
 void InitNetwork (void);
 void ShutdownNetwork (void);
-void SendPacket (int destination);
-int  GetPacket (void);

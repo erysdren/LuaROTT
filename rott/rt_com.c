@@ -59,31 +59,55 @@ static int    transittimes[MAXPLAYERS];
 void SyncTime( int client );
 void SetTransitTime( int client, int time );
 
-static struct remoteclient {
-	SDLNet_Address *addr;
-	Uint16 port;
-} remoteclients[MAXPLAYERS];
-
 static SDLNet_DatagramSocket *socket = NULL;
+const char *hostname = NULL;
 static Uint16 port = 34858;
 
 static void ReadUDPPacket()
 {
 	SDLNet_Datagram *datagram = NULL;
-
-	if (SDLNet_ReceiveDatagram(socket, &datagram))
-	{
-		SDL_Log("Got %d-byte datagram from %s:%d", datagram->buflen, SDLNet_GetAddressString(datagram->addr), datagram->port);
-		SDLNet_DestroyDatagram(datagram);
-	}
+	int i;
 
 	rottcom->remotenode = -1;
+
+	while ((SDLNet_ReceiveDatagram(socket, &datagram) == true) && (datagram != NULL))
+	{
+		SDL_Log("Got %d-byte datagram from %s:%d\n", datagram->buflen, SDLNet_GetAddressString(datagram->addr), datagram->port);
+
+		if (datagram->buflen >= MAXPACKETSIZE)
+			Error("Packet is too big!!! %d bytes", datagram->buflen);
+
+		// set remoteadr to the sender of the packet
+		remoteadr.addr = SDLNet_RefAddress(datagram->addr);
+		remoteadr.port = datagram->port;
+
+		for (i=0 ; i<=rottcom->numplayers ; i++)
+			if (!memcmp(&remoteadr, &nodeadr[i], sizeof(remoteadr)))
+				break;
+		if (i <= rottcom->numplayers)
+			rottcom->remotenode = i;
+
+		// copy out the data
+		rottcom->datalength = datagram->buflen;
+		memcpy (&rottcom->data, datagram->buf, datagram->buflen);
+
+		SDLNet_DestroyDatagram(datagram);
+	}
 }
 
 static void WriteUDPPacket()
 {
-	struct remoteclient *c = &remoteclients[rottcom->remotenode];
-	SDLNet_SendDatagram(socket, c->addr, c->port, rottcom->data, rottcom->datalength);
+	if (rottcom->remotenode == MAXNETNODES)
+	{
+		SDL_Log("BROADCAST PACKET");
+	}
+
+	nodeadr_t *node = &nodeadr[rottcom->remotenode];
+
+	if (!SDLNet_SendDatagram(socket, node->addr, node->port, rottcom->data, rottcom->datalength))
+	{
+		Error("Failed to send packet: %s\n", SDL_GetError());
+	}
 }
 
 /*
@@ -117,6 +141,9 @@ void InitROTTNET (void)
 	-net: specifies the host to connect to
 	-port: select a non-default port to connect to
 	*/
+
+	if (!SDL_WasInit(SDL_INIT_EVENTS))
+		SDL_Init(SDL_INIT_EVENTS);
 
 	if (!SDLNet_Init())
 		Error("SDLNet: %s", SDL_GetError());
@@ -161,6 +188,30 @@ void InitROTTNET (void)
         	rottcom->client = 0;
         } else {
         	rottcom->client = 1;
+
+			netarg = CheckParm("net");
+			if (netarg && netarg < _argc-1)
+				hostname = _argv[netarg+1];
+
+			if (!hostname)
+				Error("No address specified with -net\n");
+
+			remoteadr.addr = SDLNet_ResolveHostname(hostname);
+			if (remoteadr.addr)
+			{
+				if (SDLNet_WaitUntilResolved(remoteadr.addr, -1) < 0)
+				{
+					SDLNet_UnrefAddress(remoteadr.addr);
+					remoteadr.addr = NULL;
+				}
+			}
+
+			if (!remoteadr.addr)
+				Error("CLIENT: Failed: %s\n", SDL_GetError());
+
+			remoteadr.port = port;
+
+			SDL_Log("Connected to %s\n", SDLNet_GetAddressString(remoteadr.addr));
 
 			/* create socket */
 			socket = SDLNet_CreateDatagramSocket(NULL, 0);
@@ -332,11 +383,13 @@ void WritePacket (void * buffer, int len, int destination)
    if (*((byte *)buffer)==0)
        Error("Packet type = 0\n");
 
+#if 0
    if (networkgame==true)
       {
       if (IsServer==true)
          rottcom->remotenode++; // server fix-up
       }
+#endif
 
 //   SoftError( "WritePacket: time=%ld size=%ld src=%ld type=%d\n",GetTicCount(),rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
    // Send It !
