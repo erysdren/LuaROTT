@@ -38,6 +38,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_net.h"
 #include "rt_draw.h"
 //#include "rt_ser.h"
+#include "ipxnet.h"
+
+#include <SDL3_net/SDL_net.h>
 
 // GLOBAL VARIABLES
 
@@ -56,7 +59,8 @@ static int    transittimes[MAXPLAYERS];
 void SyncTime( int client );
 void SetTransitTime( int client, int time );
 
-#ifndef _WIN32
+static SDLNet_DatagramSocket *socket = NULL;
+static Uint16 port = 34858;
 
 static void ReadUDPPacket()
 {
@@ -65,9 +69,8 @@ static void ReadUDPPacket()
 
 static void WriteUDPPacket()
 {
-}
 
-#endif
+}
 
 /*
 ===============
@@ -79,15 +82,12 @@ static void WriteUDPPacket()
 
 void InitROTTNET (void)
 {
-#ifndef _WIN32
 	int netarg;
-#endif
 
 	if (ComStarted==true)
 		return;
 	ComStarted=true;
 
-#ifndef _WIN32
 	/*
 	server-specific options:
 	-net: enables netplay
@@ -103,14 +103,17 @@ void InitROTTNET (void)
 	-net: specifies the host to connect to
 	-port: select a non-default port to connect to
 	*/
-	
+
+	if (!SDLNet_Init())
+		Error("SDLNet: %s", SDL_GetError());
+
         rottcom = (rottcom_t *) malloc (sizeof(rottcom_t));
         memset(rottcom, 0, sizeof(rottcom_t));
         
         rottcom->ticstep = 1;
         rottcom->gametype = 1;
         rottcom->remotenode = -1;
-        
+
         if (CheckParm("server")) {
         	if (CheckParm("standalone")) {
         		rottcom->consoleplayer = 0;
@@ -130,15 +133,34 @@ void InitROTTNET (void)
         	} else {
         		rottcom->numplayers = 2;
         	}
-        	
+
+        	/* get port */
+			netarg = CheckParm("port");
+			if (netarg && netarg < _argc-1)
+				port = atoi(_argv[netarg+1]);
+
+			/* create server socket */
+			socket = SDLNet_CreateDatagramSocket(NULL, port);
+			if (!socket)
+				Error("SDLNet: %s", SDL_GetError());
+
         	rottcom->client = 0;
         } else {
         	rottcom->client = 1;
-        	
+
+			/* create socket */
+			socket = SDLNet_CreateDatagramSocket(NULL, 0);
+			if (!socket)
+				Error("SDLNet: %s", SDL_GetError());
+
         	/* consoleplayer will be initialized after connecting */
         	/* numplayers will be initialized after connecting */
         	/* remoteridicule will be initialized after connecting */
         }
+
+        server = rottcom->client ? false : true;
+
+        LookForNodes();
         
         /* client-server negotiation protocol, as inspired by ipxsetup.c */
         /*
@@ -166,8 +188,6 @@ void InitROTTNET (void)
           Client waits for AllDone packet.
           When client receives AllDone, it sends an AllDoneAck.
          */
-        
-#endif
 
    remoteridicule = false;
    remoteridicule = rottcom->remoteridicule;
@@ -183,6 +203,20 @@ void InitROTTNET (void)
       {
       printf("ROTTNET: consoleplayer=%ld\n",(long)rottcom->consoleplayer);
       }
+}
+
+/*
+===============
+=
+= QuitROTTNET
+=
+===============
+*/
+
+void QuitROTTNET(void)
+{
+	SDLNet_DestroyDatagramSocket(socket);
+	SDLNet_Quit();
 }
 
 /*
@@ -205,9 +239,7 @@ boolean ReadPacket (void)
 
    // Check to see if a packet is ready
 
-#ifndef _WIN32
 	ReadUDPPacket();
-#endif
 
    // Is it ready?
 
@@ -294,9 +326,7 @@ void WritePacket (void * buffer, int len, int destination)
 
 //   SoftError( "WritePacket: time=%ld size=%ld src=%ld type=%d\n",GetTicCount(),rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
    // Send It !
-#ifndef _WIN32
 	WriteUDPPacket();
-#endif
 }
 
 

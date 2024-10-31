@@ -27,6 +27,7 @@ file(GLOB NETROTT_SOURCES
 	${PROJECT_SOURCE_DIR}/rott/dukemusc.c
 	${PROJECT_SOURCE_DIR}/rott/engine.c
 	${PROJECT_SOURCE_DIR}/rott/fx_mixer.c
+	${PROJECT_SOURCE_DIR}/rott/ipxsetup.c
 	${PROJECT_SOURCE_DIR}/rott/isr.c
 	${PROJECT_SOURCE_DIR}/rott/m_misc2.c
 	${PROJECT_SOURCE_DIR}/rott/modexlib.c
