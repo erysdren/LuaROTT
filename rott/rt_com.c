@@ -59,17 +59,31 @@ static int    transittimes[MAXPLAYERS];
 void SyncTime( int client );
 void SetTransitTime( int client, int time );
 
+static struct remoteclient {
+	SDLNet_Address *addr;
+	Uint16 port;
+} remoteclients[MAXPLAYERS];
+
 static SDLNet_DatagramSocket *socket = NULL;
 static Uint16 port = 34858;
 
 static void ReadUDPPacket()
 {
+	SDLNet_Datagram *datagram = NULL;
+
+	if (SDLNet_ReceiveDatagram(socket, &datagram))
+	{
+		SDL_Log("Got %d-byte datagram from %s:%d", datagram->buflen, SDLNet_GetAddressString(datagram->addr), datagram->port);
+		SDLNet_DestroyDatagram(datagram);
+	}
+
 	rottcom->remotenode = -1;
 }
 
 static void WriteUDPPacket()
 {
-
+	struct remoteclient *c = &remoteclients[rottcom->remotenode];
+	SDLNet_SendDatagram(socket, c->addr, c->port, rottcom->data, rottcom->datalength);
 }
 
 /*
