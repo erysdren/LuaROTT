@@ -44,6 +44,7 @@ extern  byte   *  origpal;
 extern  int      _argc;
 extern  char **  _argv;
 
+int RangeRandom(int min, int max);
 void  markgetch( void );
 boolean StringsNotEqual (char * s1, char * s2, int length);
 void  GetPalette(char * pal);
