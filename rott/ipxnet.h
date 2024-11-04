@@ -81,8 +81,9 @@ typedef struct
 
 typedef struct
 {
+	SDLNet_StreamSocket *sock;
 	SDLNet_Address *addr;
-	Uint16 port;
+	Sint64 time;
 } nodeadr_t;
 
 typedef struct ECBStructure
