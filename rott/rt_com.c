@@ -59,39 +59,61 @@ static int    transittimes[MAXPLAYERS];
 void SyncTime( int client );
 void SetTransitTime( int client, int time );
 
-static SDLNet_DatagramSocket *socket = NULL;
-const char *hostname = NULL;
+SDLNet_Server *tcp_server = NULL;
+SDLNet_StreamSocket *tcp_client = NULL;
+SDLNet_Address *tcp_client_addr = NULL;
+SDLNet_Address *tcp_server_addr = NULL;
+static const char *hostname = NULL;
 static Uint16 port = 34858;
 
 static void ReadUDPPacket()
 {
-	SDLNet_Datagram *datagram = NULL;
 	int i;
 
 	rottcom->remotenode = -1;
 
-	while ((SDLNet_ReceiveDatagram(socket, &datagram) == true) && (datagram != NULL))
+	if (IsServer)
 	{
-		SDL_Log("Got %d-byte datagram from %s:%d\n", datagram->buflen, SDLNet_GetAddressString(datagram->addr), datagram->port);
+		Sint64 oldesttime = SDL_GetTicks();
+		int oldestnode = -1;
 
-		if (datagram->buflen >= MAXPACKETSIZE)
-			Error("Packet is too big!!! %d bytes", datagram->buflen);
+		for (i = 0; i < rottcom->numplayers; i++)
+		{
+			if (nodeadr[i].sock != NULL && nodeadr[i].time < oldesttime)
+			{
+				oldesttime = nodeadr[i].time;
+				oldestnode = i;
+			}
+		}
 
-		// set remoteadr to the sender of the packet
-		remoteadr.addr = SDLNet_RefAddress(datagram->addr);
-		remoteadr.port = datagram->port;
+		// no packets
+		if (oldestnode == -1)
+			return;
 
+		// read from socket
+		rottcom->datalength = SDLNet_ReadFromStreamSocket(nodeadr[oldestnode].sock, rottcom->data, MAXPACKETSIZE);
+		if (rottcom->datalength == -1)
+			Error("SERVER: Failed: %s", SDL_GetError());
+		if (rottcom->datalength == 0)
+			return;
+
+		nodeadr[oldestnode].time = oldesttime;
+
+		// set remotenode to the sender of the packet
+		rottcom->remotenode = oldestnode+1;
+	}
+	else
+	{
+		rottcom->datalength = SDLNet_ReadFromStreamSocket(tcp_client, rottcom->data, MAXPACKETSIZE);
+		if (rottcom->datalength == -1)
+			Error("CLIENT: Failed: %s", SDL_GetError());
+		if (rottcom->datalength == 0)
+			return;
+
+		// set remotenode to the sender of the packet
 		for (i=0 ; i<=rottcom->numplayers ; i++)
-			if (!memcmp(&remoteadr, &nodeadr[i], sizeof(remoteadr)))
-				break;
-		if (i <= rottcom->numplayers)
-			rottcom->remotenode = i;
-
-		// copy out the data
-		rottcom->datalength = datagram->buflen;
-		memcpy (&rottcom->data, datagram->buf, datagram->buflen);
-
-		SDLNet_DestroyDatagram(datagram);
+			if (nodeadr[i].sock == tcp_client)
+				rottcom->remotenode = i;
 	}
 }
 
@@ -99,15 +121,33 @@ static void WriteUDPPacket()
 {
 	if (rottcom->remotenode == MAXNETNODES)
 	{
-		SDL_Log("BROADCAST PACKET");
+		/* broadcast packet */
+		for (int i = 0; i < rottcom->numplayers; i++)
+		{
+			nodeadr_t *node = &nodeadr[i];
+			if (!node->sock)
+				continue;
+			if (!SDLNet_WriteToStreamSocket(node->sock, rottcom->data, rottcom->datalength))
+				Error("Failed to send packet: %s\n", SDL_GetError());
+		}
 	}
-
-	nodeadr_t *node = &nodeadr[rottcom->remotenode];
-
-	if (!SDLNet_SendDatagram(socket, node->addr, node->port, rottcom->data, rottcom->datalength))
+	else
 	{
-		Error("Failed to send packet: %s\n", SDL_GetError());
+		nodeadr_t *node = &nodeadr[rottcom->remotenode];
+		if (!node->sock)
+			Error("Invalid destination %d\n", rottcom->remotenode);
+		if (!SDLNet_WriteToStreamSocket(node->sock, rottcom->data, rottcom->datalength))
+			Error("Failed to send packet: %s\n", SDL_GetError());
 	}
+
+#if 0
+	nodeadr_t *node = &nodeadr[rottcom->remotenode];
+	if (!node->sock)
+		Error("Invalid destination %d\n", rottcom->remotenode);
+	if (!SDLNet_WriteToStreamSocket(node->sock, rottcom->data, rottcom->datalength))
+		Error("Failed to send packet: %s\n", SDL_GetError());
+	// SDLNet_WaitUntilStreamSocketDrained(node->sock, 50);
+#endif
 }
 
 /*
@@ -155,9 +195,16 @@ void InitROTTNET (void)
         rottcom->gametype = 1;
         rottcom->remotenode = -1;
 
+		/* get port */
+		netarg = CheckParm("port");
+		if (netarg && netarg < _argc-1)
+			port = atoi(_argv[netarg+1]);
+
         if (CheckParm("server")) {
+			IsServer = true;
         	if (CheckParm("standalone")) {
         		rottcom->consoleplayer = 0;
+				standalone = true;
         	} else {
         		rottcom->consoleplayer = 1;
         	}
@@ -175,19 +222,17 @@ void InitROTTNET (void)
         		rottcom->numplayers = 2;
         	}
 
-        	/* get port */
-			netarg = CheckParm("port");
-			if (netarg && netarg < _argc-1)
-				port = atoi(_argv[netarg+1]);
+			/* create server */
+			tcp_server = SDLNet_CreateServer(NULL, port);
+			if (!tcp_server)
+				Error("SERVER: Failed: %s", SDL_GetError());
 
-			/* create server socket */
-			socket = SDLNet_CreateDatagramSocket(NULL, port);
-			if (!socket)
-				Error("SDLNet: %s", SDL_GetError());
+			SDL_Log("Listening on port %d", port);
 
         	rottcom->client = 0;
         } else {
-        	rottcom->client = 1;
+			IsServer = false;
+			rottcom->client = 1;
 
 			netarg = CheckParm("net");
 			if (netarg && netarg < _argc-1)
@@ -196,34 +241,33 @@ void InitROTTNET (void)
 			if (!hostname)
 				Error("No address specified with -net\n");
 
-			remoteadr.addr = SDLNet_ResolveHostname(hostname);
-			if (remoteadr.addr)
+			tcp_server_addr = SDLNet_ResolveHostname(hostname);
+			if (tcp_server_addr)
 			{
-				if (SDLNet_WaitUntilResolved(remoteadr.addr, -1) < 0)
+				if (SDLNet_WaitUntilResolved(tcp_server_addr, -1) == -1)
 				{
-					SDLNet_UnrefAddress(remoteadr.addr);
-					remoteadr.addr = NULL;
+					SDLNet_UnrefAddress(tcp_server_addr);
+					tcp_server_addr = NULL;
 				}
 			}
 
-			if (!remoteadr.addr)
+			if (!tcp_server_addr)
 				Error("CLIENT: Failed: %s\n", SDL_GetError());
 
-			remoteadr.port = port;
+			/* create client */
+			tcp_client = SDLNet_CreateClient(tcp_server_addr, port);
+			if (!tcp_client)
+				Error("CLIENT: Failed: %s", SDL_GetError());
 
-			SDL_Log("Connected to %s\n", SDLNet_GetAddressString(remoteadr.addr));
-
-			/* create socket */
-			socket = SDLNet_CreateDatagramSocket(NULL, 0);
-			if (!socket)
-				Error("SDLNet: %s", SDL_GetError());
+			// wait for connection
+			SDL_Log("CLIENT: Connecting to %s port %d", SDLNet_GetAddressString(tcp_server_addr), port);
+			if (SDLNet_WaitUntilConnected(tcp_client, -1) == -1)
+				Error("CLIENT: Failed: %s", SDL_GetError());
 
         	/* consoleplayer will be initialized after connecting */
         	/* numplayers will be initialized after connecting */
         	/* remoteridicule will be initialized after connecting */
         }
-
-        server = rottcom->client ? false : true;
 
         LookForNodes();
         
@@ -280,7 +324,12 @@ void InitROTTNET (void)
 
 void QuitROTTNET(void)
 {
-	SDLNet_DestroyDatagramSocket(socket);
+	if (tcp_server)
+		SDLNet_DestroyServer(tcp_server);
+	if (tcp_client)
+		SDLNet_DestroyStreamSocket(tcp_client);
+	if (tcp_server_addr)
+		SDLNet_UnrefAddress(tcp_server_addr);
 	SDLNet_Quit();
 }
 
@@ -320,7 +369,7 @@ boolean ReadPacket (void)
       if (crc!=sentcrc)
          {
          badpacket=1;
-         SoftError("BADPKT at %d\n",GetTicCount());
+         SDL_Log("BADPKT at %d\n",GetTicCount());
          }
       if (networkgame==false)
          {
@@ -333,7 +382,7 @@ boolean ReadPacket (void)
          }
       memcpy(&ROTTpacket[0], &rottcom->data[0], rottcom->datalength);
 
-//      SoftError( "ReadPacket: time=%ld size=%ld src=%ld type=%d\n",GetTicCount(), rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
+      SDL_Log( "ReadPacket: time=%ld size=%ld src=%ld type=%d\n",GetTicCount(), rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
 
       return true;
       }
@@ -365,7 +414,7 @@ void WritePacket (void * buffer, int len, int destination)
 
    if (len>(int)(MAXCOMBUFFERSIZE-sizeof(unsigned short)))
       {
-      Error("WritePacket: Overflowed buffer\n");
+      Error("WritePacket: Overflowed buffer (%d bytes)\n", len);
       }
 
    // copy local buffer into realmode buffer
@@ -383,15 +432,13 @@ void WritePacket (void * buffer, int len, int destination)
    if (*((byte *)buffer)==0)
        Error("Packet type = 0\n");
 
-#if 0
    if (networkgame==true)
       {
       if (IsServer==true)
          rottcom->remotenode++; // server fix-up
       }
-#endif
 
-//   SoftError( "WritePacket: time=%ld size=%ld src=%ld type=%d\n",GetTicCount(),rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
+     SDL_Log( "WritePacket: time=%ld size=%ld src=%ld type=%d\n",GetTicCount(),rottcom->datalength,rottcom->remotenode,rottcom->data[0]);
    // Send It !
 	WriteUDPPacket();
 }

@@ -34,14 +34,18 @@ unsigned socketid = 0x882a;        // 0x882a is the official ROTT socket
 int     myargc;
 char **myargv;
 
-extern boolean server;
+extern SDLNet_Server *tcp_server;
+extern SDLNet_StreamSocket *tcp_client;
+
+extern int server;
+extern boolean IsServer;
 extern boolean standalone;
 boolean master;
 extern boolean infopause;
 long           ipxlocaltime;
 nodeadr_t     	nodeadr[MAXNETNODES+1];	// first is local, last is broadcast
 nodeadr_t		remoteadr;			// set by each GetPacket
-long           remotetime;
+long           remotetime = -1;
 
 setupdata_t	nodesetup;
 #define MAXNETMESSAGES 25
@@ -77,25 +81,191 @@ static char * NetStrings[MAXNETMESSAGES]=
 "\nIs Player %d in Shrooms Mode or what?\n"
 };
 
-/*
-=============
-=
-= NetISR
-=
-=============
-*/
-
-void NetISR (void)
+static void SendPacket(int destination)
 {
-   if (rottcom->command == CMD_SEND)
-      {
-      ipxlocaltime++;
-      WritePacket (rottcom->data, rottcom->datalength, rottcom->remotenode);
-      }
-   else if (rottcom->command == CMD_GET)
-      {
-      ReadPacket ();
-      }
+	if (destination == MAXNETNODES)
+	{
+		/* broadcast packet */
+		for (int i = 0; i < rottcom->numplayers; i++)
+		{
+			nodeadr_t *node = &nodeadr[i];
+			if (!node->sock)
+				continue;
+			if (!SDLNet_WriteToStreamSocket(node->sock, rottcom->data, rottcom->datalength))
+				Error("Failed to send packet: %s\n", SDL_GetError());
+		}
+	}
+	else
+	{
+		nodeadr_t *node = &nodeadr[destination];
+		if (!node->sock)
+			Error("Invalid destination %d\n", destination);
+		if (!SDLNet_WriteToStreamSocket(node->sock, rottcom->data, rottcom->datalength))
+			Error("Failed to send packet: %s\n", SDL_GetError());
+	}
+
+#if 0
+	if (destination == MAXNETNODES)
+	{
+		/* broadcast packet */
+		for (int i = 0; i < rottcom->numplayers; i++)
+		{
+			nodeadr_t *node = &nodeadr[i];
+			if (!node->addr)
+				continue;
+			if (!SDLNet_SendDatagram(socket, node->addr, node->port, rottcom->data, rottcom->datalength))
+			{
+				Error("Failed to send packet: %s\n", SDL_GetError());
+			}
+		}
+	}
+	else
+	{
+		/* single packet */
+		nodeadr_t *node = &nodeadr[destination];
+		if (!node->addr)
+			Error("Invalid destination %d\n", destination);
+		if (!SDLNet_SendDatagram(socket, node->addr, node->port, rottcom->data, rottcom->datalength))
+		{
+			Error("Failed to send packet: %s\n", SDL_GetError());
+		}
+	}
+#endif
+}
+
+static boolean GetPacket(void)
+{
+	int i;
+
+	rottcom->remotenode = -1;
+
+	if (IsServer)
+	{
+		static int num_clients = 0;
+		SDLNet_StreamSocket *sock = NULL;
+
+		if (!SDLNet_AcceptClient(tcp_server, &sock))
+			Error("SERVER: Failed: %s", SDL_GetError());
+
+		if (sock)
+		{
+			num_clients++;
+			if (num_clients >= rottcom->numplayers)
+			{
+				num_clients--;
+				SDL_Log("SERVER: Dropped incoming client (max=%d)", rottcom->numplayers);
+				SDLNet_DestroyStreamSocket(sock);
+			}
+			else
+			{
+				nodeadr[num_clients].sock = sock;
+				nodeadr[num_clients].addr = SDLNet_GetStreamSocketAddress(sock);
+				nodeadr[num_clients].time = SDL_GetTicks();
+			}
+
+			return false;
+		}
+
+		Sint64 oldesttime = SDL_GetTicks();
+		int oldestnode = -1;
+
+		for (i = 0; i < rottcom->numplayers; i++)
+		{
+			if (nodeadr[i].sock && nodeadr[i].time < oldesttime)
+			{
+				oldesttime = nodeadr[i].time;
+				oldestnode = i;
+			}
+		}
+
+		// no packets or clients
+		if (oldestnode == -1)
+			return false;
+
+		// set remoteadr to the sender of the packet
+		remoteadr.sock = nodeadr[oldestnode].sock;
+		remoteadr.addr = nodeadr[oldestnode].addr;
+
+		for (i=0 ; i<=rottcom->numplayers ; i++)
+			if (!memcmp(&remoteadr, &nodeadr[i], sizeof(remoteadr)))
+				break;
+		if (i <= rottcom->numplayers)
+			rottcom->remotenode = i;
+
+		// read from socket
+		rottcom->datalength = SDLNet_ReadFromStreamSocket(nodeadr[oldestnode].sock, rottcom->data, MAXPACKETSIZE);
+		if (rottcom->datalength == -1)
+			Error("SERVER: Failed: %s", SDL_GetError());
+		if (rottcom->datalength == 0)
+		{
+			rottcom->remotenode = -1;
+			return false;
+		}
+
+		// set socket read time
+		nodeadr[oldestnode].time = SDL_GetTicks();
+
+		return true;
+	}
+	else
+	{
+		rottcom->datalength = SDLNet_ReadFromStreamSocket(tcp_client, rottcom->data, MAXPACKETSIZE);
+		if (rottcom->datalength == -1)
+			Error("CLIENT: Failed: %s", SDL_GetError());
+		if (rottcom->datalength == 0)
+			return false;
+
+		// set remoteadr to the sender of the packet
+		remoteadr.sock = tcp_client;
+		remoteadr.addr = SDLNet_GetStreamSocketAddress(tcp_client);
+
+		for (i=0 ; i<=rottcom->numplayers ; i++)
+			if (!memcmp(&remoteadr, &nodeadr[i], sizeof(remoteadr)))
+				break;
+		if (i <= rottcom->numplayers)
+			rottcom->remotenode = i;
+
+		return true;
+	}
+
+#if 0
+	SDLNet_Datagram *datagram = NULL;
+	int i;
+
+	rottcom->remotenode = -1;
+	remotetime = -1;
+
+	while ((SDLNet_ReceiveDatagram(socket, &datagram) == true) && (datagram != NULL))
+	{
+		SDL_Log("Got %d-byte datagram from %s:%d\n", datagram->buflen, SDLNet_GetAddressString(datagram->addr), datagram->port);
+
+		if (datagram->buflen >= MAXPACKETSIZE)
+			Error("Packet is too big!!! %d bytes", datagram->buflen);
+
+		// set remoteadr to the sender of the packet
+		remoteadr.addr = SDLNet_RefAddress(datagram->addr);
+		remoteadr.port = datagram->port;
+
+		for (i=0 ; i<=rottcom->numplayers ; i++)
+			if (!memcmp(&remoteadr, &nodeadr[i], sizeof(remoteadr)))
+				break;
+		if (i <= rottcom->numplayers)
+			rottcom->remotenode = i;
+
+		// copy out the data
+		rottcom->datalength = datagram->buflen;
+		memcpy (&rottcom->data, datagram->buf, datagram->buflen);
+
+		SDLNet_DestroyDatagram(datagram);
+
+		// set remotetime
+		remotetime = SDL_GetTicks();
+
+		return true;
+	}
+
+#endif
+	return false;
 }
 
 /*
@@ -203,6 +373,7 @@ void ResetNodeAddresses ( void )
       memcpy (&nodeadr[playernumber], &nodeadr[0], //copy in local address
               sizeof(nodeadr[playernumber]) );
       SDL_Log ("\nServer is Player %d\n",playernumber);
+      server = playernumber;
       playernumber++;
       }
 }
@@ -226,12 +397,16 @@ void ResetNodeAddresses ( void )
 
 #define MAXWAIT 10
 
+static void gettime(struct tm *tm)
+{
+	time_t t = time(NULL);
+	*tm = *localtime(&t);
+}
 
 void LookForNodes (void)
 {
    int             i;
    struct tm       tm;
-   time_t          t;
    int             oldsec;
    setupdata_t     *setup;
    boolean         done;
@@ -250,7 +425,7 @@ void LookForNodes (void)
    showednum = false;
    SetupRandomMessages ();
 
-   if (server==true)
+   if (IsServer==true)
       {
 
       SDL_Log("SERVER MODE:\n");
@@ -285,8 +460,7 @@ void LookForNodes (void)
 
    nodesetup.playernumber = 0;
 
-   t = time(NULL);
-   tm = *localtime (&t);
+   gettime(&tm);
    oldsec = tm.tm_sec;
 
    do
@@ -296,20 +470,18 @@ void LookForNodes (void)
       //
       while ( SDL_PollEvent(&event) )
          {
-         if (event.type == SDL_EVENT_KEY_DOWN)
+         if (event.type == SDL_EVENT_QUIT)
             Error ("\n\nNetwork game synchronization aborted.");
          }
-      if (server==false) // Client code
+      if (IsServer==false) // Client code
          {
          //
          // listen to the network
          //
-         while (ReadPacket ())
+         while (GetPacket ())
             {
             extra      = setup->extra;
             numplayers = setup->numplayers;
-
-		  SDL_Log("CLIENT PACKET");
             if (remotetime != -1)
                {    // an early game packet, not a setup packet
                if (rottcom->remotenode == -1)
@@ -336,7 +508,7 @@ void LookForNodes (void)
                      memcpy (&rottcom->data,
                              &nodesetup,sizeof(*setup));
                      rottcom->datalength = sizeof(*setup);
-                     WritePacket (rottcom->data, rottcom->datalength, 1);     // send to server
+                     SendPacket (1);     // send to server
                      SDL_Log (".");
                      break;
                   case cmd_Info:
@@ -360,7 +532,7 @@ void LookForNodes (void)
                      memcpy (&rottcom->data,
                              &nodesetup,sizeof(*setup));
                      rottcom->datalength = sizeof(*setup);
-                     WritePacket (rottcom->data, rottcom->datalength, 1);     // send to server
+                     SendPacket (1);     // send to server
                      SDL_Log (".");
                      SDL_Log ("\nI am player %d\n",setup->playernumber);
                      break;
@@ -378,9 +550,8 @@ void LookForNodes (void)
          //
          // listen to the network
          //
-         while (ReadPacket ())
+         while (GetPacket ())
             {
-		  SDL_Log("SERVER PACKET");
             extra      = setup->extra;
             if (remotetime != -1)
                {    // an early game packet, not a setup packet
@@ -415,7 +586,7 @@ void LookForNodes (void)
                         nodesetup.numplayers=rottcom->numplayers;
                         rottcom->datalength = sizeof(*setup);
                         memcpy (&rottcom->data, &nodesetup,sizeof(*setup));
-                        WritePacket (rottcom->data, rottcom->datalength, MAXNETNODES);     // send to all
+                        SendPacket (MAXNETNODES);     // send to all
                         }
                      else
                         pnum=rottcom->remotenode;
@@ -425,7 +596,7 @@ void LookForNodes (void)
                      nodesetup.playernumber=pnum;
                      memcpy (&rottcom->data,
                              &nodesetup,sizeof(*setup));
-                     WritePacket (rottcom->data, rottcom->datalength, pnum);   // send back to client
+                     SendPacket (pnum);   // send back to client
                      clientstate[pnum]=client_Echoed;
                      playernumber++;
                      }
@@ -473,7 +644,7 @@ void LookForNodes (void)
                   if (clientstate[i]!=client_Done)
                      done=false;
                }
-            tm = *localtime (&t);
+            gettime(&tm);
 
             if (tm.tm_sec == oldsec)
                continue;
@@ -490,7 +661,7 @@ void LookForNodes (void)
                rottcom->datalength = sizeof(*setup);
                memcpy (&rottcom->data, &nodesetup,sizeof(*setup));
 
-               WritePacket (rottcom->data, rottcom->datalength, MAXNETNODES);     // send to all
+               SendPacket (MAXNETNODES);     // send to all
                }
 
             oldsec = tm.tm_sec;
@@ -503,25 +674,25 @@ void LookForNodes (void)
             rottcom->datalength = sizeof(*setup);
             memcpy (&rottcom->data, &nodesetup,sizeof(*setup));
 
-            WritePacket (rottcom->data, rottcom->datalength, MAXNETNODES);     // send to all
+            SendPacket (MAXNETNODES);     // send to all
          }
 
       } while (done==false);
 
 // Done with finding players send out startup info
 
-   if (server==true)
+   if (IsServer==true)
       {
       int otime;
 
-      tm = *localtime (&t);
+      gettime(&tm);
       oldsec = tm.tm_sec+1;
       if (oldsec>59)
          oldsec-=60;
       otime = tm.tm_sec-1;
       while (oldsec!=tm.tm_sec)
          {
-         tm = *localtime (&t);
+         gettime(&tm);
 
          if (tm.tm_sec == otime)
             continue;
@@ -531,11 +702,11 @@ void LookForNodes (void)
          rottcom->datalength = sizeof(*setup);
          memcpy (&rottcom->data, &nodesetup,sizeof(*setup));
 
-         WritePacket (rottcom->data, rottcom->datalength, MAXNETNODES);     // send to all
+         SendPacket (MAXNETNODES);     // send to all
          }
       }
 
-   if (server==true)
+   if (IsServer==true)
       {
       if (standalone == false)
          SDL_Log ("Server is player %i of %i\n", rottcom->consoleplayer, rottcom->numplayers);
@@ -544,7 +715,7 @@ void LookForNodes (void)
       }
    else
       SDL_Log ("\nConsole is player %i of %i\n", rottcom->consoleplayer, rottcom->numplayers);
-   while (ReadPacket ()) {}
+   while (GetPacket ()) {}
 }
 
 
