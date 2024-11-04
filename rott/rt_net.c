@@ -133,7 +133,7 @@ int MaxSpeedForCharacter(playertype *pstate);
 //
 //****************************************************************************
 
-#define ComError SoftError
+#define ComError SDL_Log
 
 //****************************************************************************
 //
