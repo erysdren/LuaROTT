@@ -97,7 +97,7 @@ static void ReadUDPPacket()
 		if (rottcom->datalength == 0)
 			return;
 
-		nodeadr[oldestnode].time = oldesttime;
+		nodeadr[oldestnode].time = SDL_GetTicks();
 
 		// set remotenode to the sender of the packet
 		rottcom->remotenode = oldestnode+1;
