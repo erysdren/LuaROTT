@@ -95,13 +95,13 @@ static char *GetExeDir (void)
 
     if (dir == NULL)
     {
-        char *result;
+        const char *result;
 
         result = SDL_GetBasePath();
         if (result != NULL)
         {
             dir = M_StringDuplicate(result);
-            SDL_free(result);
+            // SDL_free(result);
         }
         else
         {
