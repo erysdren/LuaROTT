@@ -158,12 +158,13 @@ static void WriteUDPPacket()
 ===============
 */
 
-void InitROTTNET (void)
+void InitROTTNET(void)
 {
 	int netarg;
 
 	if (ComStarted==true)
 		return;
+
 	ComStarted=true;
 
 	/*
@@ -188,89 +189,89 @@ void InitROTTNET (void)
 	if (!SDLNet_Init())
 		Error("SDLNet: %s", SDL_GetError());
 
-        rottcom = (rottcom_t *) malloc (sizeof(rottcom_t));
-        memset(rottcom, 0, sizeof(rottcom_t));
+	rottcom = (rottcom_t *) malloc (sizeof(rottcom_t));
+	memset(rottcom, 0, sizeof(rottcom_t));
         
-        rottcom->ticstep = 1;
-        rottcom->gametype = 1;
-        rottcom->remotenode = -1;
+	rottcom->ticstep = 1;
+	rottcom->gametype = 1;
+	rottcom->remotenode = -1;
 
-		/* get port */
-		netarg = CheckParm("port");
+	/* get port */
+	netarg = CheckParm("port");
+	if (netarg && netarg < _argc-1)
+		port = atoi(_argv[netarg+1]);
+
+	if (CheckParm("server")) {
+		IsServer = true;
+		if (CheckParm("standalone")) {
+			rottcom->consoleplayer = 0;
+			standalone = true;
+		} else {
+			rottcom->consoleplayer = 1;
+		}
+
+		if (CheckParm("remoteridicule")) {
+			rottcom->remoteridicule = 1;
+		} else {
+			rottcom->remoteridicule = 0;
+		}
+
+		netarg = CheckParm("players");
+		if (netarg && netarg < _argc-1) {
+			rottcom->numplayers = atoi(_argv[netarg+1]);
+		} else {
+			rottcom->numplayers = 2;
+		}
+
+		/* create server */
+		tcp_server = SDLNet_CreateServer(NULL, port);
+		if (!tcp_server)
+			Error("SERVER: Failed: %s", SDL_GetError());
+
+		SDL_Log("Listening on port %d", port);
+
+		rottcom->client = 0;
+	} else {
+		IsServer = false;
+		rottcom->client = 1;
+
+		netarg = CheckParm("net");
 		if (netarg && netarg < _argc-1)
-			port = atoi(_argv[netarg+1]);
+			hostname = _argv[netarg+1];
 
-        if (CheckParm("server")) {
-			IsServer = true;
-        	if (CheckParm("standalone")) {
-        		rottcom->consoleplayer = 0;
-				standalone = true;
-        	} else {
-        		rottcom->consoleplayer = 1;
-        	}
-        	
-        	if (CheckParm("remoteridicule")) {
-        		rottcom->remoteridicule = 1;
-        	} else {
-        		rottcom->remoteridicule = 0;
-        	}
-        	
-        	netarg = CheckParm("players");
-        	if (netarg && netarg < _argc-1) {
-        		rottcom->numplayers = atoi(_argv[netarg+1]);
-        	} else {
-        		rottcom->numplayers = 2;
-        	}
+		if (!hostname)
+			Error("No address specified with -net\n");
 
-			/* create server */
-			tcp_server = SDLNet_CreateServer(NULL, port);
-			if (!tcp_server)
-				Error("SERVER: Failed: %s", SDL_GetError());
-
-			SDL_Log("Listening on port %d", port);
-
-        	rottcom->client = 0;
-        } else {
-			IsServer = false;
-			rottcom->client = 1;
-
-			netarg = CheckParm("net");
-			if (netarg && netarg < _argc-1)
-				hostname = _argv[netarg+1];
-
-			if (!hostname)
-				Error("No address specified with -net\n");
-
-			tcp_server_addr = SDLNet_ResolveHostname(hostname);
-			if (tcp_server_addr)
+		tcp_server_addr = SDLNet_ResolveHostname(hostname);
+		if (tcp_server_addr)
+		{
+			if (SDLNet_WaitUntilResolved(tcp_server_addr, -1) == -1)
 			{
-				if (SDLNet_WaitUntilResolved(tcp_server_addr, -1) == -1)
-				{
-					SDLNet_UnrefAddress(tcp_server_addr);
-					tcp_server_addr = NULL;
-				}
+				SDLNet_UnrefAddress(tcp_server_addr);
+				tcp_server_addr = NULL;
 			}
+		}
 
-			if (!tcp_server_addr)
-				Error("CLIENT: Failed: %s\n", SDL_GetError());
+		if (!tcp_server_addr)
+			Error("CLIENT: Failed: %s\n", SDL_GetError());
 
-			/* create client */
-			tcp_client = SDLNet_CreateClient(tcp_server_addr, port);
-			if (!tcp_client)
-				Error("CLIENT: Failed: %s", SDL_GetError());
+		/* create client */
+		tcp_client = SDLNet_CreateClient(tcp_server_addr, port);
+		if (!tcp_client)
+			Error("CLIENT: Failed: %s", SDL_GetError());
 
-			// wait for connection
-			SDL_Log("CLIENT: Connecting to %s port %d", SDLNet_GetAddressString(tcp_server_addr), port);
-			if (SDLNet_WaitUntilConnected(tcp_client, -1) == -1)
-				Error("CLIENT: Failed: %s", SDL_GetError());
+		// wait for connection
+		SDL_Log("CLIENT: Connecting to %s port %d", SDLNet_GetAddressString(tcp_server_addr), port);
+		if (SDLNet_WaitUntilConnected(tcp_client, -1) == -1)
+			Error("CLIENT: Failed: %s", SDL_GetError());
 
-        	/* consoleplayer will be initialized after connecting */
-        	/* numplayers will be initialized after connecting */
-        	/* remoteridicule will be initialized after connecting */
-        }
+		/* consoleplayer will be initialized after connecting */
+		/* numplayers will be initialized after connecting */
+		/* remoteridicule will be initialized after connecting */
+	}
 
-        LookForNodes();
-        
+	LookForNodes();
+
         /* client-server negotiation protocol, as inspired by ipxsetup.c */
         /*
           Best case:
@@ -298,20 +299,18 @@ void InitROTTNET (void)
           When client receives AllDone, it sends an AllDoneAck.
          */
 
-   remoteridicule = false;
-   remoteridicule = rottcom->remoteridicule;
-   if (rottcom->ticstep != 1)
-      remoteridicule = false;
-   if (remoteridicule == true)
-      {
-      if (!quiet)
-         printf("ROTTNET: LIVE Remote Ridicule Enabled\n");
-      }
+	remoteridicule = rottcom->remoteridicule;
 
-   if (!quiet)
-      {
-      printf("ROTTNET: consoleplayer=%ld\n",(long)rottcom->consoleplayer);
-      }
+	if (rottcom->ticstep != 1)
+		remoteridicule = false;
+
+	if (!quiet)
+	{
+		if (remoteridicule == true)
+			printf("ROTTNET: LIVE Remote Ridicule Enabled\n");
+
+		printf("ROTTNET: consoleplayer=%ld\n",(long)rottcom->consoleplayer);
+	}
 }
 
 /*
