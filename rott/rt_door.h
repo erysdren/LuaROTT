@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //***************************************************************************
 
 #define MAXTOUCHPLATES 64
-#define MAXMASKED      300  // max masked walls
+#define MAXMASKED      1200  // max masked walls (was 300)
 #define MAXDOORS       150  // max number of sliding doors
 #define MAXPWALLS      150  // max number of pushwalls
 #define DF_TIMED       0x01
